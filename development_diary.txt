@@ -64,6 +64,11 @@ Reading HTK book
 
 20121015 ?
 Set up redmine repo for documentation.
-TODO-compile and run KALDI training na clustru
-running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
-TODO-try the scripts
+Compiling and running KALDI training on cluster 
+    is NOT WORKING and SHOULD BE AVOIDED!:
+    -> CPU throtling problem for Atlas libraries
+    -> can not disable cpu throtling on every blade on cluster
+    -> use loki machine instead
+TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
+
+TODO-htk scripty
