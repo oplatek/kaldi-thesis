@@ -1,0 +1,30 @@
+20120918 5
+I downloaded some sample data from http://www.repository.voxforge1.org/downloads/SpeechCorpus/Trunk/
+
+20120919 5
+Download the rest of voxforge
+searching for kaldi tutorials looking at kaldi presentation (docsDropbox/KALDI_description.pdf)
+
+20120922 4
+Downloading of DOCS-kaldi.sourceforge.net
+running online demo kaldi-trunk/egs/voxforge/online_demo
+
+20120923 2
+running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial in/home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
+build irstlm5.80.01
+
+20121004-20121009 10
+get account ufalssh oplatek@loki.ms.mff.cuni.cz, set it up
+get git account  git clone gitolite@redmine.ms.mff.cuni.cz:vystadial.git 
+get Redmine account redmine.ms.mff.cuni.cz:vystadial.git
+meeting on Thursday 4.10.
+reading HTKbook - very slowly first 15 pages
+
+20121014 2
+Reading HTK book 
+
+20121015 ?
+Set up redmine repo for documentation.
+TODO-compile and run KALDI training na clustru
+running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
+TODO-try the scripts
