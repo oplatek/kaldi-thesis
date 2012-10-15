@@ -8,6 +8,45 @@ searching for kaldi tutorials looking at kaldi presentation (docsDropbox/KALDI_d
 20120922 4
 Downloading of DOCS-kaldi.sourceforge.net
 running online demo kaldi-trunk/egs/voxforge/online_demo
+===============Building kaldi ===============================================
+    I am trying to run tutorial in /home/ondra/diplomka/kaldi-trunk/egs/voxforge
+
+    Seams 1-2 OK
+
+    I followed instruction 
+    1)for building kaldi-trunk/tools
+    2)for building kaldi-trunk/src
+    3) following instruction at http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html
+       a) downloading data OK
+       b) trying to run /home/ondra/diplomka/kaldi-trunk/egs/voxforge/online_demo need to make kaldi-trunk/src/onlinebin than it worked fine 
+       c) running s5/run.sh
+         have to modify /home/ondra/diplomka/external_voxcforge/extracted/mramige-20100820-thj/wav/a0008.wav
+
+    1)
+    CPU throtling problem
+    You can not edit files with CPU performance directly /sys/devices/system/cpu/cpu0/cpufreq/cscaling_governor for cpu0 (for cpu1 just replace cpu0)
+
+    I needed to change cpu frequency management
+    original set up was ondemand
+    I changed it from "ondemand" to "performance via
+    sudo cpufreq-set performance   # turns off CPU throtling 
+
+    I installed via
+    sudo apt-get install --reinstall libc6-dev
+    to solve error 
+    /usr/include/features.h:323:26: fatal error: bits/predefs.h
+
+
+    2)
+    in /home/ondra/diplomka/kaldi-trunk/src/configure
+    I changed ATLAS/build/install/lib to  ATLAS/build/install/lib
+    twice on lines: 168, 235
+
+
+
+
+    3)a) fixed path - not escaped and path /media/My Book has to be escaped:)
+===============end of Building kaldi ========================================
 
 20120923 2
 running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial in/home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
