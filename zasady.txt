@@ -16,12 +16,6 @@ narozdil od Koubka pridat nazorny obrazek, pak prezentovat samotny kod a nakonec
 4) Pri programovani i psani napsat detailni rozvrh maximalne po 16h. Udelam tuhle class, vyresim tenhle problem, etc.
 
 
-Pro zpracovani obrazu kouknout na:
-    Fourierovy deskriptory, diferenciální příznaky)
-    segmentace obrazu
-    základy matematické morfologie 
-
-
 afializace dobra citace
 biblio publikace
 
