@@ -1,3 +1,15 @@
+################### multicore on Cluster  Ondra Dusek###################
+nasel jsem prikaz, kterym se na clusteru rezervuje vice jader na tom
+samem stroji:
+
+qsub -pe smp <pocet jader> ...
+
+vic nez 16 na 1 stroji nemame :-)). Funguje to i s interaktivnim shellem qrsh.
+
+# pridejte i pozadavky na pamet
+-hard -l mem_free=xxG -l act_mem_free=xxG -l h_vmem=xxG
+################### multicore on Cluster ###################
+
 /net/work/people/uzivatelskyu 50GB
 /net/cluster/TMP  # nezalohovyny neomezena data
 /net/projects # vystadial
