@@ -86,3 +86,5 @@ TODO-try the scripts
 
 20121019 2
     Meeting DRSG -> should use PEP8  -> autopep tools http://pypi.python.org/pypi/autopep8/
+    pip install --upgrade autopep8
+    PEP8 definition http://www.python.org/dev/peps/pep-0008/
