@@ -63,12 +63,39 @@ reading HTKbook - very slowly first 15 pages
 Reading HTK book 
 
 20121015 ?
-Set up redmine repo for documentation.
+Set up redmine repo for documentation of my thesis.
+Add openfstbc - bash completition for openfst to .bashrc_local
 Compiling and running KALDI training on cluster 
     is NOT WORKING and SHOULD BE AVOIDED!:
     -> CPU throtling problem for Atlas libraries
     -> can not disable cpu throtling on every blade on cluster
-    -> use loki machine instead
+    -> use loki machine instead -> compilation OK
 TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
+    -waiting to download voxforge- screen session on lrc2 with interactive login for downloading
 
+20121026
+    I should using autoconf, automake, libtool for deploying C code. All available at loki.
+    It needs M4 macro preprocessor which is available at loki in enough version 1.4.13
+
+
+20121107
+ rewriting notes from the meetings:
+ PIL- Python interpreter lockm runs only 1 thread at one time
+ Probabilistic Graphical Models - Daphne Koller (read it)- BP - belief propagation, EP - expected propagation
+ GIT - hooks for git - autopep,... postponed
+ realtime for ASR == 100ms -> my GOAL
+ labeler counts gaussians 
+ modes for ending and starting recognition
+     PTT - Push to talk
+     PTA - Puretone average
+ boost python - nice wrapper for C++ even for python 3.x
+ use nice, renice commands on loki
+ Honza Trmal - contact for ?
+
+ ASR with HTK and Kaldi
+    use English data
+    monophone->3phone->clustering
+    For Kaldi use the same parameters -> use HParam settings from HTK
+    I should see error rate around 20%
+    HWite look at 2 bigram LM - SLRM-LM tools
 TODO-htk scripty
