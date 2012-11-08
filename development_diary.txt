@@ -78,6 +78,26 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
     I should using autoconf, automake, libtool for deploying C code. All available at loki.
     It needs M4 macro preprocessor which is available at loki in enough version 1.4.13
 
+20121016 4
+    Installing HTK -> installing srilm & running for cs
+        problems on my home machine I needed to install dev-tcl package and I edited common/Makefile.machine.i686  and set up TCL_INCLUDE= -I/usr/include/tcl8.4 and also change tcl to tcl8.4
+        still can not find ngram tool
+        help found at http://www.speech.sri.com/projects/srilm/manpages/srilm-faq.7.html
+        Building srilm ok at T400
+    Compiling and running KALDI training on cluster 
+        is NOT WORKING and SHOULD BE AVOIDED!:
+        -> CPU throtling problem for Atlas libraries
+        -> can not disable cpu throtling on every blade on cluster
+        -> use loki machine instead
+         running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
+         not single job despite jobs=1 -> USE RENICE 20!
+
+    Installed HTK -> todo setup config files
+
+20121019 2
+    Meeting DRSG -> should use PEP8  -> autopep tools http://pypi.python.org/pypi/autopep8/
+    pip install --upgrade autopep8
+    PEP8 definition http://www.python.org/dev/peps/pep-0008/
 
 20121107
  rewriting notes from the meetings:
@@ -105,24 +125,3 @@ Set up redmine repo for documentation.
 TODO-compile and run KALDI training na clustru
 running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
 TODO-try the scripts
-
-20121016 4
-    Installing HTK -> installing srilm & running for cs
-        problems on my home machine I needed to install dev-tcl package and I edited common/Makefile.machine.i686  and set up TCL_INCLUDE= -I/usr/include/tcl8.4 and also change tcl to tcl8.4
-        still can not find ngram tool
-        help found at http://www.speech.sri.com/projects/srilm/manpages/srilm-faq.7.html
-        Building srilm ok at T400
-    Compiling and running KALDI training on cluster 
-        is NOT WORKING and SHOULD BE AVOIDED!:
-        -> CPU throtling problem for Atlas libraries
-        -> can not disable cpu throtling on every blade on cluster
-        -> use loki machine instead
-         running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
-         not single job despite jobs=1 -> USE RENICE 20!
-
-    Installed HTK -> todo setup config files
-
-20121019 2
-    Meeting DRSG -> should use PEP8  -> autopep tools http://pypi.python.org/pypi/autopep8/
-    pip install --upgrade autopep8
-    PEP8 definition http://www.python.org/dev/peps/pep-0008/
