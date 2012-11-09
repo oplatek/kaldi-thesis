@@ -99,6 +99,11 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
     pip install --upgrade autopep8
     PEP8 definition http://www.python.org/dev/peps/pep-0008/
 
+20121015 8
+ Set up redmine repo for documentation.
+ TODO-compile and run KALDI training na clustru
+ running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
+
 20121107
  rewriting notes from the meetings:
  PIL- Python interpreter lockm runs only 1 thread at one time
@@ -119,9 +124,21 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
     For Kaldi use the same parameters -> use HParam settings from HTK
     I should see error rate around 20%
     HWite look at 2 bigram LM - SLRM-LM tools
-TODO-htk scripty
-20121015 8
-Set up redmine repo for documentation.
-TODO-compile and run KALDI training na clustru
-running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
-TODO-try the scripts
+ KALDI uses google c++ style guide and I should use cpplint.py
+ FINISHED training HTK-scripts except exporting models for Julius ASR
+    not used export_models.sh (mkbinhmm & mkbinhmmlist not INSTALLED)
+
+20121109
+ doxygen is not installed on loki / grid but doxygen 1.7.6.1 is at u-pl21 at mff lab
+ tip:   use a cell phone for any presentation with ASR , phones does things for you
+        -> noise reduction, volume normalisation ...
+ perform KALDI training using nothing special we used for HTK:
+  triphone - interword, cepstral mean normalisation, acceleration by mfcc?  
+ multipy python -> I have to use the python version for invocation e.g.
+    (2.7)ondra@T400$ python2.7 do-my-job.py
+ nemam pristup na ssh oplatek@vystadial
+ I can use sol11,sol12,sol13
+ I copied CUDA-SDK do unlimited cluster, added nvvc to PATH and 
+ on twister1 should be GPU for CUDA (It looks like lspci found sthing)
+
+
