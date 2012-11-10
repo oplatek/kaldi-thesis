@@ -140,5 +140,15 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
  I can use sol11,sol12,sol13
  I copied CUDA-SDK do unlimited cluster, added nvvc to PATH and 
  on twister1 should be GPU for CUDA (It looks like lspci found sthing)
+20121111
+ SET UP notes: I set up mosh
+  HOW I BUILD this for mosh-1.2.3?
+  I added ln -s protobufs/include and protbufs/google
+  Manually edited genereted makefiles after
+  $ protobuf_LIBS='-pthread -lprotobuf -lz -lpthread' protobuf_CFLAGS=-pthread ./configure --prefix=/home/oplatek/tools/mosh-1.2.3/mosh-install
+  then I fixed /usr/bin/protoc   -> protobufs/bin/protoc in mosh-1.2.3/src/protobufs/Makefile
+  then I fixed LDD_FLAGS in src/frontend makefile
+  HOW TO USE MOSH
+  http://mosh.mit.edu/#usage
 
 
