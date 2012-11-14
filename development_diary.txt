@@ -129,7 +129,7 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
     not used export_models.sh (mkbinhmm & mkbinhmmlist not INSTALLED)
 
 20121109
- doxygen is not installed on loki / grid but doxygen 1.7.6.1 is at u-pl21 at mff lab
+ Doxygen is not installed on loki / grid but Doxygen 1.7.6.1 is at u-pl21 at mff lab
  tip:   use a cell phone for any presentation with ASR , phones does things for you
         -> noise reduction, volume normalisation ...
  perform KALDI training using nothing special we used for HTK:
@@ -151,4 +151,14 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
   HOW TO USE MOSH
   http://mosh.mit.edu/#usage
 
-
+20121214
+ HBuild creates a loop for phonems iff I provide
+ HBuild phonetic dictionary with "A  phonetic transcription of A\n, B  phonetic transcription of B\n, .." 
+ HVite '-p' parameter .... silence threshold, (short words will be occurring instead of silence)
+        -p -10 ... less words in sentence -> silence will be occurring more
+ Hresult -t parameter shows difference among  the tested transcribed sentence 
+ and the recognized transcription of the given sentence
+ Htkbook page 51
+ HTK Live input
+ set sourcerate 1/Sample rate .... in 100ns so 625.0 is for 16 000 sample rate
+ HTK can show n-best hypothesis for live input even for incomplete sentences 
