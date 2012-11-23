@@ -106,6 +106,9 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
 
 20121107
  rewriting notes from the meetings:
+ Jan Svec ASR bez LM
+ FSM - Finete State Machine
+ pjsip C- extension Python
  PIL- Python interpreter lockm runs only 1 thread at one time
  Probabilistic Graphical Models - Daphne Koller (read it)- BP - belief propagation, EP - expected propagation
  GIT - hooks for git - autopep,... postponed
@@ -151,7 +154,7 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
   HOW TO USE MOSH
   http://mosh.mit.edu/#usage
 
-20121214
+20121114
  HBuild creates a loop for phonems iff I provide
  HBuild phonetic dictionary with "A  phonetic transcription of A\n, B  phonetic transcription of B\n, .." 
  HVite '-p' parameter .... silence threshold, (short words will be occurring instead of silence)
@@ -162,3 +165,13 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
  HTK Live input
  set sourcerate 1/Sample rate .... in 100ns so 625.0 is for 16 000 sample rate
  HTK can show n-best hypothesis for live input even for incomplete sentences 
+
+ Hmm clustering - phonetic symbol independent -> cluster phonems based on raw vector.
+
+20121115
+ Updating and reading /ha/home/oplatek/50GBmax/kaldi/kaldi-trunk/egs/vystadial/s5/run.sh
+ Localising changes which hast to be done from voxforge -> vystadial modification
+20121123
+ ASR with vystadial will get only chunks of wav files and will output chunks of characters.
+ Vystadial doc is at https://vystadial.ms.mff.cuni.cz/doc/install.html
+ genereted by apidoc and updated by every push to vystadial/doc - git hooks
