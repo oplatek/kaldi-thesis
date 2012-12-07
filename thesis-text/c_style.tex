@@ -1,0 +1,35 @@
+\definecolor{CDecorators}{rgb}{0.9,0.5,0.5}
+\definecolor{Numbers}{rgb}{0.5,0,0}
+\definecolor{MatchingBrackets}{rgb}{0.25,0.5,0.5}
+\definecolor{CKeywords}{rgb}{0,0,1}
+\definecolor{CSelf}{rgb}{0,1,1}
+\definecolor{CStrings}{rgb}{0,0.63,0}
+\definecolor{CComments}{rgb}{0,0.63,1}
+\definecolor{CBackground}{rgb}{0.94,0.94,0.94}
+
+\lstdefinestyle{C}{
+language=C++,
+numbers=left,
+numberstyle=\tiny,
+xleftmargin=4pt,
+framextopmargin=2em,
+framexbottommargin=2em,
+showspaces=false,
+showtabs=false,
+showstringspaces=false,
+breaklines=true,
+breakatwhitespace=false,
+% prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+postbreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookrightarrow}},
+frame=l,
+tabsize=4,
+% Basic
+basicstyle=\ttfamily\scriptsize,
+backgroundcolor=\color{CBackground},
+% Comments
+% commentstyle=\color{CComments}\slshape,
+% % Strings
+stringstyle=\color{CStrings},
+morekeywords={int,main},
+keywordstyle={\color{CKeywords}\bfseries},
+}

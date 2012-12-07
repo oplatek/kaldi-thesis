@@ -1,0 +1,118 @@
+%% Verze pro jednostranný tisk:
+% Okraje: levý 40mm, pravý 25mm, horní a dolní 25mm
+% (ale pozor, LaTeX si sám přidává 1in)
+%\documentclass[12pt,a4paper]{report}
+%\setlength\textwidth{145mm}
+%\setlength\textheight{247mm}
+%\setlength\oddsidemargin{15mm}
+%\setlength\evensidemargin{15mm}
+%\setlength\topmargin{0mm}
+%\setlength\headsep{0mm}
+%\setlength\headheight{0mm}
+% \openright zařídí, aby následující text začínal na pravé straně knihy
+%\let\openright=\clearpage
+
+%% Pokud tiskneme oboustranně:
+\documentclass[12pt,a4paper,twoside,openright]{report}
+\setlength\textwidth{145mm}
+\setlength\textheight{247mm}
+\setlength\oddsidemargin{15mm}
+\setlength\evensidemargin{0mm}
+\setlength\topmargin{0mm}
+\setlength\headsep{0mm}
+\setlength\headheight{0mm}
+\let\openright=\cleardoublepage
+
+%% Pokud používáte csLaTeX (doporučeno):
+%\usepackage{czech}
+%% Pokud nikoliv:
+%\usepackage[czech]{babel}
+% \usepackage[T1]{fontenc}
+
+%%%% ENCODING: usually latin2, cp1250 nebo utf8 %%%
+\usepackage[utf8x]{inputenc}
+
+%%%%% OTHER PACKAGES  %%%%%
+% \usepackage{doxygen} % wrong sty! 
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{amsthm}
+
+
+\usepackage{draftwatermark} 
+\SetWatermarkScale{4}
+\SetWatermarkLightness{0.7}
+\SetWatermarkText{Draft!}
+
+\usepackage{multirow} 
+\usepackage[table]{xcolor}
+
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage[round]{natbib} % citace
+
+%% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
+%% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
+%\usepackage[ps2pdf,unicode]{hyperref}   % Musí být za všemi ostatními balíčky
+\usepackage[unicode]{hyperref}   % Musí být za všemi ostatními balíčky
+\hypersetup{pdftitle=Diploma thesis}   % TODO check if correct
+% \hypersetup{pdfauthor=Ondřej Plátek}
+\hypersetup{pdfauthor=Ondrej Platek}
+
+
+%%% MACROS %%%% 
+% Tato makra přesvědčují mírně ošklivým trikem LaTeX, aby hlavičky kapitol
+% sázel příčetněji a nevynechával nad nimi spoustu místa. Směle ignorujte.
+\makeatletter
+\def\@makechapterhead#1{
+  {\parindent \z@ \raggedright \normalfont
+   \Huge\bfseries \thechapter. #1
+   \par\nobreak
+   \vskip 20\p@
+}}
+\def\@makeschapterhead#1{
+  {\parindent \z@ \raggedright \normalfont
+   \Huge\bfseries #1
+   \par\nobreak
+   \vskip 20\p@
+}}
+\makeatother
+
+% Toto makro definuje kapitolu, která není očíslovaná, ale je uvedena v obsahu.
+\def\chapwithtoc#1{
+\chapter*{#1}
+\addcontentsline{toc}{chapter}{#1}
+}
+
+%%% TODO makra
+\def\todo#1{
+\emph{\color{red} TODO: #1}
+}
+
+\def\todon#1{
+  \todo{#1 \\}
+}
+% references to footnote
+% usage: \footnoteremember{myfootnote}{This is my footnote} and then \footnoterecall{myfootnote} 
+\newcommand{\footnoteremember}[2]{
+    \footnote{#2}
+    \newcounter{#1}
+    \setcounter{#1}{\value{footnote}}
+}
+\newcommand{\footnoterecall}[1]{
+    \footnotemark[\value{#1}]
+}
+\graphicspath{{../images/}}
+
+% includes file with code
+% usage: \code{MyCodeName}{../testapp/models.py}
+\newcommand{\code}[3]{
+  \hrulefill
+  \subsubsection*{#1}
+  \lstinputlisting[style=#2]{#3}
+  \vspace{2em}
+}
+
+%%% ENF OF MACROS %%%
+\begin{document}
+

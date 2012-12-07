@@ -1,0 +1,78 @@
+% author Ondrej Platek 2012, based on Martin Mares settings
+% \documentclass{beamer}
+\documentclass[table]{beamer} % not work in beamer \usepackage[table]{xcolor}
+
+%  %handout mode -both presentation and notes
+%\documentclass[handout,notes=show]{beamer}
+%\usepackage{pgfpages}
+%\setbeameroption{show notes on second screen=left}
+%\usetemplatenote{\beamertemplatefootempty \insertslideintonotes{0.7} \insertnote}
+
+%  %only notes
+%\documentclass[notes=only]{beamer}
+%\usetemplatenote{\beamertemplatefootempty \insertslideintonotes{0.7} \insertnote}
+
+    
+
+
+%% If using csLaTeX (recommended):
+%\usepackage{czech}
+%% otherwise:
+%\usepackage[czech]{babel}
+%\usepackage[T1]{fontenc}
+
+%% used encoding: obvykle latin2, cp1250 nebo utf8:
+\usepackage[utf8x]{inputenc}
+
+%% other packages 
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{multirow}  % for tables multirow
+
+% Display lines for taking notes nex to the page
+%\usepackage{handoutWithNotes} 
+%\pgfpagesuselayout{1 on 1 with notes landscape}[a4paper,border shrink=5mm]
+
+\beamersetuncovermixins{\opaqueness<1>{25}}{\opaqueness<2->{15}}
+
+\def\todo#1{
+\emph{\color{red} TODO: #1}
+}
+
+\def\todon#1{
+  \todo{#1 \\}
+}
+%ruzna nastaveni beamru
+
+%1)
+%\setbeamertemplate{navigation symbols}{}
+%\usetheme{Warsaw}
+%2)
+%\setbeamercolor{frametitle}{fg=black,bg=white}
+%\setbeamercolor{title}{fg=black,bg=yellow!85!orange}
+%\usetheme{AnnArbor}
+%3)
+%\usetheme{CambridgeUS}
+%\usecolortheme{crane}
+%4)
+%\usetheme{Berkeley}
+%\usecolortheme{beetle}
+
+\usetheme{CambridgeUS}
+\usecolortheme{beetle}
+\setbeamercolor{title}{fg=black,bg=blue!20!green}
+\setbeamercolor{frametitle}{fg=black,bg=blue!40!white}
+\setbeamercolor{background canvas}{bg=white}
+
+
+%
+\author{Ondřej Plátek}
+\title[Instance optimal query processing in SN]{Instance optimal query processing in spatial networks by Ke Deng, X. Zhou, Heng T. Shen, Shazzia S., Xue Li}  
+% \date{\today}
+\date{16.\,11.\,2010}
+\subtitle{Seminar in Databases}
+\institute[Mff]{Matematicko Fyzikální Fakulta Univerzity Karlovy}
+
+\graphicspath{{../images/}}
+
+\begin{document}
