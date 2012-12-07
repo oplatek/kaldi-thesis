@@ -1,6 +1,5 @@
 NAME = main
-NAMEOUT= thesis
-all: ${NAME}.dvi
+all: ${NAME}.pdf
 
 # Vyroba PDF primo z DVI by byla prijemnejsi, ale vetsina verzi dvipdfm nici obrazky
 # ${NAME}.pdf: ${NAME}.dvi
