@@ -11,22 +11,22 @@
 1. experiment Final results \\
 experiment: kaldi-vystadial-recipe commit cf40202263450c72b4f8ef9aa8d6b7f03ac59814
 
-b\egin{tabular}{cccc}
+\begin{tabular}{cccc}
 exp             & RT coef        & WER         & SER        \\
-tri2b_mpe       & 0.88688125     & (23.54, 20) & (51.73, 20)\\
+tri2b-mpe       & 0.88688125     & (23.54, 20) & (51.73, 20)\\
 mono            & 3.2617725      & (50.3, 20)  & (75.07, 20)\\
-tri3b_mmi       & 0.807879083333 & (22.73, 19) & (50.53, 15)\\
+tri3b-mmi       & 0.807879083333 & (22.73, 19) & (50.53, 15)\\
 tri1            & 1.94605        & (33.34, 20) & (66.4, 20) \\
-tri3b_denlats   & 0.77643725     & None        & None       \\
-tri2b_mmi       & 1.72681375     & (23.03, 15) & (50.8, 20) \\
+tri3b-denlats   & 0.77643725     & None        & None       \\
+tri2b-mmi       & 1.72681375     & (23.03, 15) & (50.8, 20) \\
 tri2a           & 1.962175       & (33.19, 20) & (66.0, 20) \\
 tri2b           & 1.8105575      & (30.08, 19) & (63.47, 19)\\
 tri3b           & 0.748003125    & (31.37, 19) & (63.47, 19)\\
-tri3b_fmmi_c    & 11.8128208333  & (22.24, 16) & (49.2, 15) \\
-tri3b_fmmi_b    & 8.22911708333  & (21.67, 17) & (48.27, 14)\\
-tri2b_mmi_b0.05 & 1.146794625    & (22.29, 17) & (49.87, 17)\\
-tri2b_denlats   & 1.02629525     & None        & None       \\
-tri3b_fmmi_d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
+tri3b-fmmi-c    & 11.8128208333  & (22.24, 16) & (49.2, 15) \\
+tri3b-fmmi-b    & 8.22911708333  & (21.67, 17) & (48.27, 14)\\
+tri2b-mmi-b0.05 & 1.146794625    & (22.29, 17) & (49.87, 17)\\
+tri2b-denlats   & 1.02629525     & None        & None       \\
+tri3b-fmmi-d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
 \end{tabular}
 
 
@@ -34,20 +34,21 @@ tri3b_fmmi_d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
 
 \begin{tabular}{cccc}
 exp             & RT coef       & WER         & SER        \\
-tri2b_mpe       & 2.09137125    & (22.06, 15) & (49.6, 14) \\
+tri2b-mpe       & 2.09137125    & (22.06, 15) & (49.6, 14) \\
 mono            & 3.4773675     & (48.69, 18) & (74.4, 18) \\
-tri3b_mmi       & 1.25892633333 & (20.11, 18) & (47.73, 11)\\
+tri3b-mmi       & 1.25892633333 & (20.11, 18) & (47.73, 11)\\
 tri1            & 4.459925      & (26.92, 16) & (56.27, 20)\\
-tri3b_denlats   & 1.2851525     & None        & None       \\
-tri2b_mmi       & 1.68427875    & (20.88, 17) & (46.67, 14)\\
+tri3b-denlats   & 1.2851525     & None        & None       \\
+tri2b-mmi       & 1.68427875    & (20.88, 17) & (46.67, 14)\\
 tri2a           & 2.3842725     & (26.09, 17) & (55.07, 17)\\
 tri2b           & 1.7085825     & (26.16, 20) & (57.73, 20)\\
 tri3b           & 1.073698375   & (27.57, 20) & (58.8, 16) \\
-tri2b_mmi_b0.05 & 1.79180375    & (20.63, 14) & (46.4, 14) \\
-tri2b_denlats   & 1.196845      & None        & None
+tri2b-mmi-b0.05 & 1.79180375    & (20.63, 14) & (46.4, 14) \\
+tri2b-denlats   & 1.196845      & None        & None
 \end{tabular}
 
 {\bf RT coef = Minimum over number of jobs for each tasks
 WER, SER = Minimum over iterations for each tasks, 
 (The minimal iterations is the second number in the brackets)}
+
 \todo{FIND OUT IF ITERATIONS MATCHES ADDING ITERATIONS ADDING GAUSSIANS}
