@@ -175,3 +175,20 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
  ASR with vystadial will get only chunks of wav files and will output chunks of characters.
  Vystadial doc is at https://vystadial.ms.mff.cuni.cz/doc/install.html
  genereted by apidoc and updated by every push to vystadial/doc - git hooks
+20120308
+  3 month (7-8)*6 hours I have been stuck on really stupid bug: I have kept running on mixed up data in data dir
+  Solution is to to clear s5/data directory completely before running a new experiment. (Trying to do simple make function -> really stupid)
+  The development of training can be kept by following commit logs in kaldi-vystadial-recipe (on github maybe later will be moved/mirrored on ufal redmine) 
+  KALDI status
+  
+====== current use CUDA ====
+source: accessed 20130308 (PSThttp://sourceforge.net/projects/kaldi/forums/forum/1355348/topic/6517393)  
+2012-12-24 04:08:35 Nobody:  
+I've been trying to apply CUDA to Kaldi and after a while I've grasped that the only place that uses CUDA libraries is nnet/nnetbin that is not used in usual compilation.
+So, am I right that CUDA is not used even with -DHAVE_CUDA macro in standart samples?
+2012-12-24 13:23:16 PST Dan:
+Yes, that is correct.   You can't use CUDA as a drop-in replacement for BLAS operations.  In general the best general purpose option is to compile with multi-threaded MKL.
+This is due to inherent limitations in GPU computation-- you have to move data to the GPU card before you can work on it, which must be done "manually", and as a result all computations have to be specially designed for the GPU card (unless you want to do *everything* there, which generally isn't practical).  At some point Intel's Xeon Phi architecture may become more popular, and supported by Kaldi, and that point it may be possible to get GPU-like speedups in a more transparent way.
+====== current use CUDA END====
+
+TODO: trying to run  online_decoder /  check out the speed up
