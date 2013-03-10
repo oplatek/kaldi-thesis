@@ -8,6 +8,26 @@
 \code{My Python Snippet}{Python}{snippets/test.py}
 \code{My C Snippet}{C}{snippets/test.c}
 
+1. experiment Final results 
+
+\begin{tabular}{cccc}
+exp             & RT coef        & WER         & SER        \\
+tri2b_mpe       & 0.88688125     & (23.54, 20) & (51.73, 20)\\
+mono            & 3.2617725      & (50.3, 20)  & (75.07, 20)\\
+tri3b_mmi       & 0.807879083333 & (22.73, 19) & (50.53, 15)\\
+tri1            & 1.94605        & (33.34, 20) & (66.4, 20) \\
+tri3b_denlats   & 0.77643725     & None        & None       \\
+tri2b_mmi       & 1.72681375     & (23.03, 15) & (50.8, 20) \\
+tri2a           & 1.962175       & (33.19, 20) & (66.0, 20) \\
+tri2b           & 1.8105575      & (30.08, 19) & (63.47, 19)\\
+tri3b           & 0.748003125    & (31.37, 19) & (63.47, 19)\\
+tri3b_fmmi_c    & 11.8128208333  & (22.24, 16) & (49.2, 15) \\
+tri3b_fmmi_b    & 8.22911708333  & (21.67, 17) & (48.27, 14)\\
+tri2b_mmi_b0.05 & 1.146794625    & (22.29, 17) & (49.87, 17)\\
+tri2b_denlats   & 1.02629525     & None        & None       \\
+tri3b_fmmi_d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
+\end{tabular}
+
 
 2. experiment - NOT final results
 
@@ -25,3 +45,8 @@ tri3b           & 1.073698375   & (27.57, 20) & (58.8, 16) \\
 tri2b_mmi_b0.05 & 1.79180375    & (20.63, 14) & (46.4, 14) \\
 tri2b_denlats   & 1.196845      & None        & None
 \end{tabular}
+
+{\bf RT coef = Minimum over number of jobs for each tasks
+WER, SER = Minimum over iterations for each tasks, 
+(The minimal iterations is the second number in the brackets)}
+\todo{FIND OUT IF ITERATIONS MATCHES ADDING ITERATIONS ADDING GAUSSIANS}
