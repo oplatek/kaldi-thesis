@@ -192,3 +192,10 @@ This is due to inherent limitations in GPU computation-- you have to move data t
 ====== current use CUDA END====
 
 TODO: trying to run  online_decoder /  check out the speed up
+
+compute-wer in local/score.sh compute WER/SER after LM rescoring 
+     does NOT compute wer after each iteration of training (I thought it is the case)
+     -> TODO compute wer after each iteration or find it out
+
+Real time coeficients 
+    produced by gmm-decode-faster which uses gmm-latgen-faster (it logs it)
