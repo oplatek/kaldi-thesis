@@ -199,3 +199,19 @@ compute-wer in local/score.sh compute WER/SER after LM rescoring
 
 Real time coeficients 
     produced by gmm-decode-faster which uses gmm-latgen-faster (it logs it)
+
+vyhraneny Diskriminativni model muze byt rychlejsi nez neprorezany model se stejnou wer
+Specialized discriminative model could be faster than the uncut model still reaching the same WER value
+
+Idea pro zrychleni primo pro vyhledavani pomoci OpenFST
+-dekoder pouziva beam search
+-na CPU pouzit uzky search - oznacme ho pruzkumnik
+-na GPU hledat pomoci sirsiho search - oznacme ho roj
+-TODO - kdy beam search zastavit
+- Graf G=(V,E) |V|=n. E=? TODO lze omezit? 
+  Necht pruzkumnik ma sirku beamu bP, roj ma sirku bR,
+  necht oba prozkoumaji k vrstev posledni vrstva pruzkumnika
+  je podmnozinou roje
+  TODO
+  Pak cas t(pruzkumnik) = O(k*((bP+n)log(bP+n)) hledane n-best list - sortime a
+  cas t(roj) = O(
