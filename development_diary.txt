@@ -215,3 +215,19 @@ Idea pro zrychleni primo pro vyhledavani pomoci OpenFST
   TODO
   Pak cas t(pruzkumnik) = O(k*((bP+n)log(bP+n)) hledane n-best list - sortime a
   cas t(roj) = O(
+    TODO
+
+KALDI documentation
+KALDI - What is exactly rescoring during experiments exp1-4?
+    TODO
+    We are searching for solutions in alternatives varying parameter "it" from 9 to 20.
+    Find where exactly are the parameters of models stored for every single value of "it" 
+    TODO 
+    Extract the best model over "it" for each setting
+    TODO
+KALDI - Does the Kaldi framework in my recipe use a special model for OOV words?
+        If yes, how to turn it off? 
+        TODO
+KALDI - In which model does Kaldi use the Language Model (LM) for the first time in the script? (Models appears in increase order of complexity) 
+    TODO
+
