@@ -1,0 +1,27 @@
+\subsubsection*{Sources} % (fold)
+
+\begin{itemize}
+    \item \href{http://kaldi.sourceforge.net/graph.html} {Decoding graph construction in Kaldi}
+    \item \href{http://kaldi.sourceforge.net/lattices.html} {Lattices in Kaldi}
+\end{itemize}
+
+\subsubsection*{Decoding graph construction} % (fold)
+Kaldi uses Finite-State Transducers (FST) as underlaying representation for all models, which are used to decoding. Consequently, training and decoding of models in Kaldi can be expressed as sequence of operations above FSTs.
+
+Decoding is performed using a final result of training, so called {\it decoding graph}. 
+From the high level point of view,
+during training we are constructing the decoding graph 
+\begin{equation} \label{eq:hclg}
+HCLG = H o C o L o G
+\end{equation}.
+
+The symbol $o$ represents an associative binary operation on FST.
+Namely, the transducers appearing in equation \ref{eq:hclg} are:
+\begin{enumerate}
+    % source  http://kaldi.sourceforge.net/graph.htm
+    \item G is an acceptor that encodes the grammar or language model.
+    \item L is the lexicon. Its input symbols are phones. Its output symbols are words.
+    \item C represents the relationship between context-dependent phones on input and phones on output.
+    \item H contains the HMM definitions, which takes as input id number of Probability Density function (PDF) and returns context-dependent phones.
+\end{enumerate}
+
