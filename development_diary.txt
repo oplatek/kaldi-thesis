@@ -1,3 +1,10 @@
+REPOSITORY URL
+=============
+https://redmine.ms.mff.cuni.cz/projects/thesis-kaldi-decoder-docs
+
+DEVELOPER DIARY AND REMARKS
+===========================
+
 20120918 5
 I downloaded some sample data from http://www.repository.voxforge1.org/downloads/SpeechCorpus/Trunk/
 
