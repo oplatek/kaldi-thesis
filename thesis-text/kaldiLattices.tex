@@ -12,16 +12,33 @@ Decoding is performed using a final result of training, so called {\it decoding 
 From the high level point of view,
 during training we are constructing the decoding graph 
 \begin{equation} \label{eq:hclg}
-HCLG = H o C o L o G
+HCLG = H\circ C\circ L\circ G
 \end{equation}.
 
-The symbol $o$ represents an associative binary operation on FST.
+The symbol $\circ$ represents an associative binary operation of composition on FST.
 Namely, the transducers appearing in equation \ref{eq:hclg} are:
 \begin{enumerate}
-    % source  http://kaldi.sourceforge.net/graph.htm
+    % source  http://kaldi.sourceforge.net/graph.html
     \item G is an acceptor that encodes the grammar or language model.
     \item L is the lexicon. Its input symbols are phones. Its output symbols are words.
     \item C represents the relationship between context-dependent phones on input and phones on output.
     \item H contains the HMM definitions, which takes as input id number of Probability Density function (PDF) and returns context-dependent phones.
 \end{enumerate}
 
+Following one liner illustrates how Kaldi creates the decoding graph. 
+\begin{equation}
+   HCLG = asl(min(rds(det(H' o min(det(C o min(det(L o G)))))))) 
+\end{equation}
+Let us explain the shortcuts in list below and point out that the operation are described in detail
+at page \href{http://kaldi.sourceforge.net/fst_algo.html#fst_algo_stochastic} {Finite State Transducer algorithms in Kaldi}. 
+% The source code of these operations is in fstext and corresponding command-line program are in fstbin/
+\begin{itemize}
+    \item asl - Add self loops to FST
+    \item rds - Remove disambiguation symbols from FST
+    \item H' is FST H without self loops
+    \item min - FST minimization
+    \item $A\circ B$  - Composition of FSTs $A$ and $B$.
+    \item det - Determinization of FST
+\end{itemize}
+
+{\bf Kaldi stochasticity} - weights of outgoing arcs sum to 1.
