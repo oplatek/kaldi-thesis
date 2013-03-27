@@ -1,3 +1,6 @@
+\section{Kaldi Framework} % (fold)
+\label{sec:Kaldi Framework}
+
 \subsubsection*{Sources} % (fold)
 
 \begin{itemize}
@@ -29,7 +32,7 @@ Following one liner illustrates how Kaldi creates the decoding graph.
 \begin{equation}
    HCLG = asl(min(rds(det(H' o min(det(C o min(det(L o G)))))))) 
 \end{equation}
-Let us explain the shortcuts in list below and point out that the operation are described in detail
+Let us explain the shortcuts in the list below. Note that the operation are described in detail
 at page \href{http://kaldi.sourceforge.net/fst_algo.html#fst_algo_stochastic} {Finite State Transducer algorithms in Kaldi}. 
 % The source code of these operations is in fstext and corresponding command-line program are in fstbin/
 \begin{itemize}
@@ -42,3 +45,12 @@ at page \href{http://kaldi.sourceforge.net/fst_algo.html#fst_algo_stochastic} {F
 \end{itemize}
 
 {\bf Kaldi stochasticity} - weights of outgoing arcs sum to 1.
+
+
+\subsubsection*{Kaldi decoders} % (fold)
+\begin{itemize}
+    \item SimpleDecoder(Beam width) - straightforward implementation of Viterbi algorithm
+    \item LatticeSimpleDecoder(Beam width d, Lattice delta $\delta$), where $ \delta \le d$
+
+\end{itemize}
+% section Kaldi Framework (end)
