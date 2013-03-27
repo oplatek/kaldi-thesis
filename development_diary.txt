@@ -238,3 +238,28 @@ KALDI - Does the Kaldi framework in my recipe use a special model for OOV words?
 KALDI - In which model does Kaldi use the Language Model (LM) for the first time in the script? (Models appears in increase order of complexity) 
     TODO
 
+
+/home/oplatek/cuda-samples/0_Simple/matrixMulCUBLAS/matrixMulCUBLAS.cpp
+
+to make online decoder and some other stuff use:
+    make ext # from dir /ha/home/oplatek/50GBmax/kaldi/kaldi-trunk/src/
+
+CUDA implementation 
+https://code.google.com/p/chmm/
+    1) compute the probability of the observation sequence
+    2) compute the most probable sequence
+    3) train hidden Markov mode parameters
+
+TODO pridat do nejakeho dekoderu simple je vhodny
+sbirani statistik kolik se mu vymeni stavu v beamu.
+
+
+nechat trifonovy model v GPU
+a pouzit masku co pridam (vektor |slova| * |pdf|)
+
+language learning - 
+skladani modelu rec -> sema
+gmm co je?
+
+udelat skript na vyhodnoceni
+real time dekoderu
