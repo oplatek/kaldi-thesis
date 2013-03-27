@@ -8,15 +8,20 @@
 \code{My Python Snippet}{Python}{snippets/test.py}
 \code{My C Snippet}{C}{snippets/test.c}
 
-\subsection{Experiment results} % (fold)
+\subsection{Kaldi Experiment Results} % (fold)
 \label{sub:Experiment results}
+
+Corresponding HTK results could be found at
+\href{https://redmine.ms.mff.cuni.cz/projects/vystadial/wiki/Acoustic_models/} {Vystadial Redmine Wiki}
+
 
 {\bf RT coef = Minimum over number of jobs for each tasks
 WER, SER = Minimum over iterations 9-20 of rescoring for each tasks, 
 (The iterations for WER(SER) minimum is the second number in the brackets)}
 
 
-1. experiment kaldi-vystadial-recipe commit cf40202263450c72b4f8ef9aa8d6b7f03ac59814
+1. experiment kaldi-vystadial-recipe commit cf40202263450c72b4f8ef9aa8d6b7f03ac59814\\
+Data classic
 
 \begin{tabular}{cccc}
 exp             & RT coef        & WER         & SER        \\
@@ -37,7 +42,8 @@ tri3b-fmmi-d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
 \end{tabular}
 
 
-2. experiment kaldi-vystadial-recipe commit 10fe1128519aa263ab805216e381d15378d74821 
+2. experiment kaldi-vystadial-recipe commit 10fe1128519aa263ab805216e381d15378d74821\\
+Data classic
 
 \begin{tabular}{cccc}
 exp             & RT coef       & WER         & SER        \\
@@ -58,7 +64,8 @@ tri3b-fmmi-d    & 9.047925      & (19.42, 15) & (45.07, 12)
 \end{tabular}
 
 
-3. experiment kaldi-vystadila-recipe commit 585de385922b431881dfd2508567917045a104ab
+3. experiment kaldi-vystadila-recipe commit 585de385922b431881dfd2508567917045a104ab\\
+Data vystadial
 CHEATING: TEST DATA ARE SUBSET OF TRAIN DATA
 on data /ha/projects/vystadial/data/asr/en/voip/{train.old, test.old}
 
@@ -81,8 +88,8 @@ tri3b-fmmi-d    & 6.58549958333  & (11.86, 13) & (33.25, 12)
 \end{tabular}
 
 
-4. experiment kaldi-vystadila-recipe commit 585de385922b431881dfd2508567917045a104ab
-od data: /ha/projects/vystadial/data/asr/en/voip/{train, test}
+4. experiment kaldi-vystadila-recipe commit 585de385922b431881dfd2508567917045a104ab\\
+Data vystadial (/ha/projects/vystadial/data/asr/en/voip/{train, test})
 
 \begin{tabular}{cccc}
 exp             & RT coef       & WER         & SER        \\
