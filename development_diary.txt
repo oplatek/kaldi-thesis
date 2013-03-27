@@ -231,3 +231,42 @@ KALDI - Does the Kaldi framework in my recipe use a special model for OOV words?
 KALDI - In which model does Kaldi use the Language Model (LM) for the first time in the script? (Models appears in increase order of complexity) 
     TODO
 
+================================
+Looking at online decoder
+TODO update svn - could use openfst 1.3.3 now I have 1.3.2
+
+I check that portaudio works.
+The test
+/home/ondra/school/diplomka/kaldi-trunk/tools/portaudio/bin/paex_record
+produces reasonable output
+
+online decoder sections:
+online-audio-source.h   # uses portaudio
+online-cmn.h            # computes cepstral mean normalisation (no variance norm) 
+online-faster-decoder.h # TODO
+onlinebin-util.h
+online-decodable.h
+online-feat-input.h     # Computes mfcc/plp (perceptu
+
+
+GPU MFCC extraction  
+    25 * times on CUDA speed up according to P0510_GPUBasedFeature_Extraction_Kou_final_V2.pdf (added to redmine)
+    60 * times k-means, EM to 65 times according Azhari.pdf(added to redmine)
+    Azhari also implementation of CUDA algorithms
+    Use library gpu openblas or how is named
+Look at Azhari literature:
+ 1) N. Kumar, S. Satoor, and I. Buck, "Fast Parallel Expectation Maximization for
+ Gaussian Mixture Models on GPUs Using CUDA," in High Performance
+ Computing and Communication, 11th IEEE International Conference on, 2009, pp.
+ 103-109.
+ 2) Schmadecke, I.; Morschbach, J.; Blume, H.; Inst. of Microeletronic Syst., Leibniz
+ Univ., "GPU-based acoustic feature extraction for electronic media processing," in
+ Electronic Media Technology (CEMT), 2011 14th ITG Conference on, Dortmund,
+ 2011, pp. 1-6.
+ 
+ github forked oplatek/pymfcc.py
+ another github repo https://github.com/codyaray/speaker-recognition matlab mfcc + speaker recognition
+
+speech_reco_journal_SIPR_20121101_Nov_2012.pdf stress out that mfcc are not the best parameters - look at the other if they are not better for CUDA (probably not)
+
+openfst examples ~/work/openfst   url http://www.openfst.org/twiki/bin/view/FST/FstExamples
