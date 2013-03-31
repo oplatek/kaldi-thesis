@@ -1,0 +1,105 @@
+\subsection{Kaldi Experiment Results} % (fold)
+\label{sub:Experiment results}
+
+Corresponding HTK results could be found at
+\href{https://redmine.ms.mff.cuni.cz/projects/vystadial/wiki/Acoustic_models/} {Vystadial Redmine Wiki}
+
+
+{\bf RT coef = Minimum over number of jobs for each tasks
+WER, SER = Minimum over iterations 9-20 of rescoring for each tasks, 
+(The iterations for WER(SER) minimum is the second number in the brackets)}
+
+
+1. experiment kaldi-vystadial-recipe commit cf40202263450c72b4f8ef9aa8d6b7f03ac59814\\
+Data classic
+
+\begin{tabular}{cccc}
+exp             & RT coef        & WER         & SER        \\
+tri2b-mpe       & 0.88688125     & (23.54, 20) & (51.73, 20)\\
+mono            & 3.2617725      & (50.3, 20)  & (75.07, 20)\\
+tri3b-mmi       & 0.807879083333 & (22.73, 19) & (50.53, 15)\\
+tri1            & 1.94605        & (33.34, 20) & (66.4, 20) \\
+tri3b-denlats   & 0.77643725     & None        & None       \\
+tri2b-mmi       & 1.72681375     & (23.03, 15) & (50.8, 20) \\
+tri2a           & 1.962175       & (33.19, 20) & (66.0, 20) \\
+tri2b           & 1.8105575      & (30.08, 19) & (63.47, 19)\\
+tri3b           & 0.748003125    & (31.37, 19) & (63.47, 19)\\
+tri3b-fmmi-c    & 11.8128208333  & (22.24, 16) & (49.2, 15) \\
+tri3b-fmmi-b    & 8.22911708333  & (21.67, 17) & (48.27, 14)\\
+tri2b-mmi-b0.05 & 1.146794625    & (22.29, 17) & (49.87, 17)\\
+tri2b-denlats   & 1.02629525     & None        & None       \\
+tri3b-fmmi-d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
+\end{tabular}
+
+
+2. experiment kaldi-vystadial-recipe commit 10fe1128519aa263ab805216e381d15378d74821\\
+Data classic
+
+\begin{tabular}{cccc}
+exp             & RT coef       & WER         & SER        \\
+-ri3b-fmmi-b    & 10.422085     & (19.64, 14) & (45.07, 11)\\
+tri2b-mpe       & 2.09137125    & (22.06, 15) & (49.6, 14) \\
+mono            & 3.4773675     & (48.69, 18) & (74.4, 18) \\
+tri3b-mmi       & 1.25892633333 & (20.11, 18) & (47.73, 11)\\
+tri1            & 4.459925      & (26.92, 16) & (56.27, 20)\\
+tri3b-denlats   & 1.2851525     & None        & None       \\
+tri2b-mmi       & 1.68427875    & (20.88, 17) & (46.67, 14)\\
+tri2a           & 2.3842725     & (26.09, 17) & (55.07, 17)\\
+tri2b           & 1.7085825     & (26.16, 20) & (57.73, 20)\\
+tri3b           & 1.073698375   & (27.57, 20) & (58.8, 16) \\
+tri3b-fmmi-c    & 12.1484916667 & (19.52, 15) & (45.47, 11)\\
+tri2b-mmi-b0.05 & 1.79180375    & (20.63, 14) & (46.4, 14) \\
+tri2b-denlats   & 1.196845      & None        & None       \\
+tri3b-fmmi-d    & 9.047925      & (19.42, 15) & (45.07, 12)
+\end{tabular}
+
+
+3. experiment kaldi-vystadila-recipe commit 585de385922b431881dfd2508567917045a104ab\\
+Data vystadial
+CHEATING: TEST DATA ARE SUBSET OF TRAIN DATA
+on data /ha/projects/vystadial/data/asr/en/voip/{train.old, test.old}
+
+\begin{tabular}{cccc}
+exp             & RT coef        & WER         & SER        \\
+-ri3b-fmmi-b    & 8.49685875     & (11.32, 15) & (32.6, 20) \\
+tri2b-mpe       & 1.042053       & (12.7, 19)  & (36.61, 19)\\
+mono            & 2.46068        & (43.51, 13) & (64.17, 15)\\
+tri3b-mmi       & 0.921234416667 & (12.21, 14) & (33.89, 18)\\
+tri1            & 1.6237775      & (16.87, 19) & (43.73, 19)\\
+tri3b-denlats   & 1.03578075     & None        & None       \\
+tri2b-mmi       & 1.197875       & (11.52, 11) & (32.86, 17)\\
+tri2a           & 1.5251075      & (17.09, 12) & (44.24, 19)\\
+tri2b           & 1.060909       & (16.06, 20) & (43.08, 20)\\
+tri3b           & 0.77341175     & (17.02, 17) & (44.11, 20)\\
+tri3b-fmmi-c    & 8.77094958333  & (12.28, 16) & (34.02, 16)\\
+tri2b-mmi-b0.05 & 1.119341       & (11.2, 16)  & (32.08, 17)\\
+tri2b-denlats   & 0.9729795      & None        & None       \\
+tri3b-fmmi-d    & 6.58549958333  & (11.86, 13) & (33.25, 12)
+\end{tabular}
+
+
+4. experiment kaldi-vystadila-recipe commit 585de385922b431881dfd2508567917045a104ab\\
+Data vystadial (/ha/projects/vystadial/data/asr/en/voip/{train, test})
+
+\begin{tabular}{cccc}
+exp             & RT coef       & WER         & SER        \\
+-ri3b-fmmi-b    & 10.5736754167 & (16.87, 16) & (40.62, 16)\\
+tri2b-mpe       & 1.2229925     & (17.34, 14) & (41.53, 16)\\
+mono            & 2.81766       & (41.59, 13) & (65.72, 15)\\
+tri3b-mmi       & 1.07604041667 & (18.23, 14) & (42.69, 15)\\
+tri1            & 2.12002       & (23.19, 18) & (50.97, 18)\\
+tri3b-denlats   & 0.94768325    & None        & None       \\
+tri2b-mmi       & 1.59091125    & (17.49, 14) & (41.27, 15)\\
+tri2a           & 1.91198       & (21.44, 15) & (48.9, 15) \\
+tri2b           & 1.54646       & (20.62, 18) & (48.38, 18)\\
+tri3b           & 0.9433825     & (21.56, 17) & (52.13, 17)\\
+tri3b-fmmi-c    & 11.175855     & (17.29, 14) & (41.27, 17)\\
+tri2b-mmi-b0.05 & 1.5890125     & (17.22, 15) & (41.01, 15)\\
+tri2b-denlats   & 1.00629875    & None        & None       \\
+tri3b-fmmi-d    & 8.39958958333 & (16.9, 13)  & (40.62, 17)
+\end{tabular}
+
+
+\todo{FIND OUT IF ITERATIONS MATCHES ADDING ITERATIONS ADDING GAUSSIANS}
+
+% subsection Experiment results (end)
