@@ -14,7 +14,7 @@ ${NAME}.ps: ${NAME}.dvi
 	dvips -o $@ -D600 -t a4 $<
 
 # LaTeX has to be run twice in order to count references
-${NAME}.dvi: ${NAME}.tex $(wildcard *.tex)
+${NAME}.dvi: ${NAME}.tex $(wildcard *.tex) $(wildcard images/*.tex)
 	latex -src $<
 	latex -src $<
 
