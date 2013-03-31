@@ -1,4 +1,4 @@
-%% Verze pro jednostranný tisk:
+%% Version for one side printing:
 % Okraje: levý 40mm, pravý 25mm, horní a dolní 25mm
 % (ale pozor, LaTeX si sám přidává 1in)
 %\documentclass[12pt,a4paper]{report}
@@ -12,7 +12,7 @@
 % \openright zařídí, aby následující text začínal na pravé straně knihy
 %\let\openright=\clearpage
 
-%% Pokud tiskneme oboustranně:
+%% Version for 2 side printing:
 \documentclass[12pt,a4paper,twoside,openright]{report}
 \setlength\textwidth{145mm}
 \setlength\textheight{247mm}
@@ -23,14 +23,19 @@
 \setlength\headheight{0mm}
 \let\openright=\cleardoublepage
 
+
+%%%%%%% PACKAGES %%%%%%
+
 %% Pokud používáte csLaTeX (doporučeno):
 %\usepackage{czech}
 %% Pokud nikoliv:
 %\usepackage[czech]{babel}
 % \usepackage[T1]{fontenc}
 
+
 %%%% ENCODING: usually latin2, cp1250 nebo utf8 %%%
 \usepackage[utf8x]{inputenc}
+
 
 %%%%% OTHER PACKAGES  %%%%%
 % \usepackage{doxygen} % wrong sty! 
@@ -52,10 +57,20 @@
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage[round]{natbib} % citace
 
+
+%% Packages needed for Latex-Draw 
+%% pretty cool drawing - latex-generating program
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+
+
 %% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
 %% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
 %\usepackage[ps2pdf,unicode]{hyperref}   % Musí být za všemi ostatními balíčky
 \usepackage[unicode]{hyperref}   % Musí být za všemi ostatními balíčky
+
 \hypersetup{pdftitle=Diploma thesis}   % TODO check if correct
 % \hypersetup{pdfauthor=Ondřej Plátek}
 \hypersetup{pdfauthor=Ondrej Platek}
@@ -85,7 +100,7 @@
 \addcontentsline{toc}{chapter}{#1}
 }
 
-%%% TODO makra
+%%% TODO macros 
 \def\todo#1{
 \emph{\color{red} TODO: #1}
 }
@@ -93,7 +108,8 @@
 \def\todon#1{
   \todo{#1 \\}
 }
-% references to footnote
+
+% FOOTNOTE macros 
 % usage: \footnoteremember{myfootnote}{This is my footnote} and then \footnoterecall{myfootnote} 
 \newcommand{\footnoteremember}[2]{
     \footnote{#2}
@@ -105,7 +121,7 @@
 }
 \graphicspath{{./images/}}
 
-% includes file with code
+% SNIPPET macros: Includes file with code
 % usage: \code{MyCodeName}{../testapp/models.py}
 \newcommand{\code}[3]{
   \hrulefill
@@ -117,4 +133,3 @@
 
 %%% END OF MACROS %%%
 \begin{document}
-
