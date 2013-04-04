@@ -302,3 +302,12 @@ Look at Azhari literature:
 speech_reco_journal_SIPR_20121101_Nov_2012.pdf stress out that mfcc are not the best parameters - look at the other if they are not better for CUDA (probably not)
 
 openfst examples ~/work/openfst   url http://www.openfst.org/twiki/bin/view/FST/FstExamples
+
+
+======================
+ALTERNATIVE DATA for KALDI training available at disks on ufal
+======================
+New (actually, this time quite old) data published by LDC have arrived. It is a corpus from 1993. If you want it, you can find it on our shared disks (see below).
+Jiri Mirovsky
+======================
+
