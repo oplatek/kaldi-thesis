@@ -334,8 +334,8 @@ fj228x-001-100517_171607_0001813_0001882 ./data_voip_en/test/fj228x-001-100517_1
     online-wav-gmm-decode-faster --verbose=1 --rt-min=0.8 --rt-max=0.85 --max-active=4000 --beam=12.0 --acoustic-scale=0.0769
 
 20130408 Fixed computing wer in decode-online.sh however 
-
-File: fj228x-001-100518_171600_0001776_0001887
+============================================================================
+File: fj228x-001-100518_171600_0001776_0001887 (failing on this or the next file)
 PUB
 
 NO
@@ -358,3 +358,7 @@ online-wav-gmm-decode-faster(main+0x11df) [0x5bd263]
 /lib/libc.so.6(__libc_start_main+0xfd) [0x7f0653803c4d]
 online-wav-gmm-decode-faster() [0x5bbfc9]
 
+============================================================================
+
+
+For decoding using gmm-latgen-faster I still need lattice-best-path
