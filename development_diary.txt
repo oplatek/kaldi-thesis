@@ -369,3 +369,24 @@ Length of in test data_voip_en1 computed:
 $ for f in /ha/home/oplatek/50GBmax/kaldi-trunk/egs/kaldi-vystadial-recipe/s5/data_voip_en1/test/*.wav ; do soxi -D $f ; done | awk '{s+=$1} END {print s}'
 2465.98 # in seconds
 
+Time measure decode/decode-lattice.sh
+======================
+make_mfcc.sh
+real    0m55.400s
+user    0m52.211s
+sys     0m0.200s
+compute_cmvn_stats.sh 
+real    0m0.278s
+user    0m0.152s
+sys     0m0.056s
+gmm-latgen-faster
+real    34m2.767s   2042.767s
+user    33m57.723s  2037.723s
+sys     0m1.484s
+
+total time decoding:   
+real    2098.4
+user    2090.1
+sys     1.74
+
+
