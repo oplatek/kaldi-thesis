@@ -363,3 +363,9 @@ Decoding with lattices
 ======================
 In decode/decode-lattice.sh I am using gmm-latgen-faster
 I have to use the best acwt value for the final decoder
+
+
+Length of in test data_voip_en1 computed:
+$ for f in /ha/home/oplatek/50GBmax/kaldi-trunk/egs/kaldi-vystadial-recipe/s5/data_voip_en1/test/*.wav ; do soxi -D $f ; done | awk '{s+=$1} END {print s}'
+2465.98 # in seconds
+
