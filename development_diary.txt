@@ -358,3 +358,8 @@ online-wav-gmm-decode-faster(main+0x11df) [0x5bd263]
 /lib/libc.so.6(__libc_start_main+0xfd) [0x7f0653803c4d]
 online-wav-gmm-decode-faster() [0x5bbfc9]
 
+
+Decoding with lattices
+======================
+In decode/decode-lattice.sh I am using gmm-latgen-faster
+I have to use the best acwt value for the final decoder
