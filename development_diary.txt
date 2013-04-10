@@ -402,3 +402,15 @@ Zakladni nastaveni pouzite ted v Kaldi:
 
 V recipe byla zmenena nasledujici optiona zmenena na FALSE
  --use-energy                : Use energy (not C0) in MFCC computation (bool, default = true)
+============================================================================
+
+
+How to interface Kaldi to Python?
+1)Kaldi Code 
+2)C very thin wrapper around C++ code See:
+http://www.parashift.com/c++-faq-lite/mixing-c-and-cpp.html
+3) C-Python wrapper around C thin wrapper of C++. See 
+http://cffi.readthedocs.org/en/latest/
+
+Why not swig etc? Because C is very well testable wrapper of its own.
+And the cffi looks very transparent. Everyone who knows C/C++ can read it.
