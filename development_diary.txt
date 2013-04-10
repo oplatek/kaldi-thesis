@@ -360,5 +360,45 @@ online-wav-gmm-decode-faster() [0x5bbfc9]
 
 ============================================================================
 
+For decoding using gmm-latgen-faster + lattice-best-path 
+to generate lattice and find the best path in the lattice  
+gmm-latgen-faster
 
-For decoding using gmm-latgen-faster I still need lattice-best-path
+============================================================================
+MFCC_Z_A_D What does it mean in Kaldi?
+
+HTK vs KALDI compatability now fixed everything suggested
+
+
+HTK settings for MFCC vs // nynejsi nastaveni Kaldi
+TARGETKIND = MFCC_0_D_A_Z    // delta a accelerated delta OK, Mean substraction YES per Speaker 
+TARGETRATE = 100000.0          // stejne  shifted by 10ms each time
+WINDOWSIZE = 250000.0         // stejne 25ms
+USEHAMMING = T                   // vypnuto da se zapnout
+PREEMCOEF = 0.97                // stejne
+NUMCHANS = 26                     // stejne NUMCHANS requires an integer value specifying the number of filter-bank channels to use in the analysis
+CEPLIFTER = 22                      // stejne
+NUMCEPS = 12                       // 13 ale stejny vyznam
+ENORMALISE = T                    // Nedela se
+ZMEANSOURCE = T                // zapnuto 
+USEPOWER = T                       // 
+LOFREQ = 125                          // nyni 20
+HIFREQ = 3800                          // nyni Nyquist 8000
+
+
+
+Zakladni nastaveni pouzite ted v Kaldi:
+(Ziskane prikazem $ /net/work/people/oplatek/kaldi/kaldi-trunk/src/featbin/compute-mfcc-feats --help)
+--frame-length               : Frame length in milliseconds (float, default = 25)
+--frame-shift               : Frame shift in milliseconds (float, default = 10)
+
+--num-ceps                  : Number of cepstra in MFCC computation (including C0) (int, default = 13)
+--num-mel-bins              : Number of triangular mel-frequency bins (int, default = 23)
+
+--low-freq                  : Low cutoff frequency for mel bins (float, default = 20)
+--high-freq                 : High cutoff frequency for mel bins (if <= 0, offset from Nyquist) (float, default = 0)
+
+--cepstral-lifter           : Constant that controls scaling of MFCCs (float, default = 22)
+
+V recipe byla zmenena nasledujici optiona zmenena na FALSE
+ --use-energy                : Use energy (not C0) in MFCC computation (bool, default = true)
