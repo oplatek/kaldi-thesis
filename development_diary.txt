@@ -471,3 +471,20 @@ lattice-best-path
 
 
 
+Interfacing Kaldi from Python
+=============================
+No need to build with gccr. The g++ compiler and C++ is fine  if I interface Python
+with just C language constructs.
+Cffi is slow from Python fast from Cython.
+Is intended as better c_types.
+
+Cffi needs shared library! 
+So I have to rebuild all object files with -fPIC flag!
+I changed the main Makefile in kaldi-trunk/src directory - just added -fPIC to cxx_flags.
+
+I need to checkout gmm-online-decoder for generating the mfcc features
+frame by frame.
+
+Use pyaudio to test Kaldi cffi interface -> DO TESTS!
+
+TODO look at vystadial - how is ASR interfaced?
