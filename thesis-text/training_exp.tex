@@ -54,7 +54,7 @@ tri3b-fmmi-d    & 9.047925      & (19.42, 15) & (45.07, 12)
 \end{tabular}
 
 
-3. experiment kaldi-vystadila-recipe commit 585de385922b431881dfd2508567917045a104ab\\
+3. experiment kaldi-vystadial-recipe commit 585de385922b431881dfd2508567917045a104ab\\
 Data vystadial
 CHEATING: TEST DATA ARE SUBSET OF TRAIN DATA
 on data /ha/projects/vystadial/data/asr/en/voip/{train.old, test.old}
@@ -78,7 +78,7 @@ tri3b-fmmi-d    & 6.58549958333  & (11.86, 13) & (33.25, 12)
 \end{tabular}
 
 
-4. experiment kaldi-vystadila-recipe commit 585de385922b431881dfd2508567917045a104ab\\
+4. experiment kaldi-vystadial-recipe commit 585de385922b431881dfd2508567917045a104ab\\
 Data vystadial (/ha/projects/vystadial/data/asr/en/voip/{train, test})
 
 \begin{tabular}{cccc}
@@ -99,6 +99,29 @@ tri2b-denlats   & 1.00629875    & None        & None       \\
 tri3b-fmmi-d    & 8.39958958333 & (16.9, 13)  & (40.62, 17)
 \end{tabular}
 
+
+5. experiment kaldi-vystadial commit 4e96c6704785b2476daf26e0b39eec95f3157f1e
+Data vystadial (/ha/projects/vystadial/data/asr/en/voip/{train, test})
+Removed OOV words from LM $\longrightarrow$ decoder is not trained for OOVs and does not produce
+any symbol for OOV
+
+\begin{tabular}{cccc}
+exp             & RT coef       & WER         & SER        \\
+-ri3b-fmmi-b    & 14.6555625    & (15.57, 19) & (37.9, 14) \\
+tri2b-mpe       & 2.4290175     & (16.25, 16) & (41.4, 20) \\
+mono            & 4.68498       & (43.02, 14) & (65.59, 13)\\
+tri3b-mmi       & 2.5989        & (19.63, 20) & (46.57, 16)\\
+tri1            & 4.00148       & (22.61, 18) & (50.84, 17)\\
+tri3b-denlats   & 2.3944975     & None        & None       \\
+tri2b-mmi       & 3.11491875    & (16.03, 18) & (41.27, 18)\\
+tri2a           & 3.5336175     & (22.02, 15) & (49.55, 20)\\
+tri2b           & 2.6743175     & (19.88, 20) & (47.48, 20)\\
+tri3b           & 1.807084875   & (20.54, 17) & (47.22, 17)\\
+tri3b-fmmi-c    & 14.7587791667 & (15.74, 15) & (38.03, 14)\\
+tri2b-mmi-b0.05 & 3.23086       & (15.88, 17) & (40.88, 20)\\
+tri2b-denlats   & 2.2504575     & None        & None       \\
+tri3b-fmmi-d    & 10.4809795833 & (15.62, 14) & (38.03, 16)
+\end{tabular}
 
 \todo{FIND OUT IF ITERATIONS MATCHES ADDING ITERATIONS ADDING GAUSSIANS}
 
