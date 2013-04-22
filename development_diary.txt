@@ -473,8 +473,7 @@ lattice-best-path
 
 Interfacing Kaldi from Python
 =============================
-No need to build with gccr. The g++ compiler and C++ is fine  if I interface Python
-with just C language constructs.
+UPDATE: It is necessary to build the shared library with *gcc*! 
 Cffi is slow from Python fast from Cython.
 Is intended as better c_types.
 
