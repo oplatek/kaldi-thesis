@@ -1,0 +1,155 @@
+h2. Kaldi experiment setup
+This experiments are run in order too choose the right setup among different methods
+and parameters.
+
+The commit is the identifying label for an experiment corresponding to commits in git repository `kaldi-vystadial-recipe`.
+The experiment number may change.
+
+*Experimenter*: OP
+*Data*: Classic
+*Commit*: cf40202263450c72b4f8ef9aa8d6b7f03ac59814
+*Number*: 1
+*Note*: Initial Kaldi setup according Voxforge recipe
+
+<pre>
+exp              RT coef         WER          SER        
+tri2b-mpe        0.88688125      (23.54, 20)  (51.73, 20)
+mono             3.2617725       (50.3, 20)   (75.07, 20)
+tri3b-mmi        0.807879083333  (22.73, 19)  (50.53, 15)
+tri1             1.94605         (33.34, 20)  (66.4, 20) 
+tri3b-denlats    0.77643725      None         None       
+tri2b-mmi        1.72681375      (23.03, 15)  (50.8, 20) 
+tri2a            1.962175        (33.19, 20)  (66.0, 20) 
+tri2b            1.8105575       (30.08, 19)  (63.47, 19)
+tri3b            0.748003125     (31.37, 19)  (63.47, 19)
+tri3b-fmmi-c     11.8128208333   (22.24, 16)  (49.2, 15) 
+tri3b-fmmi-b     8.22911708333   (21.67, 17)  (48.27, 14)
+tri2b-mmi-b0.05  1.146794625     (22.29, 17)  (49.87, 17)
+tri2b-denlats    1.02629525      None         None       
+tri3b-fmmi-d     6.60894458333   (22.51, 18)  (49.6, 15)
+</pre>
+
+
+*Experimenter*: OP
+*Data*: Classic
+*Commit*: 10fe1128519aa263ab805216e381d15378d74821
+*Number*: 2
+*Note*: Adjust according HTK parameters in order to compare to HTK models.
+
+<pre>
+exp              RT coef        WER          SER        
+-ri3b-fmmi-b     10.422085      (19.64, 14)  (45.07, 11)
+tri2b-mpe        2.09137125     (22.06, 15)  (49.6, 14) 
+mono             3.4773675      (48.69, 18)  (74.4, 18) 
+tri3b-mmi        1.25892633333  (20.11, 18)  (47.73, 11)
+tri1             4.459925       (26.92, 16)  (56.27, 20)
+tri3b-denlats    1.2851525      None         None       
+tri2b-mmi        1.68427875     (20.88, 17)  (46.67, 14)
+tri2a            2.3842725      (26.09, 17)  (55.07, 17)
+tri2b            1.7085825      (26.16, 20)  (57.73, 20)
+tri3b            1.073698375    (27.57, 20)  (58.8, 16) 
+tri3b-fmmi-c     12.1484916667  (19.52, 15)  (45.47, 11)
+tri2b-mmi-b0.05  1.79180375     (20.63, 14)  (46.4, 14) 
+tri2b-denlats    1.196845       None         None       
+tri3b-fmmi-d     9.047925       (19.42, 15)  (45.07, 12)
+</pre>
+
+
+*Experimenter*: OP
+*Data*: Classic 
+*Commit*: aa7263b3f5c151409a87e3d845d58e39335a4f0c
+*Number*: 6
+*Note*: Removed OOV words from LM --> decoder is not trained for OOVs and does not produce any symbol for OOV.
+
+<pre>
+exp             RT coef         WER             SER
+_ri3b_fmmi_b    11.33336625     (19.42, 15)     (45.07, 13)
+tri2b_mpe       1.2307175       (21.22, 19)     (48.8, 15)
+mono            2.8952          (49.88, 18)     (74.93, 17)
+tri3b_mmi       1.24198625      (20.01, 16)     (46.67, 13)
+tri1            2.398165        (28.13, 18)     (58.27, 18)
+tri3b_denlats   1.20614         None            None
+tri2b_mmi       1.65662125      (20.34, 17)     (46.93, 11)
+tri2a           2.15838         (28.43, 16)     (58.0, 15)
+tri2b           1.451105        (27.96, 20)     (58.93, 20)
+tri3b           1.0596075       (27.79, 20)     (58.93, 20)
+tri3b_fmmi_c    11.4361875      (19.13, 15)     (45.47, 16)
+tri2b_mmi_b0.05 2.0089575       (19.64, 13)     (45.6, 12)
+tri2b_denlats   1.20083         None            None
+tri3b_fmmi_d    16.1227625      (19.5, 18)      (46.0, 11)
+</pre>
+
+
+*Experimenter*: OP
+*Data*: Vystadial
+*Commit*: 585de385922b431881dfd2508567917045a104ab.
+*Number*: 3
+*Note*: CHEATING! TEST DATA ARE SUBSET OF TRAIN DATA  /ha/projects/vystadial/data/asr/en/voip/{train.old, test.old}
+
+<pre>
+exp              RT coef         WER          SER        
+-ri3b-fmmi-b     8.49685875      (11.32, 15)  (32.6, 20) 
+tri2b-mpe        1.042053        (12.7, 19)   (36.61, 19)
+mono             2.46068         (43.51, 13)  (64.17, 15)
+tri3b-mmi        0.921234416667  (12.21, 14)  (33.89, 18)
+tri1             1.6237775       (16.87, 19)  (43.73, 19)
+tri3b-denlats    1.03578075      None         None       
+tri2b-mmi        1.197875        (11.52, 11)  (32.86, 17)
+tri2a            1.5251075       (17.09, 12)  (44.24, 19)
+tri2b            1.060909        (16.06, 20)  (43.08, 20)
+tri3b            0.77341175      (17.02, 17)  (44.11, 20)
+tri3b-fmmi-c     8.77094958333   (12.28, 16)  (34.02, 16)
+tri2b-mmi-b0.05  1.119341        (11.2, 16)   (32.08, 17)
+tri2b-denlats    0.9729795       None         None       
+tri3b-fmmi-d     6.58549958333   (11.86, 13)  (33.25, 12)
+</pre>
+
+
+*Experimenter*: OP
+*Data*: Vystadial
+*Commit*: 585de385922b431881dfd2508567917045a104ab
+*Number*: 4
+*Note*: HTK like parameters.
+
+<pre>
+exp              RT coef        WER          SER        
+-ri3b-fmmi-b     10.5736754167  (16.87, 16)  (40.62, 16)
+tri2b-mpe        1.2229925      (17.34, 14)  (41.53, 16)
+mono             2.81766        (41.59, 13)  (65.72, 15)
+tri3b-mmi        1.07604041667  (18.23, 14)  (42.69, 15)
+tri1             2.12002        (23.19, 18)  (50.97, 18)
+tri3b-denlats    0.94768325     None         None       
+tri2b-mmi        1.59091125     (17.49, 14)  (41.27, 15)
+tri2a            1.91198        (21.44, 15)  (48.9, 15) 
+tri2b            1.54646        (20.62, 18)  (48.38, 18)
+tri3b            0.9433825      (21.56, 17)  (52.13, 17)
+tri3b-fmmi-c     11.175855      (17.29, 14)  (41.27, 17)
+tri2b-mmi-b0.05  1.5890125      (17.22, 15)  (41.01, 15)
+tri2b-denlats    1.00629875     None         None       
+tri3b-fmmi-d     8.39958958333  (16.9, 13)   (40.62, 17)
+</pre>
+
+
+*Experimenter*: OP
+*Data*: Vystadial
+*Commit*: 4e96c6704785b2476daf26e0b39eec95f3157f1e 
+*Number*: 5
+*Note*: Removed OOV words from LM --> decoder is not trained for OOVs and does not produce any symbol for OOV.
+
+<pre>
+exp              RT coef        WER          SER        
+-ri3b-fmmi-b     14.6555625     (15.57, 19)  (37.9, 14) 
+tri2b-mpe        2.4290175      (16.25, 16)  (41.4, 20) 
+mono             4.68498        (43.02, 14)  (65.59, 13)
+tri3b-mmi        2.5989         (19.63, 20)  (46.57, 16)
+tri1             4.00148        (22.61, 18)  (50.84, 17)
+tri3b-denlats    2.3944975      None         None       
+tri2b-mmi        3.11491875     (16.03, 18)  (41.27, 18)
+tri2a            3.5336175      (22.02, 15)  (49.55, 20)
+tri2b            2.6743175      (19.88, 20)  (47.48, 20)
+tri3b            1.807084875    (20.54, 17)  (47.22, 17)
+tri3b-fmmi-c     14.7587791667  (15.74, 15)  (38.03, 14)
+tri2b-mmi-b0.05  3.23086        (15.88, 17)  (40.88, 20)
+tri2b-denlats    2.2504575      None         None       
+tri3b-fmmi-d     10.4809795833  (15.62, 14)  (38.03, 16)
+</pre>
