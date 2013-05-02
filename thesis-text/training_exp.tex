@@ -135,38 +135,28 @@ Removed OOV words from LM $\longrightarrow$ decoder is not trained for OOVs and 
 any symbol for OOV.}
 }\end{figure}  
 
-exp             RT coef         WER             SER
-_ri3b_fmmi_b    11.33336625     (19.42, 15)     (45.07, 13)
-tri2b_mpe       1.2307175       (21.22, 19)     (48.8, 15)
-mono            2.8952          (49.88, 18)     (74.93, 17)
-tri3b_mmi       1.24198625      (20.01, 16)     (46.67, 13)
-tri1            2.398165        (28.13, 18)     (58.27, 18)
-tri3b_denlats   1.20614         None            None
-tri2b_mmi       1.65662125      (20.34, 17)     (46.93, 11)
-tri2a           2.15838         (28.43, 16)     (58.0, 15)
-tri2b           1.451105        (27.96, 20)     (58.93, 20)
-tri3b           1.0596075       (27.79, 20)     (58.93, 20)
-tri3b_fmmi_c    11.4361875      (19.13, 15)     (45.47, 16)
-tri2b_mmi_b0.05 2.0089575       (19.64, 13)     (45.6, 12)
-tri2b_denlats   1.20083         None            None
-tri3b_fmmi_d    16.1227625      (19.5, 18)      (46.0, 11)
-==================
+\begin{figure}[htp] \centering{
 \begin{tabular}{cccc}
     exp             & RT coef     & WER         & SER        \\
-    _ri3b_fmmi_b    & 11.33336625 & (19.42, 15) & (45.07, 13)\\
-    tri2b_mpe       & 1.2307175   & (21.22, 19) & (48.8, 15) \\
+    -ri3b-fmmi-b    & 11.33336625 & (19.42, 15) & (45.07, 13)\\
+    tri2b-mpe       & 1.2307175   & (21.22, 19) & (48.8, 15) \\
     mono            & 2.8952      & (49.88, 18) & (74.93, 17)\\
-    tri3b_mmi       & 1.24198625  & (20.01, 16) & (46.67, 13)\\
+    tri3b-mmi       & 1.24198625  & (20.01, 16) & (46.67, 13)\\
     tri1            & 2.398165    & (28.13, 18) & (58.27, 18)\\
-    tri3b_denlats   & 1.20614     & None        & None       \\
-    tri2b_mmi       & 1.65662125  & (20.34, 17) & (46.93, 11)\\
+    tri3b-denlats   & 1.20614     & None        & None       \\
+    tri2b-mmi       & 1.65662125  & (20.34, 17) & (46.93, 11)\\
     tri2a           & 2.15838     & (28.43, 16) & (58.0, 15) \\
     tri2b           & 1.451105    & (27.96, 20) & (58.93, 20)\\
     tri3b           & 1.0596075   & (27.79, 20) & (58.93, 20)\\
-    tri3b_fmmi_c    & 11.4361875  & (19.13, 15) & (45.47, 16)\\
-    tri2b_mmi_b0.05 & 2.0089575   & (19.64, 13) & (45.6, 12) \\
-    tri2b_denlats   & 1.20083     & None        & None       \\
-    tri3b_fmmi_d    & 16.1227625  & (19.5, 18)  & (46.0, 11)
+    tri3b-fmmi-c    & 11.4361875  & (19.13, 15) & (45.47, 16)\\
+    tri2b-mmi-b0.05 & 2.0089575   & (19.64, 13) & (45.6, 12) \\
+    tri2b-denlats   & 1.20083     & None        & None       \\
+    tri3b-fmmi-d    & 16.1227625  & (19.5, 18)  & (46.0, 11)
 \end{tabular}
+\caption{6.\ experiment kaldi-vystadial commit aa7263b3f5c151409a87e3d845d58e39335a4f0c.
+Data classic (todo)
+Removed OOV words from LM $\longrightarrow$ decoder is not trained for OOVs and does not produce
+any symbol for OOV.}
+}\end{figure}  
 
 % subsection Experiment results (end)
