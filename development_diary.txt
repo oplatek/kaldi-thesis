@@ -487,3 +487,13 @@ frame by frame.
 Use pyaudio to test Kaldi cffi interface -> DO TESTS!
 
 TODO look at vystadial - how is ASR interfaced?
+
+
+Building atlas, lapack
+---------------------
+On sol11 I was able to build new static atlas library
+TODO how to create shared library
+
+
+The experiment 6 from commit aa7263b3f5c151409a87e3d845d58e39335a4f0c finished.
+Problem extracting data. Maybe sthing missing
