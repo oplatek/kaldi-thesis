@@ -494,6 +494,17 @@ Building atlas, lapack
 On sol11 I was able to build new static atlas library
 TODO how to create shared library
 
+$ pwd
+/ha/work/people/oplatek/kaldi-trunk/tools/ATLAS
+$ mkdir build && cd build
+$ ../configure --shared --incdir=/ha/work/people/oplatek/kaldi-trunk/tools/atlas_install_dir
+
+
+How I build Kaldi? ./configure generate kaldi.mk -> I need to add fPIC 
+    add fPIC to python-mfcc/Makefile: EXTRA_CXXFLAGS ?
+TODO: how to modify .configure to generate libtools.so libfeats.so etc?
+    or should I do it in python-mfcc/Makefile (and similar makefiles) ? probably yes/no?
+
 
 The experiment 6 from commit aa7263b3f5c151409a87e3d845d58e39335a4f0c finished.
 Problem extracting data. Maybe sthing missing
