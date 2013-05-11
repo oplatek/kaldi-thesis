@@ -497,7 +497,9 @@ TODO how to create shared library
 $ pwd
 /ha/work/people/oplatek/kaldi-trunk/tools/ATLAS
 $ mkdir build && cd build
-$ ../configure --shared --incdir=/ha/work/people/oplatek/kaldi-trunk/tools/atlas_install_dir
+$ ../configure --shared --incdir=/ha/work/people/oplatek/kaldi-trunk/tools/atlas_install_dir # needed specified the target dir too
+# running make with 
+$ EXTRA_CXXFLAGS=-fPIC make  # see kaldi.mk where is the EXTRA_CXXFLAGS variable used
 
 
 How I build Kaldi? ./configure generate kaldi.mk -> I need to add fPIC 
