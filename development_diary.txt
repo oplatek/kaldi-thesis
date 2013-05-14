@@ -508,3 +508,12 @@ TODO: how to modify .configure to generate libtools.so libfeats.so etc?
 
 The experiment 6 from commit aa7263b3f5c151409a87e3d845d58e39335a4f0c finished.
 Problem extracting data. Maybe sthing missing
+
+
+
+-----------------------------------
+for working with Python extension I need everything like shared library
+to build openfst like shared library
+I ran from kaldi-trunk/tools/openfst-1.3.2 directory
+mkdir ../openfst-1.3.2_install
+./configure --enable-shared --prefix=`pwd`/../openfst-1.3.2_install
