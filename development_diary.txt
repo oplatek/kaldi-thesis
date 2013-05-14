@@ -49,6 +49,7 @@ running online demo kaldi-trunk/egs/voxforge/online_demo
     I changed ATLAS/build/install/lib to  ATLAS/build/install/lib
     twice on lines: 168, 235
 
+    NOTE: Do not forget to install fortran compiler (gfortran). Configure fails and the error is a little bit hidden.
 
 
 
