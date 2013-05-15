@@ -106,6 +106,7 @@ Since by *default it is turned of! I always forget about that!*
 
 ```bash
 EXTRA_CXXFLAGS=-fPIC make
+EXTRA_CXXFLAGS=-fPIC make ext
 ```
 
 
