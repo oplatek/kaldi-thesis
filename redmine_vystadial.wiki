@@ -1,8 +1,10 @@
 h2. Kaldi experiment setup
+
 This experiments are run in order too choose the right setup among different methods
 and parameters.
 
-The commit is the identifying label for an experiment corresponding to commits in git repository `kaldi-vystadial-recipe`.
+The commit hash is the identifying label for an experiment. 
+Each commit hash corresponds to a commit in git repository `kaldi-vystadial-recipe`.
 The experiment number may change.
 
 *Experimenter*: OP
