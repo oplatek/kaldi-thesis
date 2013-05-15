@@ -97,6 +97,13 @@ How I build Kaldi?
 ```bash
 ./configure --openblas-root=/home/ondra/school/diplomka/kaldi-trunk/tools/OpenBLAS/install --fst-root=`pwd`/../tools/openfst --static-math=no
 ```
+
+If you updated the svn do not forget to run 
+```
+make depend # maybe even make clean too
+```
+Since by *default it is turned of! I always forget about that!*
+
 ```bash
 EXTRA_CXXFLAGS=-fPIC make
 ```
