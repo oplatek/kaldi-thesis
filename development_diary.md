@@ -521,3 +521,21 @@ I ran from kaldi-trunk/tools/openfst-1.3.2 directory
 mkdir ../openfst-1.3.2_install
 # we need shared libraries for python integration, kaldi needs static for its linking
 ./configure --enable-shared --enable-static --prefix=`pwd`/../openfst-1.3.2_install
+
+
+Launching Vystadial
+--------------------
+ * I needed to create checkout vystadial-private to alex/resources and rename it to alex/resources/private.
+ * alex/resources/default.cfg stores all the main configs
+ * Configs can be applied on top of each other. They are dictionaries and new values to keys are assign as new config is read. So the last one can overwrite the previous one
+ * From vystadial/alex/applications I run webhub.py
+    * Before that I needed to create aio_call_log where it stores the same audio which is submitted
+ * After running webhub.py there is webserver running by default at http://localhost:8000. 
+ * I HAVE TO SPECIFY the directory where my wavfiles are located by 
+    going to url and type 
+    `http://localhost:8000/?dir=source_wavs`
+    if I created directory `alex/applications/source_wavs`
+ * Then you can click on one of the wavs displayed by the webpage or
+ put a similar line at your urlbar :
+ `http://localhost:8000/?dir=source_wavs&play=source_wavs/jurcic-001-120912_134200_0001993_0002036.wav`
+
