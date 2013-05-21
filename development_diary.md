@@ -538,4 +538,5 @@ Launching Vystadial
  * Then you can click on one of the wavs displayed by the webpage or
  put a similar line at your urlbar :
  `http://localhost:8000/?dir=source_wavs&play=source_wavs/jurcic-001-120912_134200_0001993_0002036.wav`
-
+ * At kronos/loki/sol launched the website on localhost and use lync (press g) and paste  
+    `http://localhost:8000/?dir=source_wavs`
