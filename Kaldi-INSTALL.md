@@ -15,9 +15,9 @@ Basically it telss you to use `kaldi-trunk/tools/Makefile`, which I used also.
 
 How I installed Atlas
 --------------------
-First of all I decided to try OpenBlas. 
-It is open source and it allows me to compile both shared and static libraries at one run.
-Nevertheless:
+NOTE: I decided NOT to use Atlas, I USE try OpenBlas INSTEAD. It is open source and it allows me to compile both shared and static libraries at one run.
+
+Nevertheless how I install Atlas:
  * I installed version atlas3.10.1.tar.bz2 (available at sourceforge)
  * I unpackaged it under `kaldi-trunk/tools` which created `kaldi-trunk/tools/ATLAS`
  * The main problem with building ATLAS was for me disabling CPU throtling.
@@ -100,7 +100,7 @@ How I build Kaldi?
 
 If you updated the svn do not forget to run 
 ```
-make depend # maybe even make clean too
+make depend # Or just run it to be sure
 ```
 Since by *default it is turned of! I always forget about that!*
 

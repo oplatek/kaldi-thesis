@@ -540,3 +540,16 @@ Launching Vystadial
  `http://localhost:8000/?dir=source_wavs&play=source_wavs/jurcic-001-120912_134200_0001993_0002036.wav`
  * At kronos/loki/sol launched the website on localhost and use lync (press g) and paste  
     `http://localhost:8000/?dir=source_wavs`
+
+
+Compiling Openfst for shared library
+-----------------------------------
+in `kaldi-trunk/tools/extras/install_portaudio.sh`
+I changed 
+```
+./configure --prefix=`pwd`/install 
+```
+To
+```
+./configure --prefix=`pwd`/install --with-pic
+```
