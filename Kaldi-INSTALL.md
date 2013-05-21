@@ -84,6 +84,19 @@ Than I ran
 make openfst_tgt
 ```
 
+How I installed PortAudio?
+--------------------------
+NOTE: Necessary only for Kaldi online decoder
+
+In kaldi-trunk/tools/extras/install_portaudio.sh
+I changed line
+```
+./configure --prefix=`pwd`/install
+```
+to
+```
+./configure --prefix=`pwd`/install --with-pic
+```
 
 Which tool for building a Language Model (LM) have I used?
 ---------------------------------------------------------
