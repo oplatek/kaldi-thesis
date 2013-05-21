@@ -100,7 +100,7 @@ How I build Kaldi?
 
 If you updated the svn do not forget to run 
 ```
-make depend # maybe even make clean too
+make depend # Or just run it to be sure
 ```
 Since by *default it is turned of! I always forget about that!*
 
