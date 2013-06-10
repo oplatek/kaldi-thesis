@@ -551,6 +551,9 @@ The suggested workflow is that in `ondra_default_cfg` I have ONLY my settings.
 I merged `master` onto `test` I merged `ondra_default_cfg`. The problem is when I want to merge onto master again!
 I will override the default.cfg again!
 
+Another problem is that I ran  `git submodule add gitolite@redmine.ms.mff.cuni.cz:vystadial/vystadial-private.git alex/resources/private/`.
+Suggest it to other guys
+
 
 Compiling Openfst for shared library
 -----------------------------------
