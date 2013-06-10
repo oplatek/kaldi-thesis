@@ -1,6 +1,8 @@
 REPOSITORY URL
 =============
 https://redmine.ms.mff.cuni.cz/projects/thesis-kaldi-decoder-docs
+git@bitbucket.org:oplatek/kaldi-thesis.git
+
 
 DEVELOPER DIARY AND REMARKS
 ===========================
