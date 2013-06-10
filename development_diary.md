@@ -525,7 +525,7 @@ mkdir ../openfst-1.3.2_install
 
 Launching Vystadial
 --------------------
- * I needed to create checkout vystadial-private to alex/resources and rename it to alex/resources/private.
+ * I needed to create checkout vystadial-private(gitolite@redmine.ms.mff.cuni.cz:vystadial/vystadial-private.git) to alex/resources and rename it to alex/resources/private.
  * alex/resources/default.cfg stores all the main configs
  * Configs can be applied on top of each other. They are dictionaries and new values to keys are assign as new config is read. So the last one can overwrite the previous one
  * From vystadial/alex/applications I run webhub.py
@@ -540,6 +540,14 @@ Launching Vystadial
  `http://localhost:8000/?dir=source_wavs&play=source_wavs/jurcic-001-120912_134200_0001993_0002036.wav`
  * At kronos/loki/sol launched the website on localhost and use lync (press g) and paste  
     `http://localhost:8000/?dir=source_wavs`
+
+Git settings Vystadial
+----------------------
+I created the `ondra_default_cfg` and test branches. In `ondra_default_cfg` I stored the settings and the `test` branch is used as merged between `master` and `ondra_default_cfg`.
+
+The suggested workflow is that in `ondra_default_cfg` I have ONLY my settings.
+I merged `master` onto `test` I merged `ondra_default_cfg`. The problem is when I want to merge onto master again!
+I will override the default.cfg again!
 
 
 Compiling Openfst for shared library
