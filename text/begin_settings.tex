@@ -39,19 +39,18 @@
 
 %%%%% OTHER PACKAGES  %%%%%
 % \usepackage{doxygen} % wrong sty! 
-\usepackage{pdfpages}
+% \usepackage{pdfpages}
 \usepackage{listings}
 \usepackage{color}
 \usepackage{graphicx}
-\usepackage{amsthm}
 
 
-\usepackage{draftwatermark} 
-\SetWatermarkScale{4}
-\SetWatermarkLightness{0.5}
-\SetWatermarkText{Draft!}
+% \usepackage{draftwatermark} 
+% \SetWatermarkScale{4}
+% \SetWatermarkLightness{0.5}
+% \SetWatermarkText{Draft!}
 
-\usepackage{multirow} 
+% \usepackage{multirow} 
 % \usepackage[table]{xcolor} %  not needed probably needed for beamer
 
 \usepackage{amsmath, amsthm, amssymb}
@@ -72,7 +71,6 @@
 \usepackage[unicode]{hyperref}   % Musí být za všemi ostatními balíčky
 
 \hypersetup{pdftitle=Diploma thesis}   % TODO check if correct
-% \hypersetup{pdfauthor=Ondřej Plátek}
 \hypersetup{pdfauthor=Ondrej Platek}
 
 
@@ -133,3 +131,11 @@
 
 %%% END OF MACROS %%%
 \begin{document}
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[chapter] % reset theorem numbering for each chapter
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition} % definition numbers are dependent on theorem numbers
+\newtheorem{exmp}[thm]{Example} % same for example numbers
+
+\newcommand{\norm}{\ensuremath{\:\mathcal{N}}}

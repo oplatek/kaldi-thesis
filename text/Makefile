@@ -1,11 +1,15 @@
 NAME = main
-all: ${NAME}.pdf
+# all: ${NAME}.pdf
+all: ps
 
 # Vyroba PDF primo z DVI by byla prijemnejsi, ale vetsina verzi dvipdfm nici obrazky
 # ${NAME}.pdf: ${NAME}.dvi
 #	dvipdfm -o $@ -p a4 -r 600 $<
 pdf: ${NAME}.pdf
-	evince ${NAME}.pdf >/dev/null 2>&1 &
+	evince $< >/dev/null 2>&1 &
+
+ps: ${NAME}.ps
+	evince $< >/dev/null 2>&1 &
 
 ${NAME}.pdf: ${NAME}.ps
 	ps2pdf $< $@
