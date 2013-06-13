@@ -1,0 +1,58 @@
+Written by: Filip Jurcicek
+Date: 25.9.2012
+
+The purpose of this document is to detail the goals of the thesis of Ondrej Platek.
+
+The main goal is to develop a realtime ASR decoder for the KALDI toolkit. 
+The KALDI itself includes several decoders; 
+however, no one is suitable for realtime use 
+within a spoken dialogue system. 
+
+So far, the VYSTADIAL project is using the HTK toolkit to train acoustic models and 
+the OpenJulius ASR decoder to provide the real time capabilities 
+to the internally developed spoken dialogue systems. 
+
+The HTK training scripts, the training audio data for both English and Czech, 
+and integration of Open Julius ASR decoder will serve as a baseline 
+against which all results must be evaluated. 
+All of this will be provided when necessary.
+
+The HTK training scripts and current data are in /ha/projects/vystadial/htk_training 
+ 
+The goals of this thesis are following:
+
+1) Use the KALDI toolkit to train acoustic models and compare them with those trained by the HTK
+  a) implement standard generative training
+  b) learning linear transformations (e.g HLDA)
+  c) discriminative training 
+
+2) Write training scripts that will be of comparable quality as those provided for the HTK.
+Namely, they will be documented and well written. 
+They will work and provide comparable results.
+Use mainly Python for scripting purposes. Do not use Perl and so on. 
+If necessary, you can use Bash.  
+
+3) Test the current KALDI decoders and compare them to HVite, HDecode, and Julius ASR.
+Comparison will be based on their speed (RT factor), memory demands, the word error rate.
+
+4) Identify what prevents the current KALDI decoders from being used as RT decoders.
+Namely, explore problems with latency and suggest potential speed improvements e.g. approximations, use of GPU, and so on. 
+    
+5) Implement RT decoder for KALDI (this will be C/C++), 
+  a) also implement integration with Python
+  b) perform optimisation of the code and the methods, 
+    especially make sure that you minimise the latency 
+    between the end of utterance and the returned results
+  c) use GPU for computing observation probabilities (GPU labeler), 
+    however, make sure that the GPU is not required
+  d) output of the decoder will be standard lattices 
+    (both phone and word)
+  e) compute posterior lattices (both phone and word),
+  f) provide confusion networks for these lattices
+  g) measure teh quality of the lattices, depth, oracle error rate    
+
+6) Integrate the RT decoder into the SDS implemented within the group 
+7) Evaluate and compare the RT decoder with HVite, HDecode, and Julius ASR. 
+Compare the speed, memory requirements, latency.
+
+8) Suggest optimal setting for the RT use.

@@ -6,90 +6,64 @@ git@bitbucket.org:oplatek/kaldi-thesis.git
 
 DEVELOPER DIARY AND REMARKS
 ===========================
+* 20120918 5 I downloaded some sample data from http://www.repository.voxforge1.org/downloads/SpeechCorpus/Trunk/
+* 20120919 5 Download the rest of Voxforge searching for kaldi tutorials looking at kaldi presentation (docsDropbox/KALDI_description.pdf)
+* 20120922 4 Downloading of DOCS-kaldi.sourceforge.net running online demo kaldi-trunk/egs/voxforge/online_demo
 
-20120918 5
-I downloaded some sample data from http://www.repository.voxforge1.org/downloads/SpeechCorpus/Trunk/
+How I build Kaldi[Deprecated]
+-----------------
+Now read INSTALL.md from git repository git@bitbucket.org:oplatek/kaldi.git
 
-20120919 5
-Download the rest of voxforge
-searching for kaldi tutorials looking at kaldi presentation (docsDropbox/KALDI_description.pdf)
+* I am trying to run tutorial in /home/ondra/diplomka/kaldi-trunk/egs/voxforge
+*    Seams 1-2 OK
+I followed instruction 
+1)for building kaldi-trunk/tools
+2)for building kaldi-trunk/src
+3) following instruction at http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html
+   a) downloading data OK
+   b) trying to run /home/ondra/diplomka/kaldi-trunk/egs/voxforge/online_demo need to make kaldi-trunk/src/onlinebin than it worked fine 
+   c) running s5/run.sh
+     have to modify /home/ondra/diplomka/external_voxcforge/extracted/mramige-20100820-thj/wav/a0008.wav
 
-20120922 4
-Downloading of DOCS-kaldi.sourceforge.net
-running online demo kaldi-trunk/egs/voxforge/online_demo
-===============Building kaldi ===============================================
-    I am trying to run tutorial in /home/ondra/diplomka/kaldi-trunk/egs/voxforge
+1) CPU throtling problem. You can not edit files with CPU performance directly /sys/devices/system/cpu/cpu0/cpufreq/cscaling_governor for cpu0 (for cpu1 just replace cpu0)
 
-    Seams 1-2 OK
+I needed to change cpu frequency management
+original set up was ondemand
+I changed it from "ondemand" to "performance via
+sudo cpufreq-set performance   # turns off CPU throtling 
 
-    I followed instruction 
-    1)for building kaldi-trunk/tools
-    2)for building kaldi-trunk/src
-    3) following instruction at http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html
-       a) downloading data OK
-       b) trying to run /home/ondra/diplomka/kaldi-trunk/egs/voxforge/online_demo need to make kaldi-trunk/src/onlinebin than it worked fine 
-       c) running s5/run.sh
-         have to modify /home/ondra/diplomka/external_voxcforge/extracted/mramige-20100820-thj/wav/a0008.wav
-
-    1)
-    CPU throtling problem
-    You can not edit files with CPU performance directly /sys/devices/system/cpu/cpu0/cpufreq/cscaling_governor for cpu0 (for cpu1 just replace cpu0)
-
-    I needed to change cpu frequency management
-    original set up was ondemand
-    I changed it from "ondemand" to "performance via
-    sudo cpufreq-set performance   # turns off CPU throtling 
-
-    I installed via
-    sudo apt-get install --reinstall libc6-dev
-    to solve error 
-    /usr/include/features.h:323:26: fatal error: bits/predefs.h
+I installed via
+sudo apt-get install --reinstall libc6-dev
+to solve error 
+/usr/include/features.h:323:26: fatal error: bits/predefs.h
 
 
-    2)
-    in /home/ondra/diplomka/kaldi-trunk/src/configure
-    I changed ATLAS/build/install/lib to  ATLAS/build/install/lib
-    twice on lines: 168, 235
+2) in /home/ondra/diplomka/kaldi-trunk/src/configure
+I changed ATLAS/build/install/lib to  ATLAS/build/install/lib
+twice on lines: 168, 235
 
-    NOTE: Do not forget to install fortran compiler (gfortran). Configure fails and the error is a little bit hidden.
+NOTE: Do not forget to install fortran compiler (gfortran). Configure fails and the error is a little bit hidden.
 
+3)a) fixed path - not escaped and path /media/My Book has to be escaped:)
 
+DEVELOPER DIARY AND REMARKS
+===========================
+* 20120923 2 running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial in/home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5 build irstlm5.80.01
 
-    3)a) fixed path - not escaped and path /media/My Book has to be escaped:)
-===============end of Building kaldi ========================================
+* 20121004-20121009 10 get account ufalssh oplatek@loki.ms.mff.cuni.cz, set it up get git account  git clone gitolite@redmine.ms.mff.cuni.cz:vystadial.git get Redmine account redmine.ms.mff.cuni.cz:vystadial.git meeting on Thursday 4.10. reading HTKbook - very slowly first 15 pages
 
-20120923 2
-running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial in/home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
-build irstlm5.80.01
+* 20121014 2 Reading HTK book 
 
-20121004-20121009 10
-get account ufalssh oplatek@loki.ms.mff.cuni.cz, set it up
-get git account  git clone gitolite@redmine.ms.mff.cuni.cz:vystadial.git 
-get Redmine account redmine.ms.mff.cuni.cz:vystadial.git
-meeting on Thursday 4.10.
-reading HTKbook - very slowly first 15 pages
-
-20121014 2
-Reading HTK book 
-
-20121015 ?
-Set up redmine repo for documentation of my thesis.
-Add openfstbc - bash completition for openfst to .bashrc_local
-Compiling and running KALDI training on cluster 
-    is NOT WORKING and SHOULD BE AVOIDED!:
+* 20121015 ? Set up redmine repo for documentation of my thesis. Add openfstbc - bash completition for openfst to .bashrc_local Compiling and running KALDI training on cluster is NOT WORKING and SHOULD BE AVOIDED!:
     -> CPU throtling problem for Atlas libraries
     -> can not disable cpu throtling on every blade on cluster
     -> use loki machine instead -> compilation OK
-TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
+TODO running http://vpanayotov.blogspot.cz/* 2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
     -waiting to download voxforge- screen session on lrc2 with interactive login for downloading
 
-20121026
-    I should using autoconf, automake, libtool for deploying C code. All available at loki.
-    It needs M4 macro preprocessor which is available at loki in enough version 1.4.13
+* 20121026 I should using autoconf, automake, libtool for deploying C code. All available at loki. It needs M4 macro preprocessor which is available at loki in enough version 1.4.13
 
-20121016 4
-    Installing HTK -> installing srilm & running for cs
-        problems on my home machine I needed to install dev-tcl package and I edited common/Makefile.machine.i686  and set up TCL_INCLUDE= -I/usr/include/tcl8.4 and also change tcl to tcl8.4
+* 20121016 4 Installing HTK -> installing srilm & running for cs problems on my home machine I needed to install dev-tcl package and I edited common/Makefile.machine.i686  and set up TCL_INCLUDE= -I/usr/include/tcl8.4 and also change tcl to tcl8.4
         still can not find ngram tool
         help found at http://www.speech.sri.com/projects/srilm/manpages/srilm-faq.7.html
         Building srilm ok at T400
@@ -98,23 +72,21 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
         -> CPU throtling problem for Atlas libraries
         -> can not disable cpu throtling on every blade on cluster
         -> use loki machine instead
-         running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
+         running http://vpanayotov.blogspot.cz/* 2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
          not single job despite jobs=1 -> USE RENICE 20!
 
     Installed HTK -> todo setup config files
 
-20121019 2
-    Meeting DRSG -> should use PEP8  -> autopep tools http://pypi.python.org/pypi/autopep8/
+* 20121019 2 Meeting DRSG -> should use PEP8  -> autopep tools http://pypi.python.org/pypi/autopep8/
     pip install --upgrade autopep8
     PEP8 definition http://www.python.org/dev/peps/pep-0008/
 
-20121015 8
+* 20121015 8
  Set up redmine repo for documentation.
  TODO-compile and run KALDI training na clustru
- running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
+ running http://vpanayotov.blogspot.cz/* 2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
 
-20121107
- rewriting notes from the meetings:
+* 20121107 rewriting notes from the meetings:
  Jan Svec ASR bez LM
  FSM - Finete State Machine
  pjsip C- extension Python
@@ -140,7 +112,7 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
  FINISHED training HTK-scripts except exporting models for Julius ASR
     not used export_models.sh (mkbinhmm & mkbinhmmlist not INSTALLED)
 
-20121109
+* 20121109
  Doxygen is not installed on loki / grid but Doxygen 1.7.6.1 is at u-pl21 at mff lab
  tip:   use a cell phone for any presentation with ASR , phones does things for you
         -> noise reduction, volume normalisation ...
@@ -152,7 +124,7 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
  I can use sol11,sol12,sol13
  I copied CUDA-SDK do unlimited cluster, added nvvc to PATH and 
  on twister1 should be GPU for CUDA (It looks like lspci found sthing)
-20121111
+* 20121111
  SET UP notes: I set up mosh
   HOW I BUILD this for mosh-1.2.3?
   I added ln -s protobufs/include and protbufs/google
@@ -163,7 +135,7 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
   HOW TO USE MOSH
   http://mosh.mit.edu/#usage
 
-20121114
+* 20121114
  HBuild creates a loop for phonems iff I provide
  HBuild phonetic dictionary with "A  phonetic transcription of A\n, B  phonetic transcription of B\n, .." 
  HVite '-p' parameter .... silence threshold, (short words will be occurring instead of silence)
@@ -177,20 +149,21 @@ TODO running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.ht
 
  Hmm clustering - phonetic symbol independent -> cluster phonems based on raw vector.
 
-20121115
+* 20121115
  Updating and reading /ha/home/oplatek/50GBmax/kaldi/kaldi-trunk/egs/vystadial/s5/run.sh
  Localising changes which hast to be done from voxforge -> vystadial modification
-20121123
+* 20121123
  ASR with vystadial will get only chunks of wav files and will output chunks of characters.
  Vystadial doc is at https://vystadial.ms.mff.cuni.cz/doc/install.html
  genereted by apidoc and updated by every push to vystadial/doc - git hooks
-20120308
-  3 month (7-8)*6 hours I have been stuck on really stupid bug: I have kept running on mixed up data in data dir
+* 20120308
+  3 month (7-8)6 hours I have been stuck on really stupid bug: I have kept running on mixed up data in data dir
   Solution is to to clear s5/data directory completely before running a new experiment. (Trying to do simple make function -> really stupid)
   The development of training can be kept by following commit logs in kaldi-vystadial-recipe (on github maybe later will be moved/mirrored on ufal redmine) 
   KALDI status
   
-====== current use CUDA ====
+Current use CUDA
+================
 source: accessed 20130308 (PSThttp://sourceforge.net/projects/kaldi/forums/forum/1355348/topic/6517393)  
 2012-12-24 04:08:35 Nobody:  
 I've been trying to apply CUDA to Kaldi and after a while I've grasped that the only place that uses CUDA libraries is nnet/nnetbin that is not used in usual compilation.
@@ -198,9 +171,8 @@ So, am I right that CUDA is not used even with -DHAVE_CUDA macro in standart sam
 2012-12-24 13:23:16 PST Dan:
 Yes, that is correct.   You can't use CUDA as a drop-in replacement for BLAS operations.  In general the best general purpose option is to compile with multi-threaded MKL.
 This is due to inherent limitations in GPU computation-- you have to move data to the GPU card before you can work on it, which must be done "manually", and as a result all computations have to be specially designed for the GPU card (unless you want to do *everything* there, which generally isn't practical).  At some point Intel's Xeon Phi architecture may become more popular, and supported by Kaldi, and that point it may be possible to get GPU-like speedups in a more transparent way.
-====== current use CUDA END====
 
-TODO: trying to run  online_decoder /  check out the speed up
+
 
 compute-wer in local/score.sh compute WER/SER after LM rescoring 
      does NOT compute wer after each iteration of training (I thought it is the case)
@@ -209,6 +181,8 @@ compute-wer in local/score.sh compute WER/SER after LM rescoring
 Real time coeficients 
     produced by gmm-decode-faster which uses gmm-latgen-faster (it logs it)
 
+Notes
+=====
 vyhraneny Diskriminativni model muze byt rychlejsi nez neprorezany model se stejnou wer
 Specialized discriminative model could be faster than the uncut model still reaching the same WER value
 
@@ -222,7 +196,7 @@ Idea pro zrychleni primo pro vyhledavani pomoci OpenFST
   necht oba prozkoumaji k vrstev posledni vrstva pruzkumnika
   je podmnozinou roje
   TODO
-  Pak cas t(pruzkumnik) = O(k*((bP+n)log(bP+n)) hledane n-best list - sortime a
+  Pak cas `t(pruzkumnik) = O(k*((bP+n)log(bP+n))` hledane n-best list - sortime a
   cas t(roj) = O(
     TODO
 
@@ -265,8 +239,6 @@ gmm co je?
 
 udelat skript na vyhodnoceni
 real time dekoderu
-=======
-================================
 Looking at online decoder
 TODO update svn - could use openfst 1.3.3 now I have 1.3.2
 
@@ -285,6 +257,7 @@ online-feat-input.h     # Computes mfcc/plp (perceptu
 
 
 GPU MFCC extraction  
+===================
     25 * times on CUDA speed up according to P0510_GPUBasedFeature_Extraction_Kou_final_V2.pdf (added to redmine)
     60 * times k-means, EM to 65 times according Azhari.pdf(added to redmine)
     Azhari also implementation of CUDA algorithms
@@ -307,7 +280,6 @@ speech_reco_journal_SIPR_20121101_Nov_2012.pdf stress out that mfcc are not the 
 openfst examples ~/work/openfst   url http://www.openfst.org/twiki/bin/view/FST/FstExamples
 
 
-======================
 ALTERNATIVE DATA for KALDI training available at disks on ufal
 ======================
 New (actually, this time quite old) data published by LDC have arrived. It is a corpus from 1993. If you want it, you can find it on our shared disks (see below).
