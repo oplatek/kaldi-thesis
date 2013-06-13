@@ -3,6 +3,47 @@ REPOSITORY URL
 https://redmine.ms.mff.cuni.cz/projects/thesis-kaldi-decoder-docs
 git@bitbucket.org:oplatek/kaldi-thesis.git
 
+Launching Vystadial
+--------------------
+ * I needed to create checkout vystadial-private(gitolite@redmine.ms.mff.cuni.cz:vystadial/vystadial-private.git) to alex/resources and rename it to alex/resources/private.
+ * alex/resources/default.cfg stores all the main configs
+ * Configs can be applied on top of each other. They are dictionaries and new values to keys are assign as new config is read. So the last one can overwrite the previous one
+ * From vystadial/alex/applications I run webhub.py
+    * Before that I needed to create aio_call_log where it stores the same audio which is submitted
+ * After running webhub.py there is webserver running by default at http://localhost:8000. 
+ * I HAVE TO SPECIFY the directory where my wavfiles are located by 
+    going to url and type 
+    `http://localhost:8000/?dir=source_wavs`
+    if I created directory `alex/applications/source_wavs`
+ * Then you can click on one of the wavs displayed by the webpage or
+ put a similar line at your urlbar :
+ `http://localhost:8000/?dir=source_wavs&play=source_wavs/jurcic-001-120912_134200_0001993_0002036.wav`
+ * At kronos/loki/sol launched the website on localhost and use lync (press g) and paste  
+    `http://localhost:8000/?dir=source_wavs`
+
+Git settings Vystadial
+----------------------
+I created the `ondra_default_cfg` and test branches. In `ondra_default_cfg` I stored the settings and the `test` branch is used as merged between `master` and `ondra_default_cfg`.
+
+The suggested workflow is that in `ondra_default_cfg` I have ONLY my settings.
+I merged `master` onto `test` I merged `ondra_default_cfg`. The problem is when I want to merge onto master again!
+I will override the default.cfg again!
+
+Another problem is that I ran  `git submodule add gitolite@redmine.ms.mff.cuni.cz:vystadial/vystadial-private.git alex/resources/private/`.
+Suggest it to other guys
+
+
+Compiling Openfst for shared library
+-----------------------------------
+in `kaldi-trunk/tools/extras/install_portaudio.sh`
+I changed 
+```
+./configure --prefix=`pwd`/install 
+```
+To
+```
+./configure --prefix=`pwd`/install --with-pic
+```
 
 DEVELOPER DIARY AND REMARKS
 ===========================
@@ -446,26 +487,23 @@ lattice-best-path
 
 
 
-Interfacing Kaldi from Python
+Interfacing Kaldi from Python[deprecated-parts]
 =============================
 UPDATE: It is necessary to build the shared library with *gcc*! 
 Cffi is slow from Python fast from Cython.
 Is intended as better c_types.
-
 Cffi needs shared library! 
 So I have to rebuild all object files with -fPIC flag!
 I changed the main Makefile in kaldi-trunk/src directory - just added -fPIC to cxx_flags.
-
 I need to checkout gmm-online-decoder for generating the mfcc features
 frame by frame.
-
 Use pyaudio to test Kaldi cffi interface -> DO TESTS!
-
 TODO look at vystadial - how is ASR interfaced?
 
 
-Building atlas, lapack
+Building atlas, Lapack[Deprecated]
 ---------------------
+Now read INSTALL.md from git repository git@bitbucket.org:oplatek/kaldi.git
 On sol11 I was able to build new static atlas library
 TODO how to create shared library
 
@@ -477,17 +515,7 @@ $ ../configure --shared --incdir=/ha/work/people/oplatek/kaldi-trunk/tools/atlas
 $ EXTRA_CXXFLAGS=-fPIC make  # see kaldi.mk where is the EXTRA_CXXFLAGS variable used
 
 
-How I build Kaldi? ./configure generate kaldi.mk -> I need to add fPIC 
-    add fPIC to python-mfcc/Makefile: EXTRA_CXXFLAGS ?
-TODO: how to modify .configure to generate libtools.so libfeats.so etc?
-    or should I do it in python-mfcc/Makefile (and similar makefiles) ? probably yes/no?
-
-
-The experiment 6 from commit aa7263b3f5c151409a87e3d845d58e39335a4f0c finished.
-Problem extracting data. Maybe sthing missing
-
-
-
+Cffi and shared libraries
 -----------------------------------
 for working with Python extension I need everything like shared library
 to build openfst like shared library
@@ -497,44 +525,3 @@ mkdir ../openfst-1.3.2_install
 ./configure --enable-shared --enable-static --prefix=`pwd`/../openfst-1.3.2_install
 
 
-Launching Vystadial
---------------------
- * I needed to create checkout vystadial-private(gitolite@redmine.ms.mff.cuni.cz:vystadial/vystadial-private.git) to alex/resources and rename it to alex/resources/private.
- * alex/resources/default.cfg stores all the main configs
- * Configs can be applied on top of each other. They are dictionaries and new values to keys are assign as new config is read. So the last one can overwrite the previous one
- * From vystadial/alex/applications I run webhub.py
-    * Before that I needed to create aio_call_log where it stores the same audio which is submitted
- * After running webhub.py there is webserver running by default at http://localhost:8000. 
- * I HAVE TO SPECIFY the directory where my wavfiles are located by 
-    going to url and type 
-    `http://localhost:8000/?dir=source_wavs`
-    if I created directory `alex/applications/source_wavs`
- * Then you can click on one of the wavs displayed by the webpage or
- put a similar line at your urlbar :
- `http://localhost:8000/?dir=source_wavs&play=source_wavs/jurcic-001-120912_134200_0001993_0002036.wav`
- * At kronos/loki/sol launched the website on localhost and use lync (press g) and paste  
-    `http://localhost:8000/?dir=source_wavs`
-
-Git settings Vystadial
-----------------------
-I created the `ondra_default_cfg` and test branches. In `ondra_default_cfg` I stored the settings and the `test` branch is used as merged between `master` and `ondra_default_cfg`.
-
-The suggested workflow is that in `ondra_default_cfg` I have ONLY my settings.
-I merged `master` onto `test` I merged `ondra_default_cfg`. The problem is when I want to merge onto master again!
-I will override the default.cfg again!
-
-Another problem is that I ran  `git submodule add gitolite@redmine.ms.mff.cuni.cz:vystadial/vystadial-private.git alex/resources/private/`.
-Suggest it to other guys
-
-
-Compiling Openfst for shared library
------------------------------------
-in `kaldi-trunk/tools/extras/install_portaudio.sh`
-I changed 
-```
-./configure --prefix=`pwd`/install 
-```
-To
-```
-./configure --prefix=`pwd`/install --with-pic
-```
