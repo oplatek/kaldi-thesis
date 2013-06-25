@@ -75,10 +75,25 @@ The reason for different ASR outputs is given by the needs of SLU unit. The SLU 
 \label{sec:why}
 In previous sections we introduced the goals of this thesis. In this section we argue why is the work necessary at all.
 
+So far, the Vystadial project is using the HTK toolkit to train acoustic models and the OpenJulius decoder for real time decoding.
+Nevertheless, the set up used so far has several flaws.
+
+One of the main goals of the Vystadial project is to release the code under Apache License, Version 2.0\footnote{\href{http://www.apache.org/licenses/LICENSE-2.0.html}{Link to Apache License 2.0}}. It is very important to us, because the licence is very permissive for the users. It does not limit the usage of the system only for educational purposes.
+
+The HTK toolkit uses quite restrictive license. The license does not allow us to change the source code of its decoders (HDecode and HVite) and release the changed code under Apache license. We need to modify the source code of decoders. At least because of interfacing the decoder from Python and also because we need to implement specific input and output formats.
+
+The OpenJulius is released under revised BSD style license, which is much better from our point of view. On the other hand, we have experienced software instability during decoding confusion networks using OpenJulius. In addition, OpenJulius seems to be hard to patched or otherwise improved due its coding style. Currently, it seems, that the stability problems around OpenJulius are not going to be resolved in near feature.
+
+The Kaldi framework solves the drawbacks of HTK and OpenJulius. It is released under Apache License, Version 2.0. The same license we want to use. The Kaldi framework is cleanly written and has a nice developer community.
+The decoders implemented in Kaldi already support lattices and confusion networks generation. 
+
+% FIXME  add that Kaldi has rich training tools - for discriminative training
+
+Currently, the Kaldi framework is used mostly for experimenting and it is not meant for real time used.
+This thesis has put the goal of set up setting for real time decoding using Kaldi framework and create the Python interface for decoding. To conclude, the goals of this thesis fills missing functionality of Kaldi framework from Vystadial project perspective. 
+
 
 % section why_introducing_new_decoder_and_toolkit_for_training_acoustic_models_ (end)
 
 
-
-So far, the Vystadial project is using the HTK toolkit to train acoustic models and the OpenJulius ASR for real time decoding.
 % chapter goals (end)
