@@ -43,13 +43,13 @@ There are HVite, HDecode, OpenJulius and Kaldi decoders to be evaluated.
 The Vystadial project is developed in Python language and consist of five major components.
 The dialog system provides speech to speech interface. The components are linked into pipeline in order to process the spoken input and to generate speech.
 Pipeline consist of:
-\begin{enumarate}
+\begin{enumerate}
     \item Voice Activity Detection (VAD)
     \item Automatic Speech Recognition (ASR) - Here we run one of our decoders.
     \item Semantic and Language Analysis (SLU)
     \item Dialog Manager (DM)
     \item Natural Language Generation (NLG)
-\end{enumarate}
+\end{enumerate}
 
 The integration task consist of building the Python interface for C++ Kaldi decoders and define the input and output interface for the ASR unit. We consider the VAD unit to be finished and we will not change it. Consequently, the input interface for ASR unit will be the same for all experiments. On the other hand, we need to create several interfaces and among ASR and SLU units according type of ASR output.
 
