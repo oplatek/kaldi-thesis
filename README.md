@@ -18,7 +18,7 @@ Launching Vystadial
  * Then you can click on one of the wavs displayed by the webpage or
  put a similar line at your urlbar :
  `http://localhost:8000/?dir=source_wavs&play=source_wavs/jurcic-001-120912_134200_0001993_0002036.wav`
- * At kronos/loki/sol launched the website on localhost and use lync (press g) and paste  
+ * At kronos/loki/sol launched the website on localhost and use `lynx` (press g) and paste  
     `http://localhost:8000/?dir=source_wavs`
 
 Git settings Vystadial
@@ -30,7 +30,8 @@ I merged `master` onto `test` I merged `ondra_default_cfg`. The problem is when 
 I will override the default.cfg again!
 
 Another problem is that I ran  `git submodule add gitolite@redmine.ms.mff.cuni.cz:vystadial/vystadial-private.git alex/resources/private/`.
-Suggest it to other guys
+Goes git track the files in submodules? If yes I created security hole!
+Suggest it to other guys?
 
 
 Compiling Openfst for shared library
