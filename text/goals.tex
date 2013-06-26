@@ -3,50 +3,10 @@
 This chapter describes the goals of this thesis. 
 In addition, in~Section~\ref{sec:why} we explain the objectives for integrating Kaldi framework into the~Vystadial dialog system.\footnote{Vystadial is spoken dialogue system internally developed at UFAL MFF.} 
 
-\section{Development of real time ASR decoder for the Kaldi toolkit}
-\label{sec:development_of_real_time_asr_decoder_for_the_kaldi_toolkit}
-Our main goal is is to develop a real time ASR\footnote{The abbreviation ASR stands for automatic speech recognition.} decoder for the Kaldi toolkit. At first, we will identify what prevents the current KALDI decoders from being used as real time decoders. 
 
-Namely, we will explore problems with latency and suggest potential speed improvements e.g. approximations, use of GPU, and so on. Based on the experiments we will suggest the optimal setting for the real time use of Kaldi decoder.
-
-% section development_of_real_time_asr_decoder_for_the_kaldi_toolkit (end)
-
-\section{Training Kaldi acoustic models} 
-\label{sec:training_kaldi_acoustic_models}
-Well trained models together with real time decoder recognize speech fast and with desired quality.
-
-In the Vystadial project the HTK acoustic models have been used with different decoders so far.
-We will develop training scripts for Kaldi framework which will train acoustic models. 
-The acoustic models will be evaluated using Kaldi decoders, which are not real time decoders. 
-
-During training the models, we focus on the quality of the output rather than on the speed of the decoders.
-We want to reach at least comparable accuracy of speech recognition with current set up. At the moment, we are using models trained by HTK scripts with different decoders. The next step is to balance accuracy and speed of the final decoder, which we describe in Section~\ref{sec:compare_rt}
-
-Using the Kaldi framework we will perform experiments which implement:
-\begin{itemize}
-    \item Standard generative training
-    \item Learning linear transformations (e.g. HLDA\footnote{The abbreviation HLDA stands for heteroscedastic linear discriminant analysis})
-    \item Discriminative training 
-\end{itemize}
-
-% section training_kaldi_acoustic_models (end)
- 
-
-\section{Comparison of used decoders and Kaldi decoders} 
-\label{sec:compare_rt}
-The main stress will be in comparing real time abilities and accuracy.
-The speed of the decoders will be expressed in terms of real time factor.
-The accuracy will be expressed in terms of word error rate (WER).
-
-We will also compare and contrast possibilities of different output formats for each of tested decoders.
-In addition we will take into account the memory consumption and stability of decoders.
-
-There are HVite, HDecode, OpenJulius and Kaldi decoders to be evaluated.
-% section compare_real_time_abilities_of_already_used_and_kaldi_decoders (end)
-
-\section{Integrate Kaldi decoder into Vystadial framework} 
+\section{Integration a Kaldi decoder into the Vystadial framework} 
 \label{sec:integrate_kaldi_decoder_into_vystadial_framework}
-The Vystadial project is developed in Python language and consist of five major components.
+The Vystadial project is developed in Python language and consist of five major components. 
 The dialog system provides speech to speech interface. The components are linked into pipeline in order to process the~spoken input and to generate speech in one dialog act.
 The pipeline consist of:
 \begin{enumerate}
@@ -57,7 +17,7 @@ The pipeline consist of:
     \item Natural Language Generation (NLG)
 \end{enumerate}
 
-The integration task consist of building the Python interface for C++ Kaldi decoders and define the input and output interface for the ASR unit. The ASR component interface with VAD component and SLU unit. 
+The integration task consist of building the Python interface for C++ Kaldi decoders and define the input and output interface for the ASR unit. The ASR component interface with VAD component and SLU unit. Special stress is put on integrating real time decoder described in~Section~\ref{sec:kaldi_rt_decoder}.
 
 We consider the VAD unit to be finished and we will not change it. Consequently, the input interface for ASR unit will be the same for all experiments. On the other hand, we need to create several interfaces between ASR and SLU units according type of SLU input. Note that SLU input is ASR output. 
 
@@ -78,6 +38,44 @@ The reason for different ASR outputs is given by the needs of SLU unit. The SLU 
 
 % section integrate_kaldi_decoder_into_vystadial_framework (end)
 
+
+\section{Development of real time ASR decoder for the Kaldi toolkit}
+\label{sec:kaldi_rt_decoder}
+In the Vystadila project we need above all a real time ASR\footnote{The abbreviation ASR stands for automatic speech recognition.} decoder for the Kaldi toolkit. At first, we will identify what prevents the current KALDI decoders from being used as real time decoders. 
+
+Namely, we will explore problems with latency and suggest potential speed improvements e.g. approximations, use of GPU, and so on. Based on the experiments we will suggest the optimal setting for the real time use of Kaldi decoder.
+
+% section development_of_real_time_asr_decoder_for_the_kaldi_toolkit (end)
+
+\section{Training Kaldi acoustic models} 
+\label{sec:training_kaldi_acoustic_models}
+Well trained models together with real time decoder recognize speech fast and with acceptable quality.
+
+In the Vystadial project the HTK acoustic models have been used with different decoders so far. We will develop training scripts for Kaldi framework which will train acoustic models. The acoustic models will be evaluated using Kaldi decoders, which are not real time decoders. 
+
+During training the models, we focus on the quality of the output rather than on the speed of the decoders. We want to reach at least comparable accuracy of speech recognition with current set up. At the moment, we are using models trained by HTK scripts with different decoders. The next step is to balance accuracy and speed of the final decoder, which we describe in Section~\ref{sec:compare_rt}
+
+In this thesis we will implement and compare following experiments using Kaldi framework:
+\begin{itemize}
+    \item Standard generative training
+    \item Learning linear transformations (e.g. HLDA\footnote{The abbreviation HLDA stands for heteroscedastic linear discriminant analysis.})
+    \item Discriminative training 
+\end{itemize}
+
+% section training_kaldi_acoustic_models (end)
+ 
+
+\section{Comparison of used decoders and Kaldi decoders} 
+\label{sec:compare_rt}
+The main stress will be in comparing real time abilities and recognition accuracy. The speed of the decoders will be expressed in terms of real time factor.\footnote{Real time factor $RTF$ is metric for comparing speed of decoders. It is defined as $RTF = \frac{P}{D}$, where $P$ is time of the processing the audio by a decoder on input with length $D$.} The accuracy will be expressed in terms of word error rate (WER).
+
+We will also compare and contrast possibilities of different output formats for each of tested decoders.
+In addition we will take into account the memory consumption and stability of decoders.
+
+There are HVite, HDecode, OpenJulius and Kaldi decoders to be evaluated.
+% section compare_real_time_abilities_of_already_used_and_kaldi_decoders (end)
+
+
     
 \section{Why introducing a new decoder and toolkit for training acoustic models?} 
 \label{sec:why}
@@ -86,7 +84,7 @@ In previous sections we introduced the goals of this thesis. In this section we 
 So far, the Vystadial project is using the HTK toolkit to train acoustic models and the OpenJulius decoder for real time decoding.
 Nevertheless, the set up used so far has several flaws.
 
-One of the main goals of the Vystadial project is to release the code under Apache License, Version 2.0\footnote{\href{http://www.apache.org/licenses/LICENSE-2.0.html}{Link to Apache License 2.0}}. It is very important to us, because the licence is very permissive for the users. 
+One of the main goals of the Vystadial project is to release the code under Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0.html}}. It is very important to us, because the licence is very permissive for the users. 
 
 The HTK toolkit uses quite restrictive license. The license does not allow us to change the source code of its decoders (HDecode and HVite) and release the changed code under Apache license. The problem is that we need to modify the source code of decoders. At least for two reasons. Firstly, the interfacing the decoder from Python. Secondly, we need to implement specific input and output formats for speech recognition.
 
