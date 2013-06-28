@@ -1,7 +1,7 @@
 REPOSITORY URL
 =============
-https://redmine.ms.mff.cuni.cz/projects/thesis-kaldi-decoder-docs
-git@bitbucket.org:oplatek/kaldi-thesis.git
+ * https://redmine.ms.mff.cuni.cz/projects/thesis-kaldi-decoder-docs
+ * https://github.com/oplatek/pykaldi
 
 Launching Vystadial
 --------------------
@@ -126,7 +126,7 @@ TODO running http://vpanayotov.blogspot.cz/* 2012/07/voxforge-scripts-for-kaldi.
 * 20121015 8
  Set up redmine repo for documentation.
  TODO-compile and run KALDI training na clustru
- running http://vpanayotov.blogspot.cz/* 2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
+ running http://vpanayotov.blogspot.cz/2012/07/voxforge-scripts-for-kaldi.html the tutorial on cluster /home/ondra/diplomka/kaldi-trunk/egs/voxforge/s5
 
 * 20121107 rewriting notes from the meetings:
  Jan Svec ASR bez LM
@@ -526,3 +526,74 @@ mkdir ../openfst-1.3.2_install
 ./configure --enable-shared --enable-static --prefix=`pwd`/../openfst-1.3.2_install
 
 
+Launching Vystadial
+--------------------
+ * I needed to create checkout vystadial-private to alex/resources and rename it to alex/resources/private.
+ * alex/resources/default.cfg stores all the main configs
+ * Configs can be applied on top of each other. They are dictionaries and new values to keys are assign as new config is read. So the last one can overwrite the previous one
+ * From vystadial/alex/applications I run webhub.py
+    * Before that I needed to create aio_call_log where it stores the same audio which is submitted
+ * After running webhub.py there is webserver running by default at http://localhost:8000. 
+ * I HAVE TO SPECIFY the directory where my wavfiles are located by 
+    going to url and type 
+    `http://localhost:8000/?dir=source_wavs`
+    if I created directory `alex/applications/source_wavs`
+ * Then you can click on one of the wavs displayed by the webpage or
+ put a similar line at your urlbar :
+ `http://localhost:8000/?dir=source_wavs&play=source_wavs/jurcic-001-120912_134200_0001993_0002036.wav`
+ * At kronos/loki/sol launched the website on localhost and use lync (press g) and paste  
+    `http://localhost:8000/?dir=source_wavs`
+
+
+Compiling Openfst for shared library
+-----------------------------------
+in `kaldi-trunk/tools/extras/install_portaudio.sh`
+I changed 
+```
+./configure --prefix=`pwd`/install 
+```
+To
+```
+./configure --prefix=`pwd`/install --with-pic
+```
+
+(CZ) Zapis schuzky s Filipem 20130524
+-------------------------------------
+diplomka se obhajuje na UFALu?
+
+zeptat se online-decoder WER
+prinos me diplomky? co mam psat do teoreticke casti (experimenty + ?)
+    rada kaldi
+
+stezejni integrace - dialogovy system
+    jedna cesta OpenJulius - one-best OK, lattice malo kvalitni
+
+srovnani OpenJulius
+    Kdo dela lepsi lattice
+    kouknout se na OpenJulius scripty
+    a porovnat je
+
+uvolneni: Budou volne dostupny a pak clanek a tutorial
+o datech o trenovacich sktriptech a o decodovani pres 2 jazyky
+
+pretavit interface pro Julius mezi Alex v Pythonu aby bylo citelne
+
+
+na cem mam ted pracovat 
+- online-iterface - 
+- vystup decoderu - confussion networks vs text
+      - jake algoritmy pro vytvoreni confussion networks z lattice
+      Filip posle clanek abych si mohl potrvdit co Kaldi pouziva
+- co cestina? mam to rozchodit? htk? a pak kaldi nebo rovnou kaldi? 
+    hlavne pro clanek
+zkusit rozchodit jak chci zeptat se Mateje co rozvrtal
+- ma smysl rozchodit ne-online decoder v alexovi? ano viz dole
+- ma cenu nabidnout jim spolupraci s daty/receptem.. ja jsem pro
+
+
+balicek na integraci kaldi-python a udelat v alexovi rozhrani pro lattice-decoder
+mozna i pro kaldi
+zkusit udelat lazy nacitani wavka pro lattice-decoder
+
+overit zda Kaldi umi z mojich lattice vygenerovat confussion network
+data vystadial - nabidnout pro KALDI
