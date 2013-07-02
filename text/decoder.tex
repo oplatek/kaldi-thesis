@@ -1,0 +1,33 @@
+\chapter{Real time decoder}
+\label{cha:real_time_decoder}
+
+
+
+\section{Kaldi decoder architecture} 
+\label{sec:kaldi_decoder_architecture}
+This section describes the architecture online decoder developed by Kaldi team.
+The online decoder was used as starting point for building FST real time decoder for our dialog system.
+
+\todo{Describe architecture}
+% section kaldi_decoder_architecture (end)
+
+\section{Online decoder improvements} 
+\label{sec:online_decoder_improvements}
+We will present how we overcome the limitations of Kaldi online decoder.
+
+% section online_decoder_improvements (end)
+
+
+\section{Comparison of real time decoders in Alex dialog system} 
+\label{sec:comparison_of_real_time_decoders_in_alex_dialog_system}
+Further, in this section we will briefly compare the main qualities of used decoders.
+Namely, we will compare: 
+\begin{itemize}
+    \item Kaldi online decoder - Acoustic models were trained by training scripts for Kaldi described at~\ref{cha:models}.
+    \item OpenJulius - OpenJulius uses in our setup acoustic models trained by HTK. 
+    \item HDecode - HDecode is HTK decoder and it decodes from acoustic models trained by HTK.
+\end{itemize}
+
+
+% section comparison_of_real_time_decoders_in_alex_dialog_system (end)
+% chapter real_time_decoder (end)
