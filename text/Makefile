@@ -38,3 +38,6 @@ bib: bibrun ps
 
 clean:
 	rm -f *.blg *.bbl *.log  *.dvi *.aux *.toc *.lof *.out *.idx *.ilg $(NAME).ps $(NAME).pdf
+
+prepositions:
+	# todo sed replace in a the of on with on~ and so on

@@ -21,21 +21,23 @@ In this work, we hope to improve speech recognition in the dialog system develop
 
 \section{The problem} 
 \label{sec:why}
-The Alex dialog system and this thesis was partly funded by the Ministry of Education, Youth and Sports
-of the Czech Republic under the grant agreement LK11221 for~the~{\it Vystadial project}\/and core research of Charles University in Prague.
+The Alex dialog system and this thesis was partly funded by the Ministry of~Education, Youth and Sports
+of~the Czech Republic under the grant agreement LK11221 for~the~{\it Vystadial project}\/ and core research of~Charles University in Prague.
+Let us cite the main goals of~the~{\it Vystadial project}\cite{jurcicek2012vystadial}:
 \begin{quote}
-    The main goals of the~{\it Vystadial project}\cite{jurcicek2012vystadial}:
     \begin{itemize}
-        \item Study and improve methods for learning of statistical models used in dialogue systems. 
+        \item Study and improve methods for learning of~statistical models used in dialogue systems. 
         \item Create software infrastructure for remote training and evaluation.
-        \item Release the developed dialogue system as an open-source.
-        \item Create publicly available corpus of audio recordings, transcriptions and semantic annotations for training dialogue systems.
+        \item Release the developed dialogue system under open-source license.
+        \item Create publicly available corpus of~audio recordings, transcriptions and semantic annotations for training dialogue systems.
     \end{itemize}
 \end{quote}
 
-The Alex dialog system has been using the HTK toolkit\cite{young94htk} to train acoustic models and the OpenJulius\cite{lee2009julius} decoder for real time decoding. Nevertheless, the set up used has several flaws.
+The Alex dialog system has been using the HTK toolkit\cite{young94htk} to train acoustic models and the OpenJulius\cite{lee2009julius} decoder for real time decoding. Nevertheless, the used set up has several flaws.
 
-One of~our main goals is to release the Alex dialog system under Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0.html}}, which is very permissive for users. On the other hand, the HTK toolkit uses quite restrictive license. The license does not allow us to change the source code of~its decoders (HDecode and HVite) and release the changed code under Apache license. Without a~source code modification interfacing the decoder from our dialog system is difficult. In addition, we need to implement specific output formats for speech recognition in order to improve the Alex dialog system.
+One of~our main goals is to release the Alex dialog system under Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0.html}}, which is very permissive for users. On the other hand, the HTK toolkit uses quite restrictive license. The license does not allow us to change the source code of~its decoders (HDecode and HVite) and release the changed code under Apache license. 
+
+Without a~source code modification interfacing the decoder from our dialog system is difficult. In addition, we need to implement specific output formats for speech recognition in order to improve the Alex dialog system.
 
 The other decoder used in Alex is the~OpenJulius decoder, which is released under revised BSD style license. This license is much better from our point of~view. On the other hand, we have experienced software instability using OpenJulius decoder. In addition, OpenJulius seems to be hard to be patched or otherwise improved due to its coding style. Currently, it seems, that the stability problems around OpenJulius are not going to be resolved in near feature.
 
@@ -66,7 +68,7 @@ The integration task consist of:
     \item Building a~Python interface for a~C++ Kaldi decoder.
     \item Define the input and output interface for the Kaldi decoder - wrapped by Automatic Speech Recognition (ASR) unit in Alex.
 \end{itemize}
- The ASR unit takes output of the VAD component and provides input for the SLU unit. 
+ The ASR unit takes output of~the VAD component and provides input for the SLU unit. 
  %The input and output interfaces are chosen according the real time needs of~the VAD unit and the SLU unit.
 
 \begin{figure}
