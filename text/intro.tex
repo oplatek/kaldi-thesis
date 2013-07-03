@@ -1,3 +1,4 @@
+% !TEX root = main.tex
 \chapter{Introduction}
 \label{chap:intro}
 
@@ -14,15 +15,25 @@
 % uvolneni: Budou volne dostupny a~pak clanek a~tutorial
 % o datech o trenovacich sktriptech a~o decodovani pres 2 jazyky
 
-A spoken dialog is the most intuitive way of~communication among people. Nowadays, the spoken dialog is becoming popular choice of~communication even for human-device interaction. The crucial parts in leading a~dialog are language recognition and understanding together with the art of~changing a~dialog direction. The quality of~a~dialog largely depends on the quality of~speech recognition, because the~reasoning and the~reply is based on the recognized speech. 
+A spoken dialog is the most intuitive way of~communication among people. Nowadays, the spoken dialog is becoming popular choice of~communication even for human-device interaction. The quality of~a~dialog largely depends on the quality of~speech recognition, because the~reasoning and the~reply is based on the recognized speech. 
 
-In this work, we hope to improve speech recognition in the dialog system developed at UFAL MFF, called Alex\footnote{Alex is developed under \href{https://sites.google.com/site/filipjurcicek/projects/vystadial}{Vystadial project}}. One of~the application of~our dialog system Alex is a~public phone call service, where a~user can ask Alex about navigation in Prague public transport.
-
+In this work, we hope to improve speech recognition in the dialog system developed at UFAL MFF UK, called Alex. One of~the application of~our dialog system Alex is a~public phone call service, where a~user can ask Alex about navigation in Prague public transport.
 
 \section{The problem} 
 \label{sec:why}
-The Alex dialog system has been using the HTK toolkit to train acoustic models and the OpenJulius decoder for real time decoding.
-Nevertheless, the set up used has several flaws.
+The Alex dialog system and this thesis was partly funded by the Ministry of Education, Youth and Sports
+of the Czech Republic under the grant agreement LK11221 for~the~{\it Vystadial project}\/and core research of Charles University in Prague.
+\begin{quote}
+    The main goals of the~{\it Vystadial project}\/:
+    \begin{itemize}
+        \item Study and improve methods for learning of statistical models used in dialogue systems. 
+        \item Create software infrastructure for remote training and evaluation.
+        \item Release the developed dialogue system as an open-source.
+        \item Create publicly available corpus of audio recordings, transcriptions and semantic annotations for training dialogue systems.
+    \end{itemize}
+\end{quote}
+
+The Alex dialog system has been using the HTK toolkit\cite{htk} to train acoustic models and the OpenJulius\cite{julius} decoder for real time decoding. Nevertheless, the set up used has several flaws.
 
 One of~our main goals is to release the Alex dialog system under Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0.html}}, which is very permissive for users. On the other hand, the HTK toolkit uses quite restrictive license. The license does not allow us to change the source code of~its decoders (HDecode and HVite) and release the changed code under Apache license. Without a~source code modification interfacing the decoder from our dialog system is difficult. In addition, we need to implement specific output formats for speech recognition in order to improve the Alex dialog system.
 
@@ -53,7 +64,7 @@ The~data~flow during single turn is depicted in~Figure~\ref{fig:dialog_system}.
 The integration task consist of:
 \begin{itemize}
     \item Building a~Python interface for a~C++ Kaldi decoder.
-    \item Define the input and output interface for the Kaldi decoder placed Automatic Speech Recognition (ASR) unit.
+    \item Define the input and output interface for the Kaldi decoder - wrapped by Automatic Speech Recognition (ASR) unit in Alex.
 \end{itemize}
  The ASR unit takes output of the VAD component and provides input for the SLU unit. 
  %The input and output interfaces are chosen according the real time needs of~the VAD unit and the SLU unit.

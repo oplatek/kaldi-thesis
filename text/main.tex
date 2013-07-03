@@ -1,3 +1,4 @@
+% !TEX root = main.tex
 % do not remove begin
 \input{begin_settings}
 \input{snippets/c_style}
@@ -20,16 +21,23 @@
 % TODO describe in appendix source structure BUT DO NOT DESCRIBE source code itself
 % ?TODO? put future work to separate chapter before conclusion?
 
-\include{title_pages} 
+% \include{title_pages} 
 % \include{example}
 \include{intro}
-\include{background}
-\include{training}
-\include{decoder}
-\include{integration}
-\include{conclusion}
-% \appendix
-% \include{biblio} % TODO fix the biblio style
+% \include{background}
+% \include{training}
+% \include{decoder}
+% \include{integration}
+% \include{conclusion}
+\appendix
+
+
+\addcontentsline{toc}{chapter}{The bibliography}
+% use http://scholar.google.cz/ find article click cite
+% \nocite{*}
+\bibliographystyle{amsplain}
+\bibliography{citations}
+
 
 % do not remove
 \end{document}
