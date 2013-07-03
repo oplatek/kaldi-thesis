@@ -24,7 +24,7 @@ In this work, we hope to improve speech recognition in the dialog system develop
 The Alex dialog system and this thesis was partly funded by the Ministry of Education, Youth and Sports
 of the Czech Republic under the grant agreement LK11221 for~the~{\it Vystadial project}\/and core research of Charles University in Prague.
 \begin{quote}
-    The main goals of the~{\it Vystadial project}\/:
+    The main goals of the~{\it Vystadial project}\cite{jurcicek2012vystadial}:
     \begin{itemize}
         \item Study and improve methods for learning of statistical models used in dialogue systems. 
         \item Create software infrastructure for remote training and evaluation.
@@ -33,13 +33,13 @@ of the Czech Republic under the grant agreement LK11221 for~the~{\it Vystadial p
     \end{itemize}
 \end{quote}
 
-The Alex dialog system has been using the HTK toolkit\cite{htk} to train acoustic models and the OpenJulius\cite{julius} decoder for real time decoding. Nevertheless, the set up used has several flaws.
+The Alex dialog system has been using the HTK toolkit\cite{young94htk} to train acoustic models and the OpenJulius\cite{lee2009julius} decoder for real time decoding. Nevertheless, the set up used has several flaws.
 
 One of~our main goals is to release the Alex dialog system under Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0.html}}, which is very permissive for users. On the other hand, the HTK toolkit uses quite restrictive license. The license does not allow us to change the source code of~its decoders (HDecode and HVite) and release the changed code under Apache license. Without a~source code modification interfacing the decoder from our dialog system is difficult. In addition, we need to implement specific output formats for speech recognition in order to improve the Alex dialog system.
 
 The other decoder used in Alex is the~OpenJulius decoder, which is released under revised BSD style license. This license is much better from our point of~view. On the other hand, we have experienced software instability using OpenJulius decoder. In addition, OpenJulius seems to be hard to be patched or otherwise improved due to its coding style. Currently, it seems, that the stability problems around OpenJulius are not going to be resolved in near feature.
 
-The Kaldi framework solves the drawbacks of~HTK and OpenJulius. It is released under Apache License, Version 2.0. The same license we want to use. The Kaldi framework is cleanly written and has a~responsive developer community. The decoders implemented in Kaldi already support lattices and confusion networks generation. Currently, the Kaldi framework is mostly used for experimenting and it is not meant for real time usage. However, in August 2012\footnote{The changes were introduced by \href{https://sourceforge.net/p/kaldi/code/1259/}{svn commit 1259}.} Kaldi team published a~testing version of~an online decoder. In this thesis we hope to improve and integrate the online decoder into Alex dialog system for a~real time use.
+The Kaldi\cite{povey2011kaldi} framework solves the drawbacks of~HTK and OpenJulius. It is released under Apache License, Version 2.0. The same license we want to use. The Kaldi framework is cleanly written and has a~responsive developer community. The decoders implemented in Kaldi already support lattices and confusion networks generation. Currently, the Kaldi framework is mostly used for experimenting and it is not meant for real time usage. However, in August 2012\footnote{The changes were introduced by \href{https://sourceforge.net/p/kaldi/code/1259/}{svn commit 1259}.} Kaldi team published a~testing version of~an online decoder. In this thesis we hope to improve and integrate the online decoder into Alex dialog system for a~real time use.
 
 % section why_introducing_new_decoder_and_toolkit_for_training_acoustic_models_ (end)
 

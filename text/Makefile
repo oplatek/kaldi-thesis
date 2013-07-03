@@ -26,11 +26,15 @@ ${NAME}.dvi: $(NAME).tex $(wildcard *.tex) $(wildcard images/*.tex)
 pictures: $(wildcard ${IMAGEDIR}/*.png ${IMAGEDIR}/*.jpg)
 	convert $< `echo $<|sed 's:\(.*\)jpg:\1:'|sed 's:\(.*\)png:\1:'`eps
 
-bib:
+bibrun:
 	latex -src $(NAME)
 	bibtex $(NAME)
 	latex -src $(NAME)
 	latex -src $(NAME).tex
 
+bib: bibrun ps
+
+.PHONY: bibrun bib ps pdf clean
+
 clean:
-	rm -f *.log  *.dvi *.aux *.toc *.lof *.out *.idx *.ilg $(NAME).ps $(NAME).pdf *.bib
+	rm -f *.blg *.bbl *.log  *.dvi *.aux *.toc *.lof *.out *.idx *.ilg $(NAME).ps $(NAME).pdf
