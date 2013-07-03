@@ -1,39 +1,51 @@
 \chapter{Introduction}
 \label{chap:intro}
 
-todo few words
-
-goals with tata remarks
-
-
-overview of thesis
-
-
-(CZ - tips for me)
-Prinos moji diplomky
-  
-stezejni integrace - dialogovy system
-    jedna cesta OpenJulius - one-best OK, lattice malo kvalitni
-
-srovnani OpenJulius
-    Kdo dela lepsi lattice
-    kouknout se na OpenJulius scripty
-    a porovnat je
-
-uvolneni: Budou volne dostupny a pak clanek a tutorial
-o datech o trenovacich sktriptech a o decodovani pres 2 jazyky
+% todo few words
+% 
+% stezejni integrace - dialogovy system
+%     jedna cesta OpenJulius - one-best OK, lattice malo kvalitni
+% 
+% srovnani OpenJulius
+%     Kdo dela lepsi lattice
+%     kouknout se na OpenJulius scripty
+%     a porovnat je
+% 
+% uvolneni: Budou volne dostupny a pak clanek a tutorial
+% o datech o trenovacich sktriptech a o decodovani pres 2 jazyky
 
 
+\todo{ Few words intro we explain the objectives for integrating Kaldi framework into the~Vystadial dialog system. Vystadial is spoken dialogue system internally developed at UFAL MFF.} 
 
-  
-% \chapter{Goals}
-% \label{cha:goals}
-This chapter describes the goals of this thesis. 
-In addition, in~Section~\ref{sec:why} we explain the objectives for integrating Kaldi framework into the~Vystadial dialog system.\footnote{Vystadial is spoken dialogue system internally developed at UFAL MFF.} 
+\section{The problem} 
+\label{sec:why}
+Why introducing a new decoder and toolkit for training acoustic models?
+
+So far, the Vystadial project is using the HTK toolkit to train acoustic models and the OpenJulius decoder for real time decoding.
+Nevertheless, the set up used so far has several flaws.
+
+One of the main goals of the Vystadial project is to release the code under Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0.html}}. It is very important to us, because the licence is very permissive for the users. 
+
+The HTK toolkit uses quite restrictive license. The license does not allow us to change the source code of its decoders (HDecode and HVite) and release the changed code under Apache license. The problem is that we need to modify the source code of decoders. At least for two reasons. Firstly, the interfacing the decoder from Python. Secondly, we need to implement specific input and output formats for speech recognition.
+
+The other option is the~OpenJulius decoder, which is released under revised BSD style license. This license is much better from our point of view. On the other hand, we have experienced software instability during decoding confusion networks using OpenJulius. In addition, OpenJulius seems to be hard to patched or otherwise improved due to its coding style. Currently, it seems, that the stability problems around OpenJulius are not going to be resolved in near feature.
+
+The Kaldi framework solves the drawbacks of HTK and OpenJulius. It is released under Apache License, Version 2.0. The same license we want to use. The Kaldi framework is cleanly written and has a nice developer community.
+The decoders implemented in Kaldi already support lattices and confusion networks generation. 
+
+% FIXME  add that Kaldi has rich training tools - for discriminative training
+
+Currently, the Kaldi framework is used mostly for experimenting and it is not meant for real time used.
+This thesis has put the goal of set up setting for real time decoding using Kaldi framework and create the Python interface for decoding. To conclude, the goals of this thesis fills missing functionality of Kaldi framework from Vystadial project perspective. 
+
+% section why_introducing_new_decoder_and_toolkit_for_training_acoustic_models_ (end)
+
+\section{The goals of the~Thesis} 
+\label{sec:goals}
 
 
-\section{Integration a Kaldi decoder into the Vystadial framework} 
-\label{sec:integrate_kaldi_decoder_into_vystadial_framework}
+\subsection{Integration a Kaldi decoder into the Vystadial framework} 
+\label{sub:integration}
 The Vystadial project is developed in Python language and consist of five major components. 
 The dialog system provides speech to speech interface. The components are linked into pipeline in order to process the~spoken input and to generate speech in one dialog act.
 The pipeline consist of:
@@ -74,16 +86,16 @@ The reason for different ASR outputs is given by the needs of SLU unit. The SLU 
 % section integrate_kaldi_decoder_into_vystadial_framework (end)
 
 
-\section{Development of real time ASR decoder for the Kaldi toolkit}
-\label{sec:kaldi_rt_decoder}
+\subsection{Development of real time ASR decoder for the Kaldi toolkit}
+\label{sub:kaldi_rt_decoder}
 In the Vystadila project we need above all a real time ASR\footnote{The abbreviation ASR stands for automatic speech recognition.} decoder for the Kaldi toolkit. At first, we will identify what prevents the current KALDI decoders from being used as real time decoders. 
 
 Namely, we will explore problems with latency and suggest potential speed improvements e.g. approximations, use of GPU, and so on. Based on the experiments we will suggest the optimal setting for the real time use of Kaldi decoder.
 
 % section development_of_real_time_asr_decoder_for_the_kaldi_toolkit (end)
 
-\section{Training Kaldi acoustic models} 
-\label{sec:training_kaldi_acoustic_models}
+\subsection{Training Kaldi acoustic models} 
+\label{sub:training_kaldi_acoustic_models}
 Well trained models together with real time decoder recognize speech fast and with acceptable quality.
 
 In the Vystadial project the HTK acoustic models have been used with different decoders so far. We will develop training scripts for Kaldi framework which will train acoustic models. The acoustic models will be evaluated using Kaldi decoders, which are not real time decoders. 
@@ -100,8 +112,8 @@ In this thesis we will implement and compare following experiments using Kaldi f
 % section training_kaldi_acoustic_models (end)
  
 
-\section{Comparison of used decoders and Kaldi decoders} 
-\label{sec:compare_rt}
+\subsection{Comparison of used decoders and Kaldi decoders} 
+\label{sub:compare_rt}
 The main stress will be in comparing real time abilities and recognition accuracy. The speed of the decoders will be expressed in terms of real time factor.\footnote{Real time factor $RTF$ is metric for comparing speed of decoders. It is defined as $RTF = \frac{P}{D}$, where $P$ is time of the processing the audio by a decoder on input with length $D$.} The accuracy will be expressed in terms of word error rate (WER).
 
 We will also compare and contrast possibilities of different output formats for each of tested decoders.
@@ -110,30 +122,15 @@ In addition we will take into account the memory consumption and stability of de
 There are HVite, HDecode, OpenJulius and Kaldi decoders to be evaluated.
 % section compare_real_time_abilities_of_already_used_and_kaldi_decoders (end)
 
+% section goals (end)
 
+\section{Outline of the thesis} 
+\label{sec:outline_of_the_thesis}
+In~Chapter~\ref{cha:background} we introduce general speech recognition algorithms. Later, still in~Chapter~\ref{cha:background} we focus on theory around speech recognition with Finite State Automata framework used by Kaldi. In~Chapter~\ref{cha:training} we describe how we trained the acoustic models needed by Kaldi decoder. In addition, we shortly contrast and compare training methods in HTK and Kaldi. Chapter~\ref{cha:decoder} presents the Kaldi real time decoder embedded into our dialog system. We discuss the architecture of the decoder, its properties. We also distinguish what is the original work done by Kaldi team and what are our improvements. At the end of Chapter~\ref{cha:decoder} we describe the qualities of the developed decoder and compare it with other decoders used in our dialog system.
+The~Chapter~\ref{cha:integration} explains how we integrated C++ decoder in our dialog system written in Python.
     
-\section[Why new decoder and toolkit?]{Why introducing a new decoder and toolkit for training acoustic models?} 
-\label{sec:why}
-In previous sections we introduced the goals of this thesis. In this section we argue why is the work necessary at all.
+The speech recognition algorithms described in~Chapter~\ref{cha:background} are meant like short introduction to the~problematic. The~chapter should allow a reader understand differences among decoders described in~Chapter~\ref{cha:decoder}. The~Chapter~\ref{cha:training} explains that Kaldi framework is capable of training acoustic models and decoding with them with no worse accuracy than HTK toolkit. In~Chapter~\ref{cha:integration} we discuss technical difficulties related with integration. 
 
-So far, the Vystadial project is using the HTK toolkit to train acoustic models and the OpenJulius decoder for real time decoding.
-Nevertheless, the set up used so far has several flaws.
+Finally, the~Chapter~\ref{cha:conclusion} summarises the thesis and finishes with future research directions.
 
-One of the main goals of the Vystadial project is to release the code under Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0.html}}. It is very important to us, because the licence is very permissive for the users. 
-
-The HTK toolkit uses quite restrictive license. The license does not allow us to change the source code of its decoders (HDecode and HVite) and release the changed code under Apache license. The problem is that we need to modify the source code of decoders. At least for two reasons. Firstly, the interfacing the decoder from Python. Secondly, we need to implement specific input and output formats for speech recognition.
-
-The other option is the~OpenJulius decoder, which is released under revised BSD style license. This license is much better from our point of view. On the other hand, we have experienced software instability during decoding confusion networks using OpenJulius. In addition, OpenJulius seems to be hard to patched or otherwise improved due to its coding style. Currently, it seems, that the stability problems around OpenJulius are not going to be resolved in near feature.
-
-The Kaldi framework solves the drawbacks of HTK and OpenJulius. It is released under Apache License, Version 2.0. The same license we want to use. The Kaldi framework is cleanly written and has a nice developer community.
-The decoders implemented in Kaldi already support lattices and confusion networks generation. 
-
-% FIXME  add that Kaldi has rich training tools - for discriminative training
-
-Currently, the Kaldi framework is used mostly for experimenting and it is not meant for real time used.
-This thesis has put the goal of set up setting for real time decoding using Kaldi framework and create the Python interface for decoding. To conclude, the goals of this thesis fills missing functionality of Kaldi framework from Vystadial project perspective. 
-
-
-% section why_introducing_new_decoder_and_toolkit_for_training_acoustic_models_ (end)
-
-
+% section outline_of_the_thesis (end)
