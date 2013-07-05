@@ -2,8 +2,59 @@
 \chapter{Background}
 \label{cha:background}
 
+% TODO one goal of the EXPECTED goals of writing thesis 
+%       Show that you understand given topic
+%       Show that you can write and talk about given topic
+
+% TODO Watch NLP again on http://coursera.com check it for references for the good explanations
 \section{General introduction} 
 \label{sec:general_introduction}
+\todo{Speech recognition is a machine learning technique and has many in common with other machine learning task like image recognition, machine translation or even robot navigation}.
+There are many algorithms models which are used both in speech recognition and in other machine learning tasks.
+Let us name a few examples:
+\begin{itemize}
+    \item Markov models are used in Viterbi algorithm as well as in DNA substring matching problem \cite{TODO}.
+    \item Neural Networks are becoming very popular in speech recognition \cite{TODO} and are classic solution for OCR \cite{TODO}.
+    \item Language models are used in machine translation and also in speech recognition. 
+\end{itemize}
+
+In machine learning there are usually distinguished two types of learning algorithms, {\it supervised}\/and {\it unsupervised}.
+In general any training algorithm extract a knowledge from data and stores it into a {\it model}.
+\todo{finish it}
+
+
+\begin{figure}
+    \begin{center}
+    \input{images/supervised-baum-welsh}
+    \caption{Example of supervised learning}
+    \label{fig:supervised-bw} 
+    \end{center}
+\end{figure}
+
+\begin{figure}
+    \begin{center}
+    \input{images/supervised-general}
+    \caption{Supervised learning idea}
+    \label{fig:supervised-gen} 
+    \end{center}
+\end{figure}
+
+
+\begin{figure}
+    \begin{center}
+    \input{images/unsupervised-general}
+    \caption{Unsupervised learning idea}
+    \label{fig:unsupervised-gen} 
+    \end{center}
+\end{figure}
+
+\begin{figure}
+    \begin{center}
+    \input{images/unsupervised-lm}
+    \caption{Example of unsupervised learning}
+    \label{fig:unsupervised-lm} 
+    \end{center}
+\end{figure}
 
 \subsection[MFCC coefficients]{Mel-frequency cepstrum coefficients}
 \label{sub:mel_frequency_cepstrum_coefficients}
@@ -11,6 +62,12 @@
 
 
 % subsection mel_frequency_cepstrum_coefficients (end)
+\subsection{Baum-Welsh algorithm}
+\label{sub:baum_welsh_algorithm}
+
+
+
+% subsection baum_welsh_algorithm (end)
 
 \subsection{Viterbi algorithm}
 \label{sub:viterbi_algorithm}

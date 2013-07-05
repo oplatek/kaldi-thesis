@@ -45,16 +45,18 @@ The Kaldi\cite{povey2011kaldi} framework solves the drawbacks of~HTK and OpenJul
 
 % section why_introducing_new_decoder_and_toolkit_for_training_acoustic_models_ (end)
 
-\section{The goals of~the~Thesis} 
+\section{The goals of~the~thesis} 
 \label{sec:goals}
-Let us introduce the goals of~this thesis.
+Let us introduce the goals of~this thesis. Each of~the~goals is described in one of subsections below. Note, that the goals are described in top down approach.
+At first, we introduce the goal of integration the final real-time decoder into our~dialog system, and later we specify subgoals needed for the integration.
+At~last, we promise to evaluate the work done.
 
-\subsection{Integration a~Kaldi decoder into the dialog system} 
+\subsection{A~real-time decoder integration} 
 \label{sub:integration}
 The Alex dialog system is developed in Python language and consist of~six major components. 
 \begin{enumerate}
     \item Voice Activity Detection (VAD)
-    \item Automatic Speech Recognition (ASR) --- Here we run one of~our decoders.
+    \item Automatic Speech Recognition (ASR) 
     \item Spoken Language Understanding (SLU)
     \item Dialog Manager (DM)
     \item Natural Language Generation (NLG)
@@ -92,7 +94,7 @@ The decoder for our system should be able to generate {\it n-best lists}, {\it l
 % section integrate_kaldi_decoder_into_vystadial_framework (end)
 
 
-\subsection{Development of~real time decoder}
+\subsection{Development of~a~real time decoder}
 \label{sub:kaldi_rt_decoder}
 In the our dialog system we need above all a~real time decoder for the Kaldi toolkit. At first, we will identify what prevents the current KALDI decoders from being used as real time decoders. 
 
@@ -100,15 +102,14 @@ Namely, we will explore problems with latency and suggest potential speed improv
 
 % section development_of_real_time_asr_decoder_for_the_kaldi_toolkit (end)
 
-\subsection{Training acoustic models and language model} 
+\subsection{Training acoustic models and a~language model} 
 \label{sub:training_kaldi_acoustic_models}
-Every modern continuous speech recognition engine requires two pre trained components, acoustic model and language model.
-We will focus on finding the best acoustic model for the~Kaldi toolkit. The main reason is that we want to compare HTK and Kaldi toolkit accuracy and we can reuse the already built language model for HTK.
-The other reason is that a language model is very domain dependent. We want to use our Alex dialog system in other domains except Prague public transport, so we do not focus on language modeling. 
+Every modern continuous speech recognition engine requires two pre trained components, an~acoustic model and a~language model. We will focus on finding the best acoustic model for the~Kaldi toolkit. We will use a basic language model, because we want to compare HTK and Kaldi toolkit acoustic models accuracy.  In addition, we can reuse the already built language model for HTK. Other reason is that a language model is very domain dependent. % FIXME add citation LM are domain dependent
+We want to use our Alex dialog system in other domains except Prague public transport, so we do not focus on language modeling. 
 
 We have been using the HTK acoustic models together with OpenJulius and HTK decoders. We will develop training scripts for acoustic models using Kaldi toolkit. The acoustic models will be evaluated using different Kaldi decoders and the same language model as used in HTK training scripts. 
 
-During the phase of~training acoustic models, we focus mainly on the quality of~the decoded output rather than on the speed of~the decoding itself. 
+During the phase of~training acoustic models, we focus mainly on the quality of~the decoded output rather than on the speed of~decoding itself. 
 % We would like to achieve at least as accurate decoding with Kaldi acoustic models as we have achieved with HTK models. In this thesis we will set up and evaluate following experiments using Kaldi:
 We would like to achieve at least as accurate decoding with Kaldi as we have achieved with HTK. In this thesis we will set up and evaluate following experiments using Kaldi:
 \begin{itemize}
@@ -121,28 +122,29 @@ We would like to achieve at least as accurate decoding with Kaldi as we have ach
 
 \subsection{Evaluating decoders} 
 \label{sub:compare_rt}
-After finding the best acoustic models for current Kaldi decoders we will balance accuracy and speed of~speech decoding.
-The speed of~the decoders will be expressed in terms of~real time factor.\footnote{Real time factor $RTF$ is metric for comparing speed of~decoders. It is defined as $RTF = \frac{P}{D}$, where $P$ is time of~the processing the audio by a~decoder on input with length $D$.} The accuracy will be expressed in terms of~word error rate (WER).
-
-We will also compare and contrast possibilities of~different output formats for each of~tested decoders. The~memory consumption and the~stability of~decoders will be also evaluated. 
-
-Following decoders will be tested:
+After training acoustic models with~sufficient quality we will balance accuracy and speed for the Kaldi online decoder. Trading decoding speed for a speech recognition accuracy is common technique for speeding up decoders and can be applied on all decoders of interests. We will evaluate following decoders:
 \begin{itemize}
-    \item HVite
-    \item HDecode
-    \item OpenJulius
+    \item HVite  % FIXME test this through Subprocess
+    \item HDecode % FIXME test this through Subprocess
+    \item OpenJulius % FIXME test this through Subprocess/Sockets
+    \item Kaldi decoders
     \item Improved online Kaldi decoder
 \end{itemize}
+
+The speed of~the decoders will be expressed in terms of~real time factor.\footnote{Real time factor $RTF$ is metric for comparing speed of~decoders. It is defined as $RTF = \frac{P}{D}$, where $P$ is time of~the processing the audio by a~decoder on input with length $D$.} The accuracy will be expressed in terms of~word error rate (WER).
+
+We will also compare and contrast possibilities of~different output formats for each of~tested decoders. The~memory consumption and the~stability of~decoders will be also observed. 
+
 % section compare_real_time_abilities_of_already_used_and_kaldi_decoders (end)
 
 % section goals (end)
 
 \section{Outline of~the thesis} 
 \label{sec:outline_of_the_thesis}
-In~Chapter~\ref{cha:background} we introduce general speech recognition algorithms. Later, still in~Chapter~\ref{cha:background} we focus on theory around speech recognition with Finite State Automata~framework used by Kaldi. In~Chapter~\ref{cha:training} we describe how we trained the acoustic models needed by Kaldi decoder. In addition, we shortly contrast and compare training methods in HTK and Kaldi. Chapter~\ref{cha:decoder} presents the Kaldi real time decoder embedded into our dialog system. We discuss the architecture of~the decoder, its properties. We also distinguish what is the original work done by Kaldi team and what are our improvements. At the end of~Chapter~\ref{cha:decoder} we describe the qualities of~the developed decoder and compare it with other decoders used in our dialog system.
+In~Chapter~\ref{cha:background} we introduce speech recognition algorithms. At first we introduce standard algorithms. Later, we focus on Finite State Automata~framework used by Kaldi. In~Chapter~\ref{cha:training} we describe how we trained the acoustic models needed by Kaldi decoder. In addition, we shortly contrast and compare training methods in HTK and Kaldi. Chapter~\ref{cha:decoder} presents the Kaldi real time decoder embedded into our dialog system. We discuss the architecture of~the decoder, its properties. We also distinguish what is the original work done by Kaldi team and what are our improvements. At the end of~Chapter~\ref{cha:decoder} we describe the qualities of~the developed decoder and compare it with other decoders used in our dialog system.
 The~Chapter~\ref{cha:integration} explains how we integrated C++ decoder in our dialog system written in Python.
     
-The speech recognition algorithms described in~Chapter~\ref{cha:background} are meant like short introduction to the~problematic. The~chapter should allow a~reader understand differences among decoders described in~Chapter~\ref{cha:decoder}. The~Chapter~\ref{cha:training} explains that Kaldi framework is capable of~training acoustic models and decoding with them with no worse accuracy than HTK toolkit. In~Chapter~\ref{cha:integration} we discuss technical difficulties related with integration. 
+The speech recognition algorithms described in~Chapter~\ref{cha:background} are meant like short introduction to the~problematic, which allow readers understand next chapters. The~Chapter~\ref{cha:training} explains that Kaldi framework is capable of~training acoustic models and decoding with them with no worse accuracy than HTK toolkit. In~Chapter~\ref{cha:integration} we discuss technical difficulties related with integration. 
 
 Finally, the~Chapter~\ref{cha:conclusion} summarises the thesis and finishes with future research directions.
 
