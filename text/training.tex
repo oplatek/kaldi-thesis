@@ -23,14 +23,14 @@ Corresponding \ac{HTK} results could be found at
 
 Shortcuts used:
 \begin{itemize}
-    \item {\bf \ac{RTF} coef} = Minimum over number of jobs for each tasks
-    \item {\bf \ac{WER}, \ac{SER}} = Minimum over iterations 9--20 of rescoring for each tasks, 
+    \item \bf \ac{RTF} = Minimum over number of jobs for each tasks
+    \item \bf \ac{WER}, \ac{SER} = Minimum over iterations 9--20 of rescoring for each tasks, 
         (The iterations for \ac{WER} (\ac{SER}) minimum is the second number in the brackets)
 \end{itemize}
 
 \subsection*{Data classic}
 
-\begin{figure}[htp] \centering{
+\begin{table}[htp] \centering{
 \begin{tabular}{cccc}
 exp             & \ac{RTF}       & \ac{WER}         & \ac{SER}        \\
 tri2b-mpe       & 0.88688125     & (23.54, 20) & (51.73, 20)\\
@@ -50,10 +50,10 @@ tri3b-fmmi-d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
 \end{tabular}
 \caption{1.\ experiment kaldi-vystadial-recipe commit cf40202263450c72b4f8ef9aa8d6b7f03ac59814.
 Initial Kaldi setup according Voxforge recipe.}
-}\end{figure}  
+}\end{table}  
 
 
-\begin{figure}[htp] \centering{
+\begin{table}[htp] \centering{
 \begin{tabular}{cccc}
 exp             & \ac{RTF}      & \ac{WER}         & \ac{SER}        \\
 -ri3b-fmmi-b    & 10.422085     & (19.64, 14) & (45.07, 11)\\
@@ -73,14 +73,14 @@ tri3b-fmmi-d    & 9.047925      & (19.42, 15) & (45.07, 12)
 \end{tabular}
 \caption{2.\ experiment kaldi-vystadial-recipe commit 10fe1128519aa263ab805216e381d15378d74821.
 Adjust according \ac{HTK} parameters in order to compare to \ac{HTK} models.}
-}\end{figure}  
+}\end{table}  
 
 
 \clearpage
 \subsection*{Data vystadial}
 
 
-\begin{figure}[htp] \centering{
+\begin{table}[htp] \centering{
 \begin{tabular}{cccc}
 exp             & \ac{RTF}       & \ac{WER}         & \ac{SER}        \\
 -ri3b-fmmi-b    & 8.49685875     & (11.32, 15) & (32.6, 20) \\
@@ -100,10 +100,10 @@ tri3b-fmmi-d    & 6.58549958333  & (11.86, 13) & (33.25, 12)
 \end{tabular}
 \caption{3.\ experiment kaldi-vystadial-recipe commit 585de385922b431881dfd2508567917045a104ab.
 {\bf CHEATING! TEST DATA ARE SUBSET OF TRAIN DATA} on data /ha/projects/vystadial/data/asr/en/voip/{train.old, test.old}}
-}\end{figure}  
+}\end{table}  
 
 
-\begin{figure}[htp] \centering{
+\begin{table}[htp] \centering{
 \begin{tabular}{cccc}
 exp             & \ac{RTF}      & \ac{WER}         & \ac{SER}        \\
 -ri3b-fmmi-b    & 10.5736754167 & (16.87, 16) & (40.62, 16)\\
@@ -125,10 +125,10 @@ tri3b-fmmi-d    & 8.39958958333 & (16.9, 13)  & (40.62, 17)
 \ac{HTK} like parameters.
 (/ha/projects/vystadial/data/asr/en/voip/{train, test}).
 }
-}\end{figure}  
+}\end{table}  
 
 
-\begin{figure}[htp] \centering{
+\begin{table}[htp] \centering{
 \begin{tabular}{cccc}
 exp             & \ac{RTF}      & \ac{WER}         & \ac{SER}        \\
 -ri3b-fmmi-b    & 14.6555625    & (15.57, 19) & (37.9, 14) \\
@@ -150,9 +150,9 @@ tri3b-fmmi-d    & 10.4809795833 & (15.62, 14) & (38.03, 16)
 Data vystadial (/ha/projects/vystadial/data/asr/en/voip/{train, test})
 Removed \ac{OOV} words from \ac{LM} $\longrightarrow$ decoder is not trained for \ac{OOV}s and does not produce
 any symbol for \ac{OOV}.}
-}\end{figure}  
+}\end{table}  
 
-\begin{figure}[htp] \centering{
+\begin{table}[htp] \centering{
 \begin{tabular}{cccc}
     exp             & \ac{RTF}    & \ac{WER}         & \ac{SER}        \\
     -ri3b-fmmi-b    & 11.33336625 & (19.42, 15) & (45.07, 13)\\
@@ -174,7 +174,7 @@ any symbol for \ac{OOV}.}
 Data classic (todo)
 Removed \ac{OOV} words from \ac{LM} $\longrightarrow$ decoder is not trained for \ac{OOV}s and does not produce
 any symbol for \ac{OOV}.}
-}\end{figure}  
+}\end{table}  
 
 % section Experiment results (end)
 
