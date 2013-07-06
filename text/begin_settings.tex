@@ -1,7 +1,8 @@
 % !TEX root = main.tex
 
 %% Version for 2 side printing:
-\documentclass[12pt,a4paper,twoside,openright]{book}
+\documentclass[12pt,a4paper,twoside,openright,headings=optiontohead]{scrbook}
+
 \setlength\textwidth{145mm}
 \setlength\textheight{247mm}
 \setlength\oddsidemargin{15mm}
@@ -37,6 +38,7 @@
 \usepackage{pst-plot} % For axes
 
 
+
 % hyperref MUST BE the LAST PACKAGE
 %\usepackage[ps2pdf,unicode]{hyperref}   
 \usepackage[unicode]{hyperref}
@@ -44,6 +46,8 @@
 \hypersetup{pdftitle=Automatic speech recognition using Kaldi}   
 \hypersetup{pdfauthor=Ond\^{r}ej Pl\'{a}tek}
 
+% options of package described at:http://tex.stackexchange.com/questions/25520/how-can-i-use-the-latex-acronym-package-and-optionally-create-an-acronym-list-i
+\usepackage[printonlyused,withpage]{acronym}
 
 %%% MACROS %%%% 
 % Tato makra přesvědčují mírně ošklivým trikem LaTeX, aby hlavičky kapitol

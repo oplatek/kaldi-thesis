@@ -13,11 +13,11 @@
 %       Show that you understand given topic
 %       Show that you can write and talk about given topic
 
-Research on field of speech recognition began more than \todo{30} years ago. The statistical approach based on {\it Hidden Markov Models (HMM)} established itself very early and nowadays it is de facto standard. If we speak about speech recognition in~this thesis we mean speech recognition based on Hidden Markov Models. 
+Research on field of speech recognition began more than \todo{30} years ago. The statistical approach based on \ac{HMM} established itself very early and nowadays it is de facto standard. If we speak about speech recognition in~this thesis we mean speech recognition based on Hidden Markov Models. 
 
 Section~\ref{sec:general_introduction} provides an~introduction into classical speech recognition. It concisely describes components of speech recognition system. Algorithms for training acoustic and language models as well for decoding are explained. In~Section~\ref{sec:fst} the speech recognition with Finite State Transducers is motivated.
 
-\section{Speech recognition based on HMM} 
+\section{Speech recognition based on \ac{HMM}} 
 \label{sec:general_introduction}
 Let us gently introduce speech recognition. We will focus on the algorithms and approaches used in next chapters. For simplicity,
 let us suppose that the~output of speech recognition is the textual transcription of the input audio. In~Subsection~\ref{sub:lattice} we will define
@@ -30,7 +30,7 @@ lattices as other possible output format.
 Speech recognition is a classic machine learning technique and has many in common with other machine learning task. There are many algorithms models which are used both in speech recognition and in other machine learning tasks.
 Let us name a few examples:
 \begin{itemize}
-    \item Markov models are used in Viterbi algorithm as well as in DNA substring matching problem.
+    \item Markov models are used in Viterbi algorithm as well as in \ac{DNA} substring matching problem.
     \item Neural Networks are getting popular in speech recognition and are classic solution for hand written text recognition.
     \item Language models are used in machine translation and also in speech recognition. 
 \end{itemize}
@@ -62,13 +62,13 @@ Acoustic models are trained using supervised learning. Language models are train
 % subsection speech_recognition_as_machine_learning_task (end)
 
 
-\todo{Bayes rules: acoustic model $P(text|give acoustic signal)$,  LM $P(text)$}
+\todo{Bayes rules: acoustic model $P(text|give acoustic signal)$,  \ac{LM} $P(text)$}
 
 
 
 
 
-\subsection[MFCC coefficients]{Mel-frequency cepstrum coefficients}
+\subsection[MFCC coefficients]{\ac{MFCC}}
 \label{sub:mel_frequency_cepstrum_coefficients}
 
 
@@ -123,7 +123,7 @@ Acoustic models are trained using supervised learning. Language models are train
 \end{itemize}
 
 \subsubsection*{Decoding graph construction} % (fold)
-Kaldi uses Finite-State Transducers (FST) as underlaying representation for all models, which are used to decoding. Consequently, training and decoding of models in Kaldi can be expressed as sequence of operations above FSTs.
+Kaldi uses \ac{FST} as underlaying representation for all models, which are used to decoding. Consequently, training and decoding of models in Kaldi can be expressed as sequence of operations above \acp{FST}.
 
 Decoding is performed using a final result of training, so called {\it decoding graph}. 
 From the high level point of view,
@@ -132,14 +132,14 @@ during training we are constructing the decoding graph
 HCLG = H\circ C\circ L\circ G
 \end{equation}.
 
-The symbol $\circ$ represents an associative binary operation of composition on FST.
-Namely, the transducers appearing in equation \ref{eq:hclg} are:
+The symbol $\circ$ represents an associative binary operation of composition on \acp{FST}.
+Namely, the transducers appearing in~Equation~\ref{eq:hclg} are:
 \begin{enumerate}
     % source  http://kaldi.sourceforge.net/graph.html
     \item G is an acceptor that encodes the grammar or language model.
     \item L is the lexicon. Its input symbols are phones. Its output symbols are words.
     \item C represents the relationship between context-dependent phones on input and phones on output.
-    \item H contains the HMM definitions, which takes as input id number of Probability Density function (PDF) and returns context-dependent phones.
+    \item H contains the \ac{HMM} definitions, that take as input id number of~\acp{PDF} and return context-dependent phones.
 \end{enumerate}
 
 Following one liner illustrates how Kaldi creates the decoding graph. 
@@ -150,12 +150,12 @@ Let us explain the shortcuts in the list below. Note that the operation are desc
 at page \href{http://kaldi.sourceforge.net/fst_algo.html#fst_algo_stochastic} {Finite State Transducer algorithms in Kaldi}. 
 % The source code of these operations is in fstext and corresponding command-line program are in fstbin/
 \begin{itemize}
-    \item asl - Add self loops to FST
-    \item rds - Remove disambiguation symbols from FST
-    \item H' is FST H without self loops
-    \item min - FST minimization
-    \item $A\circ B$  - Composition of FSTs $A$ and $B$.
-    \item det - Determinization of FST
+    \item asl - Add self loops to \ac{FST}
+    \item rds - Remove disambiguation symbols from \ac{FST}
+    \item H' is \ac{FST} H without self loops
+    \item min -\ac{FST} minimization
+    \item $A\circ B$  - Composition of \ac{FST} $A$ and $B$.
+    \item det - Determinization of \ac{FST}
 \end{itemize}
 
 {\bf Kaldi stochasticity} - weights of outgoing arcs sum to 1.

@@ -8,7 +8,7 @@
 
 % section introduction_to_training_acoustic_models (end)
 
-\section[Kaldi vs HTK]{Kaldi vs HTK training scripts and its capabilities} 
+\section[Kaldi vs \ac{HTK}]{Kaldi vs \ac{HTK} training scripts and its capabilities} 
 \label{sec:kaldi_htk}
 
 % section kaldi_vs_htk_training_scripts_and_its_capabilities (end)
@@ -18,21 +18,21 @@
 
 The quality is measured on the decoder output for each acoustic model used. The measures used depends on the decoder output. On the other hand, all of the decoders used are capable of decoding the acoustic signal into textual representation. 
 
-Corresponding HTK results could be found at
+Corresponding \ac{HTK} results could be found at
 \href{https://redmine.ms.mff.cuni.cz/projects/vystadial/wiki/Acoustic_models/} {Vystadial Redmine Wiki}
 
 Shortcuts used:
 \begin{itemize}
-    \item {\bf RT coef} = Minimum over number of jobs for each tasks
-    \item {\bf WER, SER} = Minimum over iterations 9--20 of rescoring for each tasks, 
-        (The iterations for WER (SER) minimum is the second number in the brackets)
+    \item {\bf \ac{RTF} coef} = Minimum over number of jobs for each tasks
+    \item {\bf \ac{WER}, \ac{SER}} = Minimum over iterations 9--20 of rescoring for each tasks, 
+        (The iterations for \ac{WER} (\ac{SER}) minimum is the second number in the brackets)
 \end{itemize}
 
 \subsection*{Data classic}
 
 \begin{figure}[htp] \centering{
 \begin{tabular}{cccc}
-exp             & RT coef        & WER         & SER        \\
+exp             & \ac{RTF}       & \ac{WER}         & \ac{SER}        \\
 tri2b-mpe       & 0.88688125     & (23.54, 20) & (51.73, 20)\\
 mono            & 3.2617725      & (50.3, 20)  & (75.07, 20)\\
 tri3b-mmi       & 0.807879083333 & (22.73, 19) & (50.53, 15)\\
@@ -55,7 +55,7 @@ Initial Kaldi setup according Voxforge recipe.}
 
 \begin{figure}[htp] \centering{
 \begin{tabular}{cccc}
-exp             & RT coef       & WER         & SER        \\
+exp             & \ac{RTF}      & \ac{WER}         & \ac{SER}        \\
 -ri3b-fmmi-b    & 10.422085     & (19.64, 14) & (45.07, 11)\\
 tri2b-mpe       & 2.09137125    & (22.06, 15) & (49.6, 14) \\
 mono            & 3.4773675     & (48.69, 18) & (74.4, 18) \\
@@ -72,7 +72,7 @@ tri2b-denlats   & 1.196845      & None        & None       \\
 tri3b-fmmi-d    & 9.047925      & (19.42, 15) & (45.07, 12)
 \end{tabular}
 \caption{2.\ experiment kaldi-vystadial-recipe commit 10fe1128519aa263ab805216e381d15378d74821.
-Adjust according HTK parameters in order to compare to HTK models.}
+Adjust according \ac{HTK} parameters in order to compare to \ac{HTK} models.}
 }\end{figure}  
 
 
@@ -82,7 +82,7 @@ Adjust according HTK parameters in order to compare to HTK models.}
 
 \begin{figure}[htp] \centering{
 \begin{tabular}{cccc}
-exp             & RT coef        & WER         & SER        \\
+exp             & \ac{RTF}       & \ac{WER}         & \ac{SER}        \\
 -ri3b-fmmi-b    & 8.49685875     & (11.32, 15) & (32.6, 20) \\
 tri2b-mpe       & 1.042053       & (12.7, 19)  & (36.61, 19)\\
 mono            & 2.46068        & (43.51, 13) & (64.17, 15)\\
@@ -105,7 +105,7 @@ tri3b-fmmi-d    & 6.58549958333  & (11.86, 13) & (33.25, 12)
 
 \begin{figure}[htp] \centering{
 \begin{tabular}{cccc}
-exp             & RT coef       & WER         & SER        \\
+exp             & \ac{RTF}      & \ac{WER}         & \ac{SER}        \\
 -ri3b-fmmi-b    & 10.5736754167 & (16.87, 16) & (40.62, 16)\\
 tri2b-mpe       & 1.2229925     & (17.34, 14) & (41.53, 16)\\
 mono            & 2.81766       & (41.59, 13) & (65.72, 15)\\
@@ -122,7 +122,7 @@ tri2b-denlats   & 1.00629875    & None        & None       \\
 tri3b-fmmi-d    & 8.39958958333 & (16.9, 13)  & (40.62, 17)
 \end{tabular}
 \caption{4.\ experiment kaldi-vystadial-recipe commit 585de385922b431881dfd2508567917045a104ab.
-HTK like parameters.
+\ac{HTK} like parameters.
 (/ha/projects/vystadial/data/asr/en/voip/{train, test}).
 }
 }\end{figure}  
@@ -130,7 +130,7 @@ HTK like parameters.
 
 \begin{figure}[htp] \centering{
 \begin{tabular}{cccc}
-exp             & RT coef       & WER         & SER        \\
+exp             & \ac{RTF}      & \ac{WER}         & \ac{SER}        \\
 -ri3b-fmmi-b    & 14.6555625    & (15.57, 19) & (37.9, 14) \\
 tri2b-mpe       & 2.4290175     & (16.25, 16) & (41.4, 20) \\
 mono            & 4.68498       & (43.02, 14) & (65.59, 13)\\
@@ -148,13 +148,13 @@ tri3b-fmmi-d    & 10.4809795833 & (15.62, 14) & (38.03, 16)
 \end{tabular}
 \caption{5.\ experiment kaldi-vystadial commit 4e96c6704785b2476daf26e0b39eec95f3157f1e.
 Data vystadial (/ha/projects/vystadial/data/asr/en/voip/{train, test})
-Removed OOV words from LM $\longrightarrow$ decoder is not trained for OOVs and does not produce
-any symbol for OOV.}
+Removed \ac{OOV} words from \ac{LM} $\longrightarrow$ decoder is not trained for \ac{OOV}s and does not produce
+any symbol for \ac{OOV}.}
 }\end{figure}  
 
 \begin{figure}[htp] \centering{
 \begin{tabular}{cccc}
-    exp             & RT coef     & WER         & SER        \\
+    exp             & \ac{RTF}    & \ac{WER}         & \ac{SER}        \\
     -ri3b-fmmi-b    & 11.33336625 & (19.42, 15) & (45.07, 13)\\
     tri2b-mpe       & 1.2307175   & (21.22, 19) & (48.8, 15) \\
     mono            & 2.8952      & (49.88, 18) & (74.93, 17)\\
@@ -172,8 +172,8 @@ any symbol for OOV.}
 \end{tabular}
 \caption{6.\ experiment kaldi-vystadial commit aa7263b3f5c151409a87e3d845d58e39335a4f0c.
 Data classic (todo)
-Removed OOV words from LM $\longrightarrow$ decoder is not trained for OOVs and does not produce
-any symbol for OOV.}
+Removed \ac{OOV} words from \ac{LM} $\longrightarrow$ decoder is not trained for \ac{OOV}s and does not produce
+any symbol for \ac{OOV}.}
 }\end{figure}  
 
 % section Experiment results (end)

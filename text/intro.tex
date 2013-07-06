@@ -17,7 +17,7 @@
 
 A spoken dialog is the most intuitive way of~communication among people. Nowadays, the spoken dialog is becoming popular choice of~communication even for human-device interaction. The quality of~a~dialog largely depends on the quality of~speech recognition, because the~reasoning and the~reply is based on the recognized speech. 
 
-In this work, we hope to improve speech recognition in the dialog system developed at UFAL MFF UK, called Alex. One of~the application of~our dialog system Alex is a~public phone call service, where a~user can ask Alex about navigation in Prague public transport.
+In this work, we hope to improve speech recognition in the dialog system developed at \acs{UFAL} \acs{MFF} \acs{UK}, called Alex. One of~the application of~our dialog system Alex is a~public phone call service, where a~user can ask Alex about navigation in Prague public transport.
 
 \section{The problem} 
 \label{sec:why}
@@ -33,15 +33,15 @@ Let us cite the main goals of~the~{\it Vystadial project}\cite{jurcicek2012vysta
     \end{itemize}
 \end{quote}
 
-The Alex dialog system has been using the HTK toolkit\cite{young94htk} to train acoustic models and the OpenJulius\cite{lee2009julius} decoder for real time decoding. Nevertheless, the used set up has several flaws.
+The Alex dialog system has been using the \ac{HTK} toolkit\cite{young94htk} to train acoustic models and the OpenJulius\cite{lee2009julius} decoder for real time decoding. Nevertheless, the used set up has several flaws.
 
-One of~our main goals is to release the Alex dialog system under Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}, which is very permissive for users. On the other hand, the HTK toolkit uses quite restrictive license. The license does not allow us to change the source code of~its decoders (HDecode and HVite) and release the changed code under Apache license. 
+One of~our main goals is to release the Alex dialog system under Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}, which is very permissive for users. On the other hand, the \ac{HTK} toolkit uses quite restrictive license. The license does not allow us to change the source code of~its decoders (HDecode and HVite) and release the changed code under Apache license. 
 
 Without a~source code modification interfacing the decoder from our dialog system is difficult. In addition, we need to implement specific output formats for speech recognition in order to improve the Alex dialog system.
 
 The other decoder used in Alex is the~OpenJulius decoder, which is released under revised BSD style license. This license is much better from our point of~view. On the other hand, we have experienced software instability using OpenJulius decoder. In addition, OpenJulius seems to be hard to be patched or otherwise improved due to its coding style. Currently, it seems, that the stability problems around OpenJulius are not going to be resolved in near feature.
 
-The Kaldi\cite{povey2011kaldi} framework solves the drawbacks of~HTK and OpenJulius. It is released under Apache License, Version 2.0. The same license we want to use. The Kaldi framework is cleanly written and has a~responsive developer community. The decoders implemented in Kaldi already support lattices and confusion networks generation. Currently, the Kaldi framework is mostly used for experimenting and it is not meant for real time usage. However, in August 2012\footnote{The changes were introduced by \href{https://sourceforge.net/p/kaldi/code/1259/}{svn commit 1259}.} Kaldi team published a~testing version of~an online decoder. In this thesis we hope to improve and integrate the online decoder into Alex dialog system for a~real time use.
+The Kaldi\cite{povey2011kaldi} framework solves the drawbacks of~\ac{HTK} and OpenJulius. It is released under Apache License, Version 2.0. The same license we want to use. The Kaldi framework is cleanly written and has a~responsive developer community. The decoders implemented in Kaldi already support lattices and confusion networks generation. Currently, the Kaldi framework is mostly used for experimenting and it is not meant for real time usage. However, in August 2012\footnote{The changes were introduced by \href{https://sourceforge.net/p/kaldi/code/1259/}{svn commit 1259}.} Kaldi team published a~testing version of~an online decoder. In this thesis we hope to improve and integrate the online decoder into Alex dialog system for a~real time use.
 
 % section why_introducing_new_decoder_and_toolkit_for_training_acoustic_models_ (end)
 
@@ -98,23 +98,23 @@ The decoder for our system should be able to generate {\it n-best lists}, {\it l
 \label{sub:kaldi_rt_decoder}
 In the our dialog system we need above all a~real time decoder for the Kaldi toolkit. At first, we will identify what prevents the current Kaldi decoders from being used as real time decoders. 
 
-Namely, we will explore problems with latency and suggest potential speed improvements e.g.\ approximations, use of~GPU, and so on. Based on the experiments we will suggest the optimal setting for the real time use of~Kaldi decoder.
+Namely, we will explore problems with latency and suggest potential speed improvements e.g.\ approximations, use of~\ac{GPU}, and so on. Based on the experiments we will suggest the optimal setting for the real time use of~Kaldi decoder.
 
 % section development_of_real_time_asr_decoder_for_the_kaldi_toolkit (end)
 
 \subsection{Training acoustic models and a~language model} 
 \label{sub:training_kaldi_acoustic_models}
-Every modern continuous speech recognition engine requires two pre trained components, an~acoustic model and a~language model. We will focus on finding the best acoustic model for the~Kaldi toolkit. We will use a basic language model, because we want to compare HTK and Kaldi toolkit acoustic models accuracy.  In addition, we can reuse the already built language model for HTK. Other reason is that a language model is very domain dependent. % FIXME add citation LM are domain dependent
+Every modern continuous speech recognition engine requires two pre trained components, an~acoustic model and a~language model. We will focus on finding the best acoustic model for the~Kaldi toolkit. We will use a basic language model, because we want to compare \ac{HTK} and Kaldi toolkit acoustic models accuracy.  In addition, we can reuse the already built language model for \ac{HTK}. Other reason is that a language model is very domain dependent. % FIXME add citation LM are domain dependent
 We want to use our Alex dialog system in other domains except Prague public transport, so we do not focus on language modeling. 
 
-We have been using the HTK acoustic models together with OpenJulius and HTK decoders. We will develop training scripts for acoustic models using Kaldi toolkit. The acoustic models will be evaluated using different Kaldi decoders and the same language model as used in HTK training scripts. 
+We have been using the \ac{HTK} acoustic models together with OpenJulius and \ac{HTK} decoders. We will develop training scripts for acoustic models using Kaldi toolkit. The acoustic models will be evaluated using different Kaldi decoders and the same language model as used in \ac{HTK} training scripts. 
 
 During the phase of~training acoustic models, we focus mainly on the quality of~the decoded output rather than on the speed of~decoding itself. 
-% We would like to achieve at least as accurate decoding with Kaldi acoustic models as we have achieved with HTK models. In this thesis we will set up and evaluate following experiments using Kaldi:
-We would like to achieve at least as accurate decoding with Kaldi as we have achieved with HTK. In this thesis we will set up and evaluate following experiments using Kaldi:
+% We would like to achieve at least as accurate decoding with Kaldi acoustic models as we have achieved with \ac{HTK} models. In this thesis we will set up and evaluate following experiments using Kaldi:
+We would like to achieve at least as accurate decoding with Kaldi as we have achieved with \ac{HTK}. In this thesis we will set up and evaluate following experiments using Kaldi:
 \begin{itemize}
     \item Standard generative training
-    \item Learning linear transformations (e.g. HLDA\footnote{The abbreviation HLDA stands for heteroscedastic linear discriminant analysis.})
+    \item Learning linear transformations (e.g. \ac{HLDA})
     \item Discriminative training 
 \end{itemize}
 % section training_kaldi_acoustic_models (end)
@@ -131,7 +131,7 @@ After training acoustic models with~sufficient quality we will balance accuracy 
     \item Improved online Kaldi decoder
 \end{itemize}
 
-The speed of~the decoders will be expressed in terms of~real time factor.\footnote{Real time factor $RTF$ is metric for comparing speed of~decoders. It is defined as $RTF = \frac{P}{D}$, where $P$ is time of~the processing the audio by a~decoder on input with length $D$.} The accuracy will be expressed in terms of~word error rate (WER).
+The speed of~the decoders will be expressed in terms of~\ac{RTF}\footnote{\ac{RTF} is metric for comparing speed of~decoders. It is defined as $\ac{RTF} = \frac{P}{D}$, where $P$ is time of~the processing the audio by a~decoder on input with length $D$.}. The accuracy will be expressed in terms of~\ac{WER}.
 
 We will also compare and contrast possibilities of~different output formats for each of~tested decoders. The~memory consumption and the~stability of~decoders will be also observed. 
 
@@ -141,10 +141,10 @@ We will also compare and contrast possibilities of~different output formats for 
 
 \section{Outline of~the thesis} 
 \label{sec:outline_of_the_thesis}
-In~Chapter~\ref{cha:background} we introduce speech recognition algorithms. At first we introduce standard algorithms. Later, we focus on Finite State Automata~framework used by Kaldi. In~Chapter~\ref{cha:training} we describe how we trained the acoustic models needed by Kaldi decoder. In addition, we shortly contrast and compare training methods in HTK and Kaldi. Chapter~\ref{cha:decoder} presents the Kaldi real time decoder embedded into our dialog system. We discuss the architecture of~the decoder, its properties. We also distinguish what is the original work done by Kaldi team and what are our improvements. At the end of~Chapter~\ref{cha:decoder} we describe the qualities of~the developed decoder and compare it with other decoders used in our dialog system.
+In~Chapter~\ref{cha:background} we introduce speech recognition algorithms. At first we introduce standard algorithms. Later, we focus on Finite State Automata~framework used by Kaldi. In~Chapter~\ref{cha:training} we describe how we trained the acoustic models needed by Kaldi decoder. In addition, we shortly contrast and compare training methods in \ac{HTK} and Kaldi. Chapter~\ref{cha:decoder} presents the Kaldi real time decoder embedded into our dialog system. We discuss the architecture of~the decoder, its properties. We also distinguish what is the original work done by Kaldi team and what are our improvements. At the end of~Chapter~\ref{cha:decoder} we describe the qualities of~the developed decoder and compare it with other decoders used in our dialog system.
 The~Chapter~\ref{cha:integration} explains how we integrated C++ decoder in our dialog system written in Python.
     
-The speech recognition algorithms described in~Chapter~\ref{cha:background} are meant like short introduction to the~problematic, which allow readers understand next chapters. The~Chapter~\ref{cha:training} explains that Kaldi framework is capable of~training acoustic models and decoding with them with no worse accuracy than HTK toolkit. In~Chapter~\ref{cha:integration} we discuss technical difficulties related with integration. 
+The speech recognition algorithms described in~Chapter~\ref{cha:background} are meant like short introduction to the~problematic, which allow readers understand next chapters. The~Chapter~\ref{cha:training} explains that Kaldi framework is capable of~training acoustic models and decoding with them with no worse accuracy than \ac{HTK} toolkit. In~Chapter~\ref{cha:integration} we discuss technical difficulties related with integration. 
 
 Finally, the~Chapter~\ref{cha:conclusion} summarises the thesis and finishes with future research directions.
 
