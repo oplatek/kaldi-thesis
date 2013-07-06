@@ -1,46 +1,19 @@
 % !TEX root = main.tex
-%% Version for one side printing:
-% Okraje: levý 40mm, pravý 25mm, horní a dolní 25mm
-% (ale pozor, LaTeX si sám přidává 1in)
-%\documentclass[12pt,a4paper]{report}
-%\setlength\textwidth{145mm}
-%\setlength\textheight{247mm}
-%\setlength\oddsidemargin{15mm}
-%\setlength\evensidemargin{15mm}
-%\setlength\topmargin{0mm}
-%\setlength\headsep{0mm}
-%\setlength\headheight{0mm}
-% \openright zařídí, aby následující text začínal na pravé straně knihy
-%\let\openright=\clearpage
 
 %% Version for 2 side printing:
-\documentclass[12pt,a4paper,twoside,openright]{report}
+\documentclass[12pt,a4paper,twoside,openright]{book}
 \setlength\textwidth{145mm}
 \setlength\textheight{247mm}
 \setlength\oddsidemargin{15mm}
 \setlength\evensidemargin{0mm}
 \setlength\topmargin{0mm}
-\setlength\headsep{0mm}
+\setlength\headsep{10mm}
 \setlength\headheight{0mm}
 \let\openright=\cleardoublepage
 
-
 %%%%%%% PACKAGES %%%%%%
+\usepackage[utf8]{inputenc} % encoding
 
-%% Pokud používáte csLaTeX (doporučeno):
-%\usepackage{czech}
-%% Pokud nikoliv:
-%\usepackage[czech]{babel}
-% \usepackage[T1]{fontenc}
-
-
-%%%% ENCODING: usually latin2, cp1250 nebo utf8 %%%
-\usepackage[utf8]{inputenc}
-
-
-%%%%% OTHER PACKAGES  %%%%%
-% \usepackage{doxygen} % wrong sty! 
-% \usepackage{pdfpages}
 \usepackage{listings}
 \usepackage{color}
 \usepackage{graphicx}
@@ -64,13 +37,12 @@
 \usepackage{pst-plot} % For axes
 
 
-%% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
-%% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
-%\usepackage[ps2pdf,unicode]{hyperref}   % Musí být za všemi ostatními balíčky
-\usepackage[unicode]{hyperref}   % Musí být za všemi ostatními balíčky
+% hyperref MUST BE the LAST PACKAGE
+%\usepackage[ps2pdf,unicode]{hyperref}   
+\usepackage[unicode]{hyperref}
 
-\hypersetup{pdftitle=Diploma thesis}   % TODO check if correct
-\hypersetup{pdfauthor=Ondrej Platek}
+\hypersetup{pdftitle=Automatic speech recognition using Kaldi}   
+\hypersetup{pdfauthor=Ond\^{r}ej Pl\'{a}tek}
 
 
 %%% MACROS %%%% 
@@ -106,21 +78,11 @@
   \todo{#1 \\}
 }
 
-% FOOTNOTE macros 
-% usage: \footnoteremember{myfootnote}{This is my footnote} and then \footnoterecall{myfootnote} 
-\newcommand{\footnoteremember}[2]{
-    \footnote{#2}
-    \newcounter{#1}
-    \setcounter{#1}{\value{footnote}}
-}
-\newcommand{\footnoterecall}[1]{
-    \footnotemark[\value{#1}]
-}
 \graphicspath{{./images/}}
 
 % SNIPPET macros: Includes file with code
-% usage: \code{MyCodeName}{../testapp/models.py}
-\newcommand{\code}[3]{
+% usage: \code{MyCodeName}{Python}{../testapp/models.py}
+\def\code#1#2#3{
   \hrulefill
   \subsubsection*{#1}
   \lstinputlisting[style=#2]{#3}
