@@ -2,45 +2,71 @@
 \chapter{Background}
 \label{cha:background}
 
+% TODO FIND THE BEST INTRODUCTION FROM:
+%   Spoken language understanding
+%   Discriminative Training and Acoustic Modeling for Speech Recognition
+%   Markov Models for Pattern Recognition -Fink
+% 
+% TODO Watch NLP again on http://coursera.com check it for references for the good explanations
+% 
 % TODO one goal of the EXPECTED goals of writing thesis 
 %       Show that you understand given topic
 %       Show that you can write and talk about given topic
 
-% TODO Watch NLP again on http://coursera.com check it for references for the good explanations
-\section{General introduction} 
+Research on field of speech recognition began more than \todo{30} years ago. The statistical approach based on {\it Hidden Markov Models (HMM)} established itself very early and nowadays it is de facto standard. If we speak about speech recognition in~this thesis we mean speech recognition based on Hidden Markov Models. 
+
+Section~\ref{sec:general_introduction} provides an~introduction into classical speech recognition. It concisely describes components of speech recognition system. Algorithms for training acoustic and language models as well for decoding are explained. In~Section~\ref{sec:fst} the speech recognition with Finite State Transducers is motivated.
+
+\section{Speech recognition based on HMM} 
 \label{sec:general_introduction}
-\todo{Speech recognition is a machine learning technique and has many in common with other machine learning task like image recognition, machine translation or even robot navigation}.
-There are many algorithms models which are used both in speech recognition and in other machine learning tasks.
+\subsection{Introduction}
+\label{sub:intro_ml}
+
+Speech recognition is a machine learning technique and has many in common with other machine learning task like image recognition, machine translation or even robot navigation. There are many algorithms models which are used both in speech recognition and in other machine learning tasks.
 Let us name a few examples:
 \begin{itemize}
-    \item Markov models are used in Viterbi algorithm as well as in DNA substring matching problem \cite{TODO}.
-    \item Neural Networks are becoming very popular in speech recognition \cite{TODO} and are classic solution for OCR \cite{TODO}.
+    \item Markov models are used in Viterbi algorithm as well as in DNA substring matching problem.
+    \item Neural Networks are getting popular in speech recognition and are classic solution for hand written text recognition.
     \item Language models are used in machine translation and also in speech recognition. 
 \end{itemize}
 
-In machine learning there are usually distinguished two types of learning algorithms, {\it supervised}\/and {\it unsupervised}.
-In general any training algorithm extract a knowledge from data and stores it into a {\it model}.
-\todo{finish it}
+In machine learning there are usually distinguished two types of learning algorithms, supervised and unsupervised.
 
-
-\begin{figure}
+\begin{figure}[!htp]
     \begin{center}
     \input{images/supervised-general}
     \input{images/supervised-baum-welsh}
     \caption{Supervised learning idea and example}
-    \label{fig:supervised-bw} 
+    \label{fig:supervised} 
     \end{center}
 \end{figure}
+{\it Supervised learning} is the machine learning task of inferring a function from labeled training data.\cite{mohri2012foundations}. Labeled data is set of training examples pairs. The pairs consists of input features and desired output as captured in~Figure~\ref{fig:supervised}. The supervised learning algorithm infers a function partially influenced by the training examples and partially determined by the algorithm itself. In ideal case, the inferred function would be able to predict correct output values for unseen input data. 
+The inferred function is often called {\it model}. For speech recognition tasks the models, namely acoustic models and the language models, are stored in persistent memory before using them. 
 
+Acoustic models are trained using supervised learning. Language models are trained using unsupervised training. 
 
-\begin{figure}
+\begin{figure}[!htp]
     \begin{center}
     \input{images/unsupervised-general}
     \input{images/unsupervised-lm}
     \caption{Unsupervised learning idea and example}
-    \label{fig:unsupervised-gen} 
+    \label{fig:unsupervised} 
     \end{center}
 \end{figure}
+{\it Unsupervised learning} can be thought of as finding patterns in the input data beyond what would be considered pure unstructured noise\cite{ghahramani2004unsupervised}. Very often unsupervised learning is an application of statistical methods as in language modeling depicted in~Figure~\ref{fig:unsupervised}
+% subsection speech_recognition_as_machine_learning_task (end)
+
+\subsection{Bayes rule}
+\label{sub:bayes_rule}
+
+
+
+% subsection bayes_rule (end)
+\todo{Bayes rules: acoustic model $P(text|give acoustic signal)$,  LM $P(text)$}
+
+
+
+
 
 \subsection[MFCC coefficients]{Mel-frequency cepstrum coefficients}
 \label{sub:mel_frequency_cepstrum_coefficients}
@@ -68,9 +94,11 @@ In general any training algorithm extract a knowledge from data and stores it in
 
 
 % section general_introduction (end)
-
-\section{Finite State Automata} 
-\label{sec:finite_state_automata}
+\section{Finite State Transducers} 
+\label{sec:fst}
+% OPENFST explanation in Finite State Transducers mechanism in speech recognition -Dan Povey
+% OPENFST article: OpenFst: A General and Efficient Weighted Finite-State Transducer Library Cyril Allauzen1 , Michael Riley2,3 , Johan Schalkwyk2 , Wojciech Skut2 , and Mehryar Mohri1
+% SPEECH RECOGNITION WITH WEIGHTED FINITE-STATE TRANSDUCERS Mehryar Mohri
 
 \subsection{Description}
 \label{sub:description}
