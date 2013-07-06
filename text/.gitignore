@@ -4,3 +4,5 @@
 *.ps
 *.out
 *.bib
+main.lof
+main.lot

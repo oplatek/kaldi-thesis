@@ -1,0 +1,40 @@
+% Generated with LaTeXDraw 2.0.8
+% Sun Jul 07 00:14:55 CEST 2013
+% \usepackage[usenames,dvipsnames]{pstricks}
+% \usepackage{epsfig}
+% \usepackage{pst-grad} % For gradients
+% \usepackage{pst-plot} % For axes
+\scalebox{1} % Change this value to rescale the drawing.
+{
+\begin{pspicture}(0,-3.7639062)(9.26,3.7639062)
+\psframe[linewidth=0.04,dimen=outer](4.04,-0.22609375)(0.0,-2.4260938)
+\usefont{T1}{ptm}{m}{n}
+\rput(1.9439063,-0.9610937){Search over $w$: }
+\usefont{T1}{ptm}{m}{n}
+\rput(2.259375,-1.6210938){maximize $P(a \mid w)*P(a)$}
+\psframe[linewidth=0.04,dimen=outer](9.26,0.03390625)(5.74,-1.2460938)
+\usefont{T1}{ptm}{m}{n}
+\rput(7.5026565,-0.16109376){Language model}
+\usefont{T1}{ptm}{m}{n}
+\rput(5.081406,-0.98109376){$P(w)$}
+\psframe[linewidth=0.04,dimen=outer](9.16,-1.4460938)(5.74,-2.7060938)
+\usefont{T1}{ptm}{m}{n}
+\rput(7.514844,-1.7210938){Acoustic model}
+\usefont{T1}{ptm}{m}{n}
+\rput(5.3614063,-2.2810938){$P(a \mid w)$}
+\psline[linewidth=0.04cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(5.76,-0.7060937)(4.06,-0.72609377)
+\psline[linewidth=0.04cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(5.74,-2.0460937)(4.04,-2.0460937)
+\psframe[linewidth=0.04,dimen=outer](3.44,2.2739062)(0.72,0.9739063)
+\usefont{T1}{ptm}{m}{n}
+\rput(2.0454688,1.5789063){Signal processing}
+\psline[linewidth=0.04cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(2.06,0.93390626)(2.06,-0.26609376)
+\usefont{T1}{ptm}{m}{n}
+\rput(4.1342187,0.5989063){$a$ : acoustic observations}
+\psline[linewidth=0.04cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(2.06,3.2139063)(2.06,2.2339063)
+\usefont{T1}{ptm}{m}{n}
+\rput(2.1390624,3.5789063){Speech Input}
+\psline[linewidth=0.04cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(2.1,-2.4660938)(2.12,-3.3660936)
+\usefont{T1}{ptm}{m}{n}
+\rput(2.2009375,-3.5410938){$w^*$ : Recognized word}
+\end{pspicture} 
+}
