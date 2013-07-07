@@ -105,15 +105,25 @@ An interested reader can found comprehensive introduction into signal processing
 
 Let us introduce the major components of signal processing. 
 \begin{enumerate}
-    \item The raw audio signal is at first converted from continuous to discrete signal by {\it sampling}. % TODO describe sampling https://en.wikipedia.org/wiki/Sampling_(signal_processing)
-    \item The~discrete signal is transformed into {\it frequency domain} by \ac{DFT}.
-    \item \todo{following four items are taken from Wikipedia and should be polished and cited. Read it from Psutka}
-    \item Map the powers of the frequency spectrum obtained above onto the mel scale\footnote{https://en.wikipedia.org/wiki/Mel_scale}, using triangular overlapping windows.
-    \item Take the logs of the powers at each of the mel frequencies.
-    \item Take the discrete cosine transform of the list of mel log powers, as if it were a signal.
-    \item The MFCCs are the amplitudes of the resulting spectrum.
-% TODO describe sampling https://en.wikipedia.org/wiki/Sampling_(signal_processing)
+    \item The raw audio signal is at first converted from continuous to discrete signal by {\it sampling}.  % TODO describe sampling https://en.wikipedia.org/wiki/Sampling_(signal_processing)
+    \item The~discrete signal is transformed into {\it frequency domain}\/ by~\ac{DFT} in overlapping frames.
+    \item The frequency spectrum obtained in previous step is transformed onto the mel scale\footnote{\href{https://en.wikipedia.org/wiki/Mel_scale}{Mel scale on Wikipedia}}, using triangular overlapping filters.
+    \item From the mel frequencies the logs of the powers are taken from each of the mel frequencies.
+    \item At the end the discrete cosine transform is applied on the list of mel log powers.
+    \item The \ac{MFCC} coefficients are the amplitudes of the resulting spectrum.
 \end{enumerate}
+The {\it sampling frequency}\/ is typically 8000, 16000, 32000 or 44100 Hz and each of the samples is usually encoded in 8, 16 or 32 bits. In our experiments we use 16 kHz sampling frequency for 16 bit samples.  
+
+The overlapping frames are used because \ac{DFT} is not accurate at the edges of frames. 
+Windowing function like Hanning function applied on the signal removes the edge effect of~\ac{DFT}. 
+
+Let us give us example from Kaldi settings. In one of the Kaldi decoders the default frame length is $25ms$ and the frames are shifted by $10ms$ for 16kHz sampling frequency. By multiplying the sample rate with frame length in seconds we find out that there are $16000 * 0.025 = 400$ samples in one frame. The frames are overlapping with $ 16000 * (0.025 - 0.01) = 240$ samples.
+
+In Kaldi there is used by default 25 filters for 25 overlapping bins for frequencies between 20 and $Sampling frequency / 2 = 8000$, which is according the~Nyquist theorem\cite{jerri1977shannon} the highest frequency that can be exactly determined in \ac{DFT}. 
+
+It is common to use only eight to twelve lowest-order \ac{MFCC} coefficients. In Kaldi we are using twelve of them.
+Note that the zero-order coefficients just measure the total frame energy and are often discarded.
+
 \todo{pictures and formulas}
 
 % subsection signal_processing (end)
