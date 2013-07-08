@@ -94,7 +94,11 @@ Vedoucí diplomové práce: Ing. Mgr. Filip Jurčíček, Ph.D.\\
 E-mail vedoucího: jurcicek@ufal.mff.cuni.cz\\
 
 \noindent Abstrakt:
-Tématem této práce je implementace výkonného rozpoznávače v open-source systému trénování ASR~Kaldi~(\href{http://kaldi.sourceforge.net/}{http://kaldi.sourceforge.net/}) pro dialogové systémy. Kaldi již obsahuje ASR dekodéry, které však nejsou vhodné pro dialogové systémy. Hlavními důvody jsou jejich malá optimalizace na rychlost a jejich velké zpoždění v generování výsledku po ukončení promluvy. Cílem této práce je proto vyvinutí real-time rozpoznávače pro dialogové systémy optimalizovaného na rychlost a minimalizujícího zpoždění. Optimalizace může být realizována například pomocí multi-vláknového dekódování nebo s~využitím grafických karet pro obecné výpočty. Součástí práce je také příprava akustického modelu a testování ve vyvíjeném dialogovém systému ”Vystadial”.
+Tématem této práce je implementace výkonného rozpoznávače v open-source systému trénování ASR~Kaldi~(\href{http://kaldi.sourceforge.net/}{http://kaldi.sourceforge.net/}) pro dialogové systémy. Kaldi již obsahuje ASR dekodéry, které však nejsou vhodné pro dialogové systémy. 
+Hlavními důvody jsou jejich malá optimalizace na rychlost a jejich velké zpoždění v generování výsledku po ukončení promluvy. 
+Cílem této práce je proto vyvinutí real-time rozpoznávače pro dialogové systémy optimalizovaného na rychlost a minimalizujícího zpoždění.
+ Optimalizace může být realizována například pomocí multi-vláknového dekódování nebo s~využitím grafických karet pro obecné výpočty. 
+ Součástí práce je také příprava akustického modelu a testování ve vyvíjeném dialogovém systému ”Vystadial”.
 
 
 \noindent Klíčová slova: ASR,rozpoznávání mluvené řeči, dekodér
@@ -109,9 +113,13 @@ Supervisor: Ing. Mgr. Filip Jurčíček, Ph.D.\\
 Supervisor's e-mail address: jurcicek@ufal.mff.cuni.cz\\
 
 \noindent Abstract: 
-\todo{One of~the~important component of~a dialog system is a speech recognition module. The topic of~this thesis is to use speech recognition training system ASR~Kaldi~(\href{http://kaldi.sourceforge.net/}{http://kaldi.sourceforge.net/}) and implement efficient decoder for it. 
-Kaldi is already deployed with decoders, but they are not convenient for dialog systems. The main goal of~this thesis is developing a real-time decoder for a dialog system, which minimize latency and optimize speed. Methods used for speeding up the~decoder are not limited to multi-threading decoding or usage of~GPU cards for general computations. Part of~this work is devoted to training of~an acoustic model and also testing it in the~"Vystadial" dialog system.
-} % end todo
+The topic of~this thesis is to implement efficient decoder for speech recognition 
+training system ASR~Kaldi~(\href{http://kaldi.sourceforge.net/}{http://kaldi.sourceforge.net/}). 
+Kaldi is already deployed with decoders, but they are not convenient for dialog systems. 
+The main goal of~this thesis to develop a real-time decoder for a dialog system, 
+which minimize latency and optimize speed. Methods used for speeding up the~decoder are not 
+limited to multi-threading decoding or usage of~GPU cards for general computations. 
+Part of~this work is devoted to training an acoustic model and also testing it in the~"Vystadial" dialog system.
 
 \noindent Keywords: ASR,speech recognition, decoder
 
