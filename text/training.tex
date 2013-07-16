@@ -4,7 +4,16 @@
 
 \section{Introduction to training acoustic models} 
 \label{sec:introduction_to_training_acoustic_models}
+We will use a basic language model, because we want to compare \ac{HTK} and Kaldi toolkit acoustic models accuracy.  In addition, we can reuse the already built language model for \ac{HTK}. Other reason is that a language model is very domain dependent. % FIXME add citation LM are domain dependent
+We want to use our Alex dialog system in other domains except Prague public transport, so we do not focus on language modeling. 
 
+During the phase of~training acoustic models, we focus mainly on the quality of~the decoded output rather than on the speed of~decoding itself. 
+We would like to achieve at least as accurate decoding with Kaldi as we have achieved with \ac{HTK}. In this thesis we will set up and evaluate following experiments using Kaldi:
+\begin{itemize}
+    \item Standard generative training
+    \item Learning linear transformations (e.g. \ac{HLDA})
+    \item Discriminative training 
+\end{itemize}
 
 % section introduction_to_training_acoustic_models (end)
 
