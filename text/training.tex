@@ -4,11 +4,18 @@
 
 \section{Introduction to training acoustic models} 
 \label{sec:introduction_to_training_acoustic_models}
-We will use a basic language model, because we want to compare \ac{HTK} and Kaldi toolkit acoustic models accuracy.  In addition, we can reuse the already built language model for \ac{HTK}. Other reason is that a language model is very domain dependent. % FIXME add citation LM are domain dependent
-We want to use our Alex dialog system in other domains except Prague public transport, so we do not focus on language modeling. 
+We will use a basic language model, because we want to compare \ac{HTK} and Kaldi 
+toolkit acoustic models accuracy.  In addition, we can reuse the already built 
+language model for \ac{HTK}. Other reason is that a language model is very domain 
+dependent. % FIXME add citation LM are domain dependent
+We want to use our Alex dialog system in other domains except Prague public 
+transport, so we do not focus on language modeling. 
 
-During the phase of~training acoustic models, we focus mainly on the quality of~the decoded output rather than on the speed of~decoding itself. 
-We would like to achieve at least as accurate decoding with Kaldi as we have achieved with \ac{HTK}. In this thesis we will set up and evaluate following experiments using Kaldi:
+During the phase of~training acoustic models, we focus mainly on the quality 
+of~the decoded output rather than on the speed of~decoding itself. 
+We would like to achieve at least as accurate decoding with Kaldi as we have 
+achieved with \ac{HTK}. In this thesis we will set up and evaluate following 
+experiments using Kaldi:
 \begin{itemize}
     \item Standard generative training
     \item Learning linear transformations (e.g. \ac{HLDA})
@@ -25,16 +32,19 @@ We would like to achieve at least as accurate decoding with Kaldi as we have ach
 \section{Kaldi Experiment Results} % (fold)
 \label{sec:exp_results}
 
-The quality is measured on the decoder output for each acoustic model used. The measures used depends on the decoder output. On the other hand, all of the decoders used are capable of decoding the acoustic signal into textual representation. 
+The quality is measured on the decoder output for each acoustic model used. 
+The measures used depends on the decoder output. 
+On the other hand, all of the decoders used are capable of decoding 
+the acoustic signal into textual representation. 
 
 Corresponding \ac{HTK} results could be found at
-\href{https://redmine.ms.mff.cuni.cz/projects/vystadial/wiki/Acoustic_models/} {Vystadial Redmine Wiki}
+\href{https://redmine.ms.mff.cuni.cz/projects/vystadial/wiki/Acoustic_models/}{Vystadial Redmine Wiki}
 
 Shortcuts used:
 \begin{itemize}
     \item \bf \ac{RTF} = Minimum over number of jobs for each tasks
-    \item \bf \ac{WER}, \ac{SER} = Minimum over iterations 9--20 of rescoring for each tasks, 
-        (The iterations for \ac{WER} (\ac{SER}) minimum is the second number in the brackets)
+    \item \bf \ac{WER}, \ac{SER} = Minimum over different LM weights rescoring,
+        where LM weight ranges from 9 to 20. 
 \end{itemize}
 
 \subsection*{Data classic}
