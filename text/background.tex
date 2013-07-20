@@ -13,22 +13,29 @@
 %       Show that you understand given topic
 %       Show that you can write and talk about given topic
 
-Research on field of speech recognition began more than \todo{30} years ago. The statistical approach based on \ac{HMM} established itself very early and nowadays it is de facto standard for continuous speech recognition. If we speak about speech recognition in~this thesis we mean continuous speech recognition based on Hidden Markov Models. 
+Research on field of speech recognition began more than \todo{30} years ago. The statistical approach based 
+on~\ac{HMM} established itself very early and nowadays it is de facto standard for continuous speech recognition. 
+If we speak about speech recognition in~this thesis we mean continuous speech recognition based on Hidden Markov Models. 
 
-Section~\ref{sec:general_introduction} provides an~introduction into classical speech recognition. It concisely describes components of speech recognition system. Algorithms for training acoustic and language models as well for decoding are explained. In~Section~\ref{sec:fst} the speech recognition with Finite State Transducers is motivated.
+Section~\ref{sec:general_introduction} provides an~introduction into classical speech recognition. 
+It concisely describes components of speech recognition system. Algorithms for training acoustic and language models 
+as well for decoding are explained. In~Section~\ref{sec:fst} the speech recognition with Finite State Transducers 
+is motivated.
 
 \section{Speech recognition based on \ac{HMM}} 
 \label{sec:general_introduction}
-Let us gently introduce speech recognition. We will focus on the algorithms and approaches used in next chapters. For simplicity,
-let us suppose that the~output of speech recognition is the textual transcription of the input audio. In~Subsection~\ref{sub:lattice} we will define
-lattices as other possible output format.
+Let us gently introduce speech recognition. We will focus on the algorithms and approaches used in next chapters.
+The speech recognition task is to for given audio produce an \ml{ASR hypothesis}.
+For simplicity, let us suppose that ASR hypothesis is the textual transcription of the input audio. 
+In~Subsection~\ref{sub:lattice} we will describe lattices as other output format convenient for dialog systems.
 
 \subsection*{Speech recognition in a world of Artificial intelligence}
 \label{sub:intro_ml}
-Speech recognition is a classic machine learning technique and has many in common with other machine learning task. There are many algorithms models which are used both in speech recognition and in other machine learning tasks.
+Speech recognition is a classic machine learning technique and has many in common with other machine learning task. 
+There are many algorithms and models which are used both in speech recognition and in other machine learning technique.
 Let us name a few examples:
 \begin{itemize}
-    \item Markov models are used by Viterbi algorithm as well as in \ac{DNA} multiple alignment problem.
+    \item Markov models are used in speech recognition as well as in \ac{DNA} multiple alignment problem.
     \item Neural Networks are getting popular in speech recognition and are classic solution for hand written text recognition.
     \item Language models are used in machine translation and also in speech recognition. 
 \end{itemize}
@@ -56,12 +63,16 @@ Acoustic models are trained using supervised learning. Language models are train
     \label{fig:unsupervised} 
     \end{center}
 \end{figure}
-{\it Unsupervised learning}\/ can be thought of as finding patterns in the input data beyond what would be considered pure unstructured noise\cite{ghahramani2004unsupervised}. Very often unsupervised learning is an application of statistical methods as in language modeling depicted in~Figure~\ref{fig:unsupervised}
+{\it Unsupervised learning}\/ can be thought of as finding patterns in the input data beyond what would be considered 
+pure unstructured noise\cite{ghahramani2004unsupervised}. Very often unsupervised learning is an application 
+of~statistical methods as in language modeling depicted in~Figure~\ref{fig:unsupervised}
 % subsection speech_recognition_as_machine_learning_task (end)
 
 \subsection*{Statistical approach}
 \label{sub:statistical_approach}
-In the statistical approach we can describe speech recognition as classification problem where for a given acoustic observations $a$ we search for the most probable sequence of~words $w^*$.
+In the statistical approach we can describe speech recognition as classification problem where 
+for a~given acoustic observations $a$ we search for the most probable sequence of~words $w^*$.
+
 \begin{equation}\label{eq:asr}
     w^* = argmax_{w}\{P(w|a)\} 
 \end{equation}
@@ -97,13 +108,23 @@ From Equation~\ref{eq:ideal} we know the probability for every transcription $w$
 
 
 
+From the~statistical point of view we do not care how do we obtain the probabilities.
+It does not matter to if we use supervised or unsupervised learning. 
+
+In reality, the decoded ASR hypothesis are not perfect. The ASR hypothesis, in our example the textual transcriptions, 
+commonly contain errors. The causes of the errors can be classified into two categories. 
+Firstly, the errors can be caused by inaccurate algorithms used in computing 
+the~probabilities for language and acoustic models. Secondly, we silently supposed in the Equation~\ref{eq:ideal}, 
+that the~data used for training and testing were equally distributed. 
+In practice, both type of errors occurs.
+
 \subsection{Signal processing}
 \label{sub:signal}
-Signal processing is an~important first step for speech recognition. However, we cover signal processing very briefly, because the methods described in this subsection are de facto standard and most of the toolkits use exactly the same algorithms. The~output of the~signal processing are typically vectors of \ac{MFCC} coefficients. The toolkits used in our dialog system, Kaldi and \ac{HTK} toolkit, produce almost exactly the same \ac{MFCC} coefficients for given audio input.\footnote{The~subtle differences are caused by implementation approaches, but does not effect the quality of \ac{MFCC} coefficients in~significant way.}
+Signal processing is an~important first step for speech recognition. However, we cover signal processing very briefly, because the methods described in this subsection are de facto standard and most of the toolkits use exactly the same algorithms. The~output of the~signal processing are feature vectors. The most used are \ac{MFCC} coefficients and \ac{PLP} features. The toolkits used in our dialog system, Kaldi and \ac{HTK} toolkit, produce almost exactly the same \ac{MFCC} coefficients for given audio input.\footnote{The~subtle differences are caused by implementation approaches, but does not effect the quality of \ac{MFCC} coefficients in~significant way.}
 
 An interested reader can found comprehensive introduction into signal processing in~the fourth Chapter of Spoken Language Processing book\cite{huang2001spoken}.
 
-Let us introduce the major components of signal processing. 
+Let us give a~concrete example with of signal processing architecture. 
 \begin{enumerate}
     \item The raw audio signal is at first converted from continuous to discrete signal by {\it sampling}.  % TODO describe sampling https://en.wikipedia.org/wiki/Sampling_(signal_processing)
     \item The~discrete signal is transformed into {\it frequency domain}\/ by~\ac{DFT} in overlapping frames.
@@ -117,23 +138,24 @@ The {\it sampling frequency}\/ is typically 8000, 16000, 32000 or 44100 Hz and e
 The overlapping frames are used because \ac{DFT} is not accurate at the edges of frames. 
 Windowing function like Hanning function applied on the signal removes the edge effect of~\ac{DFT}. 
 
-Let us give us example from Kaldi settings. In one of the Kaldi decoders the default frame length is $25ms$ and the frames are shifted by $10ms$ for 16kHz sampling frequency. By multiplying the sample rate with frame length in seconds we find out that there are $16000 * 0.025 = 400$ samples in one frame. The frames are overlapping with $ 16000 * (0.025 - 0.01) = 240$ samples.
+For example,  the online Kaldi decoder uses $25ms$  frame length and the frames are shifted by $10ms$ for 16kHz sampling frequency. By multiplying the sample rate with frame length in seconds we find out that there are $16000 * 0.025 = 400$ samples in one frame. The frames are overlapping with $ 16000 * (0.025 - 0.01) = 240$ samples.
 
-In Kaldi there is used by default 25 filters for 25 overlapping bins for frequencies between 20 and $Sampling frequency / 2 = 8000$, which is according the~Nyquist theorem\cite{jerri1977shannon} the highest frequency that can be exactly determined in \ac{DFT}. 
-
-It is common to use only eight to twelve lowest-order \ac{MFCC} coefficients. In Kaldi we are using twelve of them.
-Note that the zero-order coefficients just measure the total frame energy and are often discarded.
-
-\todo{pictures and formulas}
+In Kaldi there is used by default 25 filters for 25 overlapping bins for~frequencies 
+between 20 and $Sampling frequency / 2 = 8000$, which is according the~Nyquist theorem\cite{jerri1977shannon} 
+the~highest frequency that can be exactly determined in \ac{DFT}.\footnote{ It is common to use only eight to twelve 
+    lowest-order \ac{MFCC} coefficients. In Kaldi we are using twelve of them. 
+    Note that the zero-order coefficients just measure the total frame energy and are often discarded.
+}
 
 % subsection signal_processing (end)
 \subsection{Decoding with \ac{HMM}}
 \label{sub:decoding_with_hmm}
 Let us return to high level point of view to speech recognition from~Figure~\ref{fig:components}.
-We briefly described the signal processing unit and now we will focus on the search unit. The key part of speech recognition system.
-In order to describe the decoding algorithms we introduce the \acl{HMM}. 
+We briefly described the signal processing unit and now we will focus on the search unit. 
+The key part of speech recognition system. In order to describe the decoding algorithms we introduce the \acl{HMM}. 
 
-The~\acl{HMM} is a~very powerful statistical method of~characterizing the~observed data samples of a~discrete-time series. Chapter 8, \cite{huang2001spoken}.
+The~\acl{HMM} is a~very powerful statistical method of~characterizing the~observed data samples of 
+a~discrete-time series. Chapter 8, \cite{huang2001spoken}.
 We will at first introduce {\it Markov Chain}, then \ac{HMM} will be defined and later we will explain how are the acoustic and language models used in \ac{HMM} framework. In~the~Subsection~\ref{sub:viterbi_algorithm} we finally present the search algorithm for speech recognition.
 
 \subsubsection*{Markov Chain}
