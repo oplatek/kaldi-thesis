@@ -1,0 +1,49 @@
+% --------------------------------------------------------------------------- %
+% jindextools.sty -- tools for manipulating the index and margin notes
+% Author: Miroslav Janicek <mira.janicek@gmail.com>
+%
+% The source code is hereby released into the public domain.
+% --------------------------------------------------------------------------- %
+% This package provides the means to manipulate document index and margin
+% notes. If draft mode is set (see package jdrafttools), the text is annotated
+% by markers that show that an item has been added to the index.
+%
+% Using the package:
+%
+%   \usepackage{jindextools}
+%
+% The package takes no options.
+%
+% ADDING MARGIN NOTES: To add a margin note, use the command
+%
+%   \ml{ARG}
+%
+% Note that \ml does NOT add the item to the index!
+%
+% INDEXING THE DOCUMENT: Use the command
+%
+%   \idx{ARG}
+%
+% \idx follows standard makeidx format of index labels.
+% --------------------------------------------------------------------------- %
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{jindextools}[2010/05/17 Mira Janicek's index tools]
+\RequirePackage{makeidx,color,rotating}
+
+% --------------------------------------------------------------------------- %
+
+\setlength{\marginparsep}{8mm}
+\setlength{\marginparwidth}{18mm}
+
+\newcommand{\ml}[1]{\mbox{}\marginpar{\raggedleft\hspace{0pt}\footnotesize\it #1}}
+
+\ifx \@ifdraft \@empty
+	% not using jdrafttools
+	\newcommand{\indextannot}[1]{}
+	\newcommand{\idx}[1]{\index{#1}}
+\else
+	% using jdrafttools => \ifdraft defined
+	\newcommand{\intextannot}[1]{\turnbox{0}{\sf\color{magenta}\scriptsize\begin{tabular}{|l}\multicolumn{1}{l}{#1}\\ \hline \\ \multicolumn{1}{c}{~} \end{tabular}}}
+	\newcommand{\idx}[1]{\index{#1}\ifdraft{\intextannot{#1}}}
+\fi
