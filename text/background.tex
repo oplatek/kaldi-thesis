@@ -2,6 +2,7 @@
 \chapter{Background}
 \label{cha:background}
 
+%{{{
 % TODO FIND THE BEST INTRODUCTION FROM:
 %   Spoken language understanding
 %   Discriminative Training and Acoustic Modeling for Speech Recognition
@@ -12,23 +13,26 @@
 % TODO one goal of the EXPECTED goals of writing thesis 
 %       Show that you understand given topic
 %       Show that you can write and talk about given topic
+%}}}
 
 Research on field of speech recognition began more than \todo{30} years ago. The statistical approach based 
 on~\ac{HMM} established itself very early and nowadays it is de facto standard for continuous speech recognition. 
 If we speak about speech recognition in~this thesis we mean continuous speech recognition based on Hidden Markov Models. 
 
-Section~\ref{sec:general_introduction} provides an~introduction into classical speech recognition. 
-It concisely describes components of speech recognition system. Algorithms for training acoustic and language models 
-as well for decoding are explained. In~Section~\ref{sec:fst} the speech recognition with Finite State Transducers 
-is motivated.
+Section~\ref{sec:general_introduction} provides an~introduction into speech recognition with \ac{HMM}. 
+It concisely describes components of speech recognition system. The~algorithms for training acoustic language models 
+as well for decoding are introduced. In~Section~\ref{sec:fst} the~advantages of Finite State Transducers 
+in~speech recognition are discussed.
 
-\section{Speech recognition based on \ac{HMM}} 
+\section{Introduction to Speech recognition} 
 \label{sec:general_introduction}
-Let us gently introduce speech recognition. We will focus on the algorithms and approaches used in next chapters.
-The speech recognition task is to for given audio produce an \ml{ASR hypothesis}.
-For simplicity, let us suppose that ASR hypothesis is the textual transcription of the input audio. 
-In~Subsection~\ref{sub:lattice} we will describe lattices as other output format convenient for dialog systems.
+\ml{ASR hypothesis}
+Let us gently introduce speech recognition. Automatic speech recognition is a process
+that produces an \ac{ASR} hypothesis for given audio input. 
+For simplicity, let us for suppose that ASR hypothesis is the textual transcription of speech in the input audio. 
+In~Subsection~\ref{sub:lattice} we will describe lattices as another output format convenient for dialog systems.
 
+%{{{ somehow finished
 \subsection*{Speech recognition in a world of Artificial intelligence}
 \label{sub:intro_ml}
 Speech recognition is a classic machine learning technique and has many in common with other machine learning task. 
@@ -118,17 +122,63 @@ the~probabilities for language and acoustic models. Secondly, we silently suppos
 that the~data used for training and testing were equally distributed. 
 In practice, both type of errors occurs.
 
-\subsection{Signal processing}
+\subsubsection*{The metrics in speech recognition}
+\label{sub:the_metrics_in_speech_recognition}
+In this thesis we are concerned about three aspects of speech decoder.
+The speed, universality and quality of~\ac{ASR} hypothesis.
+
+The universality of a decoder is not very well measurable and we will discuss it 
+in~Chapter~\ref{cha:implementation} as an implementation property.
+
+\ml{\acl{RTF}}
+We will measure the speed of~the decoders by \acl{RTF} metric or we will express it by latency.
+\ac{RTF} is defined as $\ac{RTF} = \frac{P}{D}$, where $P$ is time of~the processing the audio by a~decoder on input with length $D$. 
+
+\ml{latency}
+The latency is a measure of delay. The delay is measured for each utterance in seconds. 
+The delay is measured between time of submitting the last audio for given utterance to the decoder and 
+the~time of returning the \ac{ASR} hypothesis from decoder.
+
+\ml{\acl{WER}}
+The quality of decoded hypothesis will be measured by \ac{WER}.
+Note, that \ac{WER} is a minimum edit operation distance on words between two texts, the textual hypothesis
+and its reference.
+We will compute it by $\frac{S+D+I}{N}$, where $S$ is number of substitutions,
+$D$ is number of deletions, $I$ number of insertions to the reference. 
+The $N$ denotes the number of words in reference. 
+
+The other formats to textual hypothesis like n-best lists and lattice
+will be converted to textual hypothesis, because the reference for our training data is only available  
+in~form of text audio transcriptions.
+From n-best list we take the best textual hypothesis directly as the first item. From lattice
+we extract the transcriptions by search.  
+
+% subsection the_metrics_in_speech_recognition (end)
+
+\section{Signal processing}
 \label{sub:signal}
-Signal processing is an~important first step for speech recognition. However, we cover signal processing very briefly, because the methods described in this subsection are de facto standard and most of the toolkits use exactly the same algorithms. The~output of the~signal processing are feature vectors. The most used are \ac{MFCC} coefficients and \ac{PLP} features. The toolkits used in our dialog system, Kaldi and \ac{HTK} toolkit, produce almost exactly the same \ac{MFCC} coefficients for given audio input.\footnote{The~subtle differences are caused by implementation approaches, but does not effect the quality of \ac{MFCC} coefficients in~significant way.}
+% FIXME consult kaldi website with what I have written
+% http://kaldi.sourceforge.net/feat.html
+\ml{acoustic features}
+Signal processing is an~important first step for speech recognition. However, we cover signal processing very briefly, 
+because the methods described in this subsection are de facto standard and most of the toolkits use exactly the same 
+algorithms. The~output of the~signal processing are acoustic feature vectors. 
 
-An interested reader can found comprehensive introduction into signal processing in~the fourth Chapter of Spoken Language Processing book\cite{huang2001spoken}.
 
-Let us give a~concrete example with of signal processing architecture. 
-\begin{enumerate}
+The most used feature vectors are \ac{MFCC} coefficients and \ac{PLP} features. The toolkits used in our dialog system, 
+Kaldi and \ac{HTK} toolkit, produce almost exactly the same \ac{MFCC} coefficients for given audio 
+input.\footnote{The~subtle differences are caused by implementation approaches, but does not effect the quality 
+    of~\ac{MFCC} coefficients in~significant way.}
+
+An interested reader can found comprehensive introduction into signal processing 
+in~the~fourth Chapter of Spoken Language Processing book\cite{huang2001spoken}.
+
+
+Let us give a~concrete example with of signal processing steps: 
+\small{\begin{enumerate}
     \item The raw audio signal is at first converted from continuous to discrete signal by {\it sampling}.  % TODO describe sampling https://en.wikipedia.org/wiki/Sampling_(signal_processing)
     \item The~discrete signal is transformed into {\it frequency domain}\/ by~\ac{DFT} in overlapping frames.
-    \item The frequency spectrum obtained in previous step is transformed onto the mel scale\footnote{\href{https://en.wikipedia.org/wiki/Mel_scale}{Mel scale on Wikipedia}}, using triangular overlapping filters.
+    \item The frequency spectrum obtained in previous step is transformed onto the \href{https://en.wikipedia.org/wiki/Mel_scale}{mel scale}, using triangular overlapping filters.
     \item From the mel frequencies the logs of the powers are taken from each of the mel frequencies.
     \item At the end the discrete cosine transform is applied on the list of mel log powers.
     \item The \ac{MFCC} coefficients are the amplitudes of the resulting spectrum.
@@ -142,84 +192,110 @@ For example,  the online Kaldi decoder uses $25ms$  frame length and the frames 
 
 In Kaldi there is used by default 25 filters for 25 overlapping bins for~frequencies 
 between 20 and $Sampling frequency / 2 = 8000$, which is according the~Nyquist theorem\cite{jerri1977shannon} 
-the~highest frequency that can be exactly determined in \ac{DFT}.\footnote{ It is common to use only eight to twelve 
-    lowest-order \ac{MFCC} coefficients. In Kaldi we are using twelve of them. 
-    Note that the zero-order coefficients just measure the total frame energy and are often discarded.
-}
+the~highest frequency that can be exactly determined in \ac{DFT}.
 
-% subsection signal_processing (end)
-\subsection{Decoding with \ac{HMM}}
+It is common to use only eight to twelve lowest-order \ac{MFCC} coefficients. In Kaldi we are using twelve of them. 
+Note that the zero-order coefficients just measure the total frame energy and are often discarded.
+} % \small
+
+\ml{sampling}
+To conclude, the signal processing samples the continuous audio at regular interval intervals. 
+Fixed number of consecutive samples forms a window. The~windows are usually overlapping.
+\ml{feature window}
+The~acoustic features are computed for each of the overlapping window. 
+% }}} Finished
+
+% section signal_processing (end)
+\section{Decoding with \ac{HMM}}
 \label{sub:decoding_with_hmm}
 Let us return to high level point of view to speech recognition from~Figure~\ref{fig:components}.
 We briefly described the signal processing unit and now we will focus on the search unit. 
 The key part of speech recognition system. In order to describe the decoding algorithms we introduce the \acl{HMM}. 
 
-The~\acl{HMM} is a~very powerful statistical method of~characterizing the~observed data samples of 
-a~discrete-time series. Chapter 8, \cite{huang2001spoken}.
-We will at first introduce {\it Markov Chain}, then \ac{HMM} will be defined and later we will explain how are the acoustic and language models used in \ac{HMM} framework. In~the~Subsection~\ref{sub:viterbi_algorithm} we finally present the search algorithm for speech recognition.
+The~\acl{HMM} is a~very powerful statistical method of~characterizing the~observed data samples 
+of~a~discrete-time series. Chapter 8, \cite{huang2001spoken}.
+We will at first introduce {\it Markov Chain}, then \ac{HMM} will be defined. Later,  we will explain 
+how are the acoustic and language models used in \ac{HMM} framework. 
+In~the~Subsection~\ref{sub:dec_algorithm} we present the search algorithms for speech recognition.
 
-\subsubsection*{Markov Chain}
+\subsection*{Markov Chain}
 \label{ssub:markov_chain}
 \todo{Spoken Language Processing page 366}
 
+\subsection{\acl{HMM}}
+\label{ssub:hmm}
+\todo{describe Hmm for phones}
 
-% subsubsection markov_chain (end)
+% subsection hmm (end)
 
 
-\subsection*{Viterbi algorithm}
-\label{sub:viterbi_algorithm}
+
+% subsection markov_chain (end)
+
+
+\subsection*{Decoding algorithm}
+\label{sub:dec_algorithm}
 The Viterbi algorithm is the~basic search algorithm for \ac{HMM}. 
+Briefly
+However
 
-% subsection viterbi_algorithm (end)
+\todo{how online decoder works}
 
-
-% subsection decoding_with_hmm (end)
-\subsection{Baum-Welsh algorithm}
-\label{sub:baum_welsh_algorithm}
-
-
-
-% subsection baum_welsh_algorithm (end)
-
-
-\subsection{Other criteria}
-\label{sub:other_criteria}
-
-% subsection other_criteria (end)
-
-\subsection{Decoding with lattices}
+\subsubsection{Decoding with lattices}
 \label{sub:lattice}
-
+\todo{what are lattices, why is they are good, depth of lattices for dialog system,
+problem of backward search for lattices}
 
 
 % subsection lattice (end)
 
+% subsection decoding_algorithm (end)
+
+
+\section{Training acoustic models} 
+\label{sec:training_acoustic_models}
+
+This section describes the acoustic training in general and introduces the~maximum likelihood training methods.
+The~maximum likelihood training is a base for discriminative methods for acoustic modeling, which are briefly
+described in~Chapter~\ref{ref:training}.
+In~Chapter~\ref{cha:training}, the focus is on comparing results obtained by numerous of training methods
+and not on~explaining the methods.
+
+\todo{clustering phones, trees, monophone and triphone training 
+    \url{http://kaldi.sourceforge.net/tree_externals.html}
+Shortly from Dans thesis extended Baum-Welsh}
+
+% section training_acoustic_models (end)
+
+
+
+
+
 
 % section general_introduction (end)
+
 \section{Finite State Transducers} 
 \label{sec:fst}
-% OPENFST explanation in Finite State Transducers mechanism in speech recognition -Dan Povey
-% OPENFST article: OpenFst: A General and Efficient Weighted Finite-State Transducer Library Cyril Allauzen1 , Michael Riley2,3 , Johan Schalkwyk2 , Wojciech Skut2 , and Mehryar Mohri1
-% SPEECH RECOGNITION WITH WEIGHTED FINITE-STATE TRANSDUCERS Mehryar Mohri
-
-\subsection{Description}
-\label{sub:description}
-
-% subsection description (end)
-
-\subsection{Kaldi implementation} % (fold)
-\label{sec:kaldi}
+\todo{Introduction from:
+ OPENFST explanation in Finite State Transducers mechanism in speech recognition -Dan Povey
+ OPENFST article: OpenFst: A General and Efficient Weighted Finite-State Transducer Library Cyril Allauzen1 , Michael Riley2,3 , Johan Schalkwyk2 , Wojciech Skut2 , and Mehryar Mohri1
+ SPEECH RECOGNITION WITH WEIGHTED FINITE-STATE TRANSDUCERS Mehryar Mohri}
 
 
-\subsubsection*{Sources} % (fold)
+
+\subsubsection*{\todo{Sources - cite them!}} % (fold)
 
 \begin{itemize}
+    \item \todo{Consult Vassil blogpost}
     \item \href{http://kaldi.sourceforge.net/graph.html} {Decoding graph construction in Kaldi}
     \item \href{http://kaldi.sourceforge.net/lattices.html} {Lattices in Kaldi}
 \end{itemize}
 
-\subsubsection*{Decoding graph construction} % (fold)
-Kaldi uses \ac{FST} as underlaying representation for all models, which are used to decoding. Consequently, training and decoding models in Kaldi can be expressed as sequence of operations above \acp{FST}.
+\subsection{Decoding graph construction in~Kaldi} % (fold)
+% FIXME add source http://kaldi.sourceforge.net/graph.html
+% FIXME consult Vassil blogpost
+Kaldi uses \ac{FST} as underlaying representation for all models, which are used to decoding. Consequently, 
+training and decoding models in Kaldi can be expressed as sequence of operations above \acp{FST}.
 
 Decoding is performed using a final result of training, so called {\it decoding graph}. 
 From the high level point of view,

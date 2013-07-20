@@ -37,7 +37,6 @@ The Alex dialog system has been using the \ac{HTK} toolkit\cite{young94htk} to t
 
 \todo{ TO MUCH ABOUT LICENSE, very few about Julius INSTABILITY}
 
-% \ml{TESTING MARGIN NOTES}
 One of~our main goals is to release the Alex dialog system under Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}. By using \ac{HTK} toolkit we cannot publish Alex with the Apache License, because we need to modify the code of the decoders we are using. 
 
 The \ac{HTK} decoders are not real-time decoders\cite{yao2010practical}. We used the~OpenJulius decoder for real-time decoding.
@@ -123,10 +122,8 @@ After training acoustic models with~sufficient quality we will balance accuracy 
     \item HDecode % FIXME test this through Subprocess
     \item OpenJulius % FIXME test this through Subprocess/Sockets
     \item Kaldi decoders
-    \item Improved online Kaldi decoder
 \end{itemize}
 
-The speed of~the decoders will be expressed in terms of~\ac{RTF}\footnote{\ac{RTF} is a~metric for comparing speed of~decoders. It is defined as $\ac{RTF} = \frac{P}{D}$, where $P$ is time of~the processing the audio by a~decoder on input with length $D$.}. The accuracy will be expressed in terms of~\ac{WER}.
 
 We will also compare and contrast possibilities of~different output formats for each of~tested decoders. The~memory consumption and the~stability of~decoders will be also observed. 
 
@@ -136,12 +133,20 @@ We will also compare and contrast possibilities of~different output formats for 
 
 \section{Outline of~the thesis} 
 \label{sec:outline_of_the_thesis}
-In~Chapter~\ref{cha:background} we introduce speech recognition algorithms. At first we introduce standard algorithms. Later, we focus on Finite State Automata~framework used by Kaldi. In~Chapter~\ref{cha:training} we describe how we trained the acoustic models needed by Kaldi decoder. In addition, we shortly contrast and compare training methods in \ac{HTK} and Kaldi. Chapter~\ref{cha:decoder} presents the Kaldi real time decoder embedded into our dialog system. We discuss the architecture of~the decoder, its properties. We also distinguish what is the original work done by Kaldi team and what are our improvements. At the end of~Chapter~\ref{cha:decoder} we describe the qualities of~the developed decoder and compare it with other decoders used in our dialog system.
+In~Chapter~\ref{cha:background} we introduce speech recognition algorithms. At first we introduce standard algorithms. 
+Later, we focus on Finite State Automata~framework used by Kaldi. In~Chapter~\ref{cha:training} we describe how we 
+trained the acoustic models needed by Kaldi decoder. In addition, we shortly contrast and compare training methods 
+in~\ac{HTK} and Kaldi. Chapter~\ref{cha:decoder} presents the Kaldi real time decoder embedded into our dialog system.
+We discuss the architecture of~the decoder, its properties. We also distinguish what is the original work done by 
+the~Kaldi team and what are our improvements. At~the end of~Chapter~\ref{cha:decoder} 
+we describe the qualities of~the developed decoder and compare it with other decoders used in our dialog system.
 The~Chapter~\ref{cha:integration} explains how we integrated C++ decoder in our dialog system written in Python.
     
-The speech recognition algorithms described in~Chapter~\ref{cha:background} are meant like short introduction to the~problematic, which allow readers understand next chapters. The~Chapter~\ref{cha:training} explains that Kaldi framework is capable of~training acoustic models and decoding with them with no worse accuracy than \ac{HTK} toolkit. In~Chapter~\ref{cha:integration} we discuss technical difficulties related with integration. 
+The speech recognition algorithms described in~Chapter~\ref{cha:background} are meant like short introduction to 
+the~problematic, which allow readers understand next chapters. The~Chapter~\ref{cha:training} explains that 
+Kaldi framework is capable of~training acoustic models and decoding with them with no worse accuracy 
+than \ac{HTK} toolkit. In~Chapter~\ref{cha:integration} we discuss technical difficulties related with integration. 
 
 Finally, the~Chapter~\ref{cha:conclusion} summarises the thesis and finishes with future research directions.
 
-% \ml{TESTING MARGIN NOTES2}
 % section outline_of_the_thesis (end)
