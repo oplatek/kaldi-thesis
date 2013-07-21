@@ -2,9 +2,8 @@
 \chapter{Model training}
 \label{cha:training}
 
-\todo{cited/KaldiModels overview of (some) Kaldi models}
 
-\section{The experiments setup} 
+\section{The script structure and training methods used} 
 \label{sec:the_experiments_setup}
 
 The experiments described further in this chapter were performed on two data sets.
@@ -65,29 +64,55 @@ kaldi
 If we say that we run one experiment, it means we train and evaluate from ten to twelve training methods 
 for the same data and the same settings.\footnote{The list of methods we choosed to evaluate is based Vassil Panayotov's Voxforge recipe}.
 
-\todo{add acronyms}
-\todo{new enumerate explaining the shortcust and method}
-\begin{table}[!htp]\label{tab:methods}
+The maximum likelihood training of generative models is described in~Section~\ref{sec:train_ml}.
+The overview of methods for discriminative training used in vystadial recipe for training Kaldi models
+can be found below.
+
+Let us remind that discriminative model can describe the probability $P(audio|ASR hypothesis)$.
+In contrast to generative model it is not capable to generate samples from join probability $P(audio, ASR hypothesis)$. However, the discriminative models usually yield better results than generative models. 
+
+As you can see in~Table~\ref{tab:disc_train}, we combine various discriminative training methods
+and feature transformations in order to obtain better results. 
+Let us briefly introduce improvements and alternatives to maximum likelihood training methods,
+which are used in vystadial script.
+
+\begin{itemize}
+    \item \ac{LDA} is used as linear classifier for acoustic features. 
+        It transforms the acoustic features to another feature space with reduced dimension.
+    \item \ac{MLLT}\cite{psutka2007benefit} clusters and transforms full covariance matrices for Gaussian distributions used in \ac{HMM}s. Using the full covariance matrices instead of the diagonal one improves the \ac{WER} and the sharing of the covariance matrices makes the technique reasonable efficient.
+    \item \ac{MMI} is different criterium to maximum likelihood. The key idea is that maximum likelihood is optimal only under almost never met conditions. \ac{MMI} optimize maximum mutual information objective function\cite{chow1990maximum}.
+    \item \ac{UBM}\cite{povey2010subspace} training is the base system for \acl{SAT}. 
+        By changing small number of parameters in vector of short length (50) \ac{UBM} controls all the mean and 
+        weight parameters of the speech-state-specific mixture model. In addition, it introduce 
+        a~"speaker vector," which can be adapted by discriminative \ac{SAT} training.
+    \item \acl{SAT}\cite{povey2011kaldi} uses \ac{fMLLR} technique. Note that in our experiments we have 
+        the~training data without speaker labels, so we suppose that each utterance is spoken by different user.
+        In fact, it makes the \ac{SAT} methods hopeless in improving the \ac{WER}, 
+        but we include the results for completeness and future comparison.
+    \item \ac{MPE}\cite{povey2007evaluation} is an objective function for discriminative models in \ac{ASR}. In \ac{MPE} experiment the Kaldi toolkit uses modified \ac{MMI} and extended Baum-Welsch algorithm together with the \ac{MPE} objective function to train \ac{HMM} parameters.
+    \item \cite{povey2005fmpe} \ac{fMMI} uses \ac{MPE} objective functions to the acoustic features.
+\end{itemize}
+\begin{table}[!htp]\label{tab:disc_train}
 \small{\begin{tabular}{lll}
 \hline
 Training method name & Script shortcut & Note\\
 \hline
-Monophone & mono & Baseline for all other systems.\\
-Triphone  & tri1 &  Alignments from mono. Baseline for others.\\
+Monophone & mono & Base for all other systems.\\
+Triphone  & tri1 &  Alignments from mono. Base for others.\\
 delta+delta-delta & tri2a & Alignments from tri1 \\
-LDA+MLLT & tri2b &  Baseline system for other experiments \\
-LDA+MLLT+MMI & tri2b-mmi & Alignments from tri2b \\
-LDA+MLLT+MMI(boost) & tri2b-mmi-b0.05  & Alignments from tri2b \\
-MPE & tri2b-mpe & Alignments from tri2b \\
-LDA+MLLT+SAT & tri3b & Alignments from tri2b. Baseline for other. \\
-LDA+MLLT+SAT+MMI & tri3b-mmi  & Alignments from tri3b \\
-    UBM+fMMI+MMI & tri3b-fmmi-b & Alignments from UBM(based on tri3b) \\
-UBM+fMMI+MMI & tri3b-fmmi-c & tri3b-fmmi-b with changed parameters \\
-UBM+FMMI+MMI & tri3b-fmmi-d & Alignments from UBM + MPE on features.\\ 
-\end{tabular}}\caption{Training methods overview. All experiments train triphones except the~monophone experiment. Script shortcut is refers to names of the experiments in the "run.sh" script.}\end{table}
+\ac{LDA}+\ac{MLLT} & tri2b &  Base for other experiments \\
+\ac{LDA}+\ac{MLLT}+\ac{MMI} & tri2b-mmi & Alignments from tri2b \\
+\ac{LDA}+\ac{MLLT}+\ac{MMI}(boost) & tri2b-mmi-b0.05  & Alignments from tri2b \\
+\ac{MPE} & tri2b-mpe & Alignments from tri2b \\
+\ac{LDA}+\ac{MLLT}+\ac{SAT} & tri3b & Alignments from tri2b. Base for others. \\
+\ac{LDA}+\ac{MLLT}+\ac{SAT}+\ac{MMI} & tri3b-mmi  & Alignments from tri3b \\
+\ac{UBM}+\ac{fMMI}+\ac{MMI} & tri3b-fmmi-b & Alignments from \ac{UBM}(based on tri3b) \\
+\ac{UBM}+\ac{fMMI}+\ac{MMI} & tri3b-fmmi-c & tri3b-fmmi-b with changed parameters \\
+\ac{UBM}+\ac{fMMI}+\ac{MMI} & tri3b-fmmi-d & Alignments from \ac{UBM} + \ac{MPE} on features.\\ 
+\end{tabular}}
+\caption{Training methods overview. All experiments train triphones except the~monophone experiment. Script shortcut is refers to names of the experiments in the "run.sh" script.}
+\end{table}
 
-\todo{the training methods examind are --- todo}
-\todo{the results we obtain are in form -- show table}
 % section the_experiments_setup (end)
 
 \section{Introduction to training acoustic models} 
