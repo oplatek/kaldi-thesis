@@ -2,6 +2,7 @@
 \chapter{Acoustic model training}
 \label{cha:training}
 
+\todo{acoustic modeling in Kaldi \href{http://kaldi.sourceforge.net/model.html}}
 This chapter describes the~acoustic model training.
 Having a good acoustic model is the first necessary step in embedding 
 quality real-time decoder into a dialog system.
@@ -232,22 +233,24 @@ tri3b-fmmi-d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
 \caption{\todo{1.\ copy the last relevant results.}}
 \end{table}  
 
-\begin{table}[!htp]\centering\begin{tabular}{cccc}
-exp             & \ac{RTF}       & \ac{WER}         & \ac{SER} \\
-tri2b-mpe       & 0.88688125     & (23.54, 20) & (51.73, 20)\\
-mono            & 3.2617725      & (50.3, 20)  & (75.07, 20)\\
-tri3b-mmi       & 0.807879083333 & (22.73, 19) & (50.53, 15)\\
-tri1            & 1.94605        & (33.34, 20) & (66.4, 20) \\
-tri2b-mmi       & 1.72681375     & (23.03, 15) & (50.8, 20) \\
-tri2a           & 1.962175       & (33.19, 20) & (66.0, 20) \\
-tri2b           & 1.8105575      & (30.08, 19) & (63.47, 19)\\
-tri3b           & 0.748003125    & (31.37, 19) & (63.47, 19)\\
-tri3b-fmmi-c    & 11.8128208333  & (22.24, 16) & (49.2, 15) \\
-tri3b-fmmi-b    & 8.22911708333  & (21.67, 17) & (48.27, 14)\\
-tri2b-mmi-b0.05 & 1.146794625    & (22.29, 17) & (49.87, 17)\\
-tri3b-fmmi-d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
+
+\begin{table}[!htp]\centering\begin{tabular}{l|rrr}
+% oplatek@kronos:master:custom_dict_and_lm_2013-07-17_18:01:53.593578525$
+exp             & RT coef        & WER         & SER        \\ 
+\hline
+tri3b-fmmi-b    & 1.36150426667  & (13.35, 9)  & (33.89, 9) \\ 
+tri2b-mpe       & 0.20711125     & (14.84, 16) & (35.58, 18)\\ 
+mono            & 0.3436106      & (40.83, 15) & (64.81, 19)\\ 
+tri3b-mmi       & 0.173916626667 & (13.79, 11) & (34.54, 10)\\ 
+tri1            & 0.2700173      & (20.63, 20) & (44.5, 20) \\ 
+tri2b-mmi       & 0.2609084      & (14.49, 13) & (34.93, 15)\\ 
+tri2a           & 0.2824097      & (20.05, 20) & (44.5, 19) \\ 
+tri2b           & 0.2155103      & (19.71, 20) & (43.86, 20)\\ 
+tri3b           & 0.14386492     & (19.59, 17) & (43.08, 17)\\ 
+tri3b-fmmi-c    & 1.5112627      & (13.37, 9)  & (33.76, 9) \\ 
+tri2b-mmi-b0.05 & 0.2807327      & (14.47, 13) & (34.28, 15)\\ 
 \end{tabular}
-\caption{\todo{1.\ copy the last relevant results.}}
+\caption{Experiment with generated LM and dictionary \todo{tag2like}\todo{reorder}}
 \end{table}  
 
 \clearpage
