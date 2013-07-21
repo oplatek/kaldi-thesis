@@ -1,10 +1,21 @@
 % !TEX root = main.tex
-\chapter{Model training}
+\chapter{Acoustic model training}
 \label{cha:training}
 
+This chapter describes the~acoustic model training.
+Having a good acoustic model is the first necessary step in embedding 
+quality real-time decoder into a dialog system.
+In this chapter, we focus on how to train as good acoustic model as possible
+and we do not care too much for the speed of decoding.
+
+The~Section~\ref{sec:setup} introduces the used methods and describes 
+how the experiments are organized. The section continues by~presenting our results in~Section~\ref{sec:exps}. 
+Later, in in Section~\ref{sec:compare} we briefly compare the obtained 
+results with results trained with \ac{HTK} toolkit.
+Finally, we sum up the results and we briefly judge the Kaldi toolkit.
 
 \section{The script structure and training methods used} 
-\label{sec:the_experiments_setup}
+\label{sec:setup}
 
 The experiments described further in this chapter were performed on two data sets.
 The first dataset can not be published due to licensing reason, 
@@ -136,7 +147,7 @@ require specific feature transformations, which needs to applied also on testing
 % section the_experiments_setup (end)
 
 \section{Performed experiments and results} 
-\label{sec:introduction_to_training_acoustic_models}
+\label{sec:exps}
 We designed several experiments described in~Table~\ref{tab:exp_type} at the beginning of writing this thesis.
 During the year the training scripts have been improved several times. 
 We present the last set of experiments setup, where we get the best result.
@@ -244,7 +255,7 @@ tri3b-fmmi-d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
 % section introduction_to_training_acoustic_models (end)
 
 \section[Kaldi and \ac{HTK}]{Kaldi and previous \ac{HTK} results comparison} 
-\label{sec:kaldi_htk}
+\label{sec:compare}
 
 Let us remind that we use OpenJulius decoder together with HTK models decoder in our dialog system.
 The \ac{HTK} scripts were written by Filip Jurčíček and Matěj Korvas. No discriminative training was performed,
