@@ -21,7 +21,7 @@ In my recipe directory I have subdirectory "s5" where all the files are located.
  one or more subdirectories named s1, s2, s3, s4 or s5 with predefined structure.
 
 The most important file in the recipe is the "run.sh" file. It launches the training and its evaluation.
-It uses other scripts. The scripts special to vystadila recipe are located in subdirecory "local".
+It uses other scripts. The scripts special to vystadial recipe are located in subdirectory "local".
 The tools shared among all the Kaldi recipes are stored in symbolically linked directories "steps" and "utils".
 The files "cmd.sh", "path.sh" and files in "conf" directory stores the short settings.
 
@@ -40,6 +40,9 @@ kaldi
 |   |   |   |   |-- mfcc.conf
 |   |   |   |   |-- train_conf.sh
 |   |   |   |-- data
+|   |   |   |   |-- test 
+|   |   |   |   |-- train
+|   |   |   |   |-- lang
 |   |   |   |-- exp
 |   |   |   |-- local
 |   |   |   |   |-- backup.sh
@@ -76,11 +79,23 @@ and feature transformations in order to obtain better results.
 Let us briefly introduce improvements and alternatives to maximum likelihood training methods,
 which are used in vystadial script.
 
+\begin{figure}
+    \begin{center}
+    \input{images/mfcc-delta}
+    \caption{Typical setup with 39 features using \ac{MFCC}.}
+    \label{fig:delta} 
+    \end{center}
+\end{figure}
+
 \begin{itemize}
+    \item One of the historically first signal processing method which captures the dynamics of a speech
+        are so called $delta$ and $delta-delta$ coefficients. The~$delta$ coefficients represent the first 
+        derivative of static features and $delta-delta$ represents the second derivatives of static acoustic features.
+        On Figure~\ref{fig:delta} there is typical feature extraction procedure using \ac{MFCC}\cite{ye2004speech}.
     \item \ac{LDA} is used as linear classifier for acoustic features. 
         It transforms the acoustic features to another feature space with reduced dimension.
     \item \ac{MLLT}\cite{psutka2007benefit} clusters and transforms full covariance matrices for Gaussian distributions used in \ac{HMM}s. Using the full covariance matrices instead of the diagonal one improves the \ac{WER} and the sharing of the covariance matrices makes the technique reasonable efficient.
-    \item \ac{MMI} is different criterium to maximum likelihood. The key idea is that maximum likelihood is optimal only under almost never met conditions. \ac{MMI} optimize maximum mutual information objective function\cite{chow1990maximum}.
+    \item \ac{MMI} is different criterium to maximum likelihood. The key idea is that maximum likelihood is optimal only under rarely met conditions. \ac{MMI} optimize maximum mutual information objective function\cite{chow1990maximum}.
     \item \ac{UBM}\cite{povey2010subspace} training is the base system for \acl{SAT}. 
         By changing small number of parameters in vector of short length (50) \ac{UBM} controls all the mean and 
         weight parameters of the speech-state-specific mixture model. In addition, it introduce 
@@ -113,62 +128,68 @@ delta+delta-delta & tri2a & Alignments from tri1 \\
 \caption{Training methods overview. All experiments train triphones except the~monophone experiment. Script shortcut is refers to names of the experiments in the "run.sh" script.}
 \end{table}
 
+Each of the training method from~Table~\ref{tab:disc_train} is trained on data from "$data/train$" directory.
+Each of the method is also evaluated on data from "$data/test$" directory.
+The $gmm-latgen-faster$ decoder is used for evaluation. 
+However, many of the methods from~Table~\ref{tab:disc_train}
+require specific feature transformations, which needs to applied also on testing data.
 % section the_experiments_setup (end)
 
-\section{Introduction to training acoustic models} 
+\section{Performed experiments and results} 
 \label{sec:introduction_to_training_acoustic_models}
-We will use a basic language model, because we want to compare \ac{HTK} and Kaldi 
-toolkit acoustic models accuracy.  In addition, we can reuse the already built 
-language model for \ac{HTK}. Other reason is that a language model is very domain 
-dependent. % FIXME add citation LM are domain dependent
-We want to use our Alex dialog system in other domains except Prague public 
-transport, so we do not focus on language modeling. 
+We designed several experiments described in~Table~\ref{tab:exp_type} at the beginning of writing this thesis.
+During the year the training scripts have been improved several times. 
+We present the last set of experiments setup, where we get the best result.
 
-During the phase of~training acoustic models, we focus mainly on the quality 
-of~the decoded output rather than on the speed of~decoding itself. 
-We would like to achieve at least as accurate decoding with Kaldi as we have 
-achieved with \ac{HTK}. In this thesis we will set up and evaluate following 
-experiments using Kaldi:
-\begin{itemize}
-    \item Standard generative training
-    \item Learning linear transformations (e.g. \ac{HLDA})
-    \item Discriminative training 
-\end{itemize}
+The experiments focus on comparing the quality of ASR hypothesis in terms of \ac{WER}.
+The speed was not the main concern and other Kaldi decoders may not support some from the trained models.
+In general, if a method is slow for the $gmm-latgen-faster$ decoder it is slow for others decoder too.
+We measure the speed in terms of \ac{RTF}, because the $gmm-latgen-faster$ decoder is designed for~batch 
+processing, so the measuring latency does not make much sense.
 
-% section introduction_to_training_acoustic_models (end)
+\begin{table}[!htp]\label{tab:exp_type}
+\begin{tabular}{lrr}
+\hline
+Language model and dictionary / Experiment & Generated \ac{LM}  & Classic \ac{LM} \\
+\hline
+\ac{HTK} like parameters    & todo & todo \\
+Best with OOV               & todo & todo \\
+Best without OOV            & todo & todo \\
+\hline
+\end{tabular}
+\caption{Kaldi experiments}
+\end{table}
 
-\section[Kaldi vs \ac{HTK}]{Kaldi vs \ac{HTK} training scripts and its capabilities} 
-\label{sec:kaldi_htk}
+In the experiments, there are used two types of n-gram \acl{LM}. 
+We store both \ac{LM} in~ARPA format\footnote{ARPA format is poorly documented at 
+\href{http://www.speech.sri.com/projects/srilm/manpages/ngram-format.5.html}{SRILM man page}}.
+First \ac{LM}, is pre-trained from classic data. It contains $2802$ unigrams, $109315$ bigrams and
+$118217$ trigrams. We will not publish the model, and we did not trained it ourselves. 
+The second \ac{LM}, is just from the transcriptions of training data. It contains 
+$641$ unigrams, $3707$ bigrams and $7610$ trigrams.
+We do not focus on the language modeling since \ac{LM} is usually done domain specifically.
+We want to use our dialog system and also the Kaldi recognizer in multiple domains with minimum
+setup changes. In future, we would like to use very general \ac{LM} and reduce the dependency on~\ac{LM}
+as much as possible.
 
-% section kaldi_vs_htk_training_scripts_and_its_capabilities (end)
 
-\section{Kaldi Experiment Results} % (fold)
-\label{sec:exp_results}
+The best results from each experiments are extracted to~Table~\ref{tab:exp_type}\footnote{\todo{SHOULD I ADD THIS} Complete list of the experiments can be found \href{https://redmine.ms.mff.cuni.cz/projects/vystadial/wiki/Acoustic_models/}{Vystadial Redmine Wiki}}. 
 
-The quality is measured on the decoder output for each acoustic model used. 
-The measures used depends on the decoder output. 
-On the other hand, all of the decoders used are capable of decoding 
-the acoustic signal into textual representation. 
+In~the detail tables 
+The tables \todo{list them} presents complete overview of the results. 
+Note, that the decoding on test data was performed with different \ac{LM} weights for each method and 
+experiment. The we tried \ac{LM} weights $9, 10, 11, ...$ to $20$. 
+The best \ac{LM} weight is always the second number in bracket.
 
-Corresponding \ac{HTK} results could be found at
-\href{https://redmine.ms.mff.cuni.cz/projects/vystadial/wiki/Acoustic_models/}{Vystadial Redmine Wiki}
+Similarly to \ac{WER}, we also measured \ac{SER}. It is computed as ratio of sentences at least with one incorrectly decoded word dived by the total number of sentences. Note that \ac{SER} largely depends on length of sentences. 
 
-Shortcuts used:
-\begin{itemize}
-    \item \bf \ac{RTF} = Minimum over number of jobs for each tasks
-    \item \bf \ac{WER}, \ac{SER} = Minimum over different LM weights rescoring,
-        where LM weight ranges from 9 to 20. 
-\end{itemize}
-
-\subsection*{Data classic}
-
-\begin{table}[!htp]\centering\begin{tabular}{cccc}
-exp             & \ac{RTF}       & \ac{WER}         & \ac{SER} \\
+\begin{table}[!htp]\centering\begin{tabular}{l|rrr}
+Experiment      & \ac{RTF}       & \ac{WER}         & \ac{SER} \\
+\hline
 tri2b-mpe       & 0.88688125     & (23.54, 20) & (51.73, 20)\\
 mono            & 3.2617725      & (50.3, 20)  & (75.07, 20)\\
 tri3b-mmi       & 0.807879083333 & (22.73, 19) & (50.53, 15)\\
 tri1            & 1.94605        & (33.34, 20) & (66.4, 20) \\
-tri3b-denlats   & 0.77643725     & None        & None       \\
 tri2b-mmi       & 1.72681375     & (23.03, 15) & (50.8, 20) \\
 tri2a           & 1.962175       & (33.19, 20) & (66.0, 20) \\
 tri2b           & 1.8105575      & (30.08, 19) & (63.47, 19)\\
@@ -176,137 +197,101 @@ tri3b           & 0.748003125    & (31.37, 19) & (63.47, 19)\\
 tri3b-fmmi-c    & 11.8128208333  & (22.24, 16) & (49.2, 15) \\
 tri3b-fmmi-b    & 8.22911708333  & (21.67, 17) & (48.27, 14)\\
 tri2b-mmi-b0.05 & 1.146794625    & (22.29, 17) & (49.87, 17)\\
-tri2b-denlats   & 1.02629525     & None        & None       \\
 tri3b-fmmi-d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
 \end{tabular}
-\caption{1.\ experiment kaldi-vystadial-recipe commit cf40202263450c72b4f8ef9aa8d6b7f03ac59814.
-Initial Kaldi setup according Voxforge recipe.}
+\caption{\todo{1.\ copy the last relevant results.}}
 \end{table}  
 
 
-\begin{table}[htp] \centering{
-\begin{tabular}{cccc}
-exp             & \ac{RTF}      & \ac{WER}         & \ac{SER}        \\
--ri3b-fmmi-b    & 10.422085     & (19.64, 14) & (45.07, 11)\\
-tri2b-mpe       & 2.09137125    & (22.06, 15) & (49.6, 14) \\
-mono            & 3.4773675     & (48.69, 18) & (74.4, 18) \\
-tri3b-mmi       & 1.25892633333 & (20.11, 18) & (47.73, 11)\\
-tri1            & 4.459925      & (26.92, 16) & (56.27, 20)\\
-tri3b-denlats   & 1.2851525     & None        & None       \\
-tri2b-mmi       & 1.68427875    & (20.88, 17) & (46.67, 14)\\
-tri2a           & 2.3842725     & (26.09, 17) & (55.07, 17)\\
-tri2b           & 1.7085825     & (26.16, 20) & (57.73, 20)\\
-tri3b           & 1.073698375   & (27.57, 20) & (58.8, 16) \\
-tri3b-fmmi-c    & 12.1484916667 & (19.52, 15) & (45.47, 11)\\
-tri2b-mmi-b0.05 & 1.79180375    & (20.63, 14) & (46.4, 14) \\
-tri2b-denlats   & 1.196845      & None        & None       \\
-tri3b-fmmi-d    & 9.047925      & (19.42, 15) & (45.07, 12)
+\begin{table}[!htp]\centering\begin{tabular}{cccc}
+exp             & \ac{RTF}       & \ac{WER}         & \ac{SER} \\
+tri2b-mpe       & 0.88688125     & (23.54, 20) & (51.73, 20)\\
+mono            & 3.2617725      & (50.3, 20)  & (75.07, 20)\\
+tri3b-mmi       & 0.807879083333 & (22.73, 19) & (50.53, 15)\\
+tri1            & 1.94605        & (33.34, 20) & (66.4, 20) \\
+tri2b-mmi       & 1.72681375     & (23.03, 15) & (50.8, 20) \\
+tri2a           & 1.962175       & (33.19, 20) & (66.0, 20) \\
+tri2b           & 1.8105575      & (30.08, 19) & (63.47, 19)\\
+tri3b           & 0.748003125    & (31.37, 19) & (63.47, 19)\\
+tri3b-fmmi-c    & 11.8128208333  & (22.24, 16) & (49.2, 15) \\
+tri3b-fmmi-b    & 8.22911708333  & (21.67, 17) & (48.27, 14)\\
+tri2b-mmi-b0.05 & 1.146794625    & (22.29, 17) & (49.87, 17)\\
+tri3b-fmmi-d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
 \end{tabular}
-\caption{2.\ experiment kaldi-vystadial-recipe commit 10fe1128519aa263ab805216e381d15378d74821.
-Adjust according \ac{HTK} parameters in order to compare to \ac{HTK} models.}
-}\end{table}  
+\caption{\todo{1.\ copy the last relevant results.}}
+\end{table}  
 
+\begin{table}[!htp]\centering\begin{tabular}{cccc}
+exp             & \ac{RTF}       & \ac{WER}         & \ac{SER} \\
+tri2b-mpe       & 0.88688125     & (23.54, 20) & (51.73, 20)\\
+mono            & 3.2617725      & (50.3, 20)  & (75.07, 20)\\
+tri3b-mmi       & 0.807879083333 & (22.73, 19) & (50.53, 15)\\
+tri1            & 1.94605        & (33.34, 20) & (66.4, 20) \\
+tri2b-mmi       & 1.72681375     & (23.03, 15) & (50.8, 20) \\
+tri2a           & 1.962175       & (33.19, 20) & (66.0, 20) \\
+tri2b           & 1.8105575      & (30.08, 19) & (63.47, 19)\\
+tri3b           & 0.748003125    & (31.37, 19) & (63.47, 19)\\
+tri3b-fmmi-c    & 11.8128208333  & (22.24, 16) & (49.2, 15) \\
+tri3b-fmmi-b    & 8.22911708333  & (21.67, 17) & (48.27, 14)\\
+tri2b-mmi-b0.05 & 1.146794625    & (22.29, 17) & (49.87, 17)\\
+tri3b-fmmi-d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
+\end{tabular}
+\caption{\todo{1.\ copy the last relevant results.}}
+\end{table}  
 
 \clearpage
-\subsection*{Data vystadial}
 
+% section introduction_to_training_acoustic_models (end)
 
-\begin{table}[htp] \centering{
-\begin{tabular}{cccc}
-exp             & \ac{RTF}       & \ac{WER}         & \ac{SER}        \\
--ri3b-fmmi-b    & 8.49685875     & (11.32, 15) & (32.6, 20) \\
-tri2b-mpe       & 1.042053       & (12.7, 19)  & (36.61, 19)\\
-mono            & 2.46068        & (43.51, 13) & (64.17, 15)\\
-tri3b-mmi       & 0.921234416667 & (12.21, 14) & (33.89, 18)\\
-tri1            & 1.6237775      & (16.87, 19) & (43.73, 19)\\
-tri3b-denlats   & 1.03578075     & None        & None       \\
-tri2b-mmi       & 1.197875       & (11.52, 11) & (32.86, 17)\\
-tri2a           & 1.5251075      & (17.09, 12) & (44.24, 19)\\
-tri2b           & 1.060909       & (16.06, 20) & (43.08, 20)\\
-tri3b           & 0.77341175     & (17.02, 17) & (44.11, 20)\\
-tri3b-fmmi-c    & 8.77094958333  & (12.28, 16) & (34.02, 16)\\
-tri2b-mmi-b0.05 & 1.119341       & (11.2, 16)  & (32.08, 17)\\
-tri2b-denlats   & 0.9729795      & None        & None       \\
-tri3b-fmmi-d    & 6.58549958333  & (11.86, 13) & (33.25, 12)
+\section[Kaldi and \ac{HTK}]{Kaldi and previous \ac{HTK} results comparison} 
+\label{sec:kaldi_htk}
+
+Let us remind that we use OpenJulius decoder together with HTK models decoder in our dialog system.
+The \ac{HTK} scripts were written by Filip Jurčíček and Matěj Korvas. No discriminative training was performed,
+only experiments with mixing with different \acl{LM} settings were performed. 
+The best obtained results are listed in~Table~\ref{tab:res}.
+
+\begin{table}[!htp]\label{tab:htk_res}\centering\begin{tabular}{l|rr}
+Experiment      & \ac{WER} & \ac{SER} \\
+\hline
+    Zerograms      & 50.18  & 94.34  \\
+    Bigrams        & 33.67  & 68.55  \\
+    Trigrams       & 20.31  & 45.10  \\
 \end{tabular}
-\caption{3.\ experiment kaldi-vystadial-recipe commit 585de385922b431881dfd2508567917045a104ab.
-{\bf CHEATING! TEST DATA ARE SUBSET OF TRAIN DATA} on data /ha/projects/vystadial/data/asr/en/voip/{train.old, test.old}}
-}\end{table}  
+\caption{Best \ac{HTK} results}
+\end{table}  
 
+We tried to simulate the~\ac{HTK} settings in the~Kaldi experiment~\ref{tab:htk_like}.
+We choose for all experiments the~parameters according the~\ac{HTK} scripts.
+The most important parameters are the~maximum Gausians number and the~number of \acl{PDF}.
+\todo{pdf numbers and max gausians why 19200? and how did I compute it?} 
 
-\begin{table}[htp] \centering{
-\begin{tabular}{cccc}
-exp             & \ac{RTF}      & \ac{WER}         & \ac{SER}        \\
--ri3b-fmmi-b    & 10.5736754167 & (16.87, 16) & (40.62, 16)\\
-tri2b-mpe       & 1.2229925     & (17.34, 14) & (41.53, 16)\\
-mono            & 2.81766       & (41.59, 13) & (65.72, 15)\\
-tri3b-mmi       & 1.07604041667 & (18.23, 14) & (42.69, 15)\\
-tri1            & 2.12002       & (23.19, 18) & (50.97, 18)\\
-tri3b-denlats   & 0.94768325    & None        & None       \\
-tri2b-mmi       & 1.59091125    & (17.49, 14) & (41.27, 15)\\
-tri2a           & 1.91198       & (21.44, 15) & (48.9, 15) \\
-tri2b           & 1.54646       & (20.62, 18) & (48.38, 18)\\
-tri3b           & 0.9433825     & (21.56, 17) & (52.13, 17)\\
-tri3b-fmmi-c    & 11.175855     & (17.29, 14) & (41.27, 17)\\
-tri2b-mmi-b0.05 & 1.5890125     & (17.22, 15) & (41.01, 15)\\
-tri2b-denlats   & 1.00629875    & None        & None       \\
-tri3b-fmmi-d    & 8.39958958333 & (16.9, 13)  & (40.62, 17)
+In the experiment~\ref{tab:htk_like} we used the available options for reproducing the~\ac{HTK} like generation
+of \ac{MFCC} features.
+
+The most comparable settings for \ac{HTK} and Kaldi are the $trigram$ \ac{HTK} results
+and the $tri2a$ model in "htk-like" experiment~\ref{tab:htk_like}. 
+The~\ac{WER} for this settings can be found in Table~\ref{tab:compare}
+together with best 
+\begin{table}[!htp]\label{tab:compare}\centering\begin{tabular}{l|rrr}
+    Experiment   & \ac{RTF} & \ac{WER} & \ac{SER} \\
+\hline
+\hline
+\ac{HTK}-Trigrams   & Unknown  & 20.31  & 45.10  \\
+Kaldi~\ref{tab:htk_like} - tri2a & todo & todo   & todo \\
+\hline
+Kaldi - best and fast descrimintive training & todo  & todo   & todo \\
 \end{tabular}
-\caption{4.\ experiment kaldi-vystadial-recipe commit 585de385922b431881dfd2508567917045a104ab.
-\ac{HTK} like parameters.
-(/ha/projects/vystadial/data/asr/en/voip/{train, test}).
-}
-}\end{table}  
+\caption{Best result comparison between Kaldi and \ac{HTK}}
+\end{table}  
+
+To conclude, we find out that Kaldi recognition toolkit is capable of training acoustic models with comparable quality like \ac{HTK} toolkit. In addition, Kaldi has rich set of tools for discriminative training.
+With the~Kaldi acoustic models good enough ASR hypothesis can be decoded. 
+In Chapter~\ref{cha:decoder} we will describe Kaldi decoders, which are convenient for real-time usage
+, and which also does do loose the ability to produce quality ASR hypothesis.
+
+% section kaldi_vs_htk_training_scripts_and_its_capabilities (end)
 
 
-\begin{table}[htp] \centering{
-\begin{tabular}{cccc}
-exp             & \ac{RTF}      & \ac{WER}         & \ac{SER}        \\
--ri3b-fmmi-b    & 14.6555625    & (15.57, 19) & (37.9, 14) \\
-tri2b-mpe       & 2.4290175     & (16.25, 16) & (41.4, 20) \\
-mono            & 4.68498       & (43.02, 14) & (65.59, 13)\\
-tri3b-mmi       & 2.5989        & (19.63, 20) & (46.57, 16)\\
-tri1            & 4.00148       & (22.61, 18) & (50.84, 17)\\
-tri3b-denlats   & 2.3944975     & None        & None       \\
-tri2b-mmi       & 3.11491875    & (16.03, 18) & (41.27, 18)\\
-tri2a           & 3.5336175     & (22.02, 15) & (49.55, 20)\\
-tri2b           & 2.6743175     & (19.88, 20) & (47.48, 20)\\
-tri3b           & 1.807084875   & (20.54, 17) & (47.22, 17)\\
-tri3b-fmmi-c    & 14.7587791667 & (15.74, 15) & (38.03, 14)\\
-tri2b-mmi-b0.05 & 3.23086       & (15.88, 17) & (40.88, 20)\\
-tri2b-denlats   & 2.2504575     & None        & None       \\
-tri3b-fmmi-d    & 10.4809795833 & (15.62, 14) & (38.03, 16)
-\end{tabular}
-\caption{5.\ experiment kaldi-vystadial commit 4e96c6704785b2476daf26e0b39eec95f3157f1e.
-Data vystadial (/ha/projects/vystadial/data/asr/en/voip/{train, test})
-Removed \ac{OOV} words from \ac{LM} $\longrightarrow$ decoder is not trained for \ac{OOV}s and does not produce
-any symbol for \ac{OOV}.}
-}\end{table}  
-
-\begin{table}[htp] \centering{
-\begin{tabular}{cccc}
-    exp             & \ac{RTF}    & \ac{WER}         & \ac{SER}        \\
-    -ri3b-fmmi-b    & 11.33336625 & (19.42, 15) & (45.07, 13)\\
-    tri2b-mpe       & 1.2307175   & (21.22, 19) & (48.8, 15) \\
-    mono            & 2.8952      & (49.88, 18) & (74.93, 17)\\
-    tri3b-mmi       & 1.24198625  & (20.01, 16) & (46.67, 13)\\
-    tri1            & 2.398165    & (28.13, 18) & (58.27, 18)\\
-    tri3b-denlats   & 1.20614     & None        & None       \\
-    tri2b-mmi       & 1.65662125  & (20.34, 17) & (46.93, 11)\\
-    tri2a           & 2.15838     & (28.43, 16) & (58.0, 15) \\
-    tri2b           & 1.451105    & (27.96, 20) & (58.93, 20)\\
-    tri3b           & 1.0596075   & (27.79, 20) & (58.93, 20)\\
-    tri3b-fmmi-c    & 11.4361875  & (19.13, 15) & (45.47, 16)\\
-    tri2b-mmi-b0.05 & 2.0089575   & (19.64, 13) & (45.6, 12) \\
-    tri2b-denlats   & 1.20083     & None        & None       \\
-    tri3b-fmmi-d    & 16.1227625  & (19.5, 18)  & (46.0, 11)
-\end{tabular}
-\caption{6.\ experiment kaldi-vystadial commit aa7263b3f5c151409a87e3d845d58e39335a4f0c.
-Data classic (todo)
-Removed \ac{OOV} words from \ac{LM} $\longrightarrow$ decoder is not trained for \ac{OOV}s and does not produce
-any symbol for \ac{OOV}.}
-}\end{table}  
-
-% section Experiment results (end)
 
 % chapter model_training_modelsmodels (end)

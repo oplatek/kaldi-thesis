@@ -1,0 +1,44 @@
+% \usepackage[usenames,dvipsnames]{pstricks}
+% \usepackage{epsfig}
+% \usepackage{pst-grad} % For gradients
+% \usepackage{pst-plot} % For axes
+% User Packages:
+% 
+% 
+\psscalebox{1.0 1.0} % Change this value to rescale the drawing.
+{
+\begin{pspicture}(0,-2.1866903)(14.64,2.1866903)
+\fontsize{9pt}{9.1pt}\selectfont
+\psframe[linecolor=black, linewidth=0.04, dimen=outer](5.2466364,0.9342583)(3.2754426,0.11686699)
+\psframe[linecolor=black, linewidth=0.04, dimen=outer](1.971194,0.91939664)(0.0,0.102005325)
+\psframe[linecolor=black, linewidth=0.04, dimen=outer](8.329969,1.0085666)(6.2385964,0.19117528)
+\psframe[linecolor=black, linewidth=0.04, dimen=outer](5.3059206,-0.19522788)(3.3347266,-1.0126191)
+\psframe[linecolor=black, linewidth=0.04, dimen=outer](13.807368,-0.2249512)(11.635996,-1.0423425)
+\psframe[linecolor=black, linewidth=0.04, dimen=outer](13.807368,-1.2355441)(11.635996,-2.0529354)
+\psframe[linecolor=black, linewidth=0.04, dimen=outer](11.048256,0.9937049)(8.8768835,0.17631362)
+\psline[linecolor=black, linewidth=0.04, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.0]{->}(1.971194,0.5627168)(3.2754426,0.54785514)
+\psline[linecolor=black, linewidth=0.04, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.0]{->}(5.2762785,0.5627168)(6.3137493,0.5627168)
+\psline[linecolor=black, linewidth=0.04, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.0]{->}(8.302621,0.6221634)(8.893209,0.6221634)
+\psline[linecolor=black, linewidth=0.04, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.0]{->}(11.064582,0.69647175)(13.954304,0.69647175)
+\psline[linecolor=black, linewidth=0.04, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.0]{->}(5.3207417,-0.65593934)(11.61967,-0.6856626)(11.61967,-0.6856626)
+\psline[linecolor=black, linewidth=0.04, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.0]{->}(11.211517,0.68161005)(11.211517,-1.6962556)(11.635996,-1.6962556)
+\psline[linecolor=black, linewidth=0.04, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.0]{->}(13.97063,1.5733097)(14.003282,-2.1272438)(14.003282,-2.1272438)
+\psline[linecolor=black, linewidth=0.04, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.0]{->}(13.791042,-0.6856626)(13.986956,-0.70052433)
+\psline[linecolor=black, linewidth=0.04, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.0]{->}(13.774716,-1.6665323)(14.003282,-1.6665323)
+\psline[linecolor=black, linewidth=0.04, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.0]{->}(2.4454663,0.5627168)(2.4751081,-0.6856626)(3.3495476,-0.6856626)
+\rput[bl](0.34088317,0.5){Speech}
+\rput[bl](0.34088317,0.2){Signal}
+\rput[bl](3.5,0.5){Windowed}
+\rput[bl](3.5,0.2){FFT}
+\rput[bl](8.958514,0.5924401){12 DCT coeff.}
+\rput[bl](3.5,-0.6){Energy}
+\rput[bl](3.5,-0.9){Measure}
+\rput[bl](11.766604,-0.56676936){Delta}
+\rput[bl](11.831909,-1.6813939){Delta-Delta}
+\rput[bl](6.316553,0.59188676){Mel-spaced}
+\rput[bl](6.34,0.2933097){Filterbanks}
+\rput{-269.78308}(13.964381,-14.718193){\rput[bl](14.3134775,-0.4032911){13 static features}}
+\rput{-268.23334}(13.6484165,-16.121153){\rput[bl](14.64,-1.4436073){13 delta features}}
+\rput{-270.14914}(12.05697,-16.461775){\rput[bl](14.280826,-2.1866903){13 delta-delta}}
+\end{pspicture}
+}
