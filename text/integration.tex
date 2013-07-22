@@ -6,10 +6,60 @@ a decoder from a dialog system.
 In addition, in~Section~\ref{sec:python_c_interface} we present our project specific issue.
 Namely, interfacing C/C++ code from Python.
 
+
 \section{Dialog system architecture} 
 \label{sec:dialog_system_architecture}
-Reintroduce Dialog system from the introduction and discuss asynchronous needs
-and the cyclic behaviour.
+The Alex dialog system is developed in Python language and consist of~six major components. 
+\begin{enumerate}
+    \item Voice Activity Detection (VAD)
+    \item Automatic Speech Recognition (ASR) 
+    \item Spoken Language Understanding (SLU)
+    \item Dialog Manager (DM)
+    \item Natural Language Generation (NLG)
+    \item Text To Speech (TTS)
+\end{enumerate}
+The~Alex dialog system has a~speech to speech user interface. The~system interacts with the user in {\it turns}. During a~single turn the dialog system waits for a~user spoken input, process the speech and generates the reply.
+The~data~flow during single turn is depicted in~Figure~\ref{fig:dialog_system}.
+
+The integration task consist of:
+\begin{itemize}
+    \item Building a~Python interface for a~C++ Kaldi decoder.
+    \item Define the input and output interface for the Kaldi decoder - wrapped by Automatic Speech Recognition (ASR) unit in Alex.
+\end{itemize}
+ The ASR unit takes output of~the VAD component and provides input for the SLU unit. 
+ %The input and output interfaces are chosen according the real time needs of~the VAD unit and the SLU unit.
+
+\begin{figure}
+    \begin{center}
+    \input{images/ds-diagram}
+    \caption{Single turn in Alex dialog system}
+    \label{fig:dialog_system} 
+    \end{center}
+\end{figure}
+
+In our dialog system we experiment with different outputs of~a~speech decoder in Spoken Language Understanding unit. 
+The decoder for our system should be able to generate {\it n-best lists}, {\it lattices} and {\it confusion networks} output.
+% Ideally, the decoder for our system would be able to generate {\it n-best lists}, {\it lattices} and {\it confusion networks}.
+
+%   d) output of~the decoder will be standard lattices 
+%     (both phone and word)
+%   e) compute posterior lattices (both phone and word),
+%   f) provide confusion networks for these lattices
+%   g) measure teh quality of~the lattices, depth, oracle error rate    
+
+% section integrate_kaldi_decoder_into_vystadial_framework (end)
+
+
+% \subsection{Development of~a~real time decoder}
+% \label{sub:kaldi_rt_decoder}
+% In the our dialog system we need above all a~real time decoder for the Kaldi toolkit. At first, we will identify what prevents the current Kaldi decoders from being used as real time decoders. 
+% 
+% Namely, we will explore problems with latency and suggest potential speed improvements e.g.\ approximations, use of~\ac{GPU}, and so on. Based on the experiments we will suggest the optimal setting for the real time use of~Kaldi decoder.
+% 
+% % section development_of_real_time_asr_decoder_for_the_kaldi_toolkit (end)
+
+We will also compare and contrast possibilities of~different output formats for each of~tested decoders. The~memory consumption and the~stability of~decoders will be also observed. 
+
 
 
 % section dialog_system_architecture (end)

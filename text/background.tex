@@ -14,8 +14,20 @@
 %       Show that you understand given topic
 %       Show that you can write and talk about given topic
 %}}}
+\todo{Tady by asi spise davalo smysl.
+2.1 Automatic speech recognition 
+- Speech parameterization
+- Acoustic modeling
+- Language modeling
+- Speech decoding
+- Evaluation of the ASR quality 
+2.2 KALDI
+2.3 HTK
+- a very brief description
+2.4 Julius}
+\todo{jake byly metody sumu ,  triphonem}
 
-Research on field of speech recognition began more than \todo{30} years ago. The statistical approach based 
+Research on field of speech recognition began more than 40 years ago. The statistical approach based 
 on~\ac{HMM} established itself very early and nowadays it is de facto standard for continuous speech recognition. 
 If we speak about speech recognition in~this thesis we mean continuous speech recognition based on Hidden Markov Models. 
 
@@ -104,7 +116,7 @@ From Equation~\ref{eq:ideal} we know the probability for every transcription $w$
 \begin{figure}[!htp]
     \begin{center}
     \input{images/asr-components}
-    \caption{Architecture of statistical speech recognition system\cite{ney1990acoustic} \todo{check that the diagram is from there}}
+    \caption{Architecture of statistical speech recognition system\cite{ney1990acoustic}}
     \label{fig:components} 
     \end{center}
 \end{figure}
@@ -206,17 +218,19 @@ The~acoustic features are computed for each of the overlapping window.
 % }}} Finished
 
 % section signal_processing (end)
-\section{Decoding with \ac{HMM}}
+\section{Acoustic modeling}
 \label{sub:decoding_with_hmm}
 Let us return to high level point of view to speech recognition from~Figure~\ref{fig:components}.
-We briefly described the signal processing unit and now we will focus on the search unit. 
-The key part of speech recognition system. In order to describe the decoding algorithms we introduce the \acl{HMM}. 
+We described the signal processing unit and now we will focus on modeling the phonemes, the basic
+units of speech. We will use the~statistical \ac{HMM} approach to phonemes modeling.
 
-The~\acl{HMM} is a~very powerful statistical method of~characterizing the~observed data samples 
+The~\ac{HMM} is a~very powerful statistical method of~characterizing the~observed data samples 
 of~a~discrete-time series. Chapter 8, \cite{huang2001spoken}.
 We will at first introduce {\it Markov Chain}, then \ac{HMM} will be defined. Later,  we will explain 
 how are the acoustic and language models used in \ac{HMM} framework. 
 In~the~Subsection~\ref{sub:dec_algorithm} we present the search algorithms for speech recognition.
+
+\todo{acoustic modeling in Kaldi \url{http://kaldi.sourceforge.net/model.html}}
 
 \subsection*{Markov Chain}
 \label{ssub:markov_chain}

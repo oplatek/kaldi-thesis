@@ -2,7 +2,6 @@
 \chapter{Acoustic model training}
 \label{cha:training}
 
-\todo{acoustic modeling in Kaldi \href{http://kaldi.sourceforge.net/model.html}}
 This chapter describes the~acoustic model training.
 Having a good acoustic model is the first necessary step in embedding 
 quality real-time decoder into a dialog system.
@@ -234,7 +233,7 @@ tri3b-fmmi-d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
 \end{table}  
 
 
-\begin{table}[!htp]\centering\begin{tabular}{l|rrr}
+\begin{table}[!htp]\label{tab:htk_like}\centering\begin{tabular}{l|rrr}
 % oplatek@kronos:master:custom_dict_and_lm_2013-07-17_18:01:53.593578525$
 exp             & RT coef        & WER         & SER        \\ 
 \hline
@@ -250,7 +249,7 @@ tri3b           & 0.14386492     & (19.59, 17) & (43.08, 17)\\
 tri3b-fmmi-c    & 1.5112627      & (13.37, 9)  & (33.76, 9) \\ 
 tri2b-mmi-b0.05 & 0.2807327      & (14.47, 13) & (34.28, 15)\\ 
 \end{tabular}
-\caption{Experiment with generated LM and dictionary \todo{tag2like}\todo{reorder}}
+\caption{Experiment with generated LM and dictionary "\ac{HTK}-like"\todo{tag2like}\todo{reorder}}
 \end{table}  
 
 \clearpage

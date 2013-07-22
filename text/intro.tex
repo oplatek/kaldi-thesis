@@ -15,9 +15,13 @@
 % uvolneni: Budou volne dostupny a~pak clanek a~tutorial
 % o datech o trenovacich sktriptech a~o decodovani pres 2 jazyky
 
-A spoken dialog is the most intuitive way of~communication among people. Nowadays, the spoken dialog is becoming popular choice of~communication even for human-device interaction. The quality of~a~dialog largely depends on the quality of~speech recognition, because the~reasoning and the~reply is based on the recognized speech. 
+A spoken dialog is the most intuitive way of~communication among people. Nowadays, the spoken dialog is becoming popular 
+choice of~communication even for human-device interaction. The quality of~a~dialog largely depends on the quality 
+of~speech recognition, because the~reasoning and the~reply is based on the recognized speech. 
 
-In this work, we hope to improve speech recognition in the dialog system developed at \acs{UFAL} \acs{MFF} \acs{UK}, called Alex. One of~the application of~our dialog system Alex is a~public phone call service, where a~user can ask Alex about navigation in Prague public transport.
+In this work, we improve speech recognition in the dialog system developed at \acs{UFAL} \acs{MFF} \acs{UK}, 
+called Alex. One of~the application of~the Alex is a~public phone call service, where a~user can ask Alex.
+% about navigation in Prague public transport.
 
 \section{The problem} 
 \label{sec:why}
@@ -33,120 +37,91 @@ In this work, we hope to improve speech recognition in the dialog system develop
 %     \end{itemize}
 % \end{quote}
 
-The Alex dialog system has been using the \ac{HTK} toolkit\cite{young94htk} to train acoustic models and the OpenJulius\cite{lee2009julius} decoder for real time decoding. Nevertheless, the used set up has several flaws.
+The Alex dialog system has been using the \ac{HTK} toolkit\cite{young94htk} to train acoustic models and 
+the OpenJulius\cite{lee2009julius} decoder for real time decoding. Nevertheless, the used set up has several flaws.
 
-\todo{ TO MUCH ABOUT LICENSE, very few about Julius INSTABILITY}
+One of~the goals is to release the Alex dialog system under 
+Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}. 
+By using \ac{HTK} toolkit we cannot publish Alex with the Apache License, 
+because we need to modify the code of the decoders we are using. 
 
-One of~our main goals is to release the Alex dialog system under Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}. By using \ac{HTK} toolkit we cannot publish Alex with the Apache License, because we need to modify the code of the decoders we are using. 
+The \ac{HTK} decoders are not real-time decoders\cite{yao2010practical}. 
+We used the~OpenJulius decoder for real-time decoding. OpenJulius can output except classic textual transcriptions of~audio
+also lattices.Lattice is a convenient output format for a dialog system and will be described in~Section~\ref{sub:lattice}.
 
-The \ac{HTK} decoders are not real-time decoders\cite{yao2010practical}. We used the~OpenJulius decoder for real-time decoding.
+Unfortunately, we have experienced software instability using OpenJulius decoder.  
+In addition, OpenJulius seems to be hard to be patched or otherwise improved due to its coding style. 
+Currently, it seems, that the stability problems around OpenJulius are not going to be resolved in near feature.
 
-Unfortunately, we have experienced software instability using OpenJulius decoder. We used OpenJulius for decoding lattices and the OpenJulius decoderIn addition, OpenJulius seems to be hard to be patched or otherwise improved due to its coding style. Currently, it seems, that the stability problems around OpenJulius are not going to be resolved in near feature.
-The~OpenJulius decoder, which is released under revised BSD style license.
-
-The Kaldi\cite{povey2011kaldi} framework solves the drawbacks of~\ac{HTK} and OpenJulius. It is released under Apache License, Version 2.0. The same license we want to use. The Kaldi framework is cleanly written and has a~responsive developer community. The decoders implemented in Kaldi already support lattices and confusion networks generation. Currently, the Kaldi framework is mostly used for experimenting and it is not meant for real time usage. However, in August 2012\footnote{The changes were introduced by \href{https://sourceforge.net/p/kaldi/code/1259/}{svn commit 1259}.} Kaldi team published a~testing version of~an online decoder. In this thesis we hope to improve and integrate the online decoder into Alex dialog system for a~real time use.
+The Kaldi\cite{povey2011kaldi} framework solves most of the drawbacks of~\ac{HTK} and OpenJulius. 
+It is released under Apache License, Version 2.0. The same license we want to use. 
+The Kaldi framework is also cleanly written and has a~responsive developer community. 
+There are decoders implemented in Kaldi, which already support lattices. 
+Currently, the Kaldi framework is mostly used for experimenting and it is not meant for real time usage. 
+However, in August 2012\footnote{The changes were introduced 
+by \href{https://sourceforge.net/p/kaldi/code/1259/}{svn commit 1259}.} Kaldi team published a~version of~an online decoder. 
+In this thesis we hope to improve and integrate the online decoder into Alex dialog system for a~real time use.
+The implemented decoder will be evaluated against current set up with OpenJulius.
 
 % section why_introducing_new_decoder_and_toolkit_for_training_acoustic_models_ (end)
 
 \section{The goals of~the~thesis} 
 \label{sec:goals}
-Let us introduce the goals of~this thesis. Each of~the~goals is described in one of subsections below. Note, that the goals are described in top down approach.
-At first, we introduce the goal of integration the final real-time decoder into our~dialog system, and later we specify subgoals needed for the integration.
-At~last, we promise to evaluate the work done.
-
-\subsection{A~real-time decoder integration} 
-\label{sub:integration}
-The Alex dialog system is developed in Python language and consist of~six major components. 
-\begin{enumerate}
-    \item Voice Activity Detection (VAD)
-    \item Automatic Speech Recognition (ASR) 
-    \item Spoken Language Understanding (SLU)
-    \item Dialog Manager (DM)
-    \item Natural Language Generation (NLG)
-    \item Text To Speech (TTS)
-\end{enumerate}
-The~Alex dialog system has a~speech to speech user interface. The~system interacts with the user in {\it turns}. During a~single turn the dialog system waits for a~user spoken input, process the speech and generates the reply.
-The~data~flow during single turn is depicted in~Figure~\ref{fig:dialog_system}.
-
-The integration task consist of:
-\begin{itemize}
-    \item Building a~Python interface for a~C++ Kaldi decoder.
-    \item Define the input and output interface for the Kaldi decoder - wrapped by Automatic Speech Recognition (ASR) unit in Alex.
-\end{itemize}
- The ASR unit takes output of~the VAD component and provides input for the SLU unit. 
- %The input and output interfaces are chosen according the real time needs of~the VAD unit and the SLU unit.
-
-\begin{figure}
-    \begin{center}
-    \input{images/ds-diagram}
-    \caption{Single turn in Alex dialog system}
-    \label{fig:dialog_system} 
-    \end{center}
-\end{figure}
-
-In our dialog system we experiment with different outputs of~a~speech decoder in Spoken Language Understanding unit. 
-The decoder for our system should be able to generate {\it n-best lists}, {\it lattices} and {\it confusion networks} output.
-% Ideally, the decoder for our system would be able to generate {\it n-best lists}, {\it lattices} and {\it confusion networks}.
-
-%   d) output of~the decoder will be standard lattices 
-%     (both phone and word)
-%   e) compute posterior lattices (both phone and word),
-%   f) provide confusion networks for these lattices
-%   g) measure teh quality of~the lattices, depth, oracle error rate    
-
-% section integrate_kaldi_decoder_into_vystadial_framework (end)
-
-
-% \subsection{Development of~a~real time decoder}
-% \label{sub:kaldi_rt_decoder}
-% In the our dialog system we need above all a~real time decoder for the Kaldi toolkit. At first, we will identify what prevents the current Kaldi decoders from being used as real time decoders. 
-% 
-% Namely, we will explore problems with latency and suggest potential speed improvements e.g.\ approximations, use of~\ac{GPU}, and so on. Based on the experiments we will suggest the optimal setting for the real time use of~Kaldi decoder.
-% 
-% % section development_of_real_time_asr_decoder_for_the_kaldi_toolkit (end)
+Let us introduce the goals of~this thesis. Each of~the~goals is described in one of subsections below.
+At first, we introduce the goal of training acoustic model, which is the precondition for satisfying next goals.
+Later, we prepare the real-time decoder and at the end, we integrate the decoder in our dialog system. 
 
 \subsection{Training acoustic models} 
 \label{sub:training_kaldi_acoustic_models}
-Every modern continuous speech recognition engine requires two pre trained components, an~acoustic model and a~language model. We will focus on finding the best acoustic model for the~Kaldi toolkit. 
+Every modern continuous speech recognition engine requires two pre trained components, an~acoustic model and 
+a~language model. We will focus on finding the best acoustic model for the~Kaldi toolkit. 
 
-We have been using the \ac{HTK} acoustic models together with OpenJulius and \ac{HTK} decoders. We will develop training scripts for acoustic models using Kaldi toolkit. The acoustic models will be evaluated using different Kaldi decoders and the same language model as used in \ac{HTK} training scripts. 
+The \ac{HTK} acoustic models have been used together with OpenJulius in our. 
+We will develop training scripts for acoustic models using Kaldi toolkit with comparable results as
+were obtained by using \ac{HTK} toolkit. 
 
-% section training_kaldi_acoustic_models (end)
+% subsection training_kaldi_acoustic_models (end)
  
 
-\subsection{Evaluating decoders} 
+\subsection{Preparing real-time decoder} 
 \label{sub:compare_rt}
-After training acoustic models with~sufficient quality we will balance accuracy and speed for the Kaldi online decoder. Trading decoding speed for a speech recognition accuracy is common technique for speeding up decoders and can be applied on all decoders of interests. We will evaluate following decoders:
-\begin{itemize}
-    \item HVite  % FIXME test this through Subprocess
-    \item HDecode % FIXME test this through Subprocess
-    \item OpenJulius % FIXME test this through Subprocess/Sockets
-    \item Kaldi decoders
-\end{itemize}
+Having an~acoustic model with~sufficient quality for our data will allow us
+compare and contrast Kaldi decoders. We will search for a convenient decoder,
+which can be easily integrated to our dialog system as real-time decoder.
 
+We will select the most convenient Kaldi decoder and if needed, we will modify the decoder as necessary. 
+We will suggest potential speed improvements e.g.\ approximations, use of \ac{GPU}.
+% will balance speech recognition accuracy for the speed and select the best setting for our use case.
+In addition, we will consider different possibilities for output formats for different decoders.
+% subsection preparing_real_time_decoder (end)
 
-We will also compare and contrast possibilities of~different output formats for each of~tested decoders. The~memory consumption and the~stability of~decoders will be also observed. 
+\subsection{A~real-time decoder integration} 
+\label{sub:integration}
+The final goal of this thesis is integration of selected real-time decoder or decoders into our dialog system Alex.
+We already use the~OpenJulius decoder in Alex. The~OpenJulius decoder is interfaced with other the rest of Alex
+through an {\it ASR Python module}. We will integrate the Kaldi decoder into the {\it ASR module}\/ as well.
 
-% section compare_real_time_abilities_of_already_used_and_kaldi_decoders (end)
+Furthermore, we will develop Python bindings with nice \ac{API} which wraps the C++ Kaldi decoder.\footnote{In contrast, 
+the~OpenJulius is currently interfaced through subprocesses and Unix sockets, which is quite problematic interface} 
+At the end, we will contrast and compare our implementation with the set up using OpenJulius and \ac{HTK} 
+acoustic models.
+
+% subsection decoder integration (end)
 
 % section goals (end)
 
 \section{Outline of~the thesis} 
 \label{sec:outline_of_the_thesis}
-In~Chapter~\ref{cha:background} we introduce speech recognition algorithms. At first we introduce standard algorithms. 
-Later, we focus on Finite State Automata~framework used by Kaldi. In~Chapter~\ref{cha:training} we describe how we 
-trained the acoustic models needed by Kaldi decoder. In addition, we shortly contrast and compare training methods 
-in~\ac{HTK} and Kaldi. Chapter~\ref{cha:decoder} presents the Kaldi real time decoder embedded into our dialog system.
+In~Chapter~\ref{cha:background} we describe components of a~speech recognition system.  
+Except the standard introduction to speech recognition system we introduce Finite State Automata~framework,
+which is used by Kaldi toolkit. In~Chapter~\ref{cha:training} we describe the acoustic 
+models needed by the~Kaldi decoder. 
+In addition, we contrast and compare acoustic models trained by~\ac{HTK} and Kaldi. 
+Chapter~\ref{cha:decoder} presents the Kaldi real time decoder embedded into our dialog system.
 We discuss the architecture of~the decoder, its properties. We also distinguish what is the original work done by 
 the~Kaldi team and what are our improvements. At~the end of~Chapter~\ref{cha:decoder} 
-we describe the qualities of~the developed decoder and compare it with other decoders used in our dialog system.
+we evaluate the qualities of~the developed decoder.
 The~Chapter~\ref{cha:integration} explains how we integrated C++ decoder in our dialog system written in Python.
-    
-The speech recognition algorithms described in~Chapter~\ref{cha:background} are meant like short introduction to 
-the~problematic, which allow readers understand next chapters. The~Chapter~\ref{cha:training} explains that 
-Kaldi framework is capable of~training acoustic models and decoding with them with no worse accuracy 
-than \ac{HTK} toolkit. In~Chapter~\ref{cha:integration} we discuss technical difficulties related with integration. 
-
 Finally, the~Chapter~\ref{cha:conclusion} summarises the thesis and finishes with future research directions.
 
 % section outline_of_the_thesis (end)
