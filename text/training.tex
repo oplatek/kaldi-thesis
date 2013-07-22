@@ -5,11 +5,11 @@
 This chapter describes the~acoustic model training.
 Having a good acoustic model is the first necessary step in embedding 
 quality real-time decoder into a dialog system.
-In this chapter, we focus on how to train as good acoustic model as possible
-and we do not care too much for the speed of decoding.
+\todo{ In this chapter, we focus on how to train as good acoustic model as possible
+and we do not care too much for the speed of decoding.}
 
 The~Section~\ref{sec:setup} introduces the used methods and describes 
-how the experiments are organized. The section continues by~presenting our results in~Section~\ref{sec:exps}. 
+how the experiments are organized. The chapter continues by~presenting results in~Section~\ref{sec:exps}. 
 Later, in in Section~\ref{sec:compare} we briefly compare the obtained 
 results with results trained with \ac{HTK} toolkit.
 Finally, we sum up the results and we briefly judge the Kaldi toolkit.
@@ -17,15 +17,15 @@ Finally, we sum up the results and we briefly judge the Kaldi toolkit.
 \section{The script structure and training methods used} 
 \label{sec:setup}
 
-The experiments described further in this chapter were performed on two data sets.
+\todo{The experiments described further in this chapter were performed on two datasets.
 The first dataset can not be published due to licensing reason, 
 the~second dataset will be published for free use in autumn.
 \ml{classic data}\ml{vystadial data}
 Let us name the first one {\it classic data} and the second one {\it vystadial data}.
-All the results presented in the~thesis were obtain using vystadial data.
-However, for some experiments we use the bigger language model trained 
-on~classic data.\footnote{\todo{SHOULD WE PUBLISH THEM?}. The results classic data experiments 
-can be found in the enclosed source code.}
+All the results presented in the~thesis were obtained using vystadial data.
+However, for some experiments we use the bigger language model trained on~classic data.
+\footnote{\todo{SHOULD WE PUBLISH THEM?}. The results classic data experiments 
+can be found in the enclosed source code.}}
 
 \small{The Kaldi toolkit has codified form of training scripts with predefined file system structure. 
 In my recipe directory I have subdirectory "s5" where all the files are located. All the recipes in Kaldi have 
@@ -111,7 +111,7 @@ which are used in vystadial script.
         By changing small number of parameters in vector of short length (50) \ac{UBM} controls all the mean and 
         weight parameters of the speech-state-specific mixture model. In addition, it introduce 
         a~"speaker vector," which can be adapted by discriminative \ac{SAT} training.
-    \item \acl{SAT}\cite{povey2011kaldi} uses \ac{fMLLR} technique. Note that in our experiments we have 
+    \item \acl{SAT}\cite{povey2011kaldi} uses \ac{fMLLR} technique. Note that in the~experiments we have 
         the~training data without speaker labels, so we suppose that each utterance is spoken by different user.
         In fact, it makes the \ac{SAT} methods hopeless in improving the \ac{WER}, 
         but we include the results for completeness and future comparison.
@@ -149,11 +149,12 @@ require specific feature transformations, which needs to applied also on testing
 \section{Performed experiments and results} 
 \label{sec:exps}
 We designed several experiments described in~Table~\ref{tab:exp_type} at the beginning of writing this thesis.
+\todo{Describe history why we choose the experiments}
 During the year the training scripts have been improved several times. 
-We present the last set of experiments setup, where we get the best result.
+In this chapter, We present the last set of experiments setup, where we get the best results.
 
 The experiments focus on comparing the quality of ASR hypothesis in terms of \ac{WER}.
-The speed was not the main concern and other Kaldi decoders may not support some from the trained models.
+The speed was not the main concern and other Kaldi decoders may not support some of the trained models.
 In general, if a method is slow for the $gmm-latgen-faster$ decoder it is slow for others decoder too.
 We measure the speed in terms of \ac{RTF}, because the $gmm-latgen-faster$ decoder is designed for~batch 
 processing, so the measuring latency does not make much sense.
@@ -166,7 +167,7 @@ $118217$ trigrams. We will not publish the model, and we did not trained it ours
 The second \ac{LM}, is just from the transcriptions of training data. It contains 
 $641$ unigrams, $3707$ bigrams and $7610$ trigrams.
 We do not focus on the language modeling since \ac{LM} is usually done domain specifically.
-We want to use our dialog system and also the Kaldi recognizer in multiple domains with minimum
+We want to use the~Alex dialog system and also the Kaldi recognizer in multiple domains with minimum
 setup changes. In future, we would like to use very general \ac{LM} and reduce the dependency on~\ac{LM}
 as much as possible.
 
@@ -210,7 +211,7 @@ tri3b-fmmi-c    & 2.4882825     & (14.2, 14)  & (38.03, 14)\\
 tri2b-mmi-b0.05 & 0.49218765    & (14.08, 14) & (38.29, 15)\\ 
 tri3b-fmmi-d    & 1.84923083333 & (14.47, 14) & (38.42, 14)
 \end{tabular}
-\caption{Experiment with pretrained LM and dictionary "\ac{HTK}-like"\todo{reorder}}
+\caption{Experiment with pretrained LM and dictionary "\ac{HTK}-like".\todo{reorder}}
 \end{table}  
 
 % section introduction_to_training_acoustic_models (end)
@@ -218,7 +219,7 @@ tri3b-fmmi-d    & 1.84923083333 & (14.47, 14) & (38.42, 14)
 \section[Kaldi and \ac{HTK}]{Kaldi and previous \ac{HTK} results comparison} 
 \label{sec:compare}
 
-Let us remind that we use OpenJulius decoder together with HTK models decoder in our dialog system.
+Let us remind that we use OpenJulius decoder together with HTK models decoder in the~Alex dialog system.
 The \ac{HTK} scripts were written by Filip Jurčíček and Matěj Korvas. No discriminative training was performed,
 only experiments with mixing with different \acl{LM} settings were performed. 
 The best obtained results are listed in~Table~\ref{tab:res}.
@@ -257,10 +258,11 @@ Kaldi, "htk like"-$tri2a$, Table~\ref{tab:htk_like} - tri2a & 0.4987811 & 22.34 
 \ac{HTK}-$tri3b-mmi$       & 0.3152644     & (14.71, 13) & (39.33, 17)\\ 
 \end{tabular} \caption{Result comparison between Kaldi and \ac{HTK}} \end{table}  
 
-To conclude, we find out that Kaldi recognition toolkit is capable of training acoustic models with comparable quality like \ac{HTK} toolkit using maximum likelihood training. In addition, Kaldi has rich set of tools for discriminative training, which outperforms the maximum likelihood methods.
+To conclude, we find out that Kaldi recognition toolkit is capable of training acoustic models with comparable quality 
+like \ac{HTK} toolkit using maximum likelihood training. In addition, Kaldi has rich set of tools for discriminative training, which outperforms the maximum likelihood methods.
 With the~Kaldi acoustic models good enough ASR hypothesis can be decoded. 
 In Chapter~\ref{cha:decoder} we will describe Kaldi decoders, which are convenient for real-time usage
-, and which also does do loose the ability to produce quality ASR hypothesis.
+, and which also does not loose the ability to produce quality ASR hypothesis.
 
 % section kaldi_vs_htk_training_scripts_and_its_capabilities (end)
 
