@@ -5,8 +5,7 @@
 This chapter describes the~acoustic model training.
 Having a good acoustic model is the first necessary step in embedding 
 quality real-time decoder into a dialog system.
-\todo{ In this chapter, we focus on how to train as good acoustic model as possible
-and we do not care too much for the speed of decoding.}
+In this chapter, we focus on how to train good acoustic model.
 
 The~Section~\ref{sec:setup} introduces the used methods and describes 
 how the experiments are organized. The chapter continues by~presenting results in~Section~\ref{sec:exps}. 
@@ -14,25 +13,30 @@ Later, in in Section~\ref{sec:compare} we briefly compare the obtained
 results with results trained with \ac{HTK} toolkit.
 Finally, we sum up the results and we briefly judge the Kaldi toolkit.
 
-\section{The script structure and training methods used} 
+\section{The training structure} 
 \label{sec:setup}
 
-\todo{The experiments described further in this chapter were performed on two datasets.
-The first dataset can not be published due to licensing reason, 
-the~second dataset will be published for free use in autumn.
-\ml{classic data}\ml{vystadial data}
-Let us name the first one {\it classic data} and the second one {\it vystadial data}.
-All the results presented in the~thesis were obtained using vystadial data.
-However, for some experiments we use the bigger language model trained on~classic data.
-\footnote{\todo{SHOULD WE PUBLISH THEM?}. The results classic data experiments 
-can be found in the enclosed source code.}}
+\ml{datasets}
+The experiments described further in this chapter were performed on two datasets.
+We call the first dataset {\it classic}\/ and the second {\it Vystadial}\/ dataset.
+The classic dataset can not be published due to licensing reason, 
+the Vystadial dataset will be published for free use in few month.
 
+All the results presented in the~thesis were obtained using Vystadial data.
+However, for some experiments we use the pretrained \acl{LM}.
+The pretrained \ac{LM} was trained on~the~classic data.
+% \footnote{\todo{SHOULD WE PUBLISH THE results?}. The results classic data experiments can be found in the enclosed source code.}
+The pretrained \ac{LM} was used in the~\ac{HTK} experiments and we use it in experiments for comparing 
+comparing Kaldi and \ac{HTK} results.
+
+\ml{Vystadial recipe}
 \small{The Kaldi toolkit has codified form of training scripts with predefined file system structure. 
+We created new recipe called {\it kaldi-Vystadial-recipe}\/ or just {\it Vystadial recipe}. 
 In my recipe directory I have subdirectory "s5" where all the files are located. All the recipes in Kaldi have 
  one or more subdirectories named s1, s2, s3, s4 or s5 with predefined structure.
 
 The most important file in the recipe is the "run.sh" file. It launches the training and its evaluation.
-It uses other scripts. The scripts special to vystadial recipe are located in subdirectory "local".
+It uses other helper scripts. The scripts special to Vystadial recipe are located in subdirectory "local".
 The tools shared among all the Kaldi recipes are stored in symbolically linked directories "steps" and "utils".
 The files "cmd.sh", "path.sh" and files in "conf" directory stores the short settings.
 
@@ -43,7 +47,7 @@ directory is used for transformed input data.}
 \tiny\begin{verbbox}
 kaldi
 |-- egs
-|   |-- kaldi-vystadial-recipe
+|   |-- kaldi-Vystadial-recipe
 |   |   |-- s5
 |   |   |   |-- cmd.sh
 |   |   |   |-- conf
@@ -60,9 +64,9 @@ kaldi
 |   |   |   |   |-- results.py
 |   |   |   |   |-- save_check_conf.sh
 |   |   |   |   |-- score.sh
-|   |   |   |   |-- vystadial_data_prep.sh
-|   |   |   |   |-- vystadial_format_data.sh
-|   |   |   |   |-- vystadial_prepare_dict.sh
+|   |   |   |   |-- Vystadial_data_prep.sh
+|   |   |   |   |-- Vystadial_format_data.sh
+|   |   |   |   |-- Vystadial_prepare_dict.sh
 |   |   |   |-- path.sh
 |   |   |   |-- run.sh
 |   |   |   |-- steps -> ../../wsj/s5/steps
@@ -79,7 +83,7 @@ If we say that we run one experiment, it means we train and evaluate from ten to
 for the same data and the same settings.\footnote{The list of methods we choosed to evaluate is based Vassil Panayotov's Voxforge recipe}.
 
 The maximum likelihood training of generative models is described in~Section~\ref{sec:train_ml}.
-The overview of methods for discriminative training used in vystadial recipe for training Kaldi models
+The overview of methods for discriminative training used in Vystadial recipe for training Kaldi models
 can be found below.
 
 Let us remind that discriminative model can describe the probability $P(audio|ASR hypothesis)$.
@@ -88,7 +92,7 @@ In contrast to generative model it is not capable to generate samples from join 
 As you can see in~Table~\ref{tab:disc_train}, we combine various discriminative training methods
 and feature transformations in order to obtain better results. 
 Let us briefly introduce improvements and alternatives to maximum likelihood training methods,
-which are used in vystadial script.
+which are used in Vystadial script.
 
 \begin{figure}
     \begin{center}
@@ -139,39 +143,46 @@ delta+delta-delta & tri2a & Alignments from tri1 \\
 \caption{Training methods overview. All experiments train triphones except the~monophone experiment. Script shortcut is refers to names of the experiments in the "run.sh" script.}
 \end{table}
 
+The supplied Vystadial dataset is splitted and copied into two directories.
 Each of the training method from~Table~\ref{tab:disc_train} is trained on data from "$data/train$" directory.
-Each of the method is also evaluated on data from "$data/test$" directory.
-The $gmm-latgen-faster$ decoder is used for evaluation. 
-However, many of the methods from~Table~\ref{tab:disc_train}
-require specific feature transformations, which needs to applied also on testing data.
+Each of the method is evaluated on data from "$data/test$" directory.
 % section the_experiments_setup (end)
 
 \section{Performed experiments and results} 
 \label{sec:exps}
-We designed several experiments described in~Table~\ref{tab:exp_type} at the beginning of writing this thesis.
-\todo{Describe history why we choose the experiments}
+We designed eight experiments at~the~beginning of~writing this thesis.
+They differ according three parameters:
+\begin{itemize}
+    \item Type of \ac{LM}: Pretrained versus data generated \ac{LM}.
+    \item Type of \ac{MFCC} parameters: \ac{HTK}-like or native Kaldi.
+    \item Using \ac{OOV}: Yes or No.
+\end{itemize}
 During the year the training scripts have been improved several times. 
 In this chapter, We present the last set of experiments setup, where we get the best results.
 
-The experiments focus on comparing the quality of ASR hypothesis in terms of \ac{WER}.
-The speed was not the main concern and other Kaldi decoders may not support some of the trained models.
-In general, if a method is slow for the $gmm-latgen-faster$ decoder it is slow for others decoder too.
+The experiments focus on comparing the quality of ASR hypothesis in~terms of \ac{WER}.
+The speed is not the main concern.  The $gmm-latgen-faster$ decoder is used for evaluation. 
+However, many of the methods from~Table~\ref{tab:disc_train}
+require specific feature transformations, which needs to applied also on testing data.
+
+Note, that other Kaldi decoders may not support some of the trained models.
+In general, if a method is slow for the $gmm-latgen-faster$ decoder, it is slow for other decoders too.
 We measure the speed in terms of \ac{RTF}, because the $gmm-latgen-faster$ decoder is designed for~batch 
 processing, so the measuring latency does not make much sense.
 
-In the experiments, there are used two types of n-gram \ac{LM}. 
+In the experiments, there are used two types of n-gram \acl{LM}. 
 We store both \ac{LM} in~ARPA format\footnote{ARPA format is poorly documented at 
 \href{http://www.speech.sri.com/projects/srilm/manpages/ngram-format.5.html}{SRILM man page}}.
 First \ac{LM}, is pre-trained from classic data. It contains $2802$ unigrams, $109315$ bigrams and
 $118217$ trigrams. We will not publish the model, and we did not trained it ourselves. 
 The second \ac{LM}, is just from the transcriptions of training data. It contains 
 $641$ unigrams, $3707$ bigrams and $7610$ trigrams.
-We do not focus on the language modeling since \ac{LM} is usually done domain specifically.
+We do not focus on the language modeling since \ac{LM} is usually domain specific.
 We want to use the~Alex dialog system and also the Kaldi recognizer in multiple domains with minimum
 setup changes. In future, we would like to use very general \ac{LM} and reduce the dependency on~\ac{LM}
 as much as possible.
 
-\begin{table}[!htp]\label{tab:exp_type}
+\begin{table}[!htp]\label{tab:exp_best}
 \begin{tabular}{lrr}
 \hline
 \parbox[t]{6.0cm}{\ac{LM} and dictionary / Experiment} & Generated \acs{LM}  & Classic \ac{LM} \\
@@ -184,7 +195,9 @@ Best without OOV            & todo & todo \\
 \caption{Kaldi experiments, best Maximum Likelihood method}
 \end{table}
 
-The best results from each experiments are extracted to~Table~\ref{tab:exp_type}\footnote{\todo{SHOULD I ADD THIS} Complete list of the experiments can be found \href{https://redmine.ms.mff.cuni.cz/projects/vystadial/wiki/Acoustic_models/}{Vystadial Redmine Wiki}}. 
+The summary of best results is described~Table~\ref{tab:exp_best}\footnote{\todo{SHOULD I ADD THIS FOOTNOTE?} 
+Complete list of the experiments can be found 
+at~\href{https://redmine.ms.mff.cuni.cz/projects/Vystadial/wiki/Acoustic_models/}{Vystadial Redmine Wiki}}. 
 
 In~the detail tables 
 The tables~\ref{tab:htk_like},~\ref{tab:htk_like_gen_lm},~\ref{tab:best_oov} 
@@ -259,10 +272,11 @@ Kaldi, "htk like"-$tri2a$, Table~\ref{tab:htk_like} - tri2a & 0.4987811 & 22.34 
 \end{tabular} \caption{Result comparison between Kaldi and \ac{HTK}} \end{table}  
 
 To conclude, we find out that Kaldi recognition toolkit is capable of training acoustic models with comparable quality 
-like \ac{HTK} toolkit using maximum likelihood training. In addition, Kaldi has rich set of tools for discriminative training, which outperforms the maximum likelihood methods.
+like \ac{HTK} toolkit using maximum likelihood training. In addition, Kaldi has rich set of tools for discriminative training, 
+which outperforms the maximum likelihood methods.
 With the~Kaldi acoustic models good enough ASR hypothesis can be decoded. 
-In Chapter~\ref{cha:decoder} we will describe Kaldi decoders, which are convenient for real-time usage
-, and which also does not loose the ability to produce quality ASR hypothesis.
+In Chapter~\ref{cha:decoder} we will describe Kaldi decoders, which are convenient for real-time usage, 
+and which also does not loose the ability to produce quality ASR hypothesis.
 
 % section kaldi_vs_htk_training_scripts_and_its_capabilities (end)
 
