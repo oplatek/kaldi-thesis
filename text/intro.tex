@@ -19,8 +19,9 @@ A spoken dialog is the most intuitive way of~communication among people. Nowaday
 choice of~communication even for human-device interaction. The quality of~a~dialog largely depends on the quality 
 of~speech recognition, because the~reasoning and the~reply is based on the recognized speech. 
 
-In this work, we improve speech recognition in the dialog system developed at \acs{UFAL} \acs{MFF} \acs{UK}, 
-called Alex. One of~the application of~the Alex is a~public phone call service, where a~user can ask Alex.
+In this work, we improve speech recognition in the dialog system called Alex. 
+The Alex dialog system is developed at \ac{UFAL} \ac{MFF}. One of~the application of~Alex is a~public phone call service, where a~user can ask Alex for 
+a~piece of advice about Prague public transport.
 % about navigation in Prague public transport.
 
 \section{The problem} 
@@ -69,14 +70,14 @@ The implemented decoder will be evaluated against current set up with OpenJulius
 \label{sec:goals}
 Let us introduce the goals of~this thesis. Each of~the~goals is described in one of subsections below.
 At first, we introduce the goal of training acoustic model, which is the precondition for satisfying next goals.
-Later, we prepare the real-time decoder and at the end, we integrate the decoder in our dialog system. 
+Later, we prepare the real-time decoder and at the end, we integrate the decoder in the~dialog system. 
 
 \subsection{Training acoustic models} 
 \label{sub:training_kaldi_acoustic_models}
 Every modern continuous speech recognition engine requires two pre trained components, an~acoustic model and 
 a~language model. We will focus on finding the best acoustic model for the~Kaldi toolkit. 
 
-The \ac{HTK} acoustic models have been used together with OpenJulius in our. 
+The \ac{HTK} acoustic models have been used together with OpenJulius. 
 We will develop training scripts for acoustic models using Kaldi toolkit with comparable results as
 were obtained by using \ac{HTK} toolkit. 
 
@@ -85,25 +86,25 @@ were obtained by using \ac{HTK} toolkit.
 
 \subsection{Preparing real-time decoder} 
 \label{sub:compare_rt}
-Having an~acoustic model with~sufficient quality for our data will allow us
+Having an~acoustic model with~sufficient quality for the~data will allow us
 compare and contrast Kaldi decoders. We will search for a convenient decoder,
-which can be easily integrated to our dialog system as real-time decoder.
+which can be easily integrated to the~dialog system as real-time decoder.
 
 We will select the most convenient Kaldi decoder and if needed, we will modify the decoder as necessary. 
 We will suggest potential speed improvements e.g.\ approximations, use of \ac{GPU}.
-% will balance speech recognition accuracy for the speed and select the best setting for our use case.
+% will balance speech recognition accuracy for the speed and select the best setting for the~use case.
 In addition, we will consider different possibilities for output formats for different decoders.
 % subsection preparing_real_time_decoder (end)
 
 \subsection{A~real-time decoder integration} 
 \label{sub:integration}
-The final goal of this thesis is integration of selected real-time decoder or decoders into our dialog system Alex.
+The final goal of this thesis is integration of selected real-time decoder or decoders into the~dialog system Alex.
 We already use the~OpenJulius decoder in Alex. The~OpenJulius decoder is interfaced with other the rest of Alex
 through an {\it ASR Python module}. We will integrate the Kaldi decoder into the {\it ASR module}\/ as well.
 
 Furthermore, we will develop Python bindings with nice \ac{API} which wraps the C++ Kaldi decoder.\footnote{In contrast, 
 the~OpenJulius is currently interfaced through subprocesses and Unix sockets, which is quite problematic interface} 
-At the end, we will contrast and compare our implementation with the set up using OpenJulius and \ac{HTK} 
+At the end, we will contrast and compare the~implementation with the set up using OpenJulius and \ac{HTK} 
 acoustic models.
 
 % subsection decoder integration (end)
