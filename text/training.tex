@@ -158,20 +158,7 @@ In general, if a method is slow for the $gmm-latgen-faster$ decoder it is slow f
 We measure the speed in terms of \ac{RTF}, because the $gmm-latgen-faster$ decoder is designed for~batch 
 processing, so the measuring latency does not make much sense.
 
-\begin{table}[!htp]\label{tab:exp_type}
-\begin{tabular}{lrr}
-\hline
-Language model and dictionary / Experiment & Generated \ac{LM}  & Classic \ac{LM} \\
-\hline
-\ac{HTK} like parameters    & todo & todo \\
-Best with OOV               & todo & todo \\
-Best without OOV            & todo & todo \\
-\hline
-\end{tabular}
-\caption{Kaldi experiments}
-\end{table}
-
-In the experiments, there are used two types of n-gram \acl{LM}. 
+In the experiments, there are used two types of n-gram \ac{LM}. 
 We store both \ac{LM} in~ARPA format\footnote{ARPA format is poorly documented at 
 \href{http://www.speech.sri.com/projects/srilm/manpages/ngram-format.5.html}{SRILM man page}}.
 First \ac{LM}, is pre-trained from classic data. It contains $2802$ unigrams, $109315$ bigrams and
@@ -183,76 +170,48 @@ We want to use our dialog system and also the Kaldi recognizer in multiple domai
 setup changes. In future, we would like to use very general \ac{LM} and reduce the dependency on~\ac{LM}
 as much as possible.
 
+\begin{table}[!htp]\label{tab:exp_type}
+\begin{tabular}{lrr}
+\hline
+\parbox[t]{6.0cm}{\ac{LM} and dictionary / Experiment} & Generated \acs{LM}  & Classic \ac{LM} \\
+\hline
+\ac{HTK} like parameters    &  $tri3b$-(19.59,17) & $tri2b$-(18.39,16) \\
+Best with OOV               & todo & todo \\
+Best without OOV            & todo & todo \\
+\hline
+\end{tabular}
+\caption{Kaldi experiments, best Maximum Likelihood method}
+\end{table}
 
 The best results from each experiments are extracted to~Table~\ref{tab:exp_type}\footnote{\todo{SHOULD I ADD THIS} Complete list of the experiments can be found \href{https://redmine.ms.mff.cuni.cz/projects/vystadial/wiki/Acoustic_models/}{Vystadial Redmine Wiki}}. 
 
 In~the detail tables 
-The tables \todo{list them} presents complete overview of the results. 
+The tables~\ref{tab:htk_like},~\ref{tab:htk_like_gen_lm},~\ref{tab:best_oov} 
+and~\ref{tab:best_nooov}\footnote{All the tables are in~Appendix~\ref{cha:results}.} presents complete overview of the results. 
 Note, that the decoding on test data was performed with different \ac{LM} weights for each method and 
 experiment. The we tried \ac{LM} weights $9, 10, 11, ...$ to $20$. 
 The best \ac{LM} weight is always the second number in bracket.
 
 Similarly to \ac{WER}, we also measured \ac{SER}. It is computed as ratio of sentences at least with one incorrectly decoded word dived by the total number of sentences. Note that \ac{SER} largely depends on length of sentences. 
 
-\begin{table}[!htp]\centering\begin{tabular}{l|rrr}
-Experiment      & \ac{RTF}       & \ac{WER}         & \ac{SER} \\
-\hline
-tri2b-mpe       & 0.88688125     & (23.54, 20) & (51.73, 20)\\
-mono            & 3.2617725      & (50.3, 20)  & (75.07, 20)\\
-tri3b-mmi       & 0.807879083333 & (22.73, 19) & (50.53, 15)\\
-tri1            & 1.94605        & (33.34, 20) & (66.4, 20) \\
-tri2b-mmi       & 1.72681375     & (23.03, 15) & (50.8, 20) \\
-tri2a           & 1.962175       & (33.19, 20) & (66.0, 20) \\
-tri2b           & 1.8105575      & (30.08, 19) & (63.47, 19)\\
-tri3b           & 0.748003125    & (31.37, 19) & (63.47, 19)\\
-tri3b-fmmi-c    & 11.8128208333  & (22.24, 16) & (49.2, 15) \\
-tri3b-fmmi-b    & 8.22911708333  & (21.67, 17) & (48.27, 14)\\
-tri2b-mmi-b0.05 & 1.146794625    & (22.29, 17) & (49.87, 17)\\
-tri3b-fmmi-d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
-\end{tabular}
-\caption{\todo{1.\ copy the last relevant results.}}
-\end{table}  
-
-
-\begin{table}[!htp]\centering\begin{tabular}{cccc}
-exp             & \ac{RTF}       & \ac{WER}         & \ac{SER} \\
-tri2b-mpe       & 0.88688125     & (23.54, 20) & (51.73, 20)\\
-mono            & 3.2617725      & (50.3, 20)  & (75.07, 20)\\
-tri3b-mmi       & 0.807879083333 & (22.73, 19) & (50.53, 15)\\
-tri1            & 1.94605        & (33.34, 20) & (66.4, 20) \\
-tri2b-mmi       & 1.72681375     & (23.03, 15) & (50.8, 20) \\
-tri2a           & 1.962175       & (33.19, 20) & (66.0, 20) \\
-tri2b           & 1.8105575      & (30.08, 19) & (63.47, 19)\\
-tri3b           & 0.748003125    & (31.37, 19) & (63.47, 19)\\
-tri3b-fmmi-c    & 11.8128208333  & (22.24, 16) & (49.2, 15) \\
-tri3b-fmmi-b    & 8.22911708333  & (21.67, 17) & (48.27, 14)\\
-tri2b-mmi-b0.05 & 1.146794625    & (22.29, 17) & (49.87, 17)\\
-tri3b-fmmi-d    & 6.60894458333  & (22.51, 18) & (49.6, 15)
-\end{tabular}
-\caption{\todo{1.\ copy the last relevant results.}}
-\end{table}  
-
-
 \begin{table}[!htp]\label{tab:htk_like}\centering\begin{tabular}{l|rrr}
-% oplatek@kronos:master:custom_dict_and_lm_2013-07-17_18:01:53.593578525$
-exp             & RT coef        & WER         & SER        \\ 
+exp             & RT coef       & WER         & SER        \\ 
 \hline
-tri3b-fmmi-b    & 1.36150426667  & (13.35, 9)  & (33.89, 9) \\ 
-tri2b-mpe       & 0.20711125     & (14.84, 16) & (35.58, 18)\\ 
-mono            & 0.3436106      & (40.83, 15) & (64.81, 19)\\ 
-tri3b-mmi       & 0.173916626667 & (13.79, 11) & (34.54, 10)\\ 
-tri1            & 0.2700173      & (20.63, 20) & (44.5, 20) \\ 
-tri2b-mmi       & 0.2609084      & (14.49, 13) & (34.93, 15)\\ 
-tri2a           & 0.2824097      & (20.05, 20) & (44.5, 19) \\ 
-tri2b           & 0.2155103      & (19.71, 20) & (43.86, 20)\\ 
-tri3b           & 0.14386492     & (19.59, 17) & (43.08, 17)\\ 
-tri3b-fmmi-c    & 1.5112627      & (13.37, 9)  & (33.76, 9) \\ 
-tri2b-mmi-b0.05 & 0.2807327      & (14.47, 13) & (34.28, 15)\\ 
+-ri3b-fmmi-b    & 2.46556       & (14.25, 12) & (38.55, 15)\\ 
+tri2b-mpe       & 0.43555075    & (15.62, 16) & (41.01, 15)\\ 
+mono            & 0.766032      & (41.68, 12) & (67.79, 18)\\ 
+tri3b-mmi       & 0.3152644     & (14.71, 13) & (39.33, 17)\\ 
+tri1            & 0.6366977     & (21.97, 14) & (50.32, 20)\\ 
+tri2b-mmi       & 0.50897815    & (14.25, 13) & (39.07, 13)\\ 
+tri2a           & 0.4987811     & (22.34, 18) & (49.94, 18)\\ 
+tri2b           & 0.4434147     & (18.39, 16) & (44.5, 19) \\ 
+tri3b           & 0.3002624     & (19.15, 17) & (47.22, 18)\\ 
+tri3b-fmmi-c    & 2.4882825     & (14.2, 14)  & (38.03, 14)\\ 
+tri2b-mmi-b0.05 & 0.49218765    & (14.08, 14) & (38.29, 15)\\ 
+tri3b-fmmi-d    & 1.84923083333 & (14.47, 14) & (38.42, 14)
 \end{tabular}
-\caption{Experiment with generated LM and dictionary "\ac{HTK}-like"\todo{tag2like}\todo{reorder}}
+\caption{Experiment with pretrained LM and dictionary "\ac{HTK}-like"\todo{reorder}}
 \end{table}  
-
-\clearpage
 
 % section introduction_to_training_acoustic_models (end)
 
@@ -284,21 +243,21 @@ of \ac{MFCC} features.
 
 The most comparable settings for \ac{HTK} and Kaldi are the $trigram$ \ac{HTK} results
 and the $tri2a$ model in "htk-like" experiment~\ref{tab:htk_like}. 
-The~\ac{WER} for this settings can be found in Table~\ref{tab:compare}
-together with best 
+The~\ac{WER} for this settings can be found in Table~\ref{tab:compare}.
+Note we also added a discriminative model from the same "\ac{HTK}-like" experiment.
+It is both more accurate and faster than current Kaldi set up.
+
 \begin{table}[!htp]\label{tab:compare}\centering\begin{tabular}{l|rrr}
     Experiment   & \ac{RTF} & \ac{WER} & \ac{SER} \\
 \hline
 \hline
-\ac{HTK}-Trigrams   & Unknown  & 20.31  & 45.10  \\
-Kaldi~\ref{tab:htk_like} - tri2a & todo & todo   & todo \\
+\ac{HTK} best, Trigrams   & Unknown  & 20.31  & 45.10  \\
+Kaldi, "htk like"-$tri2a$, Table~\ref{tab:htk_like} - tri2a & 0.4987811 & 22.34 & 49.94\\
 \hline
-Kaldi - best and fast descrimintive training & todo  & todo   & todo \\
-\end{tabular}
-\caption{Best result comparison between Kaldi and \ac{HTK}}
-\end{table}  
+\ac{HTK}-$tri3b-mmi$       & 0.3152644     & (14.71, 13) & (39.33, 17)\\ 
+\end{tabular} \caption{Result comparison between Kaldi and \ac{HTK}} \end{table}  
 
-To conclude, we find out that Kaldi recognition toolkit is capable of training acoustic models with comparable quality like \ac{HTK} toolkit. In addition, Kaldi has rich set of tools for discriminative training.
+To conclude, we find out that Kaldi recognition toolkit is capable of training acoustic models with comparable quality like \ac{HTK} toolkit using maximum likelihood training. In addition, Kaldi has rich set of tools for discriminative training, which outperforms the maximum likelihood methods.
 With the~Kaldi acoustic models good enough ASR hypothesis can be decoded. 
 In Chapter~\ref{cha:decoder} we will describe Kaldi decoders, which are convenient for real-time usage
 , and which also does do loose the ability to produce quality ASR hypothesis.
