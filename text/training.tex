@@ -151,21 +151,14 @@ delta+delta-delta & tri2a & Alignments from tri1 \\
 
 \section{Experimental design and results} 
 \label{sec:exps}
-\todo{We designed eight experiments at~the~beginning of~writing this thesis.}
-They differ according three parameters:
-\begin{itemize}
-    \item Type of \ac{LM}: Pretrained versus data generated \ac{LM}.
-    \item Type of \ac{MFCC} parameters: \ac{HTK}-like or native Kaldi.
-    \item Using \ac{OOV}: Yes or No.
-\end{itemize}
 The experiments focus on comparing the quality of ASR hypothesis measured by~\ac{WER}.
-The speed is not the main concern.  The {\it gmm-latgen-faster} decoder is used for evaluation on testing data. 
+The speed is not the main concern.  The {\it gmm-latgen-faster}\/ decoder is used for evaluation on testing data. 
 \todo{Je to spatne - napsat presne-However, many of the methods from~Table~\ref{tab:disc_train}
 require specific feature transformations, which also needs to applied before using the decoder on testing data.}
 
 Note, that other Kaldi decoders may not support some of the trained models.
-In general, if a method is slow for the {\it gmm-latgen-faster} decoder, it is slow for other decoders too.
-We measure the speed in terms of \ac{RTF}, because the {\it gmm-latgen-faster} decoder is designed for~batch 
+In general, if a method is slow for the {\it gmm-latgen-faster}\/ decoder, it is slow for other decoders too.
+We measure the speed in terms of \ac{RTF}, because the {\it gmm-latgen-faster}\/ decoder is designed for~batch 
 processing, so the measuring latency is not convenient.
 
 
@@ -192,15 +185,13 @@ Best without OOV            & todo & todo \\
 \caption{Kaldi experiments, best Maximum Likelihood method}
 \end{table}
 
-The summary of best results is described~Table~\ref{tab:exp_best}\footnote{\todo{SHOULD I ADD THIS FOOTNOTE?} 
-Complete list of the experiments can be found 
-at~\href{https://redmine.ms.mff.cuni.cz/projects/Vystadial/wiki/Acoustic_models/}{Vystadial Redmine Wiki}}. 
+\todo{Delete the table? The summary of best results is described~Table~\ref{tab:exp_best}}
 
 In~the detail tables 
 The tables~\ref{tab:htk_like},~\ref{tab:htk_like_gen_lm},~\ref{tab:best_oov} 
 and~\ref{tab:best_nooov}\footnote{All the tables are in~Appendix~\ref{cha:results}.} presents complete overview of the results. 
-Note, that the decoding on test data was performed with different \ac{LM} weights for each method and 
-experiment. The we tried \ac{LM} weights $9, 10, 11, ...$ to $20$. 
+Note, that the decoding on test data was performed with different \ac{LM} weights for each method and experiment. 
+The we tried \ac{LM} weights $9, 10, 11, ...$ to $20$. 
 The best \ac{LM} weight is always the second number in bracket.
 \todo{na jakych datech jsi tu  nejlepsi wahu urcil? na test nebo devel. Pokud na test. Pak to musis nejak omluvit protoze to neni idealni
 Muzes rict ze to delas aby jsi eliminoval vliv vahy LM na vysledku  a vzhledem k tomu ze netestujem kvalitu LM tak to nevadi jak ze tunis na test datech.}
