@@ -19,13 +19,15 @@ A spoken dialog is the most intuitive way of~communication among people. Nowaday
 choice of~communication even for human-device interaction. The quality of~a~dialog largely depends on the quality 
 of~speech recognition, because the~reasoning and the~reply is based on the recognized speech. 
 
-In this work, we improve speech recognition in the dialog system called Alex. 
-The Alex dialog system is developed at \ac{UFAL} \ac{MFF}. One of~the application of~Alex is a~public phone call service, where a~user can ask Alex for 
-a~piece of advice about Prague public transport.
-% about navigation in Prague public transport.
+In this work, we prepare \acl{automatic speech recognition} for a dialog system called Alex. 
+We use the Kaldi speech recognition toolkit for training as well as decoding the speech itself.\ref{kaldi}
+We see the added value in new training scripts deployed with acoustic data
+and in new interface for decoding, which is convenient for a dialog system. 
+Currently, the Alex dialog system is mainly used as a~public phone call service,
+where a caller can ask about weather and public transport information in Czech republic.
 
 \section{The problem} 
-\label{sec:why}
+\label{sec:problem}
 % The Alex dialog system and this thesis was partly funded by the Ministry of~Education, Youth and Sports
 % of~the Czech Republic under the grant agreement LK11221 for~the~{\it Vystadial project}\/ and core research of~Charles University in Prague.
 % Let us cite the main goals of~the~{\it Vystadial project}\cite{jurcicek2012vystadial}:
@@ -38,8 +40,33 @@ a~piece of advice about Prague public transport.
 %     \end{itemize}
 % \end{quote}
 
-The Alex dialog system has been using the \ac{HTK} toolkit\cite{young94htk} to train acoustic models and 
-the OpenJulius\cite{lee2009julius} decoder for real time decoding. Nevertheless, the used set up has several flaws.
+The speech recognition in a dialog system closely interacts with \acl{SLU} unit.
+The \ac{SLU} unit typically classifies the speech better 
+if the speech recognizer outputs more than one hypothesis for one utterance. 
+A word lattice effectively represent multiple hypothesis and is convenient
+representation for passing hypothesis between \ac{ASR} and \ac{SLU} unit.
+
+The Alex dialog system has been using the \ac{HTK} toolkit\cite{young94htk} 
+to train acoustic models and 
+the OpenJulius\cite{lee2009julius} lattice decoder for real time decoding. 
+Our project members were experiencing crashes of OpenJulius during extracting lattices.
+
+Taking in mind the OpenJulius complicated code base and relatively slow
+development of both \ac{HTK} and OpenJulius we started considering Kaldi.
+
+At the time of writing the thesis, Kaldi had no lattice real-time decoder
+and no interface convenient for a dialog system.
+However, the Kaldi toolkit has modern training recipes, 
+is actively maintained and is distributed 
+under permissive Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
+
+We decided to create 
+1) Kaldi recipe
+2) C++ interface for real time decoding
+3) Python wrapper
+4) Tune the training and integrate the decoder into our dialog system
+
+
 
 One of~the goals is to release the Alex dialog system under 
 Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}. 
