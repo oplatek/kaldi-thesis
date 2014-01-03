@@ -54,7 +54,8 @@ Unfortunately, our project members were experiencing crashes
 of OpenJulius during extracting lattices.
 
 Taking in mind the OpenJulius complicated code base and relatively slow
-development of both \ac{HTK} and OpenJulius we were looking for another toolkit and decoder.
+development of both \ac{HTK} and OpenJulius we were looking 
+for another open source toolkit with a real-time decoder.
 
 At the time of writing the thesis, Kaldi had no lattice real-time decoder
 and no interface convenient for a dialog system.
@@ -65,37 +66,12 @@ under permissive Apache License, Version 2.0\footnote{\url{http://www.apache.org
 The Kaldi community focused on improving acoustic model training. 
 In August 2012\footnote{The changes were introduced by \href{https://sourceforge.net/p/kaldi/code/1259/}{svn commit 1259}.}
 Kaldi team published a~demo version of~an online one best hypothesis decoder.
-The online decoder inspired us in designing the online interface and
-we also rewrote the feature preprocessing based on the provided code.
-
-
-
-In this thesis we adapt and integrate a Kaldi lattice decoder 
-into Alex dialog system for a~real time use. We
-
-One of~the goals is to release the Alex dialog system under 
-Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}. 
-By using \ac{HTK} toolkit we cannot publish Alex with the Apache License, 
-because we need to modify the code of the decoders we are using. 
-
-The \ac{HTK} decoders are not real-time decoders\cite{yao2010practical}. 
-We used the~OpenJulius decoder for real-time decoding. OpenJulius can output except classic textual transcriptions of~audio
-also lattices.Lattice is a convenient output format for a dialog system and is described in~Section~\ref{sub:lattice}.
-
-
-Currently, the Kaldi framework is mostly used for experimenting and it is not meant for real time usage. 
-However, in August 2012\footnote{The changes were introduced 
-by \href{https://sourceforge.net/p/kaldi/code/1259/}{svn commit 1259}.} Kaldi team published a~version of~an online decoder. 
-In this thesis we hope to improve and integrate the online decoder into Alex dialog system for a~real time use.
-The implemented decoder is evaluated against current set up with \ac{HTK} and OpenJulius.
-
-% section why_introducing_new_decoder_and_toolkit_for_training_acoustic_models_ (end)
+The online decoder inspired us in designing 
+the online interface suitable for real-time use and
+we rewrote the feature preprocessing based on the provided code.
 
 \section{The goals of~the~thesis} 
 \label{sec:goals}
-2) C++ interface for real time decoding
-3) Python wrapper
-4) Tune the training and integrate the decoder into our dialog system
 Let us introduce the goals of~this thesis. Each of~the~goals is described in one of subsections below.
 At first, we introduce the goal of training acoustic model, which is the precondition for satisfying next goals.
 Later, we prepare the real-time decoder and at the end, we integrate the decoder in the~dialog system. 
@@ -117,24 +93,21 @@ so the quality of \ac{AM} is comparable \ac{AM} trained with \ac{HTK} toolkit.
 \label{sub:compare_rt}
 
 We select the most convenient Kaldi decoder and transform the decoder to word lattice decoder. 
-We suggest potential speed improvements e.g.\ approximations, use of \ac{GPU} and 
-another speech signal preprocessing.
-% balance speech recognition accuracy for the speed and select the best setting for the~use case.
-% In addition, we consider different possibilities for output formats for different decoders.
-% subsection preparing_real_time_decoder (end)
+We suggest potential speed improvements e.g.\ approximations, use of \ac{GPU} or \ac{DNN} for speech processing.
+
+The C++ interface suitable for real-time with a dialog system is designed and implemented.
 
 \subsection{A~real-time decoder integration} 
 \label{sub:integration}
 The final step is integration of selected real-time decoder into the~dialog system Alex.
 The~OpenJulius decoder interfaces the Alex system through Python module, 
 which communicates with the decoder through sockets.
-The Kaldi is integrated as Python C++ extension module, which is not only faster, 
-but also more user friendly.
+The Kaldi is integrated as Python C++ extension module 
+using Cython\footnote{\url{htpp://www.cython.org}}, 
+which is not only faster, but also more user friendly solution.
 
 Finally, we contrast and compare overall performance of OpenJulius decoder 
 in our dialog system with wrapped Kaldi decoder.
-
-% subsection decoder integration (end)
 
 % section goals (end)
 
