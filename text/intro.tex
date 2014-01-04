@@ -57,7 +57,7 @@ Taking in mind the OpenJulius complicated code base and relatively slow
 development of both \ac{HTK} and OpenJulius we were looking 
 for another open source toolkit with a real-time decoder.
 
-At the time of writing the thesis, Kaldi had no lattice real-time decoder
+We choose Kaldi toolkit. Despite the fact,  that Kaldi had no lattice real-time decoder
 and no interface convenient for a dialog system.
 However, the Kaldi toolkit already had modern training recipes, 
 was and still is actively maintained. Moreover, Kaldi is distributed 
@@ -92,8 +92,10 @@ so the quality of \ac{AM} is comparable \ac{AM} trained with \ac{HTK} toolkit.
 \subsection{Preparing real-time decoder} 
 \label{sub:compare_rt}
 
-We select the most convenient Kaldi decoder and transform the decoder to word lattice decoder. 
-We suggest potential speed improvements e.g.\ approximations, use of \ac{GPU} or \ac{DNN} for speech processing.
+We select the most convenient Kaldi decoder and 
+transform the decoder to word lattice decoder. 
+We suggest potential speed improvements e.g.\ approximations, use of \ac{GPU} 
+or \ac{DNN} for speech processing\cite{TODO_KALDI_DNN}.
 
 The C++ interface suitable for real-time with a dialog system is designed and implemented.
 
@@ -115,7 +117,7 @@ in our dialog system with wrapped Kaldi decoder.
 \label{sec:outline_of_the_thesis}
 In~Chapter~\ref{cha:background} we describe components of a~speech recognition system.  
 Except the standard introduction to speech recognition system we introduce Finite State Automata~framework,
-which is used by Kaldi toolkit. In~Chapter~\ref{cha:training} we describe the acoustic 
+which is used by the~Kaldi toolkit. In~Chapter~\ref{cha:training} we describe the acoustic 
 models needed by the~Kaldi decoder. 
 In addition, we contrast and compare acoustic models trained by~\ac{HTK} and Kaldi. 
 Chapter~\ref{cha:decoder} presents the Kaldi real time decoder embedded into our dialog system.

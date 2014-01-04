@@ -44,46 +44,6 @@ that produces an \ac{ASR} hypothesis for given audio input.
 For simplicity, let us for suppose that ASR hypothesis is the textual transcription of speech in the input audio. 
 In~Subsection~\ref{sub:lattice} we will describe lattices as another output format convenient for dialog systems.
 
-%{{{ somehow finished
-\subsection*{Speech recognition in a world of Artificial intelligence}
-\label{sub:intro_ml}
-Speech recognition is a classic machine learning technique and has many in common with other machine learning task. 
-There are many algorithms and models which are used both in speech recognition and in other machine learning technique.
-Let us name a few examples:
-\begin{itemize}
-    \item Markov models are used in speech recognition as well as in \ac{DNA} multiple alignment problem.
-    \item Neural Networks are getting popular in speech recognition and are classic solution for hand written text recognition.
-    \item Language models are used in machine translation and also in speech recognition. 
-\end{itemize}
-
-In machine learning there are usually distinguished two kinds of learning algorithms, supervised and unsupervised.
-
-\begin{figure}[!htp]
-    \begin{center}
-    \input{images/supervised-general}
-    \input{images/supervised-baum-welsh}
-    \caption{Supervised learning idea and example}
-    \label{fig:supervised} 
-    \end{center}
-\end{figure}
-{\it Supervised learning}\/ is the~machine learning task of inferring a function from labeled training data.\cite{mohri2012foundations}. Labeled data is set of training examples pairs. The pairs consists of input features and desired output as captured in~Figure~\ref{fig:supervised}. The supervised learning algorithm infers a function partially influenced by the training examples and partially determined by the algorithm itself. In ideal case, the inferred function would be able to predict correct output values for unseen input data. 
-The inferred function is often called {\it model}. For speech recognition tasks the models, namely acoustic models and the language models, are stored in persistent memory before using them. 
-
-Acoustic models are trained using supervised learning. Language models are trained using unsupervised training. 
-
-\begin{figure}[!htp]
-    \begin{center}
-    \input{images/unsupervised-general}
-    \input{images/unsupervised-lm}
-    \caption{Unsupervised learning idea and example}
-    \label{fig:unsupervised} 
-    \end{center}
-\end{figure}
-{\it Unsupervised learning}\/ can be thought of as finding patterns in the input data beyond what would be considered 
-pure unstructured noise\cite{ghahramani2004unsupervised}. Very often unsupervised learning is an application 
-of~statistical methods as in language modeling depicted in~Figure~\ref{fig:unsupervised}
-% subsection speech_recognition_as_machine_learning_task (end)
-
 \subsection*{Statistical approach}
 \label{sub:statistical_approach}
 In the statistical approach we can describe speech recognition as classification problem where 
@@ -93,16 +53,18 @@ for a~given acoustic observations $a$ we search for the most probable sequence o
     w^* = argmax_{w}\{P(w|a)\} 
 \end{equation}
 
-Note that an ideal acoustic model would exactly determined the probabilities for every $w$ and $a$ in~Equation~\ref{eq:acoustic}.
+\ac{AM} estimates probabilities for every $w$ and $a$ in~Equation~\ref{eq:acoustic}.
 \begin{equation}\label{eq:acoustic}
     P(w|a)
 \end{equation}
-Similarly, an ideal language model will perfectly determined probability for any sequence of words $w$
+Similarly, an \ac{LM} approximates probability for any sequence of words $w$
 \begin{equation}
     P(w)
 \end{equation}
 
-Having the ideal acoustic and language model we can find the most probable transcription $w*$ for given acoustic observations $a$ by using Bayes rule.
+Having the ideal acoustic and language model 
+we can find the most probable transcription $w*$ 
+for given acoustic observations $a$ by using Bayes rule.
 \begin{equation}
     P(w \mid a) = \frac{P(a \mid w) * P(w)}{P(a)}
 \end{equation}
@@ -121,6 +83,52 @@ From Equation~\ref{eq:ideal} we know the probability for every transcription $w$
     \end{center}
 \end{figure}
 % subsection statistical_approach (end)
+
+%{{{ somehow finished
+\subsection*{Speech recognition in a world of Artificial intelligence}
+\label{sub:intro_ml}
+Speech recognition is a classic machine learning technique and has many in common with other machine learning task. 
+There are many algorithms and models which are used both in speech recognition and in other machine learning technique.
+Let us name a few examples:
+\todo{itemize nejde k veci smazat}
+\begin{itemize}
+    \item Markov models are used in speech recognition as well as in \ac{DNA} multiple alignment problem.
+    \item Neural Networks are getting popular in speech recognition and are classic solution for hand written text recognition.
+    \item Language models are used in machine translation and also in speech recognition. 
+\end{itemize}
+
+In machine learning there are usually distinguished two kinds of learning algorithms, supervised and unsupervised.
+
+\begin{figure}[!htp]
+    \begin{center}
+    \input{images/supervised-general}
+    \input{images/supervised-baum-welsh}
+    \caption{Supervised learning idea and example}
+    \label{fig:supervised} 
+    \end{center}
+\end{figure}
+{\it Supervised learning}\/ is the~machine learning task of inferring a function from labeled training data.\cite{mohri2012foundations}. Labeled data is set of training examples pairs. The pairs consists of input features and desired output as captured in~Figure~\ref{fig:supervised}. The supervised learning algorithm infers a function partially influenced by the training examples and partially determined by the algorithm itself. In ideal case, the inferred function would be able to predict correct output values for unseen input data. 
+The inferred function is often called {\it model}. 
+\todo{is it important? 
+For speech recognition tasks the models, 
+namely acoustic models and the language models, 
+are stored in persistent memory before using them.}
+
+\begin{figure}[!htp]
+    \begin{center}
+    \input{images/unsupervised-general}
+    \input{images/unsupervised-lm}
+    \caption{Unsupervised learning idea and example}
+    \label{fig:unsupervised} 
+    \end{center}
+\end{figure}
+{\it Unsupervised learning}\/ can be thought of as finding patterns in the input data beyond what would be considered 
+pure unstructured noise\cite{ghahramani2004unsupervised}. Very often unsupervised learning is an application 
+of~statistical methods as in language modeling depicted in~Figure~\ref{fig:unsupervised}
+
+Acoustic models are trained using supervised learning. Language models are trained using unsupervised training. 
+% subsection speech_recognition_as_machine_learning_task (end)
+
 
 
 
@@ -144,6 +152,7 @@ in~Chapter~\ref{cha:implementation} as an implementation property.
 
 \ml{\acl{RTF}}
 We will measure the speed of~the decoders by \acl{RTF} metric or we will express it by latency.
+\todo{RTF malo srozumitelne}
 \ac{RTF} is defined as $\ac{RTF} = \frac{P}{D}$, where $P$ is time of~the processing the audio by a~decoder on input with length $D$. 
 
 \ml{latency}
@@ -159,7 +168,7 @@ We will compute it by $\frac{S+D+I}{N}$, where $S$ is number of substitutions,
 $D$ is number of deletions, $I$ number of insertions to the reference. 
 The $N$ denotes the number of words in reference.
 
-The other formats to textual hypothesis like n-best lists and lattice
+The other formats of textual hypothesis like n-best lists and lattice
 will be converted to textual hypothesis, because the reference for our training data is only available  
 in~form of text audio transcriptions.
 From n-best list we take the best textual hypothesis directly as the first item. From lattice
@@ -186,7 +195,7 @@ An interested reader can find comprehensive introduction into signal processing
 in~the~fourth Chapter of Spoken Language Processing book\cite{huang2001spoken}.
 
 
-Let us give a~concrete example with of signal processing steps: 
+Let us give a~specific example of signal processing steps: 
 \small{\begin{enumerate}
     \item The raw audio signal is at first converted from continuous to discrete signal by {\it sampling}.  % TODO describe sampling https://en.wikipedia.org/wiki/Sampling_(signal_processing)
     \item The~discrete signal is transformed into {\it frequency domain}\/ by~\ac{DFT} in overlapping frames.
@@ -200,10 +209,12 @@ The {\it sampling frequency}\/ is typically 8000, 16000, 32000 or 44100 Hz and e
 The overlapping frames are used because \ac{DFT} is not accurate at the edges of frames. 
 Windowing function like Hanning function applied on the signal removes the edge effect of~\ac{DFT}. 
 
-For example,  the online Kaldi decoder uses $25ms$  frame length and the frames are shifted by $10ms$ for 16kHz sampling frequency. By multiplying the sample rate with frame length in seconds we find out that there are $16000 * 0.025 = 400$ samples in one frame. The frames are overlapping with $ 16000 * (0.025 - 0.01) = 240$ samples.
+\todo{obrazek}
+For example,  the online Kaldi decoder uses $25ms$  frame length and the frames are shifted by $10ms$ for 16kHz sampling frequency. By multiplying the sample rate with frame length in seconds we find out that there are \todo{mezery} $16000 * 0.025 = 400$ samples in one frame. The frames are overlapping with $ 16000 * (0.025 - 0.01) = 240$ samples.
 
-In Kaldi there is used by default 25 filters for 25 overlapping bins for~frequencies 
-between 20 and $Sampling frequency / 2 = 8000$, which is according the~Nyquist theorem\cite{jerri1977shannon} 
+Kaldi uses by default 25 filters for 25 overlapping bins for~frequencies 
+between 20 and \todo{divne formatovani} $Sampling frequency / 2 = 8000$, 
+which is according the~Nyquist theorem\cite{jerri1977shannon} 
 the~highest frequency that can be exactly determined in \ac{DFT}.
 
 It is common to use only eight to twelve lowest-order \ac{MFCC} coefficients. In Kaldi we are using twelve of them. 
@@ -220,13 +231,13 @@ The~acoustic features are computed for each of the overlapping window.
 % section signal_processing (end)
 \section{Acoustic modeling}
 \label{sub:decoding_with_hmm}
-Let us return to high level point of view to speech recognition from~Figure~\ref{fig:components}.
+Let us return to the high level point of view to speech recognition from~Figure~\ref{fig:components}.
 We described the signal processing unit and now we will focus on modeling the phonemes, the basic
 units of speech. We will use the~statistical \ac{HMM} approach to phonemes modeling.
 
 The~\ac{HMM} is a~very powerful statistical method of~characterizing the~observed data samples 
 of~a~discrete-time series. Chapter 8, \cite{huang2001spoken}.
-We will at first introduce {\it Markov Chain}, then \ac{HMM} will be defined. Later,  we will explain 
+At first we will introduce {\it Markov Chain}, then \ac{HMM} will be defined. Later,  we will explain 
 how are the acoustic and language models used in \ac{HMM} framework. 
 In~the~Subsection~\ref{sub:dec_algorithm} we present the search algorithms for speech recognition.
 
