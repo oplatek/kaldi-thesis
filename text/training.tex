@@ -11,11 +11,13 @@ At first the~Section~\ref{sec:setup} describes how the experiments are organized
 The~Section~\ref{sec:methods} introduces the used methods. 
 The chapter continues by~presenting results in~Section~\ref{sec:exps}. 
 Later, in~Section~\ref{sec:compare} we compare results obtained by Kaldi toolkit with results
-trained with \ac{HTK} toolkit by Matěj Korvas.
+trained with \ac{HTK} toolkit by Matěj Korvas\cite{lrec2014}.
 
 \section{Experiments organisation} 
 \label{sec:setup}
 
+\todo{Organizace experimentu neni az tak dulezita, dulezite jsou pouzite metody}
+\todo{popsat presne jake LM jsem pouzil, jake vysledky budu reportovat}
 \ml{Vystadial recipe}
 \small{The Kaldi toolkit has codified form of training scripts with predefined file system structure. 
 We created new recipe called {\it kaldi-Vystadial-recipe}\/ or just {\it Vystadial recipe}. 
@@ -123,8 +125,8 @@ which are used in Vystadial script.
         the~training data without speaker labels, so we suppose that each utterance is spoken by different user.
         In fact, it makes the \ac{SAT} methods hopeless in improving the \ac{WER}, 
         but we include the results for completeness and future comparison.
-    \item \ac{MPE}\cite{povey2007evaluation} is an objective function for discriminative models in \ac{ASR}. In \ac{MPE} experiment the Kaldi toolkit uses modified \ac{MMI} and extended Baum-Welsch algorithm together with the \ac{MPE} objective function to train \ac{HMM} parameters.
-    \item \cite{povey2005fmpe} \ac{fMMI} uses \ac{MPE} objective functions to the acoustic features.
+    \item \todo{delete} \ac{MPE}\cite{povey2007evaluation} is an objective function for discriminative models in \ac{ASR}. In \ac{MPE} experiment the Kaldi toolkit uses modified \ac{MMI} and extended Baum-Welsch algorithm together with the \ac{MPE} objective function to train \ac{HMM} parameters.
+    \item \cite{povey2005fmpe} \ac{fMPE} uses \ac{MPE} objective functions to the acoustic features. \todo{check and delete}
 \end{itemize}
 \begin{table}[!htp]\label{tab:disc_train}
 \small{\begin{tabular}{lll}
@@ -151,8 +153,11 @@ delta+delta-delta & tri2a & Alignments from tri1 \\
 
 \section{Experimental design and results} 
 \label{sec:exps}
+\todo{Comment on 2 WER difference generative vs discriminative training}
+\todo{Mention that HTK scripts are really good}
+\todo{Show that we can get similar results with Kaldi as Matej did with HTK}
 The experiments focus on comparing the quality of ASR hypothesis measured by~\ac{WER}.
-The speed is not the main concern.  The {\it gmm-latgen-faster}\/ decoder is used for evaluation on testing data. 
+The speed of the decoding is not important at this moment.  The {\it gmm-latgen-faster}\/ decoder is used for evaluation on testing data. 
 \todo{Je to spatne - napsat presne-However, many of the methods from~Table~\ref{tab:disc_train}
 require specific feature transformations, which also needs to applied before using the decoder on testing data.}
 
@@ -163,7 +168,7 @@ processing, so the measuring latency is not convenient.
 
 
 \ml{datasets}
-The experiments were performed on dataset called {\it Vystadial}\footnote{Vystadial dataset will be published in few month.}.
+The experiments were performed on dataset called {\it Vystadial}\footnote{\todo{Add link to Vystadial dataset.}}.
 However, in the~experiments we use the pretrained \ac{LM}.
 The pretrained \acl{LM} was trained by our colleagues in Cambridge for the~same domain.
 The pretrained \ac{LM} was also used in the~\ac{HTK} experiments and we use the~model in experiments 
@@ -276,8 +281,9 @@ and which also does not loose the ability to produce quality ASR hypothesis.
 \todo{Discuze proc se nevenujeme LM}
 We do not focus on the language modeling since \ac{LM} is usually domain specific.
 We want to use the~Alex dialog system and also the Kaldi recognizer in multiple domains with minimum
-setup changes. In future, we would like to use very general \ac{LM} and reduce the dependency on~\ac{LM}
-as much as possible.
+setup changes. 
+\todo{move to better place: We focus on AM, there two ways a) use very general LM b) train LM from transcriptions}
+In future, we would like to use very general \ac{LM} 
 \todo{Tohle by mohlo byt vypichnuto nekde jinde, a lepe. Delame jenom AM, LM nas nezajima, ale abychom mohli testovat nejaky potrebujeme. Jsou dva zpusoby. Primo z trenovacich dat, nebo nejaky obcnejsi.}
 % section kaldi_vs_htk_training_scripts_and_its_capabilities (end)
 
