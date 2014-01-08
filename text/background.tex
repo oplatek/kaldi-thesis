@@ -14,27 +14,26 @@
 %       Show that you understand given topic
 %       Show that you can write and talk about given topic
 %}}}
-\todo{Tady by asi spise davalo smysl.
-2.1 Automatic speech recognition 
-- Speech parameterization
-- Acoustic modeling
-- Language modeling
-- Speech decoding
-- Evaluation of the ASR quality 
-2.2 KALDI
-2.3 HTK
-- a very brief description
-2.4 Julius}
-\todo{jake byly metody sumu ,  triphonem}
 
-Research on field of speech recognition began more than 40 years ago. The statistical approach based 
-on~\ac{HMM} established itself very early and nowadays it is de facto standard for continuous speech recognition. 
-If we speak about speech recognition in~this thesis we mean continuous speech recognition based on Hidden Markov Models. 
+The statistical methods for continuous speech recognition were established more than 30 years ago. 
+The most popular statistical methods are based on \ac{HMM} and n-grams \ac{LM},
+which are also used in Kaldi, the toolkit of our choice.
 
-Section~\ref{sec:general_introduction} provides an~introduction into speech recognition with \ac{HMM}. 
-It concisely describes components of speech recognition system. The~algorithms for training acoustic language models 
-as well for decoding are introduced. In~Section~\ref{sec:fst} the~advantages of Finite State Transducers 
-in~speech recognition are discussed.
+The first Section~\ref{sec:back_asr} introduces speech preprocessing, \ac{AM} and \ac{LM} training
+and explains the principle of speech decoding.
+
+Next three sections describe decoding or training models for particular software.
+The Kaldi toolkit is described in Section~\ref{sec:back_kaldi}, 
+the \ac{HTK} toolkit in Section~\ref{sec:back_htk} and 
+the OpenJulius decoder in Section~\ref{sec:back_julius}.
+
+\section{\acl{ASR}}
+\label{sec:back_asr}
+
+% Section~\ref{sec:general_introduction} provides an~introduction into speech recognition with \ac{HMM}. 
+% It concisely describes components of speech recognition system. The~algorithms for training acoustic language models 
+% as well for decoding are introduced. In~Section~\ref{sec:fst} the~advantages of Finite State Transducers 
+% in~speech recognition are discussed.
 
 \section{Introduction to Speech recognition} 
 \label{sec:general_introduction}
@@ -142,42 +141,9 @@ the~probabilities for language and acoustic models. Secondly, we silently suppos
 that the~data used for training and testing were equally distributed. 
 In practice, both kinds of errors occur.
 
-\subsubsection*{The metrics in speech recognition}
-\label{sub:the_metrics_in_speech_recognition}
-In this thesis we are concerned about three aspects of speech decoder.
-The speed, universality and quality of~\ac{ASR} hypothesis.
-
-The universality of a decoder is not very well measurable and we will discuss it 
-in~Chapter~\ref{cha:implementation} as an implementation property.
-
-\ml{\acl{RTF}}
-We will measure the speed of~the decoders by \acl{RTF} metric or we will express it by latency.
-\todo{RTF malo srozumitelne}
-\ac{RTF} is defined as $\ac{RTF} = \frac{P}{D}$, where $P$ is time of~the processing the audio by a~decoder on input with length $D$. 
-
-\ml{latency}
-The latency is a measure of delay. The delay is measured for each utterance in seconds. 
-The delay is measured between time of submitting the last audio for given utterance to the decoder and 
-the~time of returning the \ac{ASR} hypothesis from decoder.
-
-\ml{\acl{WER}}
-The quality of decoded hypothesis will be measured by \ac{WER}.
-Note, that \ac{WER} is a minimum edit operation distance on words between two texts, the textual hypothesis
-and its reference.
-We will compute it by $\frac{S+D+I}{N}$, where $S$ is number of substitutions,
-$D$ is number of deletions, $I$ number of insertions to the reference. 
-The $N$ denotes the number of words in reference.
-
-The other formats of textual hypothesis like n-best lists and lattice
-will be converted to textual hypothesis, because the reference for our training data is only available  
-in~form of text audio transcriptions.
-From n-best list we take the best textual hypothesis directly as the first item. From lattice
-we extract the transcriptions by search.  
-
-% subsection the_metrics_in_speech_recognition (end)
-
-\section{Signal processing}
-\label{sub:signal}
+\subsection{Speech parameterization}
+\label{sub:param}
+% \section{Signal processing}
 % FIXME consult kaldi website with what I have written
 % http://kaldi.sourceforge.net/feat.html
 \ml{acoustic features}
@@ -229,8 +195,9 @@ The~acoustic features are computed for each of the overlapping window.
 % }}} Finished
 
 % section signal_processing (end)
-\section{Acoustic modeling}
-\label{sub:decoding_with_hmm}
+
+\subsection{Acoustic modeling}
+\label{sub:am}
 Let us return to the high level point of view to speech recognition from~Figure~\ref{fig:components}.
 We described the signal processing unit and now we will focus on modeling the phonemes, the basic
 units of speech. We will use the~statistical \ac{HMM} approach to phonemes modeling.
@@ -243,19 +210,69 @@ In~the~Subsection~\ref{sub:dec_algorithm} we present the search algorithms for s
 
 \todo{acoustic modeling in Kaldi \url{http://kaldi.sourceforge.net/model.html}}
 
-\subsection*{Markov Chain}
-\label{ssub:markov_chain}
-\todo{Spoken Language Processing page 366}
-
-\subsection{\acl{HMM}}
-\label{ssub:hmm}
-\todo{describe Hmm for phones}
-
-% subsection hmm (end)
+% \subsection*{Markov Chain}
+% \label{ssub:markov_chain}
+% \todo{Spoken Language Processing page 366}
+% 
+% \subsection{\acl{HMM}}
+% \label{ssub:hmm}
+% \todo{describe Hmm for phones}
 
 
+\subsection{Language modeling}
 
-% subsection markov_chain (end)
+\subsection{Speech decoding}
+
+\subsection{Evaluating \ac{ASR} quality}
+
+
+
+
+
+\subsubsection*{The metrics in speech recognition}
+\label{sub:the_metrics_in_speech_recognition}
+In this thesis we are concerned about three aspects of speech decoder.
+The speed, universality and quality of~\ac{ASR} hypothesis.
+
+The universality of a decoder is not very well measurable and we will discuss it 
+in~Chapter~\ref{cha:implementation} as an implementation property.
+
+\ml{\acl{RTF}}
+We will measure the speed of~the decoders by \acl{RTF} metric or we will express it by latency.
+\todo{RTF malo srozumitelne}
+\ac{RTF} is defined as $\ac{RTF} = \frac{P}{D}$, where $P$ is time of~the processing the audio by a~decoder on input with length $D$. 
+
+\ml{latency}
+The latency is a measure of delay. The delay is measured for each utterance in seconds. 
+The delay is measured between time of submitting the last audio for given utterance to the decoder and 
+the~time of returning the \ac{ASR} hypothesis from decoder.
+
+\ml{\acl{WER}}
+The quality of decoded hypothesis will be measured by \ac{WER}.
+Note, that \ac{WER} is a minimum edit operation distance on words between two texts, the textual hypothesis
+and its reference.
+We will compute it by $\frac{S+D+I}{N}$, where $S$ is number of substitutions,
+$D$ is number of deletions, $I$ number of insertions to the reference. 
+The $N$ denotes the number of words in reference.
+
+The other formats of textual hypothesis like n-best lists and lattice
+will be converted to textual hypothesis, because the reference for our training data is only available  
+in~form of text audio transcriptions.
+From n-best list we take the best textual hypothesis directly as the first item. From lattice
+we extract the transcriptions by search.  
+
+% subsection the_metrics_in_speech_recognition (end)
+
+\section{Kaldi}
+\label{sec:back_kaldi}
+
+\section{\ac{HTK}}
+\label{sec:back_htk}
+\todo{very brief}
+
+\section{OpenJulius}
+\label{sec:back_julius}
+\todo{jake byly metody sumu ,  triphonem}
 
 
 \subsection*{Decoding algorithm}
