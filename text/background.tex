@@ -27,7 +27,7 @@ The Kaldi toolkit is described in Section~\ref{sec:back_kaldi},
 the \ac{HTK} toolkit in Section~\ref{sec:back_htk} and 
 the OpenJulius decoder in Section~\ref{sec:back_julius}.
 
-\section{\acl{ASR}}
+\section{Automatic speech recognition}
 \label{sec:back_asr}
 
 % Section~\ref{sec:general_introduction} provides an~introduction into speech recognition with \ac{HMM}. 
@@ -35,111 +35,67 @@ the OpenJulius decoder in Section~\ref{sec:back_julius}.
 % as well for decoding are introduced. In~Section~\ref{sec:fst} the~advantages of Finite State Transducers 
 % in~speech recognition are discussed.
 
-\section{Introduction to Speech recognition} 
-\label{sec:general_introduction}
-\ml{ASR hypothesis}
-Let us introduce speech recognition. Automatic speech recognition is a process
-that produces an \ac{ASR} hypothesis for given audio input. 
-For simplicity, let us for suppose that ASR hypothesis is the textual transcription of speech in the input audio. 
-In~Subsection~\ref{sub:lattice} we will describe lattices as another output format convenient for dialog systems.
+% \section{Introduction to speech recognition} 
+% \label{sec:general_introduction}
+% \ml{ASR hypothesis}
+% Let us introduce speech recognition. Automatic speech recognition is a process
+% that produces an \ac{ASR} hypothesis for given audio input. 
+% For simplicity, let us for suppose that ASR hypothesis is the textual transcription of speech in the input audio. 
+% In~Subsection~\ref{sub:lattice} we will describe lattices as another output format convenient for dialog systems.
 
-\subsection*{Statistical approach}
-\label{sub:statistical_approach}
-In the statistical approach we can describe speech recognition as classification problem where 
-for a~given acoustic observations $a$ we search for the most probable sequence of~words $w^*$.
+The goal of statistical \ac{ASR} is to decode 
+the best speech transcription for given speech recording.
+Formally, we search for the most probable sequence of~words $w^*$ given the acoustic observations $a$.
+See Equation~\ref{eq:best_seq}, which can be simplified to Equation~\ref{eq:best_fix},
+because we want decode $w^*$ for fixed speech $a$.
 
-\begin{equation}\label{eq:asr}
-    w^* = argmax_{w}\{P(w|a)\} 
+\begin{equation}\label{eq:best_seq}
+    w^* = argmax_{w}\{P(w \mid a)\} = argmax_{w}\{\frac{P(a \mid w) * P(w)}{P(a)}\}
 \end{equation}
 
-\ac{AM} estimates probabilities for every $w$ and $a$ in~Equation~\ref{eq:acoustic}.
-\begin{equation}\label{eq:acoustic}
-    P(w|a)
-\end{equation}
-Similarly, an \ac{LM} approximates probability for any sequence of words $w$
-\begin{equation}
-    P(w)
+\begin{equation}\label{eq:best_fix}
+    w^* = argmax_{w}\{P(w \mid a)\} = argmax_{w}\{P(a \mid w) * P(w)\}
 \end{equation}
 
-Having the ideal acoustic and language model 
-we can find the most probable transcription $w*$ 
-for given acoustic observations $a$ by using Bayes rule.
-\begin{equation}
-    P(w \mid a) = \frac{P(a \mid w) * P(w)}{P(a)}
-\end{equation}
+The task of acoustic modeling is to estimate the probability $P(a \mid w)$,
+which we describe in Section~\ref{sub:am}. 
+Similarly, the \ac{LM} represents the probability $P(w)$.
+We describe language modeling in Section~\ref{sub:lm}.
 
-By realizing that the probability $P(a)$ of acoustic observations is constant we finish in~Equation~\ref{eq:ideal}.
-\begin{align}\label{eq:ideal}
-    argmax_w\{P(w \mid a)\} &= argmax_w \{\frac{P(a \mid w) * P(w)}{P(a)}\}\\
-                            &= \{P(a \mid w) * P(w)\}
-\end{align}
-From Equation~\ref{eq:ideal} we know the probability for every transcription $w$. However, in order to obtain the most probable transcription $w*$ we still need to search the possibly infinite set of sequences of words, which represent valid transcriptions $w$. The~{\it search}\/ done by the $armax$ function in~Equation~\ref{eq:ideal} is in speech recognition called {\it decoding}\/ and is realized by the {\it decoder}\/ program. The~introduced components are depicted in~Figure~\ref{fig:components}.
+Improving the accuracy of speech recognition engine is dependent
+mainly on improving the \ac{AM} and also the \ac{LM}.
+The \ac{AM} and \ac{LM} are typically trained separately 
+and stored on hard disc.
+
 \begin{figure}[!htp]
     \begin{center}
     \input{images/asr-components}
-    \caption{Architecture of statistical speech recognition system\cite{ney1990acoustic}}
+    \caption{Architecture of statistical speech recognizer\cite{ney1990acoustic}}
     \label{fig:components} 
     \end{center}
 \end{figure}
-% subsection statistical_approach (end)
 
-%{{{ somehow finished
-\subsection*{Speech recognition in a world of Artificial intelligence}
-\label{sub:intro_ml}
-Speech recognition is a classic machine learning technique and has many in common with other machine learning task. 
-There are many algorithms and models which are used both in speech recognition and in other machine learning technique.
-Let us name a few examples:
-\todo{itemize nejde k veci smazat}
-\begin{itemize}
-    \item Markov models are used in speech recognition as well as in \ac{DNA} multiple alignment problem.
-    \item Neural Networks are getting popular in speech recognition and are classic solution for hand written text recognition.
-    \item Language models are used in machine translation and also in speech recognition. 
-\end{itemize}
-
-In machine learning there are usually distinguished two kinds of learning algorithms, supervised and unsupervised.
-
-\begin{figure}[!htp]
-    \begin{center}
-    \input{images/supervised-general}
-    \input{images/supervised-baum-welsh}
-    \caption{Supervised learning idea and example}
-    \label{fig:supervised} 
-    \end{center}
-\end{figure}
-{\it Supervised learning}\/ is the~machine learning task of inferring a function from labeled training data.\cite{mohri2012foundations}. Labeled data is set of training examples pairs. The pairs consists of input features and desired output as captured in~Figure~\ref{fig:supervised}. The supervised learning algorithm infers a function partially influenced by the training examples and partially determined by the algorithm itself. In ideal case, the inferred function would be able to predict correct output values for unseen input data. 
-The inferred function is often called {\it model}. 
-\todo{is it important? 
-For speech recognition tasks the models, 
-namely acoustic models and the language models, 
-are stored in persistent memory before using them.}
-
-\begin{figure}[!htp]
-    \begin{center}
-    \input{images/unsupervised-general}
-    \input{images/unsupervised-lm}
-    \caption{Unsupervised learning idea and example}
-    \label{fig:unsupervised} 
-    \end{center}
-\end{figure}
-{\it Unsupervised learning}\/ can be thought of as finding patterns in the input data beyond what would be considered 
-pure unstructured noise\cite{ghahramani2004unsupervised}. Very often unsupervised learning is an application 
-of~statistical methods as in language modeling depicted in~Figure~\ref{fig:unsupervised}
-
-Acoustic models are trained using supervised learning. Language models are trained using unsupervised training. 
-% subsection speech_recognition_as_machine_learning_task (end)
+Typically it is easier to model preprocessed speech, 
+so various feature and model space transforms are applied before \ac{AM} training.
+The speech recognizer has to use the same speech preprocessing,
+which is used for \ac{AM} model estimation.
+See Figure~\ref{fig:components}.
 
 
+% TODO delete or apply
+% In machine learning there are usually distinguished two kinds of learning algorithms, supervised and unsupervised.
+% 
+% {\it Supervised learning}\/ is the~machine learning task of inferring a function from labeled training data.\cite{mohri2012foundations}. Labeled data is set of training examples pairs. The pairs consists of input features and desired output as captured in~Figure~\ref{fig:supervised}. The supervised learning algorithm infers a function partially influenced by the training examples and partially determined by the algorithm itself. In ideal case, the inferred function would be able to predict correct output values for unseen input data. 
+% The inferred function is often called {\it model}. 
+% \todo{is it important? 
+% For speech recognition tasks the models, 
+% namely acoustic models and the language models, 
+% are stored in persistent memory before using them.}
+% 
+% {\it Unsupervised learning}\/ can be thought of as finding patterns in the input data beyond what would be considered 
+% pure unstructured noise\cite{ghahramani2004unsupervised}. Very often unsupervised learning is an application 
+% of~statistical methods as in language modeling depicted in~Figure~\ref{fig:unsupervised}
 
-
-From the~statistical point of view we do not care how do we obtain the probabilities.
-It does not matter to if we use supervised or unsupervised learning. 
-
-In reality, the decoded ASR hypothesis are not perfect. The ASR hypothesis, in our example the textual transcriptions, 
-commonly contain errors. The causes of the errors can be classified into two categories. 
-Firstly, the errors can be caused by inaccurate algorithms used in computing 
-the~probabilities for language and acoustic models. Secondly, we silently supposed in the Equation~\ref{eq:ideal}, 
-that the~data used for training and testing were equally distributed. 
-In practice, both kinds of errors occur.
 
 \subsection{Speech parameterization}
 \label{sub:param}
@@ -202,6 +158,17 @@ Let us return to the high level point of view to speech recognition from~Figure~
 We described the signal processing unit and now we will focus on modeling the phonemes, the basic
 units of speech. We will use the~statistical \ac{HMM} approach to phonemes modeling.
 
+\begin{figure}[!htp]
+    \begin{center}
+    \input{images/supervised-general}
+    \input{images/supervised-baum-welsh}
+    \caption{Supervised learning idea and example}
+    \label{fig:supervised} 
+    \end{center}
+\end{figure}
+
+Acoustic models are trained using supervised learning. 
+
 The~\ac{HMM} is a~very powerful statistical method of~characterizing the~observed data samples 
 of~a~discrete-time series. Chapter 8, \cite{huang2001spoken}.
 At first we will introduce {\it Markov Chain}, then \ac{HMM} will be defined. Later,  we will explain 
@@ -220,14 +187,24 @@ In~the~Subsection~\ref{sub:dec_algorithm} we present the search algorithms for s
 
 
 \subsection{Language modeling}
+\label{sub:lm}
+
+Language models are trained using unsupervised training. 
+
+\begin{figure}[!htp]
+    \begin{center}
+    % \input{images/unsupervised-general}
+    \input{images/unsupervised-lm}
+    \caption{Unsupervised learning idea and example}
+    \label{fig:unsupervised} 
+    \end{center}
+\end{figure}
 
 \subsection{Speech decoding}
+\label{sub:decode}
 
 \subsection{Evaluating \ac{ASR} quality}
-
-
-
-
+\label{sub:eval}
 
 \subsubsection*{The metrics in speech recognition}
 \label{sub:the_metrics_in_speech_recognition}
