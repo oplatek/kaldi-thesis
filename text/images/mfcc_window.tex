@@ -1,0 +1,31 @@
+% Generated with LaTeXDraw 2.0.8
+% Sun Jul 07 00:14:55 CEST 2013
+% \usepackage[usenames,dvipsnames]{pstricks}
+% \usepackage{epsfig}
+% \usepackage{pst-grad} % For gradients
+% \usepackage{pst-plot} % For axes
+\scalebox{1} % Change this value to rescale the drawing.
+{
+\begin{pspicture}(9,4)
+\usefont{T1}{ptm}{m}{n}
+
+\rput(8.0,3.0){$frames$=7}
+
+\psframe[linecolor=blue, linestyle=dashed, linewidth=0.04,dimen=outer](0.0,1.0)(3.0,2.0)
+\psframe[linecolor=black,linestyle=dashed, linewidth=0.04,dimen=outer](1.0,1.1)(4.0,2.1)
+\psframe[linecolor=orange,linestyle=dashed, linewidth=0.04,dimen=outer](2.0,1.2)(5.0,2.2)
+\psframe[linecolor=green, linestyle=dashed, linewidth=0.04,dimen=outer](3.0,1.3)(6.0,2.3)
+\psframe[linecolor=blue,linestyle=dashed, linewidth=0.04,dimen=outer](4.0,1.4)(7.0,2.4)
+\psframe[linecolor=black,linestyle=dashed, linewidth=0.04,dimen=outer](5.0,1.5)(8.0,2.5)
+\psframe[linecolor=orange, linestyle=dashed, linewidth=0.04,dimen=outer](6.0,1.6)(9.0,2.6)
+
+\rput(1.0,2.9){$shift=10ms$}
+\psline[linewidth=0.04cm,arrowsize=0.05cm 2.0,arrowlength=2.0,arrowinset=0.4]{<->}(0.0,2.5)(1.0,2.5)
+
+\rput(7.5,0.9){$win\_len=50ms$}
+\psline[linewidth=0.04cm,arrowsize=0.05cm 2.0,arrowlength=2.0,arrowinset=0.4]{<->}(6.0,0.5)(9.0,0.5)
+
+\rput(4.0,0.4){ $audio\_len=110ms$  }
+\psline[linewidth=0.04cm,arrowsize=0.05cm 2.0,arrowlength=2.0,arrowinset=0.4]{<->}(0.0,0.0)(9.0,0.0)
+\end{pspicture} 
+}

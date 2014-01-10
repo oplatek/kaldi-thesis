@@ -83,26 +83,59 @@ See Figure~\ref{fig:components}.
 % \section{Signal processing}
 % FIXME consult kaldi website with what I have written
 % http://kaldi.sourceforge.net/feat.html
+The goal of speech parameterization is to reduce the negative environmental influences on speech recognition.
+The speech varies in number of aspects. Some of them are listed below:
+\begin{itemize}
+    \item Differences among speakers pronunciation depends on gender, dialect, voice, etc.
+    \item Environmental noises. In application for a dialog system the typical speech is
+        recorded on noisy street. 
+    \item The recorded channel. 
+        For example the telephone signal is reduced to frequency band between 300 to 3000Hz\cite{TODO}.
+        The quality of mobile phone signal also influence the quality of the audio signal.
+\end{itemize}
+
+Speech parametrization improves robustness of the speech recognition in different recording conditions.
+Note that parametrization of speech does not require to know the recording conditions in advance,
+which is significant advantage to other audio preprocessing methods.
+
 \ml{acoustic features}
-Signal processing is an~important first step for speech recognition. However, we cover signal processing very briefly, 
-because the methods described in this subsection are de facto standard and most of the toolkits use exactly the same 
-algorithms. The~output of the~signal processing are acoustic feature vectors. 
+Speech parametrization extracts from speech audio signal distinctive acoustic features for speech.
+The two most successful methods for speech parametrization in last decades are 
+\ac{MFCC}\cite{davis1980comparison} and \ac{PLP}\cite{hermansky1990perceptual}.
+\cite{TODO_most_succesful} 
+% change ti to something else than 
+% SPEECH SIGNAL PARAMETERIZATION TECHNIQUES FOR SPEECHUNDERSTANDING SYSTEM Gaurav K. LEEKHA, Mrs. Meenakshi MEHLA, Shrilekha SAGWAL
+The methods are very computationally effective and significantly improves the quality of recognized speech.
 
 
-The most used feature vectors are \ac{MFCC} coefficients and \ac{PLP} features. The toolkits used in our dialog system, 
-Kaldi and \ac{HTK} toolkit, produce almost exactly the same \ac{MFCC} coefficients for given audio 
-input.\footnote{The~subtle differences are caused by implementation approaches, but does not effect the quality 
-    of~\ac{MFCC} coefficients in~significant way.}
+The toolkits used in our dialog system, Kaldi and \ac{HTK} toolkit,
+compute \ac{MFCC} coefficients for given audio input similarly.\footnote{The~subtle differences are caused by implementation approaches, but does not effect the quality of~\ac{MFCC} coefficients in~significant way.}
+We choose \ac{MFCC} as speech parametrization technique for both the toolkits,
+so we can compare them.
 
-An interested reader can find comprehensive introduction into signal processing 
-in~the~fourth Chapter of Spoken Language Processing book\cite{huang2001spoken}.
+% An interested reader can find comprehensive introduction into signal processing 
+% in~the~fourth Chapter of Spoken Language Processing book\cite{huang2001spoken}.
+The \ac{MFCC} transformations is applied on sampled and quantized audio signal.
+The overlapping windows of several audio samples, Figure~\ref{fig:mfcc_window},
+ is used to compute for \ac{MFCC} statistics.
+
+\begin{figure}[!htp]
+    \begin{center}
+    \input{images/mfcc_window}
+    \caption{\ac{PLP} or \ac{MFCC} features are computed every 10ms seconds in 50ms windows.
+    Audio length is $(frames-1)*shift + win\_len = 110ms$}
+    \label{fig:mfcc_window} 
+    \end{center}
+\end{figure}
+
+The \ac{MFCC} feature transformation reduce 
+\todo{describe MFCC}
+\todo{Draw mfcc}
 
 
-Let us give a~specific example of signal processing steps: 
 \small{\begin{enumerate}
-    \item The raw audio signal is at first converted from continuous to discrete signal by {\it sampling}.  % TODO describe sampling https://en.wikipedia.org/wiki/Sampling_(signal_processing)
-    \item The~discrete signal is transformed into {\it frequency domain}\/ by~\ac{DFT} in overlapping frames.
-    \item The frequency spectrum obtained in previous step is transformed onto the \href{https://en.wikipedia.org/wiki/Mel_scale}{mel scale}, using triangular overlapping filters.
+    \item The~signal is transformed into {\it frequency domain}\/ by~\ac{DFT} in overlapping frames.
+    \item The frequency spectrum obtained in previous step is transformed onto the mel scale, using triangular overlapping filters.
     \item From the mel frequencies the logs of the powers are taken from each of the mel frequencies.
     \item At the end the discrete cosine transform is applied on the list of mel log powers.
     \item The \ac{MFCC} coefficients are the amplitudes of the resulting spectrum.
