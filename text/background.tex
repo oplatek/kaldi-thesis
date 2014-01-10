@@ -27,21 +27,16 @@ The Kaldi toolkit is described in Section~\ref{sec:back_kaldi},
 the \ac{HTK} toolkit in Section~\ref{sec:back_htk} and 
 the OpenJulius decoder in Section~\ref{sec:back_julius}.
 
+\begin{figure}[!htp]
+    \begin{center}
+    \input{images/asr-components}
+    \caption{Architecture of statistical speech recognizer\cite{ney1990acoustic}}
+    \label{fig:components} 
+    \end{center}
+\end{figure}
+
 \section{Automatic speech recognition}
 \label{sec:back_asr}
-
-% Section~\ref{sec:general_introduction} provides an~introduction into speech recognition with \ac{HMM}. 
-% It concisely describes components of speech recognition system. The~algorithms for training acoustic language models 
-% as well for decoding are introduced. In~Section~\ref{sec:fst} the~advantages of Finite State Transducers 
-% in~speech recognition are discussed.
-
-% \section{Introduction to speech recognition} 
-% \label{sec:general_introduction}
-% \ml{ASR hypothesis}
-% Let us introduce speech recognition. Automatic speech recognition is a process
-% that produces an \ac{ASR} hypothesis for given audio input. 
-% For simplicity, let us for suppose that ASR hypothesis is the textual transcription of speech in the input audio. 
-% In~Subsection~\ref{sub:lattice} we will describe lattices as another output format convenient for dialog systems.
 
 The goal of statistical \ac{ASR} is to decode 
 the best speech transcription for given speech recording.
@@ -67,14 +62,6 @@ mainly on improving the \ac{AM} and also the \ac{LM}.
 The \ac{AM} and \ac{LM} are typically trained separately 
 and stored on hard disc.
 
-\begin{figure}[!htp]
-    \begin{center}
-    \input{images/asr-components}
-    \caption{Architecture of statistical speech recognizer\cite{ney1990acoustic}}
-    \label{fig:components} 
-    \end{center}
-\end{figure}
-
 Typically it is easier to model preprocessed speech, 
 so various feature and model space transforms are applied before \ac{AM} training.
 The speech recognizer has to use the same speech preprocessing,
@@ -82,15 +69,9 @@ which is used for \ac{AM} model estimation.
 See Figure~\ref{fig:components}.
 
 
-% TODO delete or apply
-% In machine learning there are usually distinguished two kinds of learning algorithms, supervised and unsupervised.
-% 
-% {\it Supervised learning}\/ is the~machine learning task of inferring a function from labeled training data.\cite{mohri2012foundations}. Labeled data is set of training examples pairs. The pairs consists of input features and desired output as captured in~Figure~\ref{fig:supervised}. The supervised learning algorithm infers a function partially influenced by the training examples and partially determined by the algorithm itself. In ideal case, the inferred function would be able to predict correct output values for unseen input data. 
+% {\it Supervised learning}\/ is the~machine learning task of inferring a function from labeled training data.\cite{mohri2012foundations}. 
+%Labeled data is set of training examples pairs. The pairs consists of input features and desired output as captured in~Figure~\ref{fig:supervised}. The supervised learning algorithm infers a function partially influenced by the training examples and partially determined by the algorithm itself. In ideal case, the inferred function would be able to predict correct output values for unseen input data. 
 % The inferred function is often called {\it model}. 
-% \todo{is it important? 
-% For speech recognition tasks the models, 
-% namely acoustic models and the language models, 
-% are stored in persistent memory before using them.}
 % 
 % {\it Unsupervised learning}\/ can be thought of as finding patterns in the input data beyond what would be considered 
 % pure unstructured noise\cite{ghahramani2004unsupervised}. Very often unsupervised learning is an application 
@@ -264,6 +245,7 @@ However
 \label{sub:lattice}
 \todo{what are lattices, why is they are good, depth of lattices for dialog system,
 problem of backward search for lattices}
+In~Subsection~\ref{sub:lattice} we will describe lattices as another output format convenient for dialog systems.
 
 
 % subsection lattice (end)
