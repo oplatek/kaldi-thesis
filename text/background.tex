@@ -16,7 +16,7 @@
 %}}}
 
 The statistical methods for continuous speech recognition were established more than 30 years ago. 
-The most popular statistical methods are based on \ac{HMM} and n-grams \ac{LM},
+The most popular statistical methods are based on \ac{HMM} \acl{AM} and n-grams \ac{LM},
 which are also used in Kaldi, the toolkit of our choice.
 
 The first Section~\ref{sec:back_asr} introduces speech preprocessing, \ac{AM} and \ac{LM} training
@@ -59,13 +59,13 @@ We describe language modeling in Section~\ref{sub:lm}.
 
 Improving the accuracy of speech recognition engine is dependent
 mainly on improving the \ac{AM} and also the \ac{LM}.
-The \ac{AM} and \ac{LM} are typically trained separately 
+The \ac{AM} and \ac{LM} are trained separately 
 and stored on hard disc.
 
 Typically it is easier to model preprocessed speech, 
 so various feature and model space transforms are applied before \ac{AM} training.
 The speech recognizer has to use the same speech preprocessing,
-which is used for \ac{AM} model estimation.
+which is used for \ac{AM} model training.
 See Figure~\ref{fig:components}.
 
 
@@ -99,7 +99,7 @@ Note that parametrization of speech does not require to know the recording condi
 which is significant advantage to other audio preprocessing methods.
 
 \ml{acoustic features}
-Speech parametrization extracts from speech audio signal distinctive acoustic features for speech.
+Speech parametrization extracts speech-distinctive acoustic features from raw waveform.
 The two most successful methods for speech parametrization in last decades are 
 \ac{MFCC}\cite{davis1980comparison} and \ac{PLP}\cite{hermansky1990perceptual}.
 \cite{TODO_most_succesful} 
@@ -115,54 +115,85 @@ so we can compare them.
 
 % An interested reader can find comprehensive introduction into signal processing 
 % in~the~fourth Chapter of Spoken Language Processing book\cite{huang2001spoken}.
-The \ac{MFCC} transformations is applied on sampled and quantized audio signal.
-The overlapping windows of several audio samples, Figure~\ref{fig:mfcc_window},
- is used to compute for \ac{MFCC} statistics.
+Both \ac{MFCC} and \ac{PLP} transformations are applied on sampled and quantized audio signal.
+The sampling frequency is typically 8000, 16000 or 32000 Hz.
+Each sample is usually encoded to 8, 16 or 32 bits. 
+In our experiments we use 16 kHz sampling frequency for 16 bit samples.  
+
+\ml{feature window}
+The \ac{MFCC} or \ac{PLP} statistics are computed for signal for overlapping windows.
+In Figure~\ref{fig:mfcc_window} there are 7 windows 
+for audio of length 85 ms and window shift and length 10ms and 25 ms.
 
 \begin{figure}[!htp]
     \begin{center}
     \input{images/mfcc_window}
-    \caption{\ac{PLP} or \ac{MFCC} features are computed every 10ms seconds in 50ms windows.
-    Audio length is $(frames-1)*shift + win\_len = 110ms$}
+    \caption{\ac{PLP} or \ac{MFCC} features are computed every 10 ms seconds in 25 ms windows.
+    Audio length is $(frames-1)*shift + win\_len = 85ms$}
     \label{fig:mfcc_window} 
     \end{center}
 \end{figure}
 
-The \ac{MFCC} feature transformation reduce 
-\todo{describe MFCC}
-\todo{Draw mfcc}
+For each window \ac{MFCC} or \ac{PLP} efficiently computes statistics with much lower dimension. 
+Let us describe \ac{MFCC} computation for 25 ms window shifted by 10 ms and 16kHz audio sampling frequency. 
+The $16000 * 0.025 = 400$ samples in one window are reduced to 13 static cepstral coefficients.
 
+The \ac{MFCC} or \ac{PLP} static features are usually extended 
+by time derivatives delta and delta-delta features \cite{psutka2001comparison},
+so it results to $13 + 13 + 13 = 39$ \ac{MFCC} delta \& delta-delta features 
+per 400 samples in one window.
+
+The \ac{MFCC} features are computed by following steps:
 
 \small{\begin{enumerate}
-    \item The~signal is transformed into {\it frequency domain}\/ by~\ac{DFT} in overlapping frames.
-    \item The frequency spectrum obtained in previous step is transformed onto the mel scale, using triangular overlapping filters.
+    \item The~audio samples are transformed into {\it frequency domain}\/ by~\ac{DFT} in the window.
+    \item The frequency spectrum from previous step is transformed onto the mel scale, 
+        using triangular overlapping filters.
     \item From the mel frequencies the logs of the powers are taken from each of the mel frequencies.
     \item At the end the discrete cosine transform is applied on the list of mel log powers.
     \item The \ac{MFCC} coefficients are the amplitudes of the resulting spectrum.
+    \item The delta and delta-delta coefficients are computed from the current and previous static features.
 \end{enumerate}
-The {\it sampling frequency}\/ is typically 8000, 16000, 32000 or 44100 Hz and each of the samples is usually encoded in 8, 16 or 32 bits. In our experiments we use 16 kHz sampling frequency for 16 bit samples.  
 
-The overlapping frames are used because \ac{DFT} is not accurate at the edges of frames. 
-Windowing function like Hanning function applied on the signal removes the edge effect of~\ac{DFT}. 
 
-\todo{obrazek}
-For example,  the online Kaldi decoder uses $25ms$  frame length and the frames are shifted by $10ms$ for 16kHz sampling frequency. By multiplying the sample rate with frame length in seconds we find out that there are \todo{mezery} $16000 * 0.025 = 400$ samples in one frame. The frames are overlapping with $ 16000 * (0.025 - 0.01) = 240$ samples.
+\subsection*{Feature space transformations}
+Feature space transformations are usually applied in addition to \ac{MFCC} or \ac{PLP} preprocessing.
+\ml{frame}
+The feature space transformations are applied per frame. 
+Each feature vector extracted from \ac{MFCC}
+or \ac{PLP} window - frame, is projected to another space.
 
-Kaldi uses by default 25 filters for 25 overlapping bins for~frequencies 
-between 20 and \todo{divne formatovani} $Sampling frequency / 2 = 8000$, 
-which is according the~Nyquist theorem\cite{jerri1977shannon} 
-the~highest frequency that can be exactly determined in \ac{DFT}.
+The linear or affine transforms are expressed by matrix multiplications $Ax$ respectively $Ax^+$.
+The matrix $A$ represents the transformation. 
+The $x$ is the input vector and $Ax$ are the transformed features.
+The affine transformations uses extended vector $(x^+)^T = (x_1, .., x_n, 1)$ and matrix $A: (n+1)*(n+1)$.
 
-It is common to use only eight to twelve lowest-order \ac{MFCC} coefficients. In Kaldi we are using twelve of them. 
-Note that the zero-order coefficients just measure the total frame energy and are often discarded.
-} % \small
+There is large variety of available transforms and 
+dependent on your acoustic data you should choose the most appropriate one.
+The transforms differ according how they are estimated.
+Namely for linear transforms how the matrix $A$ is trained.
 
-\ml{sampling}
-To conclude, the signal processing samples the continuous audio at regular interval intervals. 
+Some transforms are trained on all acoustic data, some per speaker.
+Some transforms are estimated discriminatively, some use generative models.
+
+Let us give overview of feature space transforms available in Kaldi toolkit
+and their typical training set up: 
+
+% use and city http://kaldi.sourceforge.net/transform.html#transform_cmllr_global
+\begin{itemize}
+    \item LDA \todo{describe} \cite{TODO}
+    \item HLDA \todo{describe} \cite{TODO}
+    \item STC/MLLT\todo{describe} \cite{TODO}
+    \item Linear VTLN\todo{describe} \cite{TODO}
+    \item Exponential Transform (ET)\todo{describe} \cite{TODO}
+    \item Cepstral mean and variance normalization\todo{describe} \cite{TODO}
+\end{itemize}
+
+
+\todo{To conclude, the signal processing samples the continuous audio at regular interval intervals. 
 Fixed number of consecutive samples forms a window. The~windows are usually overlapping.
-\ml{feature window}
 The~acoustic features are computed for each of the overlapping window. 
-% }}} Finished
+}
 
 % section signal_processing (end)
 
