@@ -199,6 +199,12 @@ The~acoustic features are computed for each of the overlapping window.
 
 \subsection{Acoustic modeling}
 \label{sub:am}
+Acoustic modeling is arguably the heart of speech recognition.
+More realistic modeling of acoustic features directly affects the speech recognition quality 
+as seen in Equation~\ref{eq:best_fix}. 
+The \ac{AM} estimates the probability $P(a|w)$ of generating acoustic features $a$
+for given word $w$.
+
 Let us return to the high level point of view to speech recognition from~Figure~\ref{fig:components}.
 We described the signal processing unit and now we will focus on modeling the phonemes, the basic
 units of speech. We will use the~statistical \ac{HMM} approach to phonemes modeling.
