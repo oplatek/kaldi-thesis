@@ -205,36 +205,86 @@ as seen in Equation~\ref{eq:best_fix}.
 The \ac{AM} estimates the probability $P(a|w)$ of generating acoustic features $a$
 for given word $w$.
 
-Let us return to the high level point of view to speech recognition from~Figure~\ref{fig:components}.
-We described the signal processing unit and now we will focus on modeling the phonemes, the basic
-units of speech. We will use the~statistical \ac{HMM} approach to phonemes modeling.
+The acoustic modeling has only partial information available for training \ac{AM}.
+Let us remind that acoustic features $a$ are collected every 10 ms.
+However, the corresponding textual transcription is time-unaligned.
+The hidden information of words time alignment in sentence
+makes acoustic model training more challenging.
+
+All modern speech recognition toolkits use \acl{HMM}\cite{TODO}
+for modeling uncertainty between acoustic features and corresponding transcription. 
+
+\subsubsection*{Choice of training units}
+The most successful acoustic modeling methods does not estimates the $P(a|w)$ directly,
+but estimates probability $P(a|f_{b}f_{c}f_{c})$ of generating acoustic features $a$ for triphone $f_{b}f_{c}f_{c}$.
+
+\ml{phoneme}
+Phone is the smallest contrastive unit of speech. 
+Let see few examples of words and their phonetic transcriptions according CMU dictionary\cite{TODO}.
+\begin{itemize}
+    \item {\it youngest} \& {\it  Y AH1 NG G AH0 S T }
+    \item {\it youngman} \& {\it  Y AH1 NG M AE2 N }
+    \item {\it earned} \& {\it ER1 N D}
+    \item {\it ear}\/ with two transcribed pronunciations {\it IY1 R}\/ and {\it IH1 R}
+\end{itemize}
+The CMU dictionary distinguishes among several variations for each vowel e.g. {\it AH1}\/ and {\it AH0}.
+It distinguishes pronunciation for {\it earned}\/ and {\it ear}\/
+despite the same transcription in first three letters.
+It also stores two possible pronunciations for the word {\it ear}.
+
+The acoustic features for a phone significantly depends on context.
+The previous and following phone strongly influence the sound of the phone in the middle.
+
+\ml{triphone}
+The triphone is sequence of three phonemes and captures the context of single phone.
+See~\ref{fig:hmm_words}.
+The triphones variate much less according context than phonemes, so can be easily trained.
+Let us note that some combination of prefixes has the same effect on the central phoneme.
+E.g. {\it q}\/ and {\it k} has the same effect on {\it i}. % cite??
+In order to reduce the number of triphones, such triphones are clustered together.
+
+The advantage of training triphone-\ac{AM} over word-\ac{AM} 
+is based on words sparsity. 
+There is typically less clustered triphones and many words for training data,
+so a triphone model can be trained from much more examples than a word model. 
+
+% TODO mentioned curse of dimensionality for words -> more parameters than triphones for less examples
 
 \begin{figure}[!htp]
     \begin{center}
-    \input{images/supervised-general}
-    \input{images/supervised-baum-welsh}
-    \caption{Supervised learning idea and example}
-    \label{fig:supervised} 
+    \input{images/hmm-words}
+    \caption{\todo{Triphone models for three words}}
+    \label{fig:hmm_words} 
     \end{center}
 \end{figure}
 
-Acoustic models are trained using supervised learning. 
 
-The~\ac{HMM} is a~very powerful statistical method of~characterizing the~observed data samples 
-of~a~discrete-time series. Chapter 8, \cite{huang2001spoken}.
-At first we will introduce {\it Markov Chain}, then \ac{HMM} will be defined. Later,  we will explain 
-how are the acoustic and language models used in \ac{HMM} framework. 
-In~the~Subsection~\ref{sub:dec_algorithm} we present the search algorithms for speech recognition.
+\todo{Picture Hmm 3 short words for word HMM}
+\todo{Picture Hmm 3 short words for 3phonems}
+
+% \begin{figure}[!htp]
+%     \begin{center}
+%     \input{images/supervised-general}
+%     \input{images/supervised-baum-welsh}
+%     \caption{Supervised learning idea and example}
+%     \label{fig:supervised} 
+%     \end{center}
+% \end{figure}
+
+\subsubsection*{Hidden Markov Models}
+
+The~\ac{HMM} is a~very powerful statistical method for~characterizing the~observed data samples 
+of~a~discrete-time series with an unknown state. Chapter 8, \cite{huang2001spoken}.
+In our case the hidden states represents triphones and we observe samples of  acoustic features.
+
+\todo{define Markov Model}
+\todo{define HMM}
+
+\todo{Mention EM-Baum Welsch} 
+% EM in Kaldi
 
 \todo{acoustic modeling in Kaldi \url{http://kaldi.sourceforge.net/model.html}}
 
-% \subsection*{Markov Chain}
-% \label{ssub:markov_chain}
-% \todo{Spoken Language Processing page 366}
-% 
-% \subsection{\acl{HMM}}
-% \label{ssub:hmm}
-% \todo{describe Hmm for phones}
 
 
 \subsection{Language modeling}
