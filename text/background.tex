@@ -253,14 +253,20 @@ so a triphone model can be trained from much more examples than a word model.
 \begin{figure}[!htp]
     \begin{center}
     \input{images/hmm-words}
-    \caption{\todo{Triphone models for three words}}
+    \caption{Markov Triphone model for three words. Only alignments need to learned.}
     \label{fig:hmm_words} 
     \end{center}
 \end{figure}
 
 
-\todo{Picture Hmm 3 short words for word HMM}
-\todo{Picture Hmm 3 short words for 3phonems}
+\begin{figure}[!htp]
+    \begin{center}
+    \input{images/hmm-alt}
+    \caption{Markov Triphone model representing four alternatives.}
+    \label{fig:hmm_alt} 
+    \end{center}
+\end{figure}
+
 
 % \begin{figure}[!htp]
 %     \begin{center}
@@ -272,16 +278,34 @@ so a triphone model can be trained from much more examples than a word model.
 % \end{figure}
 
 \subsubsection*{Hidden Markov Models}
-
 The~\ac{HMM} is a~very powerful statistical method for~characterizing observed data samples
 of~a~discrete-time series with an unknown state. Chapter 8, \cite{huang2001spoken}.
 In our case the hidden states represents triphones and we observe samples of  acoustic features.
 
-\todo{define Markov Model}
-\todo{define HMM}
+\ml{transition probability}
+Hidden Markov Models has two type of parameters {\it transition probabilities among states}\/
+and {\it probabilistic distribution for generating observation in given state}.
+The transition probability is probability of changing state $q$ to state $u$.
+Each transition can be represented as arc $e=qu$ between the states $q$ and $u$, see~\ref{fig:hmm_alt} and~\ref{fig:hmm_words}.
+The probability is often represented as the weight $w_e$ of arc $e$.
+For every node in a Markov model must hold that the sum weights of outgoing arcs is one.
 
-\todo{Mention EM-Baum Welsch} 
-% EM in Kaldi
+The Markov model emits deterministically in each node an observation during traversal over its arcs.
+The \acl{HMM} emits the observation stochastically based on the probabilistic distribution related
+with~the~visited state.
+
+\ml{Gaussian HMM}
+For speech recognition the multivariate Gaussian distribution is used in all states of \ac{HMM}. 
+Typically the Gaussian distribution in each state models acoustic features $a$.
+Ideally the estimated \ac{HMM} \ac{AM} would generate in each state features belonging to one triphone.
+
+\todo{The parameters of \ac{HMM} can be estimated soft EM algorithm or by hard EM algorithm.
+The Baum-Welch algorithm is soft EM algorithm.
+The Viterbi algorithm is hard EM algorithm.}
+
+\todo{Really? We use semi-continuous \ac{HMM}, meaning that the probability of generating 
+acoustic features in given state is modeled by semi-continuous Gaussian distribution.}
+
 
 \todo{acoustic modeling in Kaldi \url{http://kaldi.sourceforge.net/model.html}}
 
