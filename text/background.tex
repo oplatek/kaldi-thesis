@@ -314,16 +314,48 @@ acoustic features in given state is modeled by semi-continuous Gaussian distribu
 \subsection{Language modeling}
 \label{sub:lm}
 
-Language models are trained using unsupervised training. 
+\ac{LM} effectively reduces and more importantly priorities the \ac{AM} hypothesis.
+The statistical \ac{LM} assigns given word sequence its probability.
+The probability of a word transcription from \ac{AM} is combined with
+the probability of the word transcription from \ac{LM}.
 
-\begin{figure}[!htp]
-    \begin{center}
-    % \input{images/unsupervised-general}
-    \input{images/unsupervised-lm}
-    \caption{Unsupervised learning idea and example}
-    \label{fig:unsupervised} 
-    \end{center}
-\end{figure}
+The invalid words sequences or the sequences not frequent in training data
+are estimated with low probability. On the other hand the frequent sequences
+are assigned high probability.
+
+The word sequence "{\it are few born new york}" should be rewarded 
+with lower probability from \ac{LM} than he alternative with similar phonetic representation
+"{\it are you from new york}".
+
+Note that in our settings the \ac{AM} already limits the possible triphone
+sequences to sequences present in lexicon words - the words in training data.
+% The lexicon bridges the \ac{AM} and \ac{LM}
+So the mapping from acoustic features $a$ to triphone sequences
+are restricted to sequences, which form probably word sequences.
+
+In practice it is unfeasible to compute the probability
+of $k$ word sequence $W$ according Equation~\ref{eq:lm}.
+In addition it would require enormous amount of data for estimating
+probability for $k>10$.
+
+
+\begin{equation} \label{eq:lm}
+    P(W)=P(w_i,  w_{i-1}, w_{i-2}, ..., w_1)=\prod_{i=1}^{k}{P(w_i|w_{i-1}, w_{i-2}, w_1)}
+\end{equation}
+
+\ml{\ac{LM} order}
+We call the number $k$ order of \ac{LM}.
+In speech recognition we typically use the order of \ac{LM} is limited to $k<4$.
+The Equation~\ref{eq:ngram} describes how should be the trigram \ac{LM} estimated.
+The n-gram is sequence of n consecutive words. The probability of n-gram can be estimated by language models
+of order n and greater.
+
+Usually, the technique of smoothing \cite{TODO} is used for increasing probability of unseen trigrams
+from seen bigrams and unseen bigrams from unigrams.
+
+\begin{equation} \label{eq:ngram}
+    P(w_i \mid w_{i-1}, w_{i-2}, ..., w_1) = P(w_i \mid w_{i-1}, w_{i-2}) * P(w_{i-1} \mid w_{i-2}) * P(w_{i-2})
+\end{equation}
 
 \subsection{Speech decoding}
 \label{sub:decode}
@@ -365,63 +397,23 @@ we extract the transcriptions by search.
 
 % subsection the_metrics_in_speech_recognition (end)
 
-\section{Kaldi}
-\label{sec:back_kaldi}
 
 \section{\ac{HTK}}
 \label{sec:back_htk}
 \todo{very brief}
+
+
 
 \section{OpenJulius}
 \label{sec:back_julius}
 \todo{jake byly metody sumu ,  triphonem}
 
 
-\subsection*{Decoding algorithm}
-\label{sub:dec_algorithm}
-The Viterbi algorithm is the~basic search algorithm for \ac{HMM}. 
-Briefly
-However
 
-\todo{how online decoder works}
+\section{Kaldi}
+\label{sec:back_kaldi}
 
-\subsubsection{Decoding with lattices}
-\label{sub:lattice}
-\todo{what are lattices, why is they are good, depth of lattices for dialog system,
-problem of backward search for lattices}
-In~Subsection~\ref{sub:lattice} we will describe lattices as another output format convenient for dialog systems.
-
-
-% subsection lattice (end)
-
-% subsection decoding_algorithm (end)
-
-
-\section{Training acoustic models} 
-\label{sec:train_ml}
-
-This section describes the acoustic training in general and introduces the~maximum likelihood training methods.
-The~maximum likelihood training is a base for discriminative methods for acoustic modeling, which are briefly
-described in~Chapter~\ref{ref:training}.
-In~Chapter~\ref{cha:training}, the focus is on comparing results obtained by numerous of training methods
-and not on~explaining the methods.
-
-\todo{Describe generative vs discriminative model}
-
-\todo{clustering phones, trees, monophone and triphone training 
-    \url{http://kaldi.sourceforge.net/tree_externals.html}
-Shortly from Dans thesis extended Baum-Welsh}
-
-% section training_acoustic_models (end)
-
-
-
-
-
-
-% section general_introduction (end)
-
-\section{Finite State Transducers} 
+\subsection{Finite State Transducers} 
 \label{sec:fst}
 \todo{Introduction from:
  OPENFST explanation in Finite State Transducers mechanism in speech recognition -Dan Povey
@@ -486,9 +478,49 @@ at page \href{http://kaldi.sourceforge.net/fst_algo.html#fst_algo_stochastic} {F
     \item LatticeSimpleDecoder(Beam width d, Lattice delta $\delta$), where $ \delta \le d$
 
 \end{itemize}
-% subsection Kaldi Framework (end)
 
-% section finite_state_automata (end)
+\subsection*{Decoding algorithm}
+\label{sub:dec_algorithm}
+The Viterbi algorithm is the~basic search algorithm for \ac{HMM}. 
+Briefly
+However
+
+\todo{how online decoder works}
+
+\subsubsection{Decoding with lattices}
+\label{sub:lattice}
+\todo{what are lattices, why is they are good, depth of lattices for dialog system,
+problem of backward search for lattices}
+In~Subsection~\ref{sub:lattice} we will describe lattices as another output format convenient for dialog systems.
+
+
+% subsection lattice (end)
+
+
+
+
+
+
+
+
+% \section{Training acoustic models} 
+% \label{sec:train_ml}
+% 
+% This section describes the acoustic training in general and introduces the~maximum likelihood training methods.
+% The~maximum likelihood training is a base for discriminative methods for acoustic modeling, which are briefly
+% described in~Chapter~\ref{ref:training}.
+% In~Chapter~\ref{cha:training}, the focus is on comparing results obtained by numerous of training methods
+% and not on~explaining the methods.
+% 
+% \todo{Describe generative vs discriminative model}
+% 
+% \todo{clustering phones, trees, monophone and triphone training 
+%     \url{http://kaldi.sourceforge.net/tree_externals.html}
+% Shortly from Dans thesis extended Baum-Welsh}
+
+% section training_acoustic_models (end)
+
+
 
 
 % chapter background (end)
