@@ -15,14 +15,15 @@
 % uvolneni: Budou volne dostupny a~pak clanek a~tutorial
 % o datech o trenovacich sktriptech a~o decodovani pres 2 jazyky
 
-A spoken dialog is the most intuitive way of~communication among people. Nowadays, the spoken dialog is becoming popular 
-choice of~communication even for human-device interaction. The quality of~a~dialog largely depends on the quality 
+A spoken dialog is the most intuitive way of~communication among people. 
+% Nowadays, the spoken dialog is becoming popular choice of~communication even for human-device interaction. 
+The quality of~a~dialog largely depends on the quality 
 of~speech recognition, because the~reasoning and the~reply is based on the recognized speech. 
 
 In this work, we prepare \acl{ASR} for a dialog system called Alex. 
 We use the Kaldi\cite{povey2011kaldi} speech recognition toolkit for training as well as decoding the speech itself.
 We see the added value in new training scripts deployed with acoustic data
-and in new interface for decoding. Both the interface and model training is target 
+and in new interface for decoding. Both the decoder interface and acoustic model training is designed 
 for a responsive dialog system. 
 
 Currently, the Alex dialog system is mainly used as a~public phone call service,
@@ -59,22 +60,22 @@ Taking in mind the OpenJulius complicated code base and relatively slow
 development of both \ac{HTK} and OpenJulius we were looking 
 for another open source toolkit with a real-time decoder.
 
-We choose Kaldi toolkit. Despite the fact,  that Kaldi had no lattice real-time decoder
+We choose the~Kaldi toolkit. Despite the fact,  that Kaldi had no lattice real-time decoder
 and no interface convenient for a dialog system.
-However, the Kaldi toolkit already had modern training recipes, 
-was and still is actively maintained. Moreover, Kaldi is distributed 
+However, the Kaldi toolkit already had modern training recipes.
+The~Kaldi toolkit is actively maintained. Moreover, Kaldi is distributed 
 under permissive Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
 
 The Kaldi community focused on improving acoustic model training. 
 In August 2012\footnote{The changes were introduced by \href{https://sourceforge.net/p/kaldi/code/1259/}{svn commit 1259}.}
 Kaldi team published a~demo version of~an online one best hypothesis decoder.
 The online decoder inspired us in designing 
-the online interface suitable for real-time use and
-we rewrote the feature preprocessing based on the provided code.
+the online interface suitable for real-time use of a lattice decoder.
+In addition we rewrote the feature preprocessing code base of the one best hypothesis decoder.
 
 \section{The goals of~the~thesis} 
 \label{sec:goals}
-Let us introduce the goals of~this thesis. Each of~the~goals is described in one of subsections below.
+Let us introduce the goals of~this thesis. Each of~the~goals is described in subsections below.
 At first, we introduce the goal of training acoustic model, which is the precondition for satisfying next goals.
 Later, we prepare the real-time decoder and at the end, we integrate the decoder in the~dialog system. 
 
@@ -86,7 +87,7 @@ The \acl{LM} is reused from other experiments.
 
 The \ac{HTK} acoustic models have been used together with OpenJulius. 
 We develop acoustic model training scripts using Kaldi toolkit,
-so the quality of \ac{AM} is comparable \ac{AM} trained with \ac{HTK} toolkit. 
+so the quality of \ac{AM} is comparable with the~\ac{AM} trained with \ac{HTK} toolkit. 
 
 % subsection training_kaldi_acoustic_models (end)
  
@@ -99,14 +100,14 @@ transform the decoder to word lattice decoder.
 We suggest potential speed improvements e.g.\ approximations, use of \ac{GPU} 
 or \ac{DNN} for speech processing\cite{TODO_KALDI_DNN}.
 
-The C++ interface suitable for real-time with a dialog system is designed and implemented.
+The \verb!C++! interface suitable for real-time with a dialog system is designed and implemented.
 
 \subsection{A~real-time decoder integration} 
 \label{sub:integration}
 The final step is integration of selected real-time decoder into the~dialog system Alex.
 The~OpenJulius decoder interfaces the Alex system through Python module, 
 which communicates with the decoder through sockets.
-The Kaldi is integrated as Python C++ extension module 
+The Kaldi is integrated as Python \verb!C++! extension module 
 using Cython\footnote{\url{htpp://www.cython.org}}, 
 which is not only faster, but also more user friendly solution.
 
@@ -126,7 +127,7 @@ Chapter~\ref{cha:decoder} presents the Kaldi real time decoder embedded into our
 We discuss the architecture of~the decoder, its properties. We also distinguish what is the original work done by 
 the~Kaldi team and what are our improvements. At~the end of~Chapter~\ref{cha:decoder} 
 we evaluate the qualities of~the developed decoder.
-The~Chapter~\ref{cha:integration} explains how we integrated C++ decoder in our dialog system written in Python.
+The~Chapter~\ref{cha:integration} explains how we integrated \verb!C++! decoder in our dialog system written in Python.
 Finally, the~Chapter~\ref{cha:conclusion} summarises the thesis and finishes with future research directions.
 
 % section outline_of_the_thesis (end)
