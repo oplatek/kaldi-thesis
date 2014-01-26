@@ -400,8 +400,28 @@ we extract the transcriptions by search.
 
 \section{\ac{HTK}}
 \label{sec:back_htk}
-\todo{very brief}
+The \ac{HTK} toolkit is set of command line tools, sample scripts and library
+for training and decoding \ac{HMM} focused on speech recognition.
+\ac{HTK} uses Baum-Welch algorithm for \ac{HMM} parameters estimation.
+With the toolkit are distributed two decoders {\it HVite} and {\it HDecode},
+which are not designed for real time applications.
+\todo{CHECK: {\it HDecode} is used only with unigram or bigram \ac{LM}. 
+The {\it HVite} decoder handles also a trigram \ac{LM}.}
 
+The functionality of the library is wrapped by command line programs.
+The programs are typically combined in training scripts to train acoustic and language models.
+In the Figure~\ref{fig:htk_tools} the acoustic models are labelled as "HMMs" 
+and the language models are in \ac{HTK} represented in "Networks".
+The trained models are used in one of \ac{HTK} decoders e.g. {\it HVite}\/ for decoding
+transcriptions, which can be evaluated using {\it HResults}.
+
+\begin{figure}[!htp]
+    \begin{center}
+    \input{images/htk_tools}
+    \caption{Figure 2.2 from HTK Book 3.4\cite{TODO_HTK_BOOK_Figure 2.2.}}
+    \label{fig:htk_tools} 
+    \end{center}
+\end{figure}
 
 
 \section{OpenJulius}
