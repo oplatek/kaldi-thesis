@@ -25,7 +25,7 @@ and explains the principle of speech decoding.
 Next three sections describe decoding or training models for particular software.
 The Kaldi toolkit is described in Section~\ref{sec:back_kaldi}, 
 the \ac{HTK} toolkit in Section~\ref{sec:back_htk} and 
-the OpenJulius decoder in Section~\ref{sec:back_julius}.
+the Julius decoder in Section~\ref{sec:back_julius}.
 
 \begin{figure}[!htp]
     \begin{center}
@@ -423,9 +423,31 @@ transcriptions, which can be evaluated using {\it HResults}.
     \end{center}
 \end{figure}
 
+The \ac{HTK} use Baum-Welch algorithm to train acoustic models.
+The {\it HVite} decoder uses token passing algorithm and Viterbi criterion.
+\cite{HTKBook3.4} % chapter 2
+Only bigram \ac{LM} can be used with {\it HVite}.
+The \{\it HDecode} decoder can handle bigram or trigram language models. 
 
-\section{OpenJulius}
+
+Let us to stress that we use high quality Bash and Perl scripts for training \ac{HTK} \ac{AM}
+from TODO improved by Matěj Korvas \cite{TODO}.
+
+\section{Julius decoding engine}
 \label{sec:back_julius}
+
+% http://julius.sourceforge.jp/juliusbook/en/desc_overview.html
+Julius is large vocabulary continuous speech engine, which can use \ac{AM} in \ac{HTK} format for decoding.\cite{JULIUS_TODO}
+Julius is BSD licensed \cite{BSD_TODO} and performs almost real-time decoding.
+
+Julius is two phase decoder. In first phase forward decoding is perform as
+a technique of time synchronous beam search.
+The second phase reranks and futher prunes the extracted hypothesis from phase one.
+The second phase is also known as backward decoding.
+Bigram \ac{LM} is used for forward decoding and more complex trigram \ac{LM} is used for backward decoding.
+
+
+
 \todo{jake byly metody sumu ,  triphonem}
 
 
