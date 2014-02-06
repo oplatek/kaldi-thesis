@@ -445,8 +445,8 @@ for training and decoding \ac{HMM} focused on speech recognition.
 \ac{HTK} uses Baum-Welch algorithm for \ac{HMM} parameters estimation.
 With the toolkit are distributed two decoders {\it HVite} and {\it HDecode},
 which are not designed for real time applications.
-\todo{CHECK: {\it HDecode} is used only with unigram or bigram \ac{LM}. 
-The {\it HVite} decoder handles also a trigram \ac{LM}.}
+{\it HVite} can be used only with unigram or bigram \ac{LM}. 
+The {\it HDecode} decoder handles also a trigram \ac{LM}.
 
 The functionality of the library is wrapped by command line programs.
 The programs are typically combined in training scripts to train acoustic and language models.
@@ -471,7 +471,11 @@ The \{\it HDecode} decoder can handle bigram or trigram language models.
 
 
 Let us to stress that we use high quality Bash and Perl scripts for training \ac{HTK} \ac{AM}
-from TODO improved by Matěj Korvas \cite{TODO}.
+from Vertanen improved by Matěj Korvas.\cite{vertanen_baseline_2006}\cite{korvas_2014}
+
+The \ac{HTK} toolkit is licensed under special license\footnote{\url{http://htk.eng.cam.ac.uk/docs/license.shtml}}.
+The {\it HDecode} has very similar license condition but can be only used for research purposes.
+\footnote{You need to register even to see the license: \url{http://htk.eng.cam.ac.uk/prot-docs/hdecode_register.shtml}}
 
 \section{Julius decoding engine}
 \label{sec:back_julius}
@@ -486,11 +490,18 @@ The second pass reranks and further prunes the extracted hypothesis from pass on
 The second pass is also known as backward decoding.
 Bigram \ac{LM} is used for forward decoding and more complex trigram \ac{LM} is used for backward decoding.
 
+Before the implementation of this thesis was finished 
+the team of Alex was interested in Julius, because its ability of real-time decoding 
+and confusion 
+network\footnote{Confusion network is approximation of lattice described in~Subsection~\ref{sub:lattice}} 
+output format.
 
-
-\todo{jake byly metody sumu ,  triphonem}
-
-
+The Alex team abandon the Julius decoder for software issues with crashes of the decoder. 
+The crashes appeared during backward decoding and extracting
+the confusion network from Julius. 
+In addition the crashes were hard to detect,
+because Julius used to run in separate process and the dialog system Alex were waiting for the lattice output of dead process,
+which should had been passed through sockets.
 
 \section{Kaldi}
 \label{sec:back_kaldi}
