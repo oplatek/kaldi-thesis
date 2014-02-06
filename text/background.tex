@@ -299,16 +299,56 @@ For speech recognition the multivariate Gaussian distribution is used in all sta
 Typically the Gaussian distribution in each state models acoustic features $a$.
 Ideally the estimated \ac{HMM} \ac{AM} would generate in each state features belonging to one triphone.
 
-\todo{The parameters of \ac{HMM} can be estimated soft EM algorithm or by hard EM algorithm.
-The Baum-Welch algorithm is soft EM algorithm.
-The Viterbi algorithm is hard EM algorithm.}
+\subsubsection*{Training \ac{HMM}}
+The Kaldi as well as \ac{HTK} toolkit uses \acl{EM} algorithms to train \ac{HMM} \acl{AM}.
+The toolkits models the observation probabilities using multivariate Gaussian distribution 
+with dimension of the acoustic features $a$.
+The \ac{EM} algorithm starts with \ac{HMM} with initial values. 
 
-\todo{Really? We use semi-continuous \ac{HMM}, meaning that the probability of generating 
-acoustic features in given state is modeled by semi-continuous Gaussian distribution.}
+Typically, the~transition probabilities follow uniform distribution.
+The observation probabilities are usually initialized by multivariate Gaussian distribution
+with $\mu$ and $\Sigma$ set to global mean and global covariance matrix 
+estimated on all training acoustic data.
 
+\ml{EM}
+Let us describe how the \ac{EM} algorithm operates for one pair
+of training data consisting of acoustic features $a$ extracted from speech
+and corresponding text speech transcription $t$.
+We create \ac{HMM} $t'$, where each state represent one triphone. The triphones are extracted from transcription $t$ using pronunciation dictionary.
+In Figure~\ref{fig:hmm} the transcription {\it how do you do} was expanded \ac{HMM} model representing triphone sequence.
+It should be obvious that only parameters of HMM states occurring in $t'$ can be updated from pair $(a, t)$.
+
+The \ac{EM} algorithm iterates following steps in order to update parameters of transition and observation probabilities:
+\begin{itemize}
+    \item The observation probabilities are computed using \ac{HMM} $t'$. 
+    \item {\bf E-step}: Based on the observation probabilities the observation are assigned to states of \ac{HMM} $t'$. 
+    \item {\bf M-step}: Based on assignment of observation to states the $t'$ parameters are re-estimated. 
+\end{itemize}
+
+\ml{Baum-Welsch}
+The acoustic model training conceptually differs for \ac{HTK} and Kaldi only in the {\bf expectation (E) step}.
+The \ac{HTK} toolkit in {\bf E-step} finds the most probable distribution which map acoustic observation to \ac{HMM} states using TODO. 
+Using the most probable distribution in {\bf M-step} leads to Baum-Welsch equations. \cite{TODO}
+This variation of \ac{EM} algorithm for estimating \ac{HMM} parameters is called Baum-Welsch algorithm.
+
+\ml{Viterbi}
+On the other hand the Kaldi toolkit applies the Viterbi 
+criterion in assigning the acoustic observation to \ac{HMM} states.
+Using the viterbi criterion Kaldi just finds 
+the most probable assignment $\phi$ of observations to states.\cite{buthpitiya2012parallel}
+Using only the single best assignment $\phi$ the {\bf M-step} is also simpler than
+Baum-Welch algorithm case.
+We simply refer to \ac{EM} algorithm with Viterbi criterion as Viterbi training.
+
+\subsubsection*{Viterbi training of acoustic models}
+We focus on Viterbi training because it is used in Kaldi toolkit and is simpler.
+Latest work suggest that Viterbi training is just as effective for continuous
+speech recognition as Baum-Welch algorithm \cite{rodriguez2003comparative}.
+In addition Viterbi training needs much less computational resources. 
+
+\todo{Should I add equations from buthpitiya2012parallel ?}
 
 \todo{acoustic modeling in Kaldi \url{http://kaldi.sourceforge.net/model.html}}
-
 
 
 \subsection{Language modeling}
@@ -440,10 +480,10 @@ from TODO improved by Matěj Korvas \cite{TODO}.
 Julius is large vocabulary continuous speech engine, which can use \ac{AM} in \ac{HTK} format for decoding.\cite{JULIUS_TODO}
 Julius is BSD licensed \cite{BSD_TODO} and performs almost real-time decoding.
 
-Julius is two phase decoder. In first phase forward decoding is perform as
+Julius is two pass decoder. In first pass the forward decoding is perform as
 a technique of time synchronous beam search.
-The second phase reranks and futher prunes the extracted hypothesis from phase one.
-The second phase is also known as backward decoding.
+The second pass reranks and further prunes the extracted hypothesis from pass one.
+The second pass is also known as backward decoding.
 Bigram \ac{LM} is used for forward decoding and more complex trigram \ac{LM} is used for backward decoding.
 
 
