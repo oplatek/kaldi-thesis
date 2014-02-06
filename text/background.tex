@@ -327,7 +327,7 @@ The \ac{EM} algorithm iterates following steps in order to update parameters of 
 
 \ml{Baum-Welsch}
 The acoustic model training conceptually differs for \ac{HTK} and Kaldi only in the {\bf expectation (E) step}.
-The \ac{HTK} toolkit in {\bf E-step} finds the most probable distribution which map acoustic observation to \ac{HMM} states using TODO. 
+The \ac{HTK} toolkit in {\bf E-step} finds the most probable distribution which map acoustic observation to \ac{HMM} states using \todo{MLE fill few words and cite}. 
 Using the most probable distribution in {\bf M-step} leads to Baum-Welsch equations. \cite{TODO}
 This variation of \ac{EM} algorithm for estimating \ac{HMM} parameters is called Baum-Welsch algorithm.
 
@@ -514,6 +514,13 @@ which should had been passed through sockets.
  SPEECH RECOGNITION WITH WEIGHTED FINITE-STATE TRANSDUCERS Mehryar Mohri}
 
 
+\begin{figure}[!htp]
+    \begin{center}
+        \includegraphics[width=25em]{images/kaldi-lib}
+        \caption{Kaldi toolkit architecture\cite{povey2011kaldi}}
+        \label{fig:kaldi_arch} 
+    \end{center}
+\end{figure}
 
 \subsubsection*{\todo{Sources - cite them!}} % (fold)
 
@@ -591,29 +598,3 @@ In~Subsection~\ref{sub:lattice} we will describe lattices as another output form
 
 
 
-
-
-
-
-
-% \section{Training acoustic models} 
-% \label{sec:train_ml}
-% 
-% This section describes the acoustic training in general and introduces the~maximum likelihood training methods.
-% The~maximum likelihood training is a base for discriminative methods for acoustic modeling, which are briefly
-% described in~Chapter~\ref{ref:training}.
-% In~Chapter~\ref{cha:training}, the focus is on comparing results obtained by numerous of training methods
-% and not on~explaining the methods.
-% 
-% \todo{Describe generative vs discriminative model}
-% 
-% \todo{clustering phones, trees, monophone and triphone training 
-%     \url{http://kaldi.sourceforge.net/tree_externals.html}
-% Shortly from Dans thesis extended Baum-Welsh}
-
-% section training_acoustic_models (end)
-
-
-
-
-% chapter background (end)
