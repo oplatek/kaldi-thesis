@@ -506,6 +506,18 @@ which should had been passed through sockets.
 \section{Kaldi}
 \label{sec:back_kaldi}
 
+Kaldi is speech recognition toolkit consisting of library, command line programs, scripts for focus on acoustic modeling.
+Kaldi deploys several decoders for evaluation Kaldi \ac{AM}.
+Kaldi uses Viterbi training for estimating \ac{AM}. 
+Only in special cases of speaker adaptive discriminative training is also used extended Baum-Welsch algorithm\cite{TODO_POVEY}.
+
+The architecture of Kaldi toolkit could be separated to Kaldi library and training scripts.
+The scripts access the functionality of Kaldi library through command line programs.
+The C++ Kaldi library is based {\it OpenFST}\cite{OpenFST_TODO} library and 
+it uses optimized libraries for linear algebra such as BLAS and LAPACK.
+Related functionality is usually grouped in one namespace in C++ code, which usually also correspond
+to one directory on file system. The examples of the namespaces or directories can be seen in Figure~\ref{fig:kaldi_arch}
+
 \subsection{Finite State Transducers} 
 \label{sec:fst}
 \todo{Introduction from:
