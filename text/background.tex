@@ -518,6 +518,16 @@ it uses optimized libraries for linear algebra such as BLAS and LAPACK.
 Related functionality is usually grouped in one namespace in C++ code, which usually also correspond
 to one directory on file system. The examples of the namespaces or directories can be seen in Figure~\ref{fig:kaldi_arch}
 
+The Figure~\ref{fig:kaldi_prog} list programs used for speech parametrization, feature transforms, acoustic model
+training, decoding and other utilities. Kaldi provides very useful standardized scripts which wraps
+Kaldi programs or add useful functionality. The scripts are located in {\it utils} and {\it steps}
+directories and are used in many training script recipes for different corpus data.
+In this thesis we created new training recipe using Kaldi infrastructure and
+Czech and English training corpus \todo{lrec2013}\cite{TODO_LREC2014}.
+The recipe, the data and acoustic modeling scripts are described in~Chapter~\ref{cha:train}.
+
+In this section we would like to introduce \acl{FST} framework and its
+implementation OpenFST, on which the Kaldi library is build on. 
 \subsection{Finite State Transducers} 
 \label{sec:fst}
 \todo{Introduction from:
