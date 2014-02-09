@@ -6,11 +6,9 @@
 \todo{Ten development vyhodit. Ty uz nemas cas na zadny vyvoj. Radeji dej do evaluation, ze rozeberes nejenom presnost 
 ale i rychlosty dekoderu, a rohodnes ktery dekoder z Kaldi je vhodny a jake nastaveni potrebuje pro RT performance.}
 
-\todo{We used OpenJulius for decoding lattices and normal outputs -- describe again the problems}
-\todo{Mention the socket! API of OpenJulius}
+\todo{decoding lattices and normal outputs -- describe again the problems}
 \todo{dat tam analyza -> future improvements}
 \todo{udelat real time experiment }
-\todo{srovnani Julius prohledavani   pulka stranky}
 \section{Online decoder original architecture} 
 \label{sec:kaldi_decoder_architecture}
 This section describes the architecture online decoder developed by Kaldi team.
@@ -40,7 +38,6 @@ Further, in this section we will briefly compare the main qualities of used deco
 Namely, we will compare: 
 \begin{itemize}
     \item Kaldi online decoder - Acoustic models were trained by training scripts for Kaldi described at~\ref{cha:models}.
-    \item OpenJulius - OpenJulius uses in our setup acoustic models trained by \ac{HTK}. 
     \item HDecode - HDecode is \ac{HTK} decoder and it decodes from acoustic models trained by \ac{HTK}.
 \end{itemize}
 

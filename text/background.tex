@@ -518,6 +518,14 @@ it uses optimized libraries for linear algebra such as BLAS and LAPACK.
 Related functionality is usually grouped in one namespace in C++ code, which usually also correspond
 to one directory on file system. The examples of the namespaces or directories can be seen in Figure~\ref{fig:kaldi_arch}
 
+\begin{figure}[!htp]
+    \begin{center}
+        \includegraphics[width=25em]{images/kaldi-lib}
+        \caption{Kaldi toolkit architecture\cite{povey2011kaldi}}
+        \label{fig:kaldi_arch} 
+    \end{center}
+\end{figure}
+
 The Figure~\ref{fig:kaldi_prog} list programs used for speech parametrization, feature transforms, acoustic model
 training, decoding and other utilities. Kaldi provides very useful standardized scripts which wraps
 Kaldi programs or add useful functionality. The scripts are located in {\it utils} and {\it steps}
@@ -526,23 +534,39 @@ In this thesis we created new training recipe using Kaldi infrastructure and
 Czech and English training corpus \todo{lrec2013}\cite{TODO_LREC2014}.
 The recipe, the data and acoustic modeling scripts are described in~Chapter~\ref{cha:train}.
 
-In this section we would like to introduce \acl{FST} framework and its
-implementation OpenFST, on which the Kaldi library is build on. 
 \subsection{Finite State Transducers} 
 \label{sec:fst}
+In this section we would like to introduce \acl{FST} framework and its
+implementation OpenFST, on which the Kaldi library is build on. 
+Kaldi uses \ac{FST} as underlaying representation for \ac{LM}, partially for \ac{AM}, lexicon and 
+also for representing transformation between text, pronunciation and triphones.
+
+The \ac{FST} framework provides well studied graph operations\cite{TODO_Mohri},
+which can be effectively use for acoustic modeling.
+Using the \ac{FST} framework the speech decoding task is expressed as
+beam search in a graph, which is well studied problem.
+
+The OpenFST library implements memory efficient representation of \ac{FST} and
+provides standardized efficient operations.
+As stated in \cite{TODO_Mohri} and \cite{TODO_Kaldi} the operations can be effectively used
+for speech decoding. 
+
+\subsubsection*{OpenFST datastructures in Kaldi}
+The \ac{FST} graphs used for \ac{AM} model training and speech decoding
+can be constructed as sequence of standardized OpenFST operations.
+We would like to introduce toy examples of construction such data structures which are used in Kaldi.
+
+Note that proper introduction to \ac{FST} framework for speech recognition we recommend\cite{TODO_mohri}.
+The Kaldi decoding graph construction is very well described in \href{http://kaldi.sourceforge.net/graph\_recipe\_test.html}{Kaldi documentation}.
+We feel that few figures of toy speech recognition problem will help us explain algorithms,
+which we describe in Chapters~\ref{cha:train} and~\ref{cha:decoder}.
+The inspiration for such attitude was \href{http://vpanayotov.blogspot.cz/2012/06/kaldi-decoding-graph-construction.html}{Vassil Panayotov post}.
+
 \todo{Introduction from:
  OPENFST explanation in Finite State Transducers mechanism in speech recognition -Dan Povey
  OPENFST article: OpenFst: A General and Efficient Weighted Finite-State Transducer Library Cyril Allauzen1 , Michael Riley2,3 , Johan Schalkwyk2 , Wojciech Skut2 , and Mehryar Mohri1
  SPEECH RECOGNITION WITH WEIGHTED FINITE-STATE TRANSDUCERS Mehryar Mohri}
 
-
-\begin{figure}[!htp]
-    \begin{center}
-        \includegraphics[width=25em]{images/kaldi-lib}
-        \caption{Kaldi toolkit architecture\cite{povey2011kaldi}}
-        \label{fig:kaldi_arch} 
-    \end{center}
-\end{figure}
 
 \subsubsection*{\todo{Sources - cite them!}} % (fold)
 
@@ -555,8 +579,6 @@ implementation OpenFST, on which the Kaldi library is build on.
 \subsection{Decoding graph construction in~Kaldi} % (fold)
 % FIXME add source http://kaldi.sourceforge.net/graph.html
 % FIXME consult Vassil blogpost
-Kaldi uses \ac{FST} as underlaying representation for all models, which are used to decoding. Consequently, 
-training and decoding models in Kaldi can be expressed as sequence of operations above \acp{FST}.
 
 Decoding is performed using a final result of training, so called {\it decoding graph}. 
 From the high level point of view,
