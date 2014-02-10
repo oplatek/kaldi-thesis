@@ -14,14 +14,28 @@ trained with \ac{HTK} toolkit by Matěj Korvas\cite{lrec2014}.
 The details about training scripts and its file system organization
 is described in Appendix~\ref{cha:setup}.  
 
+The training methods described further in~Section~\ref{sec:methods}
+has to be trained in specific order,
+because some of the more complicated models are initiated
+with trained values of the simpler models.
+The Figure~\ref{fig:am-deps} list all acoustic models trained in our recipe.
+It for example show that the basic triphone \ac{AM} is initialized and retrained based
+on simple monophone model.
+\begin{figure}[!htp]
+    \begin{center}
+    \input{images/am-deps}
+    \caption{Dependencies between \ac{AM} in our training recipe}
+    \label{fig:am-deps} 
+    \end{center}
+\end{figure}
 
-\section{Training methods} 
+\section{Training methods and feature transformation} 
 \label{sec:methods}
-We use two types of acoustic model training in Vystadial recipe. 
+We use two types of \ac{HMM} \ac{AM} training in Vystadial recipe. 
 The \acl{ML} training and discriminative training.
 The discriminative training is applied on top of \ac{ML} training represented by Viterbi training.
 
-The Viterbi training, described in~Subsection~\ref{sub:trainhmm}, approximates \ac{MLE} in setting parameters to \ac{AM}.
+The Viterbi training, described in~Subsection~\ref{sub:trainhmm}, approximates \ac{MLE} in setting parameters to \ac{HMM}s in \ac{AM}.
 The \ac{MLE} is general attitude to setting statistical model parameters.
 The maximum likelihood estimation search for best parameters $\theta^*$ 
 in order to maximize the likelihood function $f$ for \ac{IID} training data illustrated in Equation~\ref{eq:maxlikelihood}.
@@ -38,17 +52,21 @@ and parameter $\theta$ free as described in Equation~\ref{eq:likelihood}.
     \theta^* = argmax_{\theta} \mathcal{L}(\theta\,|\,x_1,\ldots,x_n)
 \end{equation}
 
+On the other hand the discriminative training does not optimize the likelihood function.
+It uses the generative \ac{AM} and posterior probability to optimize other function and change \ac{AM} parameters.
+In our training recipe we use two discriminative functions.
+\begin{itemize}
+    \item \acl{bMMI}\cite{povey2008boosted}
+    \item \acl{MPE}\cite{povey2003mmi}
+\end{itemize}
 
-The overview of methods for discriminative training used in Vystadial recipe for training Kaldi models
-can be found below.
+The discriminative models usually yield better results than generative models, if enough data is available. 
 
-The discriminative models usually yield better results than generative models, if it can be applied. 
-% The~discriminative model can describe only the~conditional probability $P(audio|ASR hypothesis)$,
-% which represents the~acoustic models.
-% Note, that the~generative model it is not capable of generating samples from join probability $P(audio, ASR hypothesis)$,
-% which maybe necessary in other applications. 
+Kaldi toolkit has support for number of feature transformations, which are applied on top
+of speech parametrization (See Subsection~\ref{sub:param}).
+Kaldi ransformations
 
-\todo{Muzes nasat ze discriminativni trenovani se aplikuje po generativnim trenovani a nastavuje parametry generativniho modelu tak aby ASR lepe discriminovalo mezi clasifikovanymu tridamy. To se deje tak ze se neoptimalizuje likelihood ale nejake jine dkriterium, Napr. a ted das seznam e.g. word error rare sentence error rate, phone error rat, MMI, apod.}
+
 
 As you can see in~Table~\ref{tab:disc_train}, we combine various discriminative training methods
 and acoustic feature transformations in order to obtain better results. 

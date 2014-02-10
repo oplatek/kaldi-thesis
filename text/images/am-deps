@@ -1,0 +1,12 @@
+% \usepackage[usenames,dvipsnames]{pstricks}
+% \usepackage{epsfig}
+% \usepackage{pst-grad} % For gradients
+% \usepackage{pst-plot} % For axes
+\scalebox{1} % Change this value to rescale the drawing.
+{
+\begin{pspicture}(8,4.0)
+\usefont{T1}{ptm}{m}{n}
+\rput(4.0,2.0){Todo experiments hierarchy}
+\end{pspicture} 
+}
+
