@@ -95,8 +95,9 @@ The speech varies in number of aspects. Some of them are listed below:
 \end{itemize}
 
 Speech parametrization improves robustness of the speech recognition in different recording conditions.
-Note that parametrization of speech does not require to know the recording conditions in advance,
-which is significant advantage to other audio preprocessing methods.
+Note that parametrization of speech transforms the acoustic signal based on few numerical parameters,
+which are constant for all recording conditions during training and decoding.
+Simply put, the acoustic signal is transformed by boosting frequencies, which are informative for speech.
 
 \ml{acoustic features}
 Speech parametrization extracts speech-distinctive acoustic features from raw waveform.
@@ -134,7 +135,7 @@ for audio of length 85 ms and window shift and length 10ms and 25 ms.
     \end{center}
 \end{figure}
 
-For each window \ac{MFCC} or \ac{PLP} efficiently computes statistics with much lower dimension. 
+For each window \ac{MFCC} or \ac{PLP} efficiently computes statistics with reduced dimension. 
 Let us describe \ac{MFCC} computation for 25 ms window shifted by 10 ms and 16kHz audio sampling frequency. 
 The $16000 * 0.025 = 400$ samples in one window are reduced to 13 static cepstral coefficients.
 
