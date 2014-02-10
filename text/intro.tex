@@ -2,46 +2,25 @@
 \chapter{Introduction}
 \label{chap:intro}
 
-% todo few words
-% 
-% stezejni integrace - dialogovy system
-%     jedna~cesta~OpenJulius - one-best OK, lattice malo kvalitni
-% 
-% srovnani OpenJulius
-%     Kdo dela~lepsi lattice
-%     kouknout se na~OpenJulius scripty
-%     a~porovnat je
-% 
-% uvolneni: Budou volne dostupny a~pak clanek a~tutorial
-% o datech o trenovacich sktriptech a~o decodovani pres 2 jazyky
-
 A spoken dialog is the most intuitive way of~communication among people. 
 % Nowadays, the spoken dialog is becoming popular choice of~communication even for human-device interaction. 
 The quality of~a~dialog largely depends on the quality 
 of~speech recognition, because the~reasoning and the~reply is based on the recognized speech. 
 
 In this work, we prepare \acl{ASR} for a dialog system called Alex. 
-We use the Kaldi\cite{povey2011kaldi} speech recognition toolkit for training as well as decoding the speech itself.
-We see the added value in new training scripts deployed with acoustic data
+We use the Kaldi\cite{povey2011kaldi} speech recognition toolkit for acoustic modeling 
+as well as decoding the text transcription from speech using trained \acl{AM}.
+We see the added value of this thesis in new training scripts deployed with open acoustic data\cite{korvas_2014}
 and in new interface for decoding. Both the decoder interface and acoustic model training is designed 
 for a responsive dialog system. 
 
-Currently, the Alex dialog system is mainly used as a~public phone call service,
-where a caller can ask about weather and public transport information in Czech republic.
+The Alex dialog system is mostly domain and language independent.
+Currently, we are testing the dialog system on a~public Czech phone call service
+\footnote{The phone line +420 800 899 998 is for free for Czech callers.}.
+A caller can ask about weather and public transport information in Czech republic.
 
 \section{The problem} 
 \label{sec:problem}
-% The Alex dialog system and this thesis was partly funded by the Ministry of~Education, Youth and Sports
-% of~the Czech Republic under the grant agreement LK11221 for~the~{\it Vystadial project}\/ and core research of~Charles University in Prague.
-% Let us cite the main goals of~the~{\it Vystadial project}\cite{jurcicek2012vystadial}:
-% \begin{quote}
-%     \begin{itemize}
-%         \item Study and improve methods for learning statistical models used in dialogue systems. 
-%         \item Create software infrastructure for remote training and evaluation.
-%         \item Release the developed dialogue system under open-source license.
-%         \item Create publicly available corpus of~audio recordings, transcriptions and semantic annotations for training dialogue systems.
-%     \end{itemize}
-% \end{quote}
 
 The speech recognition in a dialog system closely interacts with \acl{SLU} unit.
 The \ac{SLU} unit typically classifies the speech better 
@@ -88,6 +67,7 @@ The \acl{LM} is reused from other experiments.
 The \ac{HTK} acoustic models have been used together with OpenJulius. 
 We develop acoustic model training scripts using Kaldi toolkit,
 so the quality of \ac{AM} is comparable with the~\ac{AM} trained with \ac{HTK} toolkit. 
+The scripts are prepared for Czech and English transcribed acoustic data.
 
 % subsection training_kaldi_acoustic_models (end)
  
@@ -110,9 +90,6 @@ which communicates with the decoder through sockets.
 The Kaldi is integrated as Python \verb!C++! extension module 
 using Cython\footnote{\url{htpp://www.cython.org}}, 
 which is not only faster, but also more user friendly solution.
-
-Finally, we contrast and compare overall performance of OpenJulius decoder 
-in our dialog system with wrapped Kaldi decoder.
 
 % section goals (end)
 
