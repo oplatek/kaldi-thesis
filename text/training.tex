@@ -7,42 +7,46 @@ This chapter describes the~acoustic model training.
 Having a good acoustic model is the first necessary step for~a~quality real-time decoder.
 In this chapter, we focus on how to train good acoustic model.
 
+\todo{
 At first the~Section~\ref{sec:methods} introduces the used methods. 
 The chapter continues by~presenting results in~Section~\ref{sec:exps}. 
 Later, in~Section~\ref{sec:compare} we compare results obtained by Kaldi toolkit with results
 trained with \ac{HTK} toolkit by Matěj Korvas\cite{lrec2014}.
 The details about training scripts and its file system organization
 is described in Appendix~\ref{cha:setup}.  
+}
 
-The training methods described further in~Section~\ref{sec:methods}
-has to be trained in specific order,
-because some of the more complicated models are initiated
-with values of the simpler models.
-The Figure~\ref{fig:am-deps} list all acoustic models trained in our recipe.
-It for example show that the basic triphone \ac{AM} is initialized and retrained based
-on simple monophone model.
+The Figure~\ref{fig:am-deps} list all acoustic models trained in our recipe and described in Section~\ref{sec:methods}.
+It also shows that some sophisticated models need to be trained before other simpler one. 
+The sophisticated model is initialized with aligned simpler \ac{AM}.
+For example, The Figure show that the basic triphone \ac{AM} is initialized with aligned monophone model.
 
 \begin{figure}[!htp]
     \begin{center}
     \input{images/am-deps}
+
+    \small{\begin{tabular}{lll}
+    \hline
+    Training method name & Script shortcut \\
+    \hline
+    Monophone & mono \\
+    Triphone  & tri1 \\
+    delta+delta-delta & tri2a  \\
+    \acs{LDA}+\acs{MLLT} & tri2b  \\
+    \acs{LDA}+\acs{MLLT}+\acs{MMI} & tri2b\_mmi \\
+    \acs{LDA}+\acs{MLLT}+\acs{bMMI} & tri2b\_bmmi \\
+    \acs{MPE} & tri2b\_mpe \\
+    \hline
+    \end{tabular}}
+    \end{center}
     \caption{Training partial order among \ac{AM} in our training recipe}
     \label{fig:am-deps} 
-    \end{center}
-\small{\begin{tabular}{lll}
-\hline
-Training method name & Script shortcut \\
-\hline
-Monophone & mono \\
-Triphone  & tri1 \\
-delta+delta-delta & tri2a  \\
-\acs{LDA}+\acs{MLLT} & tri2b  \\
-\acs{LDA}+\acs{MLLT}+\acs{MMI} & tri2b-mmi \\
-\acs{LDA}+\acs{MLLT}+\acs{MMI}(boost) & tri2b-mmi-b0.05 \\
-\acs{MPE} & tri2b-mpe \\
-\end{tabular}}
 \end{figure}
 
-\section{Training methods and feature transformation} 
+The individual training methods and feature transformation are explained
+in~Sections~\ref{sec:methods} and~\ref{sec:transform}.
+
+\section{Training methods} 
 \label{sec:methods}
 We use two types of \ac{HMM} \ac{AM} training in Vystadial recipe. 
 The \acl{ML} training and discriminative training.
@@ -65,73 +69,75 @@ and parameter $\theta$ free as described in Equation~\ref{eq:likelihood}.
     \theta^* = argmax_{\theta} \mathcal{L}(\theta\,|\,x_1,\ldots,x_n)
 \end{equation}
 
+\ml{Discriminative training}
 On the other hand the discriminative training does not optimize the likelihood function.
-It uses the generative \ac{AM} and posterior probability to optimize other function and change \ac{AM} parameters.
+It uses the generative \ac{AM} and posterior probability to optimize 
+other function and change \ac{AM} parameters.
 In our training recipe we use two discriminative functions.
 \begin{itemize}
+    \item \acl{MMI}\cite{chow1990maximum} 
+        Note the \ac{MMI} function is implemented as \acs{bMMI} with boosted parameter set to 0.\todo{CHECK}
     \item \acl{bMMI}\cite{povey2008boosted}
     \item \acl{MPE}\cite{povey2003mmi}
 \end{itemize}
 
-The discriminative models usually yield better results than generative models, if enough data is available. 
+\ml{Generative training}
+In our case the acoustic models {\it mono}, {\it tri1}, {\it tri2a}\/
+and {\it tri2b}\/ are trained generatively.
+Meaning the models are trained according \ac{MLE} criterion.
+On the other hand the acoustic models {\it tri2b\_mmi}, {\it tri2b\_bmmi}\/
+and {\it tri2b\_mpe}\/ are trained discriminatively.
+
+The discriminative models usually yield better results than generative models, 
+if enough data is available. 
+
+
+
+\section{Feature and model space transformations}
+\label{sec:transform}
 
 Kaldi toolkit has support for number of feature transformations, which are applied on top
-of speech parametrization (See Subsection~\ref{sub:param}).
-Kaldi ransformations
+of speech parametrization of \ac{MFCC}(See Subsection~\ref{sub:param}).
+Note that we will describe only transformation which are not speaker specific.
+Namely we will describe only {\it delta + delta-delta}, \ac{LDA} and \ac{MLLT},
+because we use the above mentioned methods in our scripts 
+as state of the art set up for speaker independent speech recognition\cite{state_of_art_TODO}.
+
+\subsubsection*{The delta + delta-delta features}
+The {\it delta + delta-delta}\/ feature transformation 
+just adds new features to speech parametrization.
+We use \ac{MFCC} as speech parametrization method. See Subsection~\ref{sub:param} for details.
+The {\it delta + delta-delta}\/ method adds features to \ac{MFCC} feature vector, which approximates 
+first and second derivative of \ac{MFCC} features.
+See Figure~\ref{fig:delta} for typical setup of {\it delta + delta-delta}\/ for \ac{MFCC},
+where from 13 \ac{MFCC} features 13 {\it delta}\/ and another 13 {\it delta-delta}\/ features are extracted.
+
+\begin{figure}
+    \begin{center}
+    \input{images/mfcc-delta}
+    \caption{Typical setup with 39 features using \ac{MFCC}.}
+    \label{fig:delta} 
+    \end{center}
+\end{figure}
+
+
+\subsubsection*{\acl{LDA}}
+\ac{LDA} is used as linear classifier for acoustic features. \todo{citace}
+It transforms the acoustic features to another feature space with reduced dimension.
+\todo{it sound like it does not add features only transforms}
+
+\subsubsection*{\acl{MLLT}}
+\ac{MLLT}\cite{psutka2007benefit} clusters and 
+transforms full covariance matrices for Gaussian distributions used in \ac{HMM}s. 
+Using the full covariance matrices instead of the diagonal one 
+improves the \ac{WER} and the sharing of the covariance matrices makes the technique reasonable efficient.
 
 
 
-As you can see in~Table~\ref{tab:disc_train}, we combine various discriminative training methods
-and acoustic feature transformations in order to obtain better results. 
-Let us briefly introduce improvements and alternatives to maximum likelihood training methods,
-which are used in Vystadial script.
-
-\begin{itemize}
-    \item \todo{Nepatri mezi discriminativni metody - oddelit} 
-        One of the historically first signal processing method which captures the dynamics of a speech
-        are so called $delta$ and $delta-delta$ coefficients. The~$delta$ coefficients represent the first 
-        derivative of static features and $delta-delta$ represents the second derivatives of static acoustic features.
-        On Figure~\ref{fig:delta} there is typical feature extraction procedure using \ac{MFCC}\cite{ye2004speech}.
-    \item \ac{LDA} is used as linear classifier for acoustic features. \todo{citace}
-        It transforms the acoustic features to another feature space with reduced dimension.
-    \item \ac{MLLT}\cite{psutka2007benefit} clusters and transforms full covariance matrices for Gaussian distributions used in \ac{HMM}s. Using the full covariance matrices instead of the diagonal one improves the \ac{WER} and the sharing of the covariance matrices makes the technique reasonable efficient.
-    \item \ac{MMI} is different criterium to maximum likelihood. The key idea is that maximum likelihood is optimal only under rarely met conditions. \ac{MMI} optimize maximum mutual information objective function\cite{chow1990maximum}.
-    \item \ac{UBM}\cite{povey2010subspace} training is the base system for \acl{SAT}. 
-        By changing small number of parameters in vector of short length (50) \ac{UBM} controls all the mean and 
-        weight parameters of the speech-state-specific mixture model. In addition, it introduce 
-        a~"speaker vector," which can be adapted by discriminative \ac{SAT} training.
-    \item \acl{SAT}\cite{povey2011kaldi} uses \ac{fMLLR} technique. Note, that in the~experiments we have 
-        the~training data without speaker labels, so we suppose that each utterance is spoken by different user.
-        In fact, it makes the \ac{SAT} methods hopeless in improving the \ac{WER}, 
-        but we include the results for completeness and future comparison.
-    \item \todo{delete} \ac{MPE}\cite{povey2007evaluation} is an objective function for discriminative models in \ac{ASR}. In \ac{MPE} experiment the Kaldi toolkit uses modified \ac{MMI} and extended Baum-Welsch algorithm together with the \ac{MPE} objective function to train \ac{HMM} parameters.
-    \item \cite{povey2005fmpe} \ac{fMPE} uses \ac{MPE} objective functions to the acoustic features. \todo{check and delete}
-\end{itemize}
-\begin{table}[!htp]\label{tab:disc_train}
-\small{\begin{tabular}{lll}
-\hline
-Training method name & Script shortcut & Note\\
-\hline
-Monophone & mono & Base for all other systems.\\
-Triphone  & tri1 &  Alignments from mono. Base for others.\\
-delta+delta-delta & tri2a & Alignments from tri1 \\
-\ac{LDA}+\ac{MLLT} & tri2b &  Base for other experiments \\
-\ac{LDA}+\ac{MLLT}+\ac{MMI} & tri2b-mmi & Alignments from tri2b \\
-\ac{LDA}+\ac{MLLT}+\ac{MMI}(boost) & tri2b-mmi-b0.05  & Alignments from tri2b \\
-\ac{MPE} & tri2b-mpe & Alignments from tri2b \\
-\ac{LDA}+\ac{MLLT}+\ac{SAT} & tri3b & Alignments from tri2b. Base for others. \\
-\ac{LDA}+\ac{MLLT}+\ac{SAT}+\ac{MMI} & tri3b-mmi  & Alignments from tri3b \\
-\ac{UBM}+\ac{fMMI}+\ac{MMI} & tri3b-fmmi-b & Alignments from \ac{UBM}(based on tri3b) \\
-\ac{UBM}+\ac{fMMI}+\ac{MMI} & tri3b-fmmi-c & tri3b-fmmi-b with changed parameters \\
-\ac{UBM}+\ac{fMMI}+\ac{MMI} & tri3b-fmmi-d & Alignments from \ac{UBM} + \ac{MPE} on features.\\ 
-\end{tabular}}
-\caption{Training methods overview. All experiments train triphones except the~monophone experiment. Script shortcut is refers to names of the experiments in the "run.sh" script.}
-\end{table}
-
-% section training_method (end)
 
 \section{Experimental design and results} 
 \label{sec:exps}
+\todo{Starting from flat start monophone system we train basic triphone models}
 \todo{Comment on 2 WER difference generative vs discriminative training}
 \todo{Mention that HTK scripts are really good}
 \todo{Show that we can get similar results with Kaldi as Matej did with HTK}
