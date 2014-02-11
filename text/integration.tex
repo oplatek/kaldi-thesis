@@ -76,6 +76,37 @@ Why I choose cffi and not traditional swig/ boost what so ever solution?
 \label{sec:software_development_in_open_source_community}
 \todo{ Shortly say that the source code will be merged into Kaldi and also promote Alex which is going to be on Github}
 
+\section{evalution on alex data}
+\label{sec:evalution_on_alex_data}
+\begin{verbatim}
+    # waws:                  948
+    Global RTF mean:         1.053494
+    RTF median:              1.024411  RTF       < 1.123661 [in 95%]
+    Forward RTF median:      0.228039  FWRTF     < 0.576542 [in 95%]
+    Latency median:          0.039645  Latency   < 0.339410 [in 95%]
+    Forward latency median:  0.000000  FWLatency < 0.000000 [in 95%]
+    
+    95%RTF=1.12 95%FWRTF=0.58 95%LAT=0.34 95%FWLAT=0.00
+
+
+    Please note that the scoring is implicitly ignoring all non-speech events.
+    
+    Ref: decoded\_kaldi/ref\_trn.txt
+    Tst: decoded\_kaldi/dec\_trn.txt
+    |==============================================================================================|
+    |            | # Sentences  |  # Words  |   Corr   |   Sub    |   Del    |   Ins    |   Err    |
+    |----------------------------------------------------------------------------------------------|
+    | Sum/Avg    |     948      |   2486    |  88.33   |   7.40   |   4.26   |   3.50   |  15.16   |
+    |==============================================================================================|
+    
+
+real    15m49.998s
+user    11m8.739s
+sys     0m6.585s
+\end{verbatim}
+
+
+% section evalution_on_alex_data (end)
 
 % section software_development_in_open_source_community (end)
 
