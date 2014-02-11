@@ -105,6 +105,37 @@ user    11m8.739s
 sys     0m6.585s
 \end{verbatim}
 
+\begin{verbatim}
+  # waws:                  948
+    Global RTF mean:         1.064172
+    RTF median:              1.026408  RTF       < 1.150286 [in 95%]
+    Forward RTF median:      0.243869  FWRTF     < 0.623924 [in 95%]
+    Latency median:          0.043117  Latency   < 0.404169 [in 95%]
+    Forward latency median:  0.000000  FWLatency < 0.000000 [in 95%]
+    
+    95%RTF=1.15 95%FWRTF=0.62 95%LAT=0.40 95%FWLAT=0.00
+
+
+    Please note that the scoring is implicitly ignoring all non-speech events.
+    
+    Ref: decoded_kaldi/ref_trn.txt
+    Tst: decoded_kaldi/dec_trn.txt
+    |=============================================================================================
+=|
+    |            | # Sentences  |  # Words  |   Corr   |   Sub    |   Del    |   Ins    |   Err   
+ |
+    |---------------------------------------------------------------------------------------------
+-|
+    | Sum/Avg    |     948      |   2265    |  89.71   |   6.23   |   4.06   |   2.87   |  13.16  
+ |
+    |=============================================================================================
+=|
+    
+
+real    13m17.918s
+user    13m4.224s
+sys     0m6.265s
+\end{verbatim}
 
 % section evalution_on_alex_data (end)
 
