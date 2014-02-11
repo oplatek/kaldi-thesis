@@ -17,16 +17,29 @@ is described in Appendix~\ref{cha:setup}.
 The training methods described further in~Section~\ref{sec:methods}
 has to be trained in specific order,
 because some of the more complicated models are initiated
-with trained values of the simpler models.
+with values of the simpler models.
 The Figure~\ref{fig:am-deps} list all acoustic models trained in our recipe.
 It for example show that the basic triphone \ac{AM} is initialized and retrained based
 on simple monophone model.
+
 \begin{figure}[!htp]
     \begin{center}
     \input{images/am-deps}
-    \caption{Dependencies between \ac{AM} in our training recipe}
+    \caption{Training partial order among \ac{AM} in our training recipe}
     \label{fig:am-deps} 
     \end{center}
+\small{\begin{tabular}{lll}
+\hline
+Training method name & Script shortcut \\
+\hline
+Monophone & mono \\
+Triphone  & tri1 \\
+delta+delta-delta & tri2a  \\
+\acs{LDA}+\acs{MLLT} & tri2b  \\
+\acs{LDA}+\acs{MLLT}+\acs{MMI} & tri2b-mmi \\
+\acs{LDA}+\acs{MLLT}+\acs{MMI}(boost) & tri2b-mmi-b0.05 \\
+\acs{MPE} & tri2b-mpe \\
+\end{tabular}}
 \end{figure}
 
 \section{Training methods and feature transformation} 
