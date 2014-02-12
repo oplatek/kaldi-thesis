@@ -31,7 +31,7 @@ For example, The Figure show that the basic triphone \ac{AM} is initialized with
     \hline
     Monophone & mono \\
     Triphone  & tri1 \\
-    delta+delta-delta & tri2a  \\
+    $\Delta + \Delta\Delta$ & tri2a  \\
     \acs{LDA}+\acs{MLLT} & tri2b  \\
     \acs{LDA}+\acs{MLLT}+\acs{MMI} & tri2b\_mmi \\
     \acs{LDA}+\acs{MLLT}+\acs{bMMI} & tri2b\_bmmi \\
@@ -99,18 +99,18 @@ if enough data is available.
 Kaldi toolkit has support for number of feature transformations, which are applied on top
 of speech parametrization of \ac{MFCC}(See Subsection~\ref{sub:param}).
 Note that we will describe only transformation which are not speaker specific.
-Namely we will describe only {\it delta + delta-delta}, \ac{LDA} and \ac{MLLT},
+Namely we will describe only $\Delta + \Delta\Delta$, \ac{LDA} and \ac{MLLT},
 because we use the above mentioned methods in our scripts 
 as state of the art set up for speaker independent speech recognition\cite{state_of_art_TODO}.
 
-\subsubsection*{The delta + delta-delta features}
-The {\it delta + delta-delta}\/ feature transformation 
+\subsubsection*{The $\Delta+\Delta\Delta$ features}
+The $\Delta + \Delta\Delta$ feature transformation 
 just adds new features to speech parametrization.
 We use \ac{MFCC} as speech parametrization method. See Subsection~\ref{sub:param} for details.
-The {\it delta + delta-delta}\/ method adds features to \ac{MFCC} feature vector, which approximates 
+The $\Delta + \Delta\Delta$ method adds features to \ac{MFCC} feature vector, which approximates 
 first and second derivative of \ac{MFCC} features.
-See Figure~\ref{fig:delta} for typical setup of {\it delta + delta-delta}\/ for \ac{MFCC},
-where from 13 \ac{MFCC} features 13 {\it delta}\/ and another 13 {\it delta-delta}\/ features are extracted.
+See Figure~\ref{fig:delta} for typical setup of $\Delta + \Delta\Delta$ for \ac{MFCC},
+where from 13 \ac{MFCC} features 13 $\Delta$ and another 13 $\Delta\Delta$ features are extracted.
 
 \begin{figure}
     \begin{center}
@@ -121,17 +121,25 @@ where from 13 \ac{MFCC} features 13 {\it delta}\/ and another 13 {\it delta-delt
 \end{figure}
 
 
-\subsubsection*{\acl{LDA}}
-\ac{LDA} is used as linear classifier for acoustic features. \todo{citace}
-It transforms the acoustic features to another feature space with reduced dimension.
-\todo{it sound like it does not add features only transforms}
+\subsubsection*{\acl{LDA} and \ac{MLLT}}
+\ac{LDA} is used as linear classifier for acoustic features.
+Based on vectors of length 13 representing static \ac{MFCC} 
+spliced together in for each context window the \ac{LDA} tries to 
+find the best dynamic information, replacing the $\Delta+\Delta\Delta$ coefficients.
 
-\subsubsection*{\acl{MLLT}}
-\ac{MLLT}\cite{psutka2007benefit} clusters and 
-transforms full covariance matrices for Gaussian distributions used in \ac{HMM}s. 
-Using the full covariance matrices instead of the diagonal one 
-improves the \ac{WER} and the sharing of the covariance matrices makes the technique reasonable efficient.
+The combination of \ac{LDA} and \ac{MLLT} reduce the feature dimension and
+rotates the feature space so the classes after \ac{LDA} has more diagonal covariance in two steps.\cite{TODO_LDA_MLLT}
+The \ac{HLDA} performs dimension reduction and space transformation in one step.\cite{TODO_HLDA}
+The combination \ac{HLDA} and \ac{MLLT} perform very similar feature transformation
+and obtain similar improvements over $\Delta+\Delta\Delta$ transformation 
+as \ac{HLDA}\cite{TODO_HLDA}\cite{TODO_LDA_PLUS_MLLT}.
+We choose to use \ac{LDA} and \ac{MLLT}, because Kaldi toolkit offers scripts 
+for this combination and we gain substantial improvement over $\Delta+\Delta\Delta$ transformation.
+See Table~\ref{tab:TODO_results}
 
+In our experiments we use the context window with the default length of 9 frames, 
+four frames from left context and four frames from right context.
+The \ac{LDA} transforms uses and $\Delta$ and $\Delta\Delta$ dynamic features as prior.
 
 
 
