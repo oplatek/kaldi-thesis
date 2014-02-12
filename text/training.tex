@@ -151,6 +151,118 @@ although we skip the implementation detail, which can be found in~Appendix~\ref{
 The~Appendix~\ref{cha:setup} contains tutorial how to run the scripts, on the other hand
 this section briefly discuss the data and setup used in the scripts. 
 
+For training acoustic models we used Czech and English acoustic data
+collected under Vystadial project which are publicly available.\cite{korvas_2014}
+
+We developed training scripts for Czech as well English data.
+The trained \acp{AM} were evaluated on best hypothesis from generated lattice using
+\ac{WER} and \ac{SER} metrics.
+The results were compared against well-written \ac{HTK} scripts.\cite{korvas_2014}
+Note that the \ac{HTK} scripts were written by Keith Vertanen and improved by Matěj Korvas.
+
+\subsection{Training data description}
+\label{sub:training_data}
+
+The English and Czech dataset have been collected differently,
+but all Czech and English speech was transcribed by humans.
+The summary of audio sizes is presented in Table~\ref{tab:audio}.
+
+\begin{table}[hbp]
+    \centering
+    \begin{tabular}{lrrr}
+        \hline
+            dataset & audio & \# sents & \# words \\
+        \hline
+            English & & & \\
+                train & 41:30 & 47,463 & 178,110 \\
+                dev & 01:45 & 2,000 & 7,376 \\
+                test & 01:46 & 2,000 & 7,772 \\
+        \hline
+            Czech & & & \\
+                train & 15:25 & 22,567 & 126,333 \\
+                dev & 01:23 & 2,000 & 11,478 \\
+                test & 01:22 & 2,000 & 11,204 \\
+        \hline
+		\end{tabular}
+    \caption{Size of the data: length of the audio (hours:minutes), number of sentences
+        (which is the same as the number of recordings), number of words in the 
+    transcriptions.\cite{korvas_2014}}
+    \label{tab:audio}
+\end{table}
+
+The English date are recorded phone calls among humans and statistical dialogue systems,
+which was designed to provide the user with information on a suitable dining venue in the town.
+Most of the data was spoken in American English.
+The typical sentences recorded from users were queries for the dialogue system:
+\begin{verbatim}
+I NEED A CHINESE TAKE AWAY RESTAURANT IN THE CHEAP PRICE RANGE
+I'M LOOKING FOR AN INTERNATIONAL RESTAURANT
+I NEED TO FIND A PUB IT SHOULD ALLOW CHILDREN AND HAVE A TELEVISION
+\end{verbatim}
+
+The Czech data were collected in three ways:
+\begin{enumerate}
+    \item using a virtual switchboard service
+    \item using the Repeat After Me speech data collecting process
+    \item from telephone interactions with the Alex \ac{SDS} in public transport domain
+\end{enumerate}
+
+In switchboard service native Czech speakers were invited to make free calls.
+In Repeat After Me process volunteers called a number where they were asked to repeat 
+sentences synthesized by a \ac{TTS}.
+
+Note that the user language differ significantly in dialogues with Alex and the other two settings.
+Remember we focus on training \acp{AM} for \ac{SDS} Alex and its public transport domain.
+We were forced to train on the mixed settings with different domains, because
+we have only around 2hours of domain specific data for public transport domain.
+The different acoustic settings and also different user language negatively influence
+the quality of the decoded output.
+
+In~Section~\ref{sec:result} we use test set mixed from all three settings,
+so it matches the proportion of the domains in training data.
+On contrary, in evaluation of \ac{ASR} in Alex described in~Chapter~\ref{cha:integration}
+we use only transcribed utterances from Alex recordings, 
+so we can measure accuracy of the speech recognition task in~the dialog system.
+
+Consider differences in Czech language between sentences from dialogues with Alex 
+in first example and the sentences from the other two domains.
+\begin{verbatim}
+A DALŠÍ
+_NOISE_
+JO DĚKUJU MOC TO JSEM CHTĚL VĚDĚT
+ZE ZASTÁVKY DEJVICKÁ
+\end{verbatim}
+
+\begin{verbatim}
+PRYČ S TYRANY A ZRÁDCI VŠEMI
+UTRHNE SI KVĚT Z KYTICE A ODCHÁZÍ
+DYŤ TO JE HROŠÍ NEŽ ZVÍŘE
+O LIBERALIZMU TEHDY NEBYLO ŘEČI
+CO BY TAM S TEBOU DĚLALI
+\end{verbatim}
+
+Notice that the sentences for Alex public transport domain are shorter
+and contains noises. The speech is spontaneous and contains proper names.
+
+\subsection{Data preprocessing}
+\label{sub:preproces}
+
+\todo{from korvas, speech dependent files, data format one wav one transcription -> no data specif}
+\todo{lang directory content describe from high level}
+
+
+\subsection{Experiment design}
+\label{sub:experiment_design}
+\todo{described setup, alignments, dependencies (again), best models, why best}
+
+\subsection{Evaluation and speech decoding}
+\label{sub:evaluation_and_speech_decoding}
+\todo{we use gmm-latgen-faster for evaluation it is good same results with wrapped pykaldi}
+\todo{it generates lattices, we use one best hypothesis}
+
+
+
+
 \todo{Starting from flat start monophone system we train basic triphone models}
 \todo{Comment on 2 WER difference generative vs discriminative training}
 \todo{Mention that HTK scripts are really good}
