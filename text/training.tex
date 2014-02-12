@@ -11,7 +11,7 @@ In this chapter, we focus on how to train good acoustic model.
 At first the~Section~\ref{sec:methods} introduces the used methods. 
 The chapter continues by~presenting results in~Section~\ref{sec:exps}. 
 Later, in~Section~\ref{sec:compare} we compare results obtained by Kaldi toolkit with results
-trained with \ac{HTK} toolkit by Matěj Korvas\cite{lrec2014}.
+trained with \ac{HTK} toolkit by Matěj Korvas\cite{korvas_2014}.
 The details about training scripts and its file system organization
 is described in Appendix~\ref{cha:setup}.  
 }
@@ -100,8 +100,9 @@ Kaldi toolkit has support for number of feature transformations, which are appli
 of speech parametrization of \ac{MFCC}(See Subsection~\ref{sub:param}).
 Note that we will describe only transformation which are not speaker specific.
 Namely we will describe only $\Delta + \Delta\Delta$, \ac{LDA} and \ac{MLLT},
-because we use the above mentioned methods in our scripts 
-as state of the art set up for speaker independent speech recognition\cite{state_of_art_TODO}.
+because we use the above mentioned methods in our scripts.
+Note that together with ac{bMMI} discriminative training it is
+a state of the art set up for speaker independent speech recognition\cite{morbini2013asr}.
 
 \subsubsection*{The $\Delta+\Delta\Delta$ features}
 The $\Delta + \Delta\Delta$ feature transformation 
@@ -128,11 +129,11 @@ spliced together in for each context window the \ac{LDA} tries to
 find the best dynamic information, replacing the $\Delta+\Delta\Delta$ coefficients.
 
 The combination of \ac{LDA} and \ac{MLLT} reduce the feature dimension and
-rotates the feature space so the classes after \ac{LDA} has more diagonal covariance in two steps.\cite{TODO_LDA_MLLT}
-The \ac{HLDA} performs dimension reduction and space transformation in one step.\cite{TODO_HLDA}
+rotates the feature space so the classes after \ac{LDA} has more diagonal covariance in two steps.\cite{gopinath1998maximum}
+The \ac{HLDA} performs dimension reduction and space transformation in one step.\cite{gales1999semi}
 The combination \ac{HLDA} and \ac{MLLT} perform very similar feature transformation
 and obtain similar improvements over $\Delta+\Delta\Delta$ transformation 
-as \ac{HLDA}\cite{TODO_HLDA}\cite{TODO_LDA_PLUS_MLLT}.
+as \ac{HLDA}\cite{gales1999semi}\cite{gopinath1998maximum}.
 We choose to use \ac{LDA} and \ac{MLLT}, because Kaldi toolkit offers scripts 
 for this combination and we gain substantial improvement over $\Delta+\Delta\Delta$ transformation.
 See Table~\ref{tab:TODO_results}
