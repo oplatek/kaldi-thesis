@@ -179,10 +179,9 @@ which we use in our training scripts.
 \end{itemize}
 
 
-% \todo{To conclude, the signal processing samples the continuous audio at regular interval intervals. 
+% To conclude, the signal processing samples the continuous audio at regular interval intervals. 
 % Fixed number of consecutive samples forms a window. The~windows are usually overlapping.
 % The~acoustic features are computed for each of the overlapping window. 
-% }
 
 % section signal_processing (end)
 
@@ -305,7 +304,8 @@ estimated on all training acoustic data.
 Let us describe how the \ac{EM} algorithm operates for one pair
 of training data consisting of acoustic features $a$ extracted from speech
 and corresponding text speech transcription $t$.
-We create \ac{HMM} $t'$, where each state represent one triphone. The triphones are extracted from transcription $t$ using pronunciation dictionary.
+We create \ac{HMM} $t'$, where each state represent one triphone. 
+The triphones are extracted from transcription $t$ using pronunciation dictionary.
 In Figure~\ref{fig:hmm} the transcription {\it how do you do} was expanded \ac{HMM} model representing triphone sequence.
 It should be obvious that only parameters of HMM states occurring in $t'$ can be updated from pair $(a, t)$.
 
@@ -318,7 +318,8 @@ The \ac{EM} algorithm iterates following steps in order to update parameters of 
 
 \ml{Baum-Welsch}
 The acoustic model training conceptually differs for \ac{HTK} and Kaldi only in the {\bf expectation (E) step}.
-The \ac{HTK} toolkit in {\bf E-step} finds the most probable distribution which map acoustic observation to \ac{HMM} states using \todo{MLE fill few words and cite}. 
+The \ac{HTK} toolkit in {\bf E-step} finds the most probable distribution 
+which map acoustic observation to \ac{HMM} states using \ac{MLE}. \todo{MLE fill few words and cite}. 
 Using the most probable distribution in {\bf M-step} leads to Baum-Welsch equations. \cite{huang2001spoken}
 This variation of \ac{EM} algorithm for estimating \ac{HMM} parameters is called Baum-Welsch algorithm.
 
@@ -337,10 +338,7 @@ Latest work suggest that Viterbi training is just as effective for continuous
 speech recognition as Baum-Welch algorithm \cite{rodriguez2003comparative}.
 In addition Viterbi training needs much less computational resources. 
 
-\todo{Should I add equations from buthpitiya2012parallel ?}
-
-\todo{acoustic modeling in Kaldi \url{http://kaldi.sourceforge.net/model.html}}
-
+% \todo{Should I add equations from buthpitiya2012parallel ?}
 
 \subsection{Language modeling}
 \label{sub:lm}
