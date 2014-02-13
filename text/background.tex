@@ -2,19 +2,6 @@
 \chapter{Background}
 \label{cha:background}
 
-%{{{
-% TODO FIND THE BEST INTRODUCTION FROM:
-%   Spoken language understanding
-%   Discriminative Training and Acoustic Modeling for Speech Recognition
-%   Markov Models for Pattern Recognition -Fink
-% 
-% TODO Watch NLP again on http://coursera.com check it for references for the good explanations
-% 
-% TODO one goal of the EXPECTED goals of writing thesis 
-%       Show that you understand given topic
-%       Show that you can write and talk about given topic
-%}}}
-
 The statistical methods for continuous speech recognition were established more than 30 years ago. 
 The most popular statistical methods are based on \ac{HMM} \acl{AM} and n-grams \ac{LM},
 which are also used in Kaldi, the toolkit of our choice.
@@ -90,7 +77,7 @@ The speech varies in number of aspects. Some of them are listed below:
     \item Environmental noises. In application for a dialog system the typical speech is
         recorded on noisy street. 
     \item The recorded channel. 
-        For example the telephone signal is reduced to frequency band between 300 to 3000Hz\cite{TODO}.
+        For example the telephone signal is reduced to frequency band between 300 to 3000Hz.
         The quality of mobile phone signal also influence the quality of the audio signal.
 \end{itemize}
 
@@ -103,7 +90,6 @@ Simply put, the acoustic signal is transformed by boosting frequencies, which ar
 Speech parametrization extracts speech-distinctive acoustic features from raw waveform.
 The two most successful methods for speech parametrization in last decades are 
 \ac{MFCC}\cite{davis1980comparison} and \ac{PLP}\cite{hermansky1990perceptual}.
-\cite{TODO_most_succesful} 
 % change ti to something else than 
 % SPEECH SIGNAL PARAMETERIZATION TECHNIQUES FOR SPEECHUNDERSTANDING SYSTEM Gaurav K. LEEKHA, Mrs. Meenakshi MEHLA, Shrilekha SAGWAL
 The methods are very computationally effective and significantly improves the quality of recognized speech.
@@ -162,11 +148,13 @@ Feature space transformations are usually applied in addition to \ac{MFCC} or \a
 The feature space transformations are applied per frame. 
 Each feature vector extracted from \ac{MFCC}
 or \ac{PLP} window - frame, is projected to another space.
+Some transformation take into account context of several 
+preceding (left context) and consecutive frames (right context).
 
 The linear or affine transforms are expressed by matrix multiplications $Ax$ respectively $Ax^+$.
 The matrix $A$ represents the transformation. 
 The $x$ is the input vector and $Ax$ are the transformed features.
-The affine transformations uses extended vector $(x^+)^T = (x_1, .., x_n, 1)$ and matrix $A: (n+1)*(n+1)$.
+The affine transformations uses extended vector $(x^+)^T = (x_1, \ldots, x_n, 1)$ and matrix $A: (n+1)*(n+1)$.
 
 There is large variety of available transforms and 
 dependent on your acoustic data you should choose the most appropriate one.
@@ -176,24 +164,25 @@ Namely for linear transforms how the matrix $A$ is trained.
 Some transforms are trained on all acoustic data, some per speaker.
 Some transforms are estimated discriminatively, some use generative models.
 
-Let us give overview of feature space transforms available in Kaldi toolkit
-and their typical training set up: 
+We list some of Kaldi transforms in order to illustrate
+rich choice of feature transforms in Kaldi toolkit.
+In Section~\ref{sec:transform} we describe in more detail the transforms,
+which we use in our training scripts.
 
 % use and city http://kaldi.sourceforge.net/transform.html#transform_cmllr_global
 \begin{itemize}
-    \item LDA \todo{describe} \cite{TODO}
-    \item HLDA \todo{describe} \cite{TODO}
-    \item STC/MLLT\todo{describe} \cite{TODO}
-    \item Linear VTLN\todo{describe} \cite{TODO}
-    \item Exponential Transform (ET)\todo{describe} \cite{TODO}
-    \item Cepstral mean and variance normalization\todo{describe} \cite{TODO}
+    \item \acl{LDA}\cite{gopinath1998maximum}
+    \item \acl{HLDA}\cite{gales1999semi}
+    \item \acl{MLLT} also known as \acl{STC}\cite{gopinath1998maximum}
+    \item \acl{ET}Exponential Transform (ET)\cite{povey2011exponential}
+    \item \acl{CMVN}\cite{molau2003feature}
 \end{itemize}
 
 
-\todo{To conclude, the signal processing samples the continuous audio at regular interval intervals. 
-Fixed number of consecutive samples forms a window. The~windows are usually overlapping.
-The~acoustic features are computed for each of the overlapping window. 
-}
+% \todo{To conclude, the signal processing samples the continuous audio at regular interval intervals. 
+% Fixed number of consecutive samples forms a window. The~windows are usually overlapping.
+% The~acoustic features are computed for each of the overlapping window. 
+% }
 
 % section signal_processing (end)
 
@@ -211,7 +200,7 @@ However, the corresponding textual transcription is time-unaligned.
 The hidden information of words time alignment in sentence
 makes acoustic model training more challenging.
 
-All modern speech recognition toolkits use \acl{HMM}\cite{TODO}
+Modern speech recognition toolkits use \acl{HMM}
 for modeling uncertainty between acoustic features and corresponding transcription. 
 
 \subsubsection*{Choice of training units}
@@ -220,7 +209,7 @@ but estimates probability $P(a|f_{b}f_{c}f_{c})$ of generating acoustic features
 
 \ml{phoneme}
 Phone is the smallest contrastive unit of speech. 
-Let see few examples of words and their phonetic transcriptions according CMU dictionary\cite{TODO}.
+Let see few examples of words and their phonetic transcriptions according CMU dictionary\cite{weide1998cmu}.
 \begin{itemize}
     \item {\it youngest} \& {\it  Y AH1 NG G AH0 S T }
     \item {\it youngman} \& {\it  Y AH1 NG M AE2 N }
@@ -330,7 +319,7 @@ The \ac{EM} algorithm iterates following steps in order to update parameters of 
 \ml{Baum-Welsch}
 The acoustic model training conceptually differs for \ac{HTK} and Kaldi only in the {\bf expectation (E) step}.
 The \ac{HTK} toolkit in {\bf E-step} finds the most probable distribution which map acoustic observation to \ac{HMM} states using \todo{MLE fill few words and cite}. 
-Using the most probable distribution in {\bf M-step} leads to Baum-Welsch equations. \cite{TODO}
+Using the most probable distribution in {\bf M-step} leads to Baum-Welsch equations. \cite{huang2001spoken}
 This variation of \ac{EM} algorithm for estimating \ac{HMM} parameters is called Baum-Welsch algorithm.
 
 \ml{Viterbi}
@@ -392,8 +381,9 @@ The Equation~\ref{eq:ngram} describes how should be the trigram \ac{LM} estimate
 The n-gram is sequence of n consecutive words. The probability of n-gram can be estimated by language models
 of order n and greater.
 
-Usually, the technique of smoothing \cite{TODO} is used for increasing probability of unseen trigrams
+Usually, the technique of smoothing is used for increasing probability of unseen trigrams
 from seen bigrams and unseen bigrams from unigrams.
+% \cite{TODO_smoothing}.
 
 \begin{equation} \label{eq:ngram}
     P(w_i \mid w_{i-1}, w_{i-2}, ..., w_1) = P(w_i \mid w_{i-1}, w_{i-2}) * P(w_{i-1} \mid w_{i-2}) * P(w_{i-2})
@@ -460,7 +450,7 @@ transcriptions, which can be evaluated using {\it HResults}.
 \begin{figure}[!htp]
     \begin{center}
     \input{images/htk_tools}
-    \caption{Figure 2.2 from HTK Book 3.4\cite{TODO_HTK_BOOK_Figure 2.2.}}
+    \caption{Figure 2.2 from HTK Book 3.4\cite{young2006htk}}
     \label{fig:htk_tools} 
     \end{center}
 \end{figure}
@@ -483,8 +473,8 @@ The {\it HDecode} has very similar license condition but can be only used for re
 \label{sec:back_julius}
 
 % http://julius.sourceforge.jp/juliusbook/en/desc_overview.html
-Julius is large vocabulary continuous speech engine, which can use \ac{AM} in \ac{HTK} format for decoding.\cite{JULIUS_TODO}
-Julius is BSD licensed \cite{BSD_TODO} and performs almost real-time decoding.
+Julius is large vocabulary continuous speech engine, which can use \ac{AM} in \ac{HTK} format for decoding.\cite{lee2009julius}
+Julius is BSD licensed\footnote{\url{http://www.linfo.org/bsdlicense.html}} and performs almost real-time decoding.
 
 Julius is two pass decoder. In first pass the forward decoding is perform as
 a technique of time synchronous beam search.
@@ -511,11 +501,11 @@ which should had been passed through sockets.
 Kaldi is speech recognition toolkit consisting of library, command line programs, scripts for focus on acoustic modeling.
 Kaldi deploys several decoders for evaluation Kaldi \ac{AM}.
 Kaldi uses Viterbi training for estimating \ac{AM}. 
-Only in special cases of speaker adaptive discriminative training is also used extended Baum-Welsch algorithm\cite{TODO_POVEY}.
+Only in special cases of speaker adaptive discriminative training is also used extended Baum-Welsch algorithm\cite{povey2011kaldi}.
 
 The architecture of Kaldi toolkit could be separated to Kaldi library and training scripts.
 The scripts access the functionality of Kaldi library through command line programs.
-The C++ Kaldi library is based {\it OpenFST}\cite{OpenFST_TODO} library and 
+The C++ Kaldi library is based {\it OpenFST}\cite{allauzen2007openfst} library and 
 it uses optimized libraries for linear algebra such as BLAS and LAPACK.
 Related functionality is usually grouped in one namespace in C++ code, which usually also correspond
 to one directory on file system. The examples of the namespaces or directories can be seen in Figure~\ref{fig:kaldi_arch}
@@ -533,7 +523,7 @@ training, decoding and other utilities. Kaldi provides very useful standardized 
 Kaldi programs or add useful functionality. The scripts are located in {\it utils} and {\it steps}
 directories and are used in many training script recipes for different corpus data.
 In this thesis we created new training recipe using Kaldi infrastructure and
-Czech and English training corpus \todo{lrec2013}\cite{TODO_LREC2014}.
+Czech and English training corpus \cite{korvas_2014}.
 The recipe, the data and acoustic modeling scripts are described in~Chapter~\ref{cha:train}.
 
 \subsection{Finite State Transducers} 
@@ -543,14 +533,14 @@ implementation OpenFST, on which the Kaldi library is build on.
 Kaldi uses \ac{FST} as underlaying representation for \ac{LM}, partially for \ac{AM}, lexicon and 
 also for representing transformation between text, pronunciation and triphones.
 
-The \ac{FST} framework provides well studied graph operations\cite{TODO_Mohri},
+The \ac{FST} framework provides well studied graph operations\cite{mohri2002weighted},
 which can be effectively use for acoustic modeling.
 Using the \ac{FST} framework the speech decoding task is expressed as
 beam search in a graph, which is well studied problem.
 
 The OpenFST library implements memory efficient representation of \ac{FST} and
 provides standardized efficient operations.
-As stated in \cite{TODO_Mohri} and \cite{TODO_Kaldi} the operations can be effectively used
+As stated in \cite{mohri2002weighted} and \cite{povey2011kaldi} the operations can be effectively used
 for speech decoding. 
 
 \subsubsection*{OpenFST datastructures in Kaldi}
@@ -558,7 +548,7 @@ The \ac{FST} graphs used for \ac{AM} model training and speech decoding
 can be constructed as sequence of standardized OpenFST operations.
 We would like to introduce toy examples of construction such data structures which are used in Kaldi.
 
-Note that proper introduction to \ac{FST} framework for speech recognition we recommend\cite{TODO_mohri}.
+Note that proper introduction to \ac{FST} framework for speech recognition we recommend\cite{mohri2002weighted}.
 The Kaldi decoding graph construction is very well described in \href{http://kaldi.sourceforge.net/graph\_recipe\_test.html}{Kaldi documentation}.
 We feel that few figures of toy speech recognition problem will help us explain algorithms,
 which we describe in Chapters~\ref{cha:train} and~\ref{cha:decoder}.
