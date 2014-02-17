@@ -9,7 +9,7 @@ of~speech recognition, because the~reasoning and the~reply is based on the recog
 
 In this work, we prepare \acl{ASR} for a dialog system called Alex. 
 We use the Kaldi\cite{povey2011kaldi} speech recognition toolkit for acoustic modeling 
-as well as decoding the text transcription from speech using trained \acl{AM}.
+as well as decoding\footnote{The term {\it decoding} find its origin in \acs{HMM} terminology. In speech recognition it is equivalent to {\it recognizing} the word sequence from the speech. Note in HMM decoders we recognize phones or triphones sequences which form the word sequence.} the text transcription from speech using trained \acl{AM}.
 We see the added value of this thesis in new training scripts deployed with open acoustic data\cite{korvas_2014}
 and in new interface for decoding. Both the decoder interface and acoustic model training is designed 
 for a responsive dialog system. 
