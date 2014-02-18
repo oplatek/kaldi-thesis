@@ -326,7 +326,7 @@ This variation of \ac{EM} algorithm for estimating \ac{HMM} parameters is called
 \ml{Viterbi}
 On the other hand the Kaldi toolkit applies the Viterbi 
 criterion in assigning the acoustic observation to \ac{HMM} states.
-Using the viterbi criterion Kaldi just finds 
+Using the Viterbi criterion Kaldi just finds 
 the most probable assignment $\phi$ of observations to states.\cite{buthpitiya2012parallel}
 Using only the single best assignment $\phi$ the {\bf M-step} is also simpler than
 Baum-Welch algorithm case.
@@ -392,9 +392,11 @@ from seen bigrams and unseen bigrams from unigrams.
 The \ac{CSR} is a pattern recognition task as well as search problem.
 In speech recognition, making a search decision is also referred to as decoding.\cite{huang2001spoken}
 
+Combining AM and LM -> LM weight
 Formats
 Beam search - forward decoding.
 Backward decoding only for lattices.
+
 
 Hypothesis in one-best format can extracted from all presented hypothesis output formats.
 
