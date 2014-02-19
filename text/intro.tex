@@ -5,26 +5,26 @@
 A spoken dialog is the most intuitive way of~communication among people. 
 % Nowadays, the spoken dialog is becoming popular choice of~communication even for human-device interaction. 
 The quality of~a~dialog largely depends on the quality 
-of~speech recognition, because the~reasoning and the~reply is based on the recognized speech. 
+of~speech recognition, because the~reasoning and the~reply is based on the recognised speech. 
 
 In this work, we prepare \acl{ASR} for a dialog system called Alex. 
-We use the Kaldi\cite{povey2011kaldi} speech recognition toolkit for acoustic modeling 
-as well as decoding\footnote{The term {\it decoding} find its origin in \acs{HMM} terminology. In speech recognition it is equivalent to {\it recognizing} the word sequence from the speech. Note in HMM decoders we recognize phones or triphones sequences which form the word sequence.} the text transcription from speech using trained \acl{AM}.
-We see the added value of this thesis in new training scripts deployed with open acoustic data\cite{korvas_2014}
-and in new interface for decoding. Both the decoder interface and acoustic model training is designed 
+We use Kaldi\cite{povey2011kaldi} speech recognition toolkit for acoustic modeling 
+as well as decoding\footnote{The term {\it decoding} find its origin in \acs{HMM} terminology. In speech recognition it is equivalent to {\it recognizing} the word sequence from the speech. Note in HMM decoders we recognise phones or triphones sequences which form the word sequence.} the text transcription from speech using trained \acl{AM}.
+We see the added value of this thesis in a~new training scripts deployed with open acoustic data\cite{korvas_2014}
+and in new interface for decoding. Both the decoder interface and the~acoustic model training is designed 
 for a responsive dialog system. 
 
 The Alex dialog system is mostly domain and language independent.
 Currently, we are testing the dialog system on a~public Czech phone call service
 \footnote{The phone line +420 800 899 998 is for free for Czech callers.}.
-A caller can ask about weather and public transport information in Czech republic.
+A caller can ask about weather and public transport information in the~Czech republic.
 
 \section{The problem} 
 \label{sec:problem}
 
-The speech recognition in a dialog system closely interacts with \acl{SLU} unit.
+The speech recognition in a dialog system closely interacts with a~\acl{SLU} unit.
 The \ac{SLU} unit typically classifies the speech better 
-if the speech recognizer outputs more than one hypothesis for one utterance. 
+if the speech recogniser outputs more than one hypothesis for one utterance. 
 A word lattice effectively represent multiple hypothesis and is convenient
 representation for passing hypothesis between \ac{ASR} and \ac{SLU} unit 
 as described in~Section~\ref{sub:lattice}.
@@ -35,28 +35,28 @@ the OpenJulius\cite{lee2009julius} lattice decoder for real time decoding.
 Unfortunately, our project members were experiencing crashes 
 of OpenJulius during extracting lattices.
 
-Taking in mind the OpenJulius complicated code base and relatively slow
-development of both \ac{HTK} and OpenJulius we were looking 
+Bearing in mind the OpenJulius's complicated code base and relatively slow
+development of both \ac{HTK} and OpenJulius, we were looking 
 for another open source toolkit with a real-time decoder.
 
-We choose the~Kaldi toolkit. Despite the fact,  that Kaldi had no lattice real-time decoder
+We chose the~Kaldi toolkit. Despite the fact,  that Kaldi had no lattice real-time decoder
 and no interface convenient for a dialog system.
 However, the Kaldi toolkit already had modern training recipes.
 The~Kaldi toolkit is actively maintained. Moreover, Kaldi is distributed 
-under permissive Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
+under the~permissive Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
 
 The Kaldi community focused on improving acoustic model training. 
 In August 2012\footnote{The changes were introduced by \href{https://sourceforge.net/p/kaldi/code/1259/}{svn commit 1259}.}
 Kaldi team published a~demo version of~an online one best hypothesis decoder.
 The online decoder inspired us in designing 
 the online interface suitable for real-time use of a lattice decoder.
-In addition we rewrote the feature preprocessing code base of the one best hypothesis decoder.
+In addition we rewrote the feature preprocessing code base on the one best hypothesis decoder.
 
 \section{The goals of~the~thesis} 
 \label{sec:goals}
-Let us introduce the goals of~this thesis. Each of~the~goals is described in subsections below.
-At first, we introduce the goal of training acoustic model, which is the precondition for satisfying next goals.
-Later, we prepare the real-time decoder and at the end, we integrate the decoder in the~dialog system. 
+Let us introduce the goals of~this thesis. Each of~the~goals is described in the~subsections below.
+At first, we introduce the goal of the~training acoustic model, which is a~precondition for satisfying next goals.
+Later, we prepare a~real-time decoder and at the end, we integrate the decoder in the~dialog system. 
 
 \subsection{Training acoustic models} 
 \label{sub:training_kaldi_acoustic_models}
@@ -65,8 +65,8 @@ a~\acl{LM}. We focus on finding the best \acl{AM} for the~Kaldi toolkit.
 The \acl{LM} is reused from other experiments.
 
 The \ac{HTK} acoustic models have been used together with OpenJulius. 
-We develop acoustic model training scripts using Kaldi toolkit,
-so the quality of \ac{AM} is comparable with the~\ac{AM} trained with \ac{HTK} toolkit. 
+We develop acoustic model training scripts using the~Kaldi toolkit,
+so the quality of \ac{AM} is comparable with the~\ac{AM} trained with the~\ac{HTK} toolkit. 
 The scripts are prepared for Czech and English transcribed acoustic data.
 
 % subsection training_kaldi_acoustic_models (end)
@@ -76,7 +76,7 @@ The scripts are prepared for Czech and English transcribed acoustic data.
 \label{sub:compare_rt}
 
 We select the most convenient Kaldi decoder and 
-transform the decoder to word lattice decoder. 
+transform the decoder to the~word lattice decoder. 
 We suggest potential speed improvements e.g.\ approximations, use of \ac{GPU} 
 or \ac{DNN} for speech processing\cite{vesely2013sequencediscriminative}.
 
@@ -84,7 +84,7 @@ The \verb!C++! interface suitable for real-time with a dialog system is designed
 
 \subsection{A~real-time decoder integration} 
 \label{sub:integration}
-The final step is integration of selected real-time decoder into the~dialog system Alex.
+The final step is the~integration of selected real-time decoder into the~dialog system Alex.
 The~OpenJulius decoder interfaces the Alex system through Python module, 
 which communicates with the decoder through sockets.
 The Kaldi is integrated as Python \verb!C++! extension module 
@@ -96,15 +96,16 @@ which is not only faster, but also more user friendly solution.
 \section{Outline of~the thesis} 
 \label{sec:outline_of_the_thesis}
 In~Chapter~\ref{cha:background} we describe components of a~speech recognition system.  
-Except the standard introduction to speech recognition system we introduce Finite State Automata~framework,
+Except for the standard introduction to speech recognition system we introduce Finite State Automata~framework,
 which is used by the~Kaldi toolkit. In~Chapter~\ref{cha:training} we describe the acoustic 
 models needed by the~Kaldi decoder. 
-In addition, we contrast and compare acoustic models trained by~\ac{HTK} and Kaldi. 
+In addition, we compare and contrast acoustic models trained by~\ac{HTK} and Kaldi. 
 Chapter~\ref{cha:decoder} presents the Kaldi real time decoder embedded into our dialog system.
-We discuss the architecture of~the decoder, its properties. We also distinguish what is the original work done by 
-the~Kaldi team and what are our improvements. At~the end of~Chapter~\ref{cha:decoder} 
+We discuss the architecture of~the decoder, its properties. 
+We also distinguish the original work done by the~Kaldi team and our improvements. 
+At~the end of~Chapter~\ref{cha:decoder} 
 we evaluate the qualities of~the developed decoder.
-The~Chapter~\ref{cha:integration} explains how we integrated \verb!C++! decoder in our dialog system written in Python.
-Finally, the~Chapter~\ref{cha:conclusion} summarises the thesis and finishes with future research directions.
+Chapter~\ref{cha:integration} explains how we integrated \verb!C++! decoder in our dialog system written in Python.
+Finally, Chapter~\ref{cha:conclusion} summarises the thesis and finishes with future research directions.
 
 % section outline_of_the_thesis (end)
