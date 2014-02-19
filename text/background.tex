@@ -241,17 +241,9 @@ so a triphone model can be trained from much more examples than a word model.
 \begin{figure}[!htp]
     \begin{center}
     \input{images/hmm-words}
-    \caption{Markov Triphone model for three words. Only alignments need to learned.}
+    \caption{Markov Triphone model for three words. Transition probabilities within
+    words and observation probabilities are learnt.}
     \label{fig:hmm_words} 
-    \end{center}
-\end{figure}
-
-
-\begin{figure}[!htp]
-    \begin{center}
-    \input{images/hmm-alt}
-    \caption{Markov Triphone model representing four alternatives.}
-    \label{fig:hmm_alt} 
     \end{center}
 \end{figure}
 
@@ -274,7 +266,7 @@ In our case the hidden states represents triphones and we observe samples of  ac
 Hidden Markov Models has two type of parameters {\it transition probabilities among states}\/
 and {\it probabilistic distribution for generating observation in given state}.
 The transition probability is probability of changing state $q$ to state $u$.
-Each transition can be represented as arc $e=qu$ between the states $q$ and $u$, see~\ref{fig:hmm_alt} and~\ref{fig:hmm_words}.
+Each transition can be represented as arc $e=qu$ between the states $q$ and $u$, see~\ref{fig:hmm_words}.
 The probability is often represented as the weight $w_e$ of arc $e$.
 For every node in a Markov model must hold that the sum weights of outgoing arcs is one.
 
@@ -402,6 +394,30 @@ and we use Witten-Bell smoothing.\cite{witten1991zero}
 The \ac{CSR} is a pattern recognition task as well as search problem.
 In speech recognition, making a search decision is also referred to as decoding.\cite{huang2001spoken}
 
+For isolated word recognition the \acp{HMM} are trained for each word.
+Using the forward algorithm for each \ac{HMM} $h$ representing a word $w$, 
+we are able to compute the probability  of every $w$ given the acoustic observations $a$.
+The isolated word recognition becomes simple recognition problem,
+where we select the most probable \ac{HMM} $h^*$ from finite state of \acp{HMM},
+which parameters were trained either by \ac{EM} algorithm as described  in Subsection~\ref{sub:trainhmm}.
+
+Note that the \ac{HMM} training is identical for \ac{CSR} and isolated word recognition,
+but the decoding is more complicated for \ac{CSR}.
+Imagine we have a \ac{LM} order 1 of only two words {\it one} and {\it two} each with equal probability 0.5\footnote{If a \ac{LM} of order 1 assigns to every word equal probability, we say it has order 0}.
+We want to decode any possible sequence of words {\it one}, {\it two}, so 
+we add additional $\Epsilon$ transition at the end of words \acp{HMM}
+and connect them that we can chain the words as illustrated in Figure~\ref{fig:hmm_lm}.
+
+\begin{figure}[!htp]
+    \begin{center}
+        \input{images/hmm-lm}
+        \input{images/hmm-alt}
+        \caption{Diagram of how \ac{LM} is combined with \ac{AM} and corresponding Markov Triphone model.}
+        \label{fig:hmm_lm} 
+    \end{center}
+\end{figure}
+
+
 Combining AM and LM -> LM weight
 Formats
 Beam search - forward decoding.
@@ -449,6 +465,7 @@ Despite the fact that \ac{WER} resembles percentage format, it can be bigger tha
 \end{figure}
 
 \subsubsection*{Alternative measures}
+\ml{SER}
 The \acl{SER} measures how many decoded utterances $decoded(a)$ match exactly its reference $t$
 for all pairs $(a, t)$ in test set $T$.
 \begin{equation}
