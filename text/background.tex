@@ -403,20 +403,36 @@ which parameters were trained either by \ac{EM} algorithm as described  in Subse
 
 Note that the \ac{HMM} training is identical for \ac{CSR} and isolated word recognition,
 but the decoding is more complicated for \ac{CSR}.
-Imagine we have a \ac{LM} order 1 of only two words {\it one} and {\it two} each with equal probability 0.5\footnote{If a \ac{LM} of order 1 assigns to every word equal probability, we say it has order 0}.
-We want to decode any possible sequence of words {\it one}, {\it two}, so 
-we add additional $\Epsilon$ transition at the end of words \acp{HMM}
-and connect them that we can chain the words as illustrated in Figure~\ref{fig:hmm_lm}.
 
 \begin{figure}[!htp]
     \begin{center}
         \input{images/hmm-lm}
-        \input{images/hmm-alt}
-        \caption{Diagram of how \ac{LM} is combined with \ac{AM} and corresponding Markov Triphone model.}
+        \caption{Diagram of how \ac{LM} is combined with \acp{HMM}.}
         \label{fig:hmm_lm} 
     \end{center}
 \end{figure}
 
+Imagine we have a \ac{LM} order 1 of only two words {\it one}\/ and {\it two}\/ each uniformly distributed\footnote{
+If a \ac{LM} of order 1 assigns to every word equal probability, we say it has order 0}.
+We want to decode any possible sequence of words {\it one}, {\it two}, so 
+we add additional $\epsilon$ transition at the end of words \acp{HMM}
+and connect them that we can chain the words as illustrated in Figure~\ref{fig:hmm_lm}.
+Figure~\ref{fig:hmm_alt} shows expanded \acp{HMM}, which have $\epsilon$ transitions
+at the beginning and the end. 
+
+\todo{Note that \ac{LM} weight can be stored on the in the $\epsilon$ transition at the beginning.}
+
+\begin{figure}[!htp]
+    \begin{center}
+        \input{images/hmm-alt}
+        \caption{Expanded \acp{HMM} for words {\it one}\/ and {\it two}\/. 
+        The arrows at \ac{HMM} states illustrates that every observation of acoustic features can generated according statistical distribution. 
+        Note that if speaker says {\it two} a \ac{HMM} model with well trained parameters should output higher probability
+    for \ac{HMM} representing {\it two}. For longer speaker sequences e.g. "two one one two" the \acp{HMM} are connected over the 
+$\epsilon$ transitions and beam search is used for selecting the most probable sequence.}
+        \label{fig:hmm_alt} 
+    \end{center}
+\end{figure}
 
 Combining AM and LM -> LM weight
 Formats
@@ -448,7 +464,7 @@ because \ac{ASR} hypothesis are typically quite short.
     WER = 100* \frac{min\_dist(decoded_{AM, LM}(a), t, edit\_operation=\{Subs, Del, Ins\})}{\#\ words\ in\ t}
 \end{equation}
 \ml{reference}
-Note that \ac{WER} is an error function so the ideal value is 0, meaning the hypothesis $decoded(a)$ and 
+Note that \ac{WER} is an error function so the ideal value is zero, because for $WER=0$ the hypothesis $decoded(a)$ and 
 the reference transcription $t$ are identical. The \ac{WER} 100 for $decoded(a)$ and reference $t$ 
 with equal number of words shows that every single word is different between $decoded(a)$ and reference $t$.
 Despite the fact that \ac{WER} resembles percentage format, it can be bigger than 100. See Figure~\ref{fig:wer400}.
