@@ -350,7 +350,7 @@ the probability of the word transcription from \ac{LM}.
 
 The invalid words sequences or the sequences not frequent in training data
 are estimated with low probability. On the other hand the frequent sequences
-are assigned high probability.
+are assigned with high probability.
 
 The word sequence "{\it are few born new york}" should be rewarded 
 with lower probability from \ac{LM} than he alternative with similar phonetic representation
@@ -374,14 +374,24 @@ probability for $k>10$.
 
 \ml{\ac{LM} order}
 We call the number $k$ order of \ac{LM}.
-In speech recognition we typically use the order of \ac{LM} is limited to $k<4$.
+In speech recognition we typically use the order of \ac{LM} limited to $k<4$.
 The Equation~\ref{eq:ngram} describes how should be the trigram \ac{LM} estimated.
 The n-gram is sequence of n consecutive words. The probability of n-gram can be estimated by language models
 of order n and greater.
 
-Usually, the technique of smoothing is used for increasing probability of unseen trigrams
-from seen bigrams and unseen bigrams from unigrams.
-% \cite{TODO_smoothing}.
+The \ac{LM} estimates the probability of an n-gram $t$ by counting the frequency in text corpus of $t$ and 
+also (n-1), (n-2), .. n-grams, which are subsequences of $t$.
+The text corpus is typically chosen, so it corresponds to domain, in which the \ac{ASR} system 
+with the \ac{LM} should be used.
+
+\ml{LM smoothing}
+The technique of estimating probability of unseen n-grams $t$ 
+based on n-grams with lower order which form the original $t$ is called {\it smoothing}.
+The technique is widely used, because there is much greater chance that lower order n-grams are
+present in training data than n-gram with high order.
+For example, in our training scripts if no external \ac{LM} is supplied,
+we train the \ac{LM} only on text transcriptions from the training data
+and we use Witten-Bell smoothing.\cite{witten1991zero}
 
 \begin{equation} \label{eq:ngram}
     P(w_i \mid w_{i-1}, w_{i-2}, ..., w_1) = P(w_i \mid w_{i-1}, w_{i-2}) * P(w_{i-1} \mid w_{i-2}) * P(w_{i-2})
@@ -417,7 +427,7 @@ because we usually want to decode speech of unheard speaker.
 The \ac{WER} is computed as minimum edit distance on words between 
 pair $decoded(a), t$ typically using edit operations {\it substitution, deletion, insertion}\/ as described in~\ref{eq:edit_dist}.
 The effective implementation for computing WER uses dynamic programing and is not computationally intensive,
-because \ac{ASR} hypothesis are typically quite short.\cite{TODO_WER}
+because \ac{ASR} hypothesis are typically quite short.
 \begin{equation} \label{eq:edit_dist}
     WER = 100* \frac{min\_dist(decoded_{AM, LM}(a), t, edit\_operation=\{Subs, Del, Ins\})}{\#\ words\ in\ t}
 \end{equation}
