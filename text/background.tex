@@ -6,10 +6,10 @@ The statistical methods for continuous speech recognition were established more 
 The most popular statistical methods are based on \ac{HMM} \acl{AM} and n-grams \ac{LM},
 which are also used in Kaldi, the toolkit of our choice.
 
-The first Section~\ref{sec:back_asr} introduces speech preprocessing, \ac{AM} and \ac{LM} training
+Section~\ref{sec:back_asr} introduces speech preprocessing, \ac{AM} and \ac{LM} training
 and explains the principle of speech decoding.
 
-Next three sections describe decoding or training models for particular software.
+The~three sections describe decoding or training models for a~particular software.
 The Kaldi toolkit is described in Section~\ref{sec:back_kaldi}, 
 the \ac{HTK} toolkit in Section~\ref{sec:back_htk} and 
 the Julius decoder in Section~\ref{sec:back_julius}.
@@ -47,11 +47,11 @@ We describe language modeling in Section~\ref{sub:lm}.
 Improving the accuracy of speech recognition engine is dependent
 mainly on improving the \ac{AM} and also the \ac{LM}.
 The \ac{AM} and \ac{LM} are trained separately 
-and stored on hard disc.
+and stored on a~hard disc.
 
 Typically it is easier to model preprocessed speech, 
 so various feature and model space transforms are applied before \ac{AM} training.
-The speech recognizer has to use the same speech preprocessing,
+The speech recogniser has to use the same speech preprocessing,
 which is used for \ac{AM} model training.
 See Figure~\ref{fig:components}.
 
@@ -65,44 +65,44 @@ See Figure~\ref{fig:components}.
 % of~statistical methods as in language modeling depicted in~Figure~\ref{fig:unsupervised}
 
 
-\subsection{Speech parameterization}
+\subsection{Speech parameterisation}
 \label{sub:param}
 % \section{Signal processing}
 % FIXME consult kaldi website with what I have written
 % http://kaldi.sourceforge.net/feat.html
 The goal of speech parameterization is to reduce the negative environmental influences on speech recognition.
-The speech varies in number of aspects. Some of them are listed below:
+The speech varies in a~number of aspects. Some of them are listed below:
 \begin{itemize}
     \item Differences among speakers pronunciation depends on gender, dialect, voice, etc.
-    \item Environmental noises. In application for a dialog system the typical speech is
-        recorded on noisy street. 
+    \item Environmental noises. In the~application for a dialog system the typical speech is
+        recorded on a~noisy street. 
     \item The recorded channel. 
         For example the telephone signal is reduced to frequency band between 300 to 3000Hz.
-        The quality of mobile phone signal also influence the quality of the audio signal.
+        The quality of mobile phone signal also influences the quality of the audio signal.
 \end{itemize}
 
-Speech parametrization improves robustness of the speech recognition in different recording conditions.
-Note that parametrization of speech transforms the acoustic signal based on few numerical parameters,
+Speech parametrisation improves robustness of the speech recognition in different recording conditions.
+Note that parametrisation of speech transforms the acoustic signal based on few numerical parameters,
 which are constant for all recording conditions during training and decoding.
 Simply put, the acoustic signal is transformed by boosting frequencies, which are informative for speech.
 
 \ml{acoustic features}
-Speech parametrization extracts speech-distinctive acoustic features from raw waveform.
-The two most successful methods for speech parametrization in last decades are 
+Speech parametrisation extracts speech-distinctive acoustic features from raw waveform.
+The two most successful methods for speech parametrisation in last decades are 
 \ac{MFCC}\cite{davis1980comparison} and \ac{PLP}\cite{hermansky1990perceptual}.
 % change ti to something else than 
 % SPEECH SIGNAL PARAMETERIZATION TECHNIQUES FOR SPEECHUNDERSTANDING SYSTEM Gaurav K. LEEKHA, Mrs. Meenakshi MEHLA, Shrilekha SAGWAL
-The methods are very computationally effective and significantly improves the quality of recognized speech.
+The methods are very computationally effective and significantly improve the quality of recognised speech.
 
 
 The toolkits used in our dialog system, Kaldi and \ac{HTK} toolkit,
 compute \ac{MFCC} coefficients for given audio input similarly.\footnote{The~subtle differences are caused by implementation approaches, but does not effect the quality of~\ac{MFCC} coefficients in~significant way.}
-We choose \ac{MFCC} as speech parametrization technique for both the toolkits,
+We choose \ac{MFCC} as speech parametrisation technique for both toolkits,
 so we can compare them.
 
 % An interested reader can find comprehensive introduction into signal processing 
 % in~the~fourth Chapter of Spoken Language Processing book\cite{huang2001spoken}.
-Both \ac{MFCC} and \ac{PLP} transformations are applied on sampled and quantized audio signal.
+Both \ac{MFCC} and \ac{PLP} transformations are applied on a~sampled and quantized audio signal.
 The sampling frequency is typically 8000, 16000 or 32000 Hz.
 Each sample is usually encoded to 8, 16 or 32 bits. 
 In our experiments we use 16 kHz sampling frequency for 16 bit samples.  
@@ -121,8 +121,8 @@ for audio of length 85 ms and window shift and length 10ms and 25 ms.
     \end{center}
 \end{figure}
 
-For each window \ac{MFCC} or \ac{PLP} efficiently computes statistics with reduced dimension. 
-Let us describe \ac{MFCC} computation for 25 ms window shifted by 10 ms and 16kHz audio sampling frequency. 
+For each window \ac{MFCC} or \ac{PLP} efficiently computes statistics with a~reduced dimension. 
+Let us describe the~\ac{MFCC} computation for 25 ms window shifted by 10 ms and 16kHz audio sampling frequency. 
 The $16000 * 0.025 = 400$ samples in one window are reduced to 13 static cepstral coefficients.
 
 The \ac{MFCC} or \ac{PLP} static features are usually extended 
@@ -130,11 +130,11 @@ by time derivatives delta and delta-delta features \cite{psutka2001comparison},
 so it results to $13 + 13 + 13 = 39$ \ac{MFCC} delta \& delta-delta features 
 per 400 samples in one window.
 
-The \ac{MFCC} features are computed by following steps:
+The \ac{MFCC} features are computed by the~following steps:
 
 \small{\begin{enumerate}
     \item The~audio samples are transformed into {\it frequency domain}\/ by~\ac{DFT} in the window.
-    \item The frequency spectrum from previous step is transformed onto the mel scale, 
+    \item The frequency spectrum from the~previous step is transformed onto the mel scale, 
         using triangular overlapping filters.
     \item From the mel frequencies the logs of the powers are taken from each of the mel frequencies.
     \item At the end the discrete cosine transform is applied on the list of mel log powers.
@@ -241,17 +241,9 @@ so a triphone model can be trained from much more examples than a word model.
 \begin{figure}[!htp]
     \begin{center}
     \input{images/hmm-words}
-    \caption{Markov Triphone model for three words. Only alignments need to learned.}
+    \caption{Markov Triphone model for three words. Transition probabilities within
+    words and observation probabilities are learnt.}
     \label{fig:hmm_words} 
-    \end{center}
-\end{figure}
-
-
-\begin{figure}[!htp]
-    \begin{center}
-    \input{images/hmm-alt}
-    \caption{Markov Triphone model representing four alternatives.}
-    \label{fig:hmm_alt} 
     \end{center}
 \end{figure}
 
@@ -274,7 +266,7 @@ In our case the hidden states represents triphones and we observe samples of  ac
 Hidden Markov Models has two type of parameters {\it transition probabilities among states}\/
 and {\it probabilistic distribution for generating observation in given state}.
 The transition probability is probability of changing state $q$ to state $u$.
-Each transition can be represented as arc $e=qu$ between the states $q$ and $u$, see~\ref{fig:hmm_alt} and~\ref{fig:hmm_words}.
+Each transition can be represented as arc $e=qu$ between the states $q$ and $u$, see~\ref{fig:hmm_words}.
 The probability is often represented as the weight $w_e$ of arc $e$.
 For every node in a Markov model must hold that the sum weights of outgoing arcs is one.
 
@@ -326,7 +318,7 @@ This variation of \ac{EM} algorithm for estimating \ac{HMM} parameters is called
 \ml{Viterbi}
 On the other hand the Kaldi toolkit applies the Viterbi 
 criterion in assigning the acoustic observation to \ac{HMM} states.
-Using the viterbi criterion Kaldi just finds 
+Using the Viterbi criterion Kaldi just finds 
 the most probable assignment $\phi$ of observations to states.\cite{buthpitiya2012parallel}
 Using only the single best assignment $\phi$ the {\bf M-step} is also simpler than
 Baum-Welch algorithm case.
@@ -350,7 +342,7 @@ the probability of the word transcription from \ac{LM}.
 
 The invalid words sequences or the sequences not frequent in training data
 are estimated with low probability. On the other hand the frequent sequences
-are assigned high probability.
+are assigned with high probability.
 
 The word sequence "{\it are few born new york}" should be rewarded 
 with lower probability from \ac{LM} than he alternative with similar phonetic representation
@@ -374,14 +366,24 @@ probability for $k>10$.
 
 \ml{\ac{LM} order}
 We call the number $k$ order of \ac{LM}.
-In speech recognition we typically use the order of \ac{LM} is limited to $k<4$.
+In speech recognition we typically use the order of \ac{LM} limited to $k<4$.
 The Equation~\ref{eq:ngram} describes how should be the trigram \ac{LM} estimated.
 The n-gram is sequence of n consecutive words. The probability of n-gram can be estimated by language models
 of order n and greater.
 
-Usually, the technique of smoothing is used for increasing probability of unseen trigrams
-from seen bigrams and unseen bigrams from unigrams.
-% \cite{TODO_smoothing}.
+The \ac{LM} estimates the probability of an n-gram $t$ by counting the frequency in text corpus of $t$ and 
+also (n-1), (n-2), .. n-grams, which are subsequences of $t$.
+The text corpus is typically chosen, so it corresponds to domain, in which the \ac{ASR} system 
+with the \ac{LM} should be used.
+
+\ml{LM smoothing}
+The technique of estimating probability of unseen n-grams $t$ 
+based on n-grams with lower order which form the original $t$ is called {\it smoothing}.
+The technique is widely used, because there is much greater chance that lower order n-grams are
+present in training data than n-gram with high order.
+For example, in our training scripts if no external \ac{LM} is supplied,
+we train the \ac{LM} only on text transcriptions from the training data
+and we use Witten-Bell smoothing.\cite{witten1991zero}
 
 \begin{equation} \label{eq:ngram}
     P(w_i \mid w_{i-1}, w_{i-2}, ..., w_1) = P(w_i \mid w_{i-1}, w_{i-2}) * P(w_{i-1} \mid w_{i-2}) * P(w_{i-2})
@@ -389,8 +391,50 @@ from seen bigrams and unseen bigrams from unigrams.
 
 \subsection{Speech decoding}
 \label{sub:decode}
-The \ac{CSR} is a pattern recognition task as well as search problem.
+The \ac{CSR} is a pattern recognition task as well as a search problem.
 In speech recognition, making a search decision is also referred to as decoding.\cite{huang2001spoken}
+
+
+For isolated word recognition the \acp{HMM} are trained for each word.
+Using the forward algorithm for each \ac{HMM} $h$ representing a word $w$, 
+we are able to compute the probability  of every $w$ given the acoustic observations $a$.
+The isolated word recognition becomes simple recognition problem,
+where we select the most probable \ac{HMM} $h^*$ from finite state of \acp{HMM},
+which parameters were trained either by \ac{EM} algorithm as described  in Subsection~\ref{sub:trainhmm}.
+
+Note that the \ac{HMM} training is identical for \ac{CSR} and isolated word recognition,
+but the decoding is more complicated for \ac{CSR}.
+
+\begin{figure}[!htp]
+    \begin{center}
+        \input{images/hmm-lm}
+        \caption{Diagram of how \ac{LM} is combined with \acp{HMM}.}
+        \label{fig:hmm_lm} 
+    \end{center}
+\end{figure}
+
+Imagine we have a \ac{LM} order 1 of only two words {\it one}\/ and {\it two}\/ each uniformly distributed\footnote{
+If a \ac{LM} of order 1 assigns to every word equal probability, we say it has order 0}.
+We want to decode any possible sequence of words {\it one}, {\it two}, so 
+we add additional $\epsilon$ transition at the end of words \acp{HMM}
+and connect them that we can chain the words as illustrated in Figure~\ref{fig:hmm_lm}.
+Figure~\ref{fig:hmm_alt} shows expanded \acp{HMM}, which have $\epsilon$ transitions
+at the beginning and the end. 
+
+\todo{Note that \ac{LM} weight can be stored on the in the $\epsilon$ transition at the beginning.}
+
+\todo{Figure~\ref{fig:hmm_alt} add $P(w)$ on the arc from the start state. Denote the states S and F}
+\begin{figure}[!htp]
+    \begin{center}
+        \input{images/hmm-alt}
+        \caption{Expanded \acp{HMM} for words {\it one}\/ and {\it two}\/. 
+        The arrows at \ac{HMM} states illustrates that every observation of acoustic features can generated according statistical distribution. 
+        Note that if speaker says {\it two} a \ac{HMM} model with well trained parameters should output higher probability
+        for \ac{HMM} representing {\it two}. For longer speaker sequences e.g. {\it two one one two ...} the \acp{HMM} are connected over the 
+$\epsilon$ transitions and beam search is used for selecting the most probable sequence.}
+        \label{fig:hmm_alt} 
+    \end{center}
+\end{figure}
 
 The search space of speech recognition problem with 
 large vocabulary is enormous and has to solved in very short time.
@@ -401,14 +445,12 @@ With $A*$ algorithm we could not exploit the time when user speak
 to perform any computation. A user expects a response around 200 ms after his speech, 
 so we need the find the best path in very short time.
 
+\todo{Combining AM and LM -> LM weight}
+\todo{Formats}
+\todo{Beam search - forward decoding.}
+\todo{Backward decoding only for lattices.}
 
-
-problem can no
-Formats
-Beam search - forward decoding.
-Backward decoding only for lattices.
-
-Hypothesis in one-best format can extracted from all presented hypothesis output formats.
+\todo{Hypothesis in one-best format can extracted from all presented hypothesis output formats.}
 
 \subsection{Evaluating \ac{ASR} quality}
 \label{sub:eval}
@@ -427,12 +469,12 @@ because we usually want to decode speech of unheard speaker.
 The \ac{WER} is computed as minimum edit distance on words between 
 pair $decoded(a), t$ typically using edit operations {\it substitution, deletion, insertion}\/ as described in~\ref{eq:edit_dist}.
 The effective implementation for computing WER uses dynamic programing and is not computationally intensive,
-because \ac{ASR} hypothesis are typically quite short.\cite{TODO_WER}
+because \ac{ASR} hypothesis are typically quite short.
 \begin{equation} \label{eq:edit_dist}
     WER = 100* \frac{min\_dist(decoded_{AM, LM}(a), t, edit\_operation=\{Subs, Del, Ins\})}{\#\ words\ in\ t}
 \end{equation}
 \ml{reference}
-Note that \ac{WER} is an error function so the ideal value is 0, meaning the hypothesis $decoded(a)$ and 
+Note that \ac{WER} is an error function so the ideal value is zero, because for $WER=0$ the hypothesis $decoded(a)$ and 
 the reference transcription $t$ are identical. The \ac{WER} 100 for $decoded(a)$ and reference $t$ 
 with equal number of words shows that every single word is different between $decoded(a)$ and reference $t$.
 Despite the fact that \ac{WER} resembles percentage format, it can be bigger than 100. See Figure~\ref{fig:wer400}.
@@ -449,6 +491,7 @@ Despite the fact that \ac{WER} resembles percentage format, it can be bigger tha
 \end{figure}
 
 \subsubsection*{Alternative measures}
+\ml{SER}
 The \acl{SER} measures how many decoded utterances $decoded(a)$ match exactly its reference $t$
 for all pairs $(a, t)$ in test set $T$.
 \begin{equation}
@@ -588,7 +631,7 @@ to one directory on file system. The examples of the namespaces or directories c
     \end{center}
 \end{figure}
 
-The Figure~\ref{fig:kaldi_prog} list programs used for speech parametrization, feature transforms, acoustic model
+The Figure~\ref{fig:kaldi_prog} list programs used for speech parametrisation, feature transforms, acoustic model
 training, decoding and other utilities. Kaldi provides very useful standardized scripts which wraps
 Kaldi programs or add useful functionality. The scripts are located in {\it utils} and {\it steps}
 directories and are used in many training script recipes for different corpus data.
