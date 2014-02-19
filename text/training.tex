@@ -8,7 +8,7 @@ Having a good acoustic model is the first necessary step for~a~quality real-time
 In this chapter, we focus on how to train good acoustic model.
 
 \todo{
-At first the~Section~\ref{sec:methods} introduces the used methods. 
+At first Section~\ref{sec:methods} introduces the used methods. 
 The chapter continues by~presenting results in~Section~\ref{sec:exps}. 
 Later, in~Section~\ref{sec:compare} we compare results obtained by Kaldi toolkit with results
 trained with \ac{HTK} toolkit by Matěj Korvas\cite{korvas_2014}.
@@ -97,7 +97,7 @@ if enough data is available.
 \label{sec:transform}
 
 Kaldi toolkit has support for number of feature transformations, which are applied on top
-of speech parametrization of \ac{MFCC}(See Subsection~\ref{sub:param}).
+of speech parametrisation of \ac{MFCC}(See Subsection~\ref{sub:param}).
 Note that we will describe only transformation which are not speaker specific.
 Namely we will describe only $\Delta + \Delta\Delta$, \ac{LDA} and \ac{MLLT},
 because we use the above mentioned methods in our scripts.
@@ -106,8 +106,8 @@ a state of the art set up for speaker independent speech recognition\cite{morbin
 
 \subsubsection*{The $\Delta+\Delta\Delta$ features}
 The $\Delta + \Delta\Delta$ feature transformation 
-just adds new features to speech parametrization.
-We use \ac{MFCC} as speech parametrization method. See Subsection~\ref{sub:param} for details.
+just adds new features to speech parametrisation.
+We use \ac{MFCC} as speech parametrisation method. See Subsection~\ref{sub:param} for details.
 The $\Delta + \Delta\Delta$ method adds features to \ac{MFCC} feature vector, which approximates 
 first and second derivative of \ac{MFCC} features.
 See Figure~\ref{fig:delta} for typical setup of $\Delta + \Delta\Delta$ for \ac{MFCC},
