@@ -392,6 +392,18 @@ from seen bigrams and unseen bigrams from unigrams.
 The \ac{CSR} is a pattern recognition task as well as search problem.
 In speech recognition, making a search decision is also referred to as decoding.\cite{huang2001spoken}
 
+The search space of speech recognition problem with 
+large vocabulary is enormous and has to solved in very short time.
+The most famous \ac{AI} search algorithm $A^*$ for large search problem can not be used,
+because during decoding as user speaks we know little about what is he going to say in~the 
+rest of the utterance, so we can not design a good heuristic function.
+With $A*$ algorithm we could not exploit the time when user speak
+to perform any computation. A user expects a response around 200 ms after his speech, 
+so we need the find the best path in very short time.
+
+
+
+problem can no
 Formats
 Beam search - forward decoding.
 Backward decoding only for lattices.
