@@ -330,7 +330,7 @@ Latest work suggest that Viterbi training is just as effective for continuous
 speech recognition as Baum-Welch algorithm \cite{rodriguez2003comparative}.
 In addition Viterbi training needs much less computational resources. 
 
-\todo{Should I add equations from buthpitiya2012parallel ?}
+\todo{Add equations from buthpitiya2012parallel!}
 
 \subsection{Language modeling}
 \label{sub:lm}
@@ -740,8 +740,8 @@ The recipe, the data and acoustic modeling scripts are described in~Chapter~\ref
 
 \subsection{Finite State Transducers} 
 \label{sec:fst}
-In this section we would like to introduce \acl{FST} framework and its
-implementation OpenFST, on which the Kaldi library is build on. 
+The \acl{FST} framework and its implementation OpenFST  
+determine the shape of the Kaldi data structures.
 Kaldi uses \ac{FST} as underlaying representation for \ac{LM}, partially for \ac{AM}, lexicon and 
 also for representing transformation between text, pronunciation and triphones.
 
@@ -755,38 +755,9 @@ provides standardized efficient operations.
 As stated in \cite{mohri2002weighted} and \cite{povey2011kaldi} the operations can be effectively used
 for speech decoding. 
 
-\subsubsection*{OpenFST datastructures in Kaldi}
 The \ac{FST} graphs used for \ac{AM} model training and speech decoding
-can be constructed as sequence of standardized OpenFST operations.
-We would like to introduce toy examples of construction such data structures which are used in Kaldi.
-
-Note that proper introduction to \ac{FST} framework for speech recognition we recommend\cite{mohri2002weighted}.
-The Kaldi decoding graph construction is very well described in \href{http://kaldi.sourceforge.net/graph\_recipe\_test.html}{Kaldi documentation}.
-We feel that few figures of toy speech recognition problem will help us explain algorithms,
-which we describe in Chapters~\ref{cha:train} and~\ref{cha:decoder}.
-The inspiration for such attitude was \href{http://vpanayotov.blogspot.cz/2012/06/kaldi-decoding-graph-construction.html}{Vassil Panayotov post}.
-
-\todo{Introduction from:
- OPENFST explanation in Finite State Transducers mechanism in speech recognition -Dan Povey
- OPENFST article: OpenFst: A General and Efficient Weighted Finite-State Transducer Library Cyril Allauzen1 , Michael Riley2,3 , Johan Schalkwyk2 , Wojciech Skut2 , and Mehryar Mohri1
- SPEECH RECOGNITION WITH WEIGHTED FINITE-STATE TRANSDUCERS Mehryar Mohri}
-
-
-\subsubsection*{\todo{Sources - cite them!}} % (fold)
-
-\begin{itemize}
-    \item \todo{Consult Vassil blogpost}
-    \item \href{http://kaldi.sourceforge.net/graph.html} {Decoding graph construction in Kaldi}
-    \item \href{http://kaldi.sourceforge.net/lattices.html} {Lattices in Kaldi}
-\end{itemize}
-
-\subsection{Decoding graph construction in~Kaldi} % (fold)
-% FIXME add source http://kaldi.sourceforge.net/graph.html
-% FIXME consult Vassil blogpost
-
-Decoding is performed using a final result of training, so called {\it decoding graph}. 
-From the high level point of view,
-during training we are constructing the decoding graph 
+can be constructed as sequence of standardized OpenFST operations.\cite{mohri2002weighted}.
+Decoding is performed using a final result of training, so called {\it decoding graph} $HCLG$. 
 \begin{equation} \label{eq:hclg}
 HCLG = H\circ C\circ L\circ G
 \end{equation}.
@@ -801,40 +772,69 @@ Namely, the transducers appearing in~Equation~\ref{eq:hclg} are:
     \item H contains the \ac{HMM} definitions, that take as input id number of~\acp{PDF} and return context-dependent phones.
 \end{enumerate}
 
-Following one liner illustrates how Kaldi creates the decoding graph. 
+Following one liner illustrates how Kaldi creates the decoding 
+graph\footnote{Kaldi tutorial on building $HCLG$: \url{http://kaldi.sourceforge.net/graph_recipe_test.html}}.\cite{mohri2002weighted}
 \begin{equation}
    HCLG = asl(min(rds(det(H' o min(det(C o min(det(L o G)))))))) 
 \end{equation}
-Let us explain the shortcuts in the list below. Note that the operation are described in detail
-at page \href{http://kaldi.sourceforge.net/fst_algo.html#fst_algo_stochastic} {Finite State Transducer algorithms in Kaldi}. 
-% The source code of these operations is in fstext and corresponding command-line program are in fstbin/
-\begin{itemize}
-    \item asl - Add self loops to \ac{FST}
-    \item rds - Remove disambiguation symbols from \ac{FST}
-    \item H' is \ac{FST} H without self loops
-    \item min -\ac{FST} minimization
-    \item $A\circ B$  - Composition of \ac{FST} $A$ and $B$.
-    \item det - Determinization of \ac{FST}
-\end{itemize}
-
-{\bf Kaldi stochasticity} - weights of outgoing arcs sum to 1.
 
 
-\subsubsection*{Kaldi decoders} % (fold)
-\begin{itemize}
-    \item SimpleDecoder(Beam width) - straightforward implementation of Viterbi algorithm
-    \item LatticeSimpleDecoder(Beam width d, Lattice delta $\delta$), where $ \delta \le d$
-
-\end{itemize}
-
-\subsection*{Decoding algorithm}
-\label{sub:dec_algorithm}
-The Viterbi algorithm is the~basic search algorithm for \ac{HMM}. 
-Briefly
-However
-
-\subsubsection{Decoding with lattices}
-\label{sub:lattice}
-\todo{what are lattices, why is they are good, depth of lattices for dialog system,
-problem of backward search for lattices}
-In~Subsection~\ref{sub:lattice} we will describe lattices as another output format convenient for dialog systems.
+% \subsubsection*{OpenFST datastructures in Kaldi}
+We would like to introduce toy examples of construction such data structures which are used in Kaldi.
+% Note that proper introduction to \ac{FST} framework for speech recognition we recommend\cite{mohri2002weighted}.
+% The Kaldi decoding graph construction is very well described in \href{http://kaldi.sourceforge.net/graph\_recipe\_test.html}{Kaldi documentation}.
+% We feel that few figures of toy speech recognition problem will help us explain algorithms,
+% which we describe in Chapters~\ref{cha:train} and~\ref{cha:decoder}.
+% The inspiration for such attitude was \href{http://vpanayotov.blogspot.cz/2012/06/kaldi-decoding-graph-construction.html}{Vassil Panayotov post}.
+% 
+% \todo{Introduction from:
+%  OPENFST explanation in Finite State Transducers mechanism in speech recognition -Dan Povey
+%  OPENFST article: OpenFst: A General and Efficient Weighted Finite-State Transducer Library Cyril Allauzen1 , Michael Riley2,3 , Johan Schalkwyk2 , Wojciech Skut2 , and Mehryar Mohri1
+%  SPEECH RECOGNITION WITH WEIGHTED FINITE-STATE TRANSDUCERS Mehryar Mohri}
+% 
+% 
+% \subsubsection*{\todo{Sources - cite them!}} % (fold)
+% 
+% \begin{itemize}
+%     \item \todo{Consult Vassil blogpost}
+%     \item \href{http://kaldi.sourceforge.net/graph.html} {Decoding graph construction in Kaldi}
+%     \item \href{http://kaldi.sourceforge.net/lattices.html} {Lattices in Kaldi}
+% \end{itemize}
+% 
+% \subsection{Decoding graph construction in~Kaldi} % (fold)
+% % FIXME add source http://kaldi.sourceforge.net/graph.html
+% % FIXME consult Vassil blogpost
+% 
+% Let us explain the shortcuts in the list below. Note that the operation are described in detail
+% at page \href{http://kaldi.sourceforge.net/fst_algo.html#fst_algo_stochastic} {Finite State Transducer algorithms in Kaldi}. 
+% % The source code of these operations is in fstext and corresponding command-line program are in fstbin/
+% \begin{itemize}
+%     \item asl - Add self loops to \ac{FST}
+%     \item rds - Remove disambiguation symbols from \ac{FST}
+%     \item H' is \ac{FST} H without self loops
+%     \item min -\ac{FST} minimization
+%     \item $A\circ B$  - Composition of \ac{FST} $A$ and $B$.
+%     \item det - Determinization of \ac{FST}
+% \end{itemize}
+% 
+% {\bf Kaldi stochasticity} - weights of outgoing arcs sum to 1.
+% 
+% 
+% \subsubsection*{Kaldi decoders} % (fold)
+% \begin{itemize}
+%     \item SimpleDecoder(Beam width) - straightforward implementation of Viterbi algorithm
+%     \item LatticeSimpleDecoder(Beam width d, Lattice delta $\delta$), where $ \delta \le d$
+% 
+% \end{itemize}
+% 
+% \subsection*{Decoding algorithm}
+% \label{sub:dec_algorithm}
+% The Viterbi algorithm is the~basic search algorithm for \ac{HMM}. 
+% Briefly
+% However
+% 
+% \subsubsection{Decoding with lattices}
+% \label{sub:lattice}
+% \todo{what are lattices, why is they are good, depth of lattices for dialog system,
+% problem of backward search for lattices}
+% In~Subsection~\ref{sub:lattice} we will describe lattices as another output format convenient for dialog systems.
