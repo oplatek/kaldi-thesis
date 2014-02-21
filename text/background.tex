@@ -493,31 +493,35 @@ however the typical search task for is shortest path problem.
 In order to use the shortest distance measure to find the most probably path
 and avoid multiplication we use formula~\ref{eq:am_lm_log} derived from equation~\ref{eq:am_lm}.
 The $C(a \mid w)$ and $C(w)$ are costs with range between zero and one,
-where cost of one corresponds to zero probability $C(1)~P(0)$ 
-and cost of infinity corresponds to one probability $C(\infty)~P(1)$.
+where cost of one corresponds to zero probability $C(1) \cong P(0)$ 
+and cost of infinity corresponds to one probability $C(\infty) \cong P(1)$.
 
 \begin{equation}\label{eq:am_lm}
     \begin{split}
-        w^* &= argmin_{w}\{log(\frac{1}{C(a \mid w) * C(w)^{w_{LM}}})\} 
-        &= argmin_{w}\{-log(C(a \mid w) * C(w)^{w_{LM}})\}
-        &= argmin_{w}\{-log(C(a \mid w)) - w_{LM}*log( C(w))\}
+        w^* &= argmin_{w}\{log(\frac{1}{C(a \mid w) * C(w)^{w_{lm}}})\} \\
+        &= argmin_{w}\{-log(C(a \mid w) * C(w)^{w_{lm}})\} \\
+        &= argmin_{w}\{-log(C(a \mid w)) - w_{lm}*log( C(w))\} 
     \end{split}
 \end{equation}
 
 \subsubsection*{Decoding formats}
-In many applications formats than one-best hypothesis output format
-provide better results for further processing, because other hypothesis
-can supply missing information.
+In many applications formats, which can represent also alternative hypothesis,
+provide better results for further processing than one-best hypothesis,
+because the alternatives contain missing information.
 
 \ml{n-best list}
 We present n-best list and lattice formats, which both can also represent 
 alternative hypothesis.
 
-N-best list is extension to one-best hypothesis, where except the most probable word sequence,
-the second, third, ...,n-th most probable hypothesis is written to output. 
-Usually, also the probability measure is reported with each word sequence.
-Notice on that the probabilities of 3-best list on Figure~\ref{fig:nbest}
-does not sum one, because n-best list typically omits some hypothesis 
+N-best list is an extension to the one-best hypothesis. 
+In n-best list is included apart from the most probable word sequence, also 
+the~second, third, \ldots, n-th most probable hypothesis. 
+Usually, also the likelihood is reported with each word sequence.
+For some applications the likelihood is sufficient,
+other application for example in a dialog system prefer
+posterior probabilities reported in the n-best list.
+Note that the posterior probabilities of 3-best list on Figure~\ref{fig:nbest}
+do not sum to one, because n-best list typically omits some hypothesis.
 
 \begin{figure}[!htp]
     \begin{center}
@@ -526,14 +530,26 @@ does not sum one, because n-best list typically omits some hypothesis
     0.2 hi where are you
     0.1 bey how are you
 \end{verbatim}
-    \caption{todo.}
+    \caption{Toy example of 3-best list output with posterior probability for each path.}
     \label{fig:nbest} 
     \end{center}
 \end{figure}
 
-\todo{how nbest list are extracted cite -do not describe}
-\todo{TODO cite lattice generation Kaldi and reference section skip/the process in decsription}
-\todo{figure lattice}
+The n-best list and lattice are extracted from the beam history.
+Note that the Kaldi toolkit always generates state level lattices
+\footnote{State level lattices uses states very similar to triphone states}.\cite{povey2012generating} 
+The word lattice and later word n-best list can be extracted 
+from the state level lattice. 
+The procedure is later described in detail in~Chapter~\ref{cha:decoder}.
+
+\begin{figure}[!htp]
+    \begin{center}
+    \input{images/non_symetric}
+    \caption{Small lattice. \todo{numbers to words}}
+    \label{fig:toy_lat} 
+    \end{center}
+\end{figure}
+
 
 \subsection{Evaluating \ac{ASR} quality}
 \label{sub:eval}
