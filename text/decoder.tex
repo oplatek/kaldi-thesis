@@ -2,22 +2,37 @@
 \chapter{Real time decoder}
 \label{cha:decoder}
 
-This chapter described the implementation work
-on the new {\it OnlLatgenFasterDecoder}\/ and 
-modification of the online preprocessing on speech parametrisation and feature transformations.
+This chapter describes the implementation
+of the new {\it OnlLatgenFasterDecoder}\/ and 
+the modification of an online speech parametrisation and feature transformations.
+
+We limited our task, so it fits our requirements for real time decoding
+in our \ac{SDS} Alex.
+We need a real time decoder with sufficient accuracy,
+which does not apply any speaker adaptive transformations.
+We strongly prefer n-best list or lattice output formats over one-best hypothesis.
+In addition, we require latency under 0.2 seconds after the end of user speech.
+
+We also wanted to reuse existing code as much as possible,
+so the decoder will benefit from constant development on Kaldi toolkit.
+As a bonus of the minimal changes we can compare our {\it OnlLatgenFasterDecoder}\/ 
+with {\it LatgenFasterDecoder}\/ which is used through binary executable {\it gmm-latgen-faster}.
+Correctly setup, the decoders produce exactly the same results.
 
 
-% The \ac{HTK} decoders are not real-time decoders\cite{yao2010practical}. 
-\todo{Ten development vyhodit. Ty uz nemas cas na zadny vyvoj. Radeji dej do evaluation, ze rozeberes nejenom presnost 
+
+
+\todo{dej do evaluation, ze rozeberes nejenom presnost 
 ale i rychlosty dekoderu, a rohodnes ktery dekoder z Kaldi je vhodny a jake nastaveni potrebuje pro RT performance.}
 
 \todo{decoding lattices and normal outputs -- describe again the problems}
+
 \todo{dat tam analyza -> future improvements}
+
 \todo{udelat real time experiment }
-\section{Online decoder original architecture} 
-\label{sec:kaldi_decoder_architecture}
-This section describes the architecture online decoder developed by Kaldi team.
-The online decoder was used as starting point for building \ac{FST} real time decoder for our dialog system.
+
+\section{Online pre-processing} 
+\label{sec:onl_preprocess}
 
 \begin{figure}[!ph]
     \begin{center}
@@ -27,25 +42,70 @@ The online decoder was used as starting point for building \ac{FST} real time de
     \end{center}
 \end{figure}
 
-\todo{Describe architecture}
-% section kaldi_decoder_architecture (end)
 
-\section{Improving online decoder} 
+\section{online decoder interface} 
 \label{sec:improve}
-We will present how we overcome the limitations of Kaldi online decoder.
 
-% section online_decoder_improvements (end)
+\todo{How I split the LatgenFasterDecoder}
 
-
-\section[Comparison of real time decoders]{Comparison of real time decoders in Alex dialog system} 
-\label{sec:comparison_of_real_time_decoders_in_alex_dialog_system}
-Further, in this section we will briefly compare the main qualities of used decoders.
-Namely, we will compare: 
-\begin{itemize}
-    \item Kaldi online decoder - Acoustic models were trained by training scripts for Kaldi described at~\ref{cha:models}.
-    \item HDecode - HDecode is \ac{HTK} decoder and it decodes from acoustic models trained by \ac{HTK}.
-\end{itemize}
+\todo{desscribe the behaviour of all functions especially the decode function}
 
 
-% section comparison_of_real_time_decoders_in_alex_dialog_system (end)
-% chapter real_time_decoder (end)
+\section{Post-processing the state lattice}
+\label{sec:postprocess}
+
+\todo{How I converted the state lattice to word posterior lattice}
+
+\todo{The trick with discarding alignments}
+
+\section{Objected oriented interface to speech recognition}
+\label{sec:ooi}
+
+\todo{How I wrapped up the code instead of creating a binary executable}
+
+\section{The setup for real-time decoding}
+
+\todo{WER - with equivalent setup as gmm-latgen-faster, describe the relation ship. Maybe reference pykaldi/binutils}
+
+\todo{The WER evaluation in SDS setup described in next chapter}
+
+\todo{Which parameters influence decoding, which setup on which machine we use it}
+
+\todo{profiling -cpu, spent time in which methods, memory profiling}
+
+% \section[Comparison of real time decoders]{Comparison of real time decoders in Alex dialog system} 
+% \label{sec:comparison_of_real_time_decoders_in_alex_dialog_system}
+% Further, in this section we will briefly compare the main qualities of used decoders.
+% Namely, we will compare: 
+% \begin{itemize}
+%     \item Kaldi online decoder - Acoustic models were trained by training scripts for Kaldi described at~\ref{cha:models}.
+%     \item HDecode - HDecode is \ac{HTK} decoder and it decodes from acoustic models trained by \ac{HTK}.
+% \end{itemize}
+
+
+\section{Summary}
+\label{sec:onl_summary}
+The {\it OnlLatgenFasterDecoder}\/ is able to perform real-time decoding.
+Its parameters for real-time decoding, 
+can be setup based on its reference batch decoder {\it LatgenFasterDecoder}\/ used through {\it gmm-latgen-faster}\/ executable.
+
+The minimal interface for speech parametrisation and feature transformations is not usable in general case,
+but works very well for the implemented setup.
+Our setup support \ac{MFCC} speech parametrisation, $\Delta+\Delta-\Delta$ or \ac{LDA} transformation, with
+classic Viterbi trained \ac{AM} or \ac{AM} trained using \ac{bMMI}.
+The setup yields the best results for non-speaker adaptive methods.
+
+\subsection{Future improvements}
+\label{sub:onl_future}
+As described, we support a narrow range of feature transformation,
+so it would be natural to implement more complicated online interface,
+which could support more feature transformations, 
+which are available in Kaldi toolkit for batch mode. 
+
+In next work, we would like to focus on acoustic modeling with \acl{DNN}.
+The \ac{DNN} provide more accurate acoustic probabilities, 
+which should lead to faster beam search,
+because the search is more informed.\cite{TODO_DNN} 
+We see the challenge in implementation of \acl{DNN} evaluation in real time, probably using \ac{GPU}.
+Note that the Kaldi toolkit already support \ac{DNN} training and evaluation.
+\todo{Write Karel Vesely and ask him how fast is the evaluation}
