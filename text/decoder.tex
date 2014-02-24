@@ -74,6 +74,32 @@ If the previous component can not provide the features, it return default empty 
 that no features are not available at the moment. It triggers the message that no data is available
 and the decoder's method {\it decode(..)}, returns zero, meaning that no frames were decoded.
 
+\subsubsection{History and work implemented}
+\label{ssub:history}
+We did not implemented the classes {\it OnlDeltaInput, OnlLdaInput, OnlFeInput}\/ and {\it OnlFeatureMatrix}\/
+from scratch. We started the work with Mathias Pawlik implementation and we implemented few buffering details
+in the classes, but mainly we removed the built in timeouts and changed the interface.
+Note that we also added the {\it OnlBuffSource}\/ class, which just allows buffer the raw \ac{PCM} audio.
+
+Let us argue why using timeouts is not convenient in the speech recognizing code
+and should be let to the code which uses the speech recoginition code.
+Our \ac{API} immediatly reports there are no frames available.
+On the other hand in the code with timetouts, you have to wait the {\it timeout}\/ time
+in order to figure out that there are no frames available.
+In addition, if you have timetouts in multiple preprocessing classes the timeouts time may chain.
+Finally, the timeouts require reinitialization of the preporcessing classes with frame context,
+because the user did not respond during the {\it timeout}\/. 
+Obviously, the delay could be caused by other reasons. For example if the application, 
+which uses the speech recognition engine sends the audio over network, the network can be
+the cause of exceeding the {\it timeout}\/.
+
+
+
+
+
+% subsubsection history (end)
+
+
 
 The feature transformations require context of frames, which
 
