@@ -45,7 +45,7 @@ We briefly describe each step:
         States represents triphones where for some thriphones the parameters are shared.
 \end{itemize}
 
-\begin{figure}[!ph]
+\begin{figure}[!htp]
     \begin{center}
         \input{images/online_pipeline}
         \caption{Components for online decoding}
@@ -66,6 +66,14 @@ The forward decoding is performed on request by calling the method {\it decode(i
 It returns the number of frames which were actually decoded, which is always smaller than {\it max\_frames}.
 In order to evaluate the probability of acoustic features for the new frame
 the decoder query the {\it Decodable}\/ interface.
+
+\begin{figure}[!htp]
+    \begin{center}
+        \input{images/pykaldi-classes}
+    \caption{Aggregation of classes for serial input processing}
+    \label{fig:classes} 
+    \end{center}
+\end{figure}
 
 In case of {\it OnlDecodableDiagGmmScaled}, the online implementation, can trigger chain reaction.
 If {\it OnlFeatureMatrix}\/ does not contain the acoustic features for the new frame, it asks
@@ -92,25 +100,6 @@ because the user did not respond during the {\it timeout}\/.
 Obviously, the delay could be caused by other reasons. For example if the application, 
 which uses the speech recognition engine sends the audio over network, the network can be
 the cause of exceeding the {\it timeout}\/.
-
-
-
-
-
-% subsubsection history (end)
-
-
-
-The feature transformations require context of frames, which
-
-\begin{figure}[!ph]
-    \begin{center}
-        \input{images/pykaldi-classes}
-    \caption{Aggregation of classes for serial input processing}
-    \label{fig:classes} 
-    \end{center}
-\end{figure}
-
 
 \section{online decoder interface} 
 \label{sec:improve}
