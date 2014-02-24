@@ -20,19 +20,62 @@ with {\it LatgenFasterDecoder}\/ which is used through binary executable {\it gm
 Correctly setup, the decoders produce exactly the same results.
 
 
-
-
-\todo{dej do evaluation, ze rozeberes nejenom presnost 
-ale i rychlosty dekoderu, a rohodnes ktery dekoder z Kaldi je vhodny a jake nastaveni potrebuje pro RT performance.}
-
-\todo{decoding lattices and normal outputs -- describe again the problems}
-
-\todo{dat tam analyza -> future improvements}
-
-\todo{udelat real time experiment }
-
 \section{Online pre-processing} 
 \label{sec:onl_preprocess}
+The pre-processing consist of audio signal buffering, \ac{MFCC} feature extraction and
+applying feature transformation. 
+The pre-processing and the decoder are bridged by the {\it decodable} 
+interface as illustrated in Figure~\ref{fig:online_pipeline}.
+We briefly describe each step:
+\begin{itemize}
+    \item Audio buffering
+    \item Computation of \ac{MFCC} features
+    \item Applying feature transformation. 
+        \begin{itemize}
+            \item $\Delta + \Delta\Delta$ \todo{How many frames requires}
+            \item The $LDA+MLLT$ is computed using context,
+                which by default is set to four previous and four future frames.
+        \end{itemize}
+        Note, that the $LDA+MLLT$ and the $\Delta+\Delta\Delta$ transformations are complementary.
+    \item The {\it Decodable}\/ interface in our case the its {\it OnlDecodableDiagGmmScaled}\/ implementation
+        queries the \ac{AM} for the probability for acoustic features $a$ and given state.
+        Note that the acoustic features $a$ are the output of the previous steps.
+    \item The decoder itself performs the search in state level space 
+        having the probabilities from the {\it Decodable}\/ interface. 
+        States represents triphones where for some thriphones the parameters are shared.
+\end{itemize}
+
+\begin{figure}[!ph]
+    \begin{center}
+        \input{images/online_pipeline}
+        \caption{Components for online decoding}
+    \label{fig:online_pipeline} 
+    \end{center}
+\end{figure}
+
+Each step in~Figure~\ref{fig:online_pipeline} is implemented as a class.
+In Figure~\ref{fig:classes} you may see, that additional helper class is also used.
+During decoding each class is instantiated only once at the beginning.
+The pre-processing classes are aggregated together. 
+The {\it OnlBuffSource}\/ is setup as member of {\it OnlFeInput<Mfcc>}\/.
+The {\it OnlFeInpute<Mfcc>}\/ is setup as member of either {\it OnlLdaInput}\/ or {\it OnlDeltaInput}\/.
+One of the transformations is setup as member to {\it OnlFeatureMatrix}\/ instance.
+
+The {\it OnlLatticeFasterDecoder}\/ performs forward decoding frame by frame using the Viterbi beam search.
+The forward decoding is performed on request by calling the method {\it decode(int max\_frames)}.
+It returns the number of frames which were actually decoded, which is always smaller than {\it max\_frames}.
+In order to evaluate the probability of acoustic features for the new frame
+the decoder query the {\it Decodable}\/ interface.
+
+In case of {\it OnlDecodableDiagGmmScaled}, the online implementation, can trigger chain reaction.
+If {\it OnlFeatureMatrix}\/ does not contain the acoustic features for the new frame, it asks
+the previous component to compute the features, namely {\it OnlDeltaInput}\/ or {\it OnlLdaInput}\/.
+If the previous component can not provide the features, it return default empty value indicating,
+that no features are not available at the moment. It triggers the message that no data is available
+and the decoder's method {\it decode(..)}, returns zero, meaning that no frames were decoded.
+
+
+The feature transformations require context of frames, which
 
 \begin{figure}[!ph]
     \begin{center}
@@ -55,11 +98,18 @@ ale i rychlosty dekoderu, a rohodnes ktery dekoder z Kaldi je vhodny a jake nast
 \label{sec:postprocess}
 
 \todo{How I converted the state lattice to word posterior lattice}
+\todo{decoding lattices and normal outputs -- describe again the problems}
 
 \todo{The trick with discarding alignments}
 
 \section{Objected oriented interface to speech recognition}
 \label{sec:ooi}
+
+The real time use of the decoder force us to design responsive \acl{API}.
+We  
+Note that the transformations need history of several frames
+
+\code{Example of the decoder \ac{API} which is mapped in Python}{Python}{snippets/pykaldi_usage.py}
 
 \todo{How I wrapped up the code instead of creating a binary executable}
 
@@ -72,6 +122,9 @@ ale i rychlosty dekoderu, a rohodnes ktery dekoder z Kaldi je vhodny a jake nast
 \todo{Which parameters influence decoding, which setup on which machine we use it}
 
 \todo{profiling -cpu, spent time in which methods, memory profiling}
+
+\todo{dej do evaluation, ze rozeberes nejenom presnost 
+ale i rychlosty dekoderu, a rohodnes ktery dekoder z Kaldi je vhodny a jake nastaveni potrebuje pro RT performance.}
 
 % \section[Comparison of real time decoders]{Comparison of real time decoders in Alex dialog system} 
 % \label{sec:comparison_of_real_time_decoders_in_alex_dialog_system}
@@ -91,7 +144,7 @@ can be setup based on its reference batch decoder {\it LatgenFasterDecoder}\/ us
 
 The minimal interface for speech parametrisation and feature transformations is not usable in general case,
 but works very well for the implemented setup.
-Our setup support \ac{MFCC} speech parametrisation, $\Delta+\Delta-\Delta$ or \ac{LDA} transformation, with
+Our setup support \ac{MFCC} speech parametrisation, $\Delta+\Delta\Delta$ or \ac{LDA} transformation, with
 classic Viterbi trained \ac{AM} or \ac{AM} trained using \ac{bMMI}.
 The setup yields the best results for non-speaker adaptive methods.
 

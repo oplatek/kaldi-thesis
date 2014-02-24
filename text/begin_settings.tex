@@ -93,10 +93,7 @@
 % SNIPPET macros: Includes file with code
 % usage: \code{MyCodeName}{Python}{../testapp/models.py}
 \def\code#1#2#3{
-  \hrulefill
-  \subsubsection*{#1}
-  \lstinputlisting[style=#2]{#3}
-  \vspace{2em}
+    \lstinputlisting[style=#2, caption={#1}, label=#3]{#3}
 }
 
 
