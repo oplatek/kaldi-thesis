@@ -103,10 +103,100 @@ the cause of exceeding the {\it timeout}\/.
 
 \section{Online decoder interface} 
 \label{sec:improve}
+We started developing the real-time speech recognizer by preparing the preprocessing
+pipeline as describe in~Section~\ref{sec:onl_preprocess}, after that we focused 
+on implementation the real time decoder. In the first step we changed 
+the batch {\it LatgenFasterDecoder}\/ only by reorganizing its methods into new interface.
+It turned out that the decoder with the new interface is 
+fast enough and sufficiently accurate for \ac{SDS}. 
+The evaluation in \ac{SDS} Alex is described in~Section~\ref{sec:evalution}.
 
-\todo{How I split the LatgenFasterDecoder}
+Let us describe the details how we reorganized the {\it LatticeFasterDecoder}\/ 
+into {\it OnlLatticeFasterDecoder}.
 
-\todo{desscribe the behaviour of all functions especially the decode function}
+\begin{figure}[!htp]
+    \begin{center}
+        \begin{verbatim}
+class LatticeFasterDecoder {
+ public:
+  // Returns true if any kind of traceback is available (not necessarily from
+  // a final state).
+  bool Decode(DecodableInterface *decodable);
+
+  /// says whether a final-state was active on the last frame.  If it was not, the
+  /// lattice (or traceback) will end with states that are not final-states.
+  bool ReachedFinal() const { return final_active_; }
+
+  // This function is now deprecated, since now we do determinization from
+  // outside the LatticeTrackingDecoder class.
+  // Outputs an FST corresponding to the lattice-determinized
+  // lattice (one path per word sequence).
+  bool GetLattice(fst::MutableFst<CompactLatticeArc> *ofst) const;
+
+ protected:
+  // There are various cleanup tasks... the the toks_ structure contains
+  // singly linked lists of Token pointers, where Elem is the list type.
+  // It also indexes them in a hash, indexed by state (this hash is only
+  // maintained for the most recent frame).  toks_.Clear()
+  // deletes them from the hash and returns the list of Elems.  The
+  // function DeleteElems calls toks_.Delete(elem) for each elem in
+  // the list, which returns ownership of the Elem to the toks_ structure
+  // for reuse, but does not delete the Token pointer.  The Token pointers
+  // are reference-counted and are ultimately deleted in PruneTokensForFrame,
+  // but are also linked together on each frame by their own linked-list,
+  // using the "next" pointer.  We delete them manually.
+  void DeleteElems(Elem *list);
+
+  void ClearActiveTokens();
+
+  /// Processes nonemitting (epsilon) arcs for one frame.
+  /// Ccalled after ProcessEmitting on each frame.
+  /// TODO: could possibly add adaptive_beam back as an argument here (was
+  /// returned from ProcessEmitting, in faster-decoder.h).
+  void ProcessNonemitting(int32 frame);
+            
+  /// Processes emitting arcs for one frame.  Propagates from prev_toks_ to cur_toks_.
+  void ProcessEmitting(DecodableInterface *decodable, int32 frame);
+
+  // Go backwards through still-alive tokens, pruning them.  note: cur_frame is
+  // where hash toks_ are (so we do not want to mess with it because these tokens
+  // don't yet have forward pointers), but we do all previous frames, unless we
+  // know that we can safely ignore them because the frame after them was unchanged.
+  // delta controls when it considers a cost to have changed enough to continue
+  // going backward and propagating the change.
+  // for a larger delta, we will recurse less far back
+  void PruneActiveTokens(int32 cur_frame, BaseFloat delta);
+
+  /// Version of PruneActiveTokens that we call on the final frame.
+  /// Takes into account the final-prob of tokens.
+  void PruneActiveTokensFinal(int32 cur_frame);
+        \end{verbatim}
+        \caption{Simplified original interface of {\it LatticeFasterDecoder}\/ with comments.}
+    \label{fig:lattice_decoder} 
+    \end{center}
+\end{figure}
+
+We implemented the new interface by inheriting the {\it OnlLatticeFasterDecoder}\/ from {\it LatticeFasterDecoder}\/ 
+and splitting the original {\it bool Decode(DecodableInterface *d)}\/ function 
+into three simpler public functions.
+\begin{itemize}
+    \item {\it size\_t Decode(DecodableInterface *d, size\_t max\_frames)}\/ 
+        Does the actual decoding using the functions:
+        \begin{itemize}
+            \item {\it ProcessEmitting(decodbale, frame\_)}\/ process non $\epsilon$ arcs.
+            \item {\it ProcessNonemitting(frame\_)}\/ process $\epsilon$ arcs.
+            \item {\it PruneActiveTokens(frame\_, lattice\_beam * 0.1)}\/ Prune still-alive tokens. 
+        \end{itemize}
+
+    \item {\it void PruneFinal()}\/ calls {\it PruneActiveTokensFinal(frame\_- 1)}\/, which starts
+        with probability of the final tokens and go backwards pruning the tokens.
+    \item {\it void Reset()}\/ empties the data structures and turns the decoder into
+        initial state.
+\end{itemize}
+
+
+
+\todo{describe the behaviour of all functions especially the decode function}
 
 
 \section{Post-processing the state lattice}

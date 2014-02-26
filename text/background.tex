@@ -148,7 +148,7 @@ Feature space transformations are usually applied in addition to \ac{MFCC} or \a
 The feature space transformations are applied per frame. 
 Each feature vector extracted from \ac{MFCC}
 or \ac{PLP} window - frame, is projected to another space.
-Some transformation take into account context of several 
+Some transformations take into account context of several 
 preceding (left context) and consecutive frames (right context).
 
 The linear or affine transforms are expressed by matrix multiplications $Ax$ respectively $Ax^+$.
@@ -156,12 +156,12 @@ The matrix $A$ represents the transformation.
 The $x$ is the input vector and $Ax$ are the transformed features.
 The affine transformations uses extended vector $(x^+)^T = (x_1, \ldots, x_n, 1)$ and matrix $A: (n+1)*(n+1)$.
 
-There is large variety of available transforms and 
+There is a large variety of available transforms and 
 dependent on your acoustic data you should choose the most appropriate one.
-The transforms differ according how they are estimated.
-Namely for linear transforms how the matrix $A$ is trained.
+The transforms differ according to how they are estimated,
+namely for linear transforms how the matrix $A$ is trained.
 
-Some transforms are trained on all acoustic data, some per speaker.
+Some transforms are trained on all acoustic data, some are per speaker.
 Some transforms are estimated discriminatively, some use generative models.
 
 We list some of Kaldi transforms in order to illustrate
@@ -187,28 +187,28 @@ which we use in our training scripts.
 
 \subsection{Acoustic modeling}
 \label{sub:am}
-Acoustic modeling is arguably the heart of speech recognition.
+Acoustic modeling is arguably the heart of the~speech recognition.
 More realistic modeling of acoustic features directly affects the speech recognition quality 
 as seen in Equation~\ref{eq:best_fix}. 
 The \ac{AM} estimates the probability $P(a|w)$ of generating acoustic features $a$
-for given word $w$.
+for a~given word $w$.
 
 The acoustic modeling has only partial information available for training \ac{AM}.
-Let us remind that acoustic features $a$ are collected every 10 ms.
+Let us mention that acoustic features $a$ are collected every 10 ms.
 However, the corresponding textual transcription is time-unaligned.
-The hidden information of words time alignment in sentence
+The hidden information of words time alignment in a sentence
 makes acoustic model training more challenging.
 
 Modern speech recognition toolkits use \acl{HMM}
-for modeling uncertainty between acoustic features and corresponding transcription. 
+for modeling uncertainty between acoustic features and the~corresponding transcription. 
 
 \subsubsection*{Choice of training units}
-The most successful acoustic modeling methods does not estimates the $P(a|w)$ directly,
-but estimates probability $P(a|f_{b}f_{c}f_{c})$ of generating acoustic features $a$ for triphone $f_{b}f_{c}f_{c}$.
+The most successful acoustic modeling methods do not estimate the $P(a|w)$ directly,
+but estimate probability $P(a|f_{b}f_{c}f_{c})$ of generating acoustic features $a$ for triphone $f_{b}f_{c}f_{c}$.
 
 \ml{phoneme}
 Phone is the smallest contrastive unit of speech. 
-Let see few examples of words and their phonetic transcriptions according CMU dictionary\cite{weide1998cmu}.
+Let us see few examples of words and their phonetic transcriptions according CMU dictionary\cite{weide1998cmu}.
 \begin{itemize}
     \item {\it youngest} \& {\it  Y AH1 NG G AH0 S T }
     \item {\it youngman} \& {\it  Y AH1 NG M AE2 N }
@@ -216,20 +216,20 @@ Let see few examples of words and their phonetic transcriptions according CMU di
     \item {\it ear}\/ with two transcribed pronunciations {\it IY1 R}\/ and {\it IH1 R}
 \end{itemize}
 The CMU dictionary distinguishes among several variations for each vowel e.g. {\it AH1}\/ and {\it AH0}.
-It distinguishes pronunciation for {\it earned}\/ and {\it ear}\/
-despite the same transcription in first three letters.
+It distinguishes the~pronunciation for {\it earned}\/ and {\it ear}\/
+despite the same transcription in the~first three letters.
 It also stores two possible pronunciations for the word {\it ear}.
 
-The acoustic features for a phone significantly depends on context.
-The previous and following phone strongly influence the sound of the phone in the middle.
+The acoustic features for a phone significantly depend on the~context.
+The previous and the~following phone strongly influence the sound of the phone in the middle.
 
 \ml{triphone}
-The triphone is sequence of three phonemes and captures the context of single phone.
+The triphone is a~sequence of three phonemes and captures the context of single phone.
 See~\ref{fig:hmm_words}.
-The triphones variate much less according context than phonemes, so can be easily trained.
-Let us note that some combination of prefixes has the same effect on the central phoneme.
-E.g. {\it q}\/ and {\it k} has the same effect on {\it i}. % cite??
-In order to reduce the number of triphones, such triphones are clustered together.
+The triphones variate much less according to the~context than phonemes, so they can be easily trained.
+Let us note that certain combinations of prefixes have the same effect on the central phoneme,
+e.g. {\it q}\/ and {\it k}\/ has the same effect on {\it i}. % cite??
+In order to reduce the number of triphones, these triphones are clustered together.
 
 The advantage of training triphone-\ac{AM} over word-\ac{AM} 
 is due to words sparsity. 
@@ -260,19 +260,19 @@ so a triphone model can be trained from much more examples than a word model.
 \subsubsection*{Hidden Markov Models}
 The~\ac{HMM} is a~very powerful statistical method for~characterizing observed data samples
 of~a~discrete-time series with an unknown state. Chapter 8, \cite{huang2001spoken}.
-In our case the hidden states represents triphones and we observe samples of  acoustic features.
+In our case the hidden states represent triphones and we observe samples of the~acoustic features.
 
 \ml{transition probability}
-Hidden Markov Models has two type of parameters {\it transition probabilities among states}\/
+Hidden Markov Models have two type of parameters {\it transition probabilities among states}\/
 and {\it probabilistic distribution for generating observation in given state}.
-The transition probability is probability of changing state $q$ to state $u$.
+The transition probability is a~probability of changing state $q$ to state $u$.
 Each transition can be represented as arc $e=qu$ between the states $q$ and $u$, see~\ref{fig:hmm_words}.
 The probability is often represented as the weight $w_e$ of arc $e$.
 For every node in a Markov model must hold that the sum weights of outgoing arcs is one.
 
 The Markov model emits deterministically in each node an observation during traversal over its arcs.
 The \acl{HMM} emits the observation stochastically based on the probabilistic distribution related
-with~the~visited state.
+to~the~visited state.
 
 \ml{Gaussian HMM}
 For speech recognition the multivariate Gaussian distribution is used in all states of \ac{HMM}. 
@@ -282,7 +282,7 @@ Ideally the estimated \ac{HMM} \ac{AM} would generate in each state features bel
 \subsubsection*{Training \ac{HMM}}
 \label{sub:trainhmm}
 
-The Kaldi as well as \ac{HTK} toolkit uses \acl{EM} algorithms to train \ac{HMM} \acl{AM}.
+The Kaldi as well as the~\ac{HTK} toolkit uses \acl{EM} algorithms to train \ac{HMM} \acl{AM}.
 The toolkits models the observation probabilities using multivariate Gaussian distribution 
 with dimension of the acoustic features $a$.
 The \ac{EM} algorithm starts with \ac{HMM} with initial values. 
@@ -296,12 +296,15 @@ estimated on all training acoustic data.
 Let us describe how the \ac{EM} algorithm operates for one pair
 of training data consisting of acoustic features $a$ extracted from speech
 and corresponding text speech transcription $t$.
-We create \ac{HMM} $t'$, where each state represent one triphone. 
+We create \ac{HMM} $t'$, where each state represents one triphone. 
 The triphones are extracted from transcription $t$ using pronunciation dictionary.
-In Figure~\ref{fig:hmm} the transcription {\it how do you do} was expanded \ac{HMM} model representing triphone sequence.
-It should be obvious that only parameters of HMM states occurring in $t'$ can be updated from pair $(a, t)$.
+In Figure~\ref{fig:hmm} the transcription {\it how do you do}\/ 
+was the~expanded \ac{HMM} model representing triphone sequence.
+It should be obvious that only parameters of HMM states 
+occurring in $t'$ can be updated from pair $(a, t)$.
 
-The \ac{EM} algorithm iterates following steps in order to update parameters of transition and observation probabilities:
+The \ac{EM} algorithm iterates following steps in order 
+to update parameters of transition and observation probabilities:
 \begin{itemize}
     \item The observation probabilities are computed using \ac{HMM} $t'$. 
     \item {\bf E-step}: Based on the observation probabilities the observation are assigned to states of \ac{HMM} $t'$. 
@@ -312,20 +315,21 @@ The \ac{EM} algorithm iterates following steps in order to update parameters of 
 The acoustic model training conceptually differs for \ac{HTK} and Kaldi only in the {\bf expectation (E) step}.
 The \ac{HTK} toolkit in {\bf E-step} finds the most probable distribution 
 which map acoustic observation to \ac{HMM} states using \ac{MLE}. \todo{MLE fill few words and cite}. 
-Using the most probable distribution in {\bf M-step} leads to Baum-Welsch equations. \cite{huang2001spoken}
+The Baum-Welsch equations can be derived from the fact, 
+that the~\ac{MLE} criterion is used for finding the most probable distribution in {\bf M-step}.\cite{huang2001spoken}
 This variation of \ac{EM} algorithm for estimating \ac{HMM} parameters is called Baum-Welsch algorithm.
 
 \ml{Viterbi}
-On the other hand the Kaldi toolkit applies the Viterbi 
+On the other, hand the Kaldi toolkit applies the Viterbi 
 criterion in assigning the acoustic observation to \ac{HMM} states.
 Using the Viterbi criterion Kaldi just finds 
 the most probable assignment $\phi$ of observations to states.\cite{buthpitiya2012parallel}
 Using only the single best assignment $\phi$ the {\bf M-step} is also simpler than
 Baum-Welch algorithm case.
-We simply refer to \ac{EM} algorithm with Viterbi criterion as Viterbi training.
+We simply refer to the~\ac{EM} algorithm with Viterbi criterion as Viterbi training.
 
 \subsubsection*{Viterbi training of acoustic models}
-We focus on Viterbi training because it is used in Kaldi toolkit and is simpler.
+We focus on Viterbi training because it is used in Kaldi toolkit and it is simpler.
 Latest work suggest that Viterbi training is just as effective for continuous
 speech recognition as Baum-Welch algorithm \cite{rodriguez2003comparative}.
 In addition Viterbi training needs much less computational resources. 
@@ -336,16 +340,16 @@ In addition Viterbi training needs much less computational resources.
 \label{sub:lm}
 
 \ac{LM} effectively reduces and more importantly priorities the \ac{AM} hypothesis.
-The statistical \ac{LM} assigns given word sequence its probability.
+The statistical \ac{LM} assigns a given word sequence its probability.
 The probability of a word transcription from \ac{AM} is combined with
 the probability of the word transcription from \ac{LM}.
 
 The invalid words sequences or the sequences not frequent in training data
-are estimated with low probability. On the other hand the frequent sequences
+are estimated with a low probability. On the other hand the frequent sequences
 are assigned with high probability.
 
 The word sequence "{\it are few born new york}" should be rewarded 
-with lower probability from \ac{LM} than he alternative with similar phonetic representation
+with a lower probability from \ac{LM} than the alternative with similar phonetic representation
 "{\it are you from new york}".
 
 Note that in our settings the \ac{AM} already limits the possible triphone
@@ -356,7 +360,7 @@ are restricted to sequences, which form probably word sequences.
 
 In practice it is unfeasible to compute the probability
 of $k$ word sequence $W$ according Equation~\ref{eq:lm}.
-In addition it would require enormous amount of data for estimating
+In addition, it would require enormous amount of data for estimating
 probability for $k>10$.
 
 
@@ -367,18 +371,18 @@ probability for $k>10$.
 \ml{\ac{LM} order}
 We call the number $k$ order of \ac{LM}.
 In speech recognition we typically use the order of \ac{LM} limited to $k<4$.
-The Equation~\ref{eq:ngram} describes how should be the trigram \ac{LM} estimated.
-The n-gram is sequence of n consecutive words. The probability of n-gram can be estimated by language models
+The Equation~\ref{eq:ngram} describes how the trigram \ac{LM} should be estimated.
+The n-gram is a sequence of n consecutive words. The probability of n-gram can be estimated by language models
 of order n and greater.
 
 The \ac{LM} estimates the probability of an n-gram $t$ by counting the frequency in text corpus of $t$ and 
 also (n-1), (n-2), .. n-grams, which are subsequences of $t$.
-The text corpus is typically chosen, so it corresponds to domain, in which the \ac{ASR} system 
+The text corpus is typically chosen, so it corresponds to a domain, in which the \ac{ASR} system 
 with the \ac{LM} should be used.
 
 \ml{LM smoothing}
-The technique of estimating probability of unseen n-grams $t$ 
-based on n-grams with lower order which form the original $t$ is called {\it smoothing}.
+We call the {\it smoothing}\/ technique estimating the probability of unseen n-grams $t$ 
+based on n-grams with lower order which form the original sequence $t$.
 The technique is widely used, because there is much greater chance that lower order n-grams are
 present in training data than n-gram with high order.
 For example, in our training scripts if no external \ac{LM} is supplied,
@@ -398,9 +402,9 @@ In speech recognition, making a search decision is also referred to as decoding.
 For isolated word recognition the \acp{HMM} are trained for each word.
 Using the forward algorithm for each \ac{HMM} $h$ representing a word $w$, 
 we are able to compute the probability  of every $w$ given the acoustic observations $a$.
-The isolated word recognition becomes simple recognition problem,
-where we select the most probable \ac{HMM} $h^*$ from finite state of \acp{HMM},
-which parameters were trained either by \ac{EM} algorithm as described  in Subsection~\ref{sub:trainhmm}.
+The isolated word recognition becomes a~simple recognition problem,
+where we select the most probable \ac{HMM} $h^*$ from a finite set of \acp{HMM},
+which parameters were trained either by \ac{EM} algorithm as described in Subsection~\ref{sub:trainhmm}.
 
 Note that the \ac{HMM} training is identical for \ac{CSR} and isolated word recognition,
 but the decoding is more complicated for \ac{CSR}.
@@ -413,11 +417,11 @@ but the decoding is more complicated for \ac{CSR}.
     \end{center}
 \end{figure}
 
-Imagine we have a \ac{LM} order 1 of only two words {\it one}\/ and {\it two}\/ each uniformly distributed\footnote{
+Imagine we have a \ac{LM} order 1 of only two words - {\it one}\/ and {\it two}\/ each uniformly distributed\footnote{
 If a \ac{LM} of order 1 assigns to every word equal probability, we say it has order 0}.
 We want to decode any possible sequence of words {\it one}, {\it two}, so 
 we add additional $\epsilon$ transition at the end of words \acp{HMM}
-and connect them that we can chain the words as illustrated in Figure~\ref{fig:hmm_lm}.
+and connect them so that we can chain the words as illustrated in Figure~\ref{fig:hmm_lm}.
 Figure~\ref{fig:hmm_alt} shows expanded \acp{HMM}, which have $\epsilon$ transitions
 at the beginning and the end. 
 
@@ -428,10 +432,11 @@ at the beginning and the end.
     \begin{center}
         \input{images/hmm-alt}
         \caption{Expanded \acp{HMM} for words {\it one}\/ and {\it two}\/. 
-        The arrows at \ac{HMM} states illustrates that every observation of acoustic features can generated according statistical distribution. 
-        Note that if speaker says {\it two} a \ac{HMM} model with well trained parameters should output higher probability
+        The arrows at \ac{HMM} states illustrate that every observation of acoustic features 
+        can be generated according to the~statistical distribution. 
+        Note that if a speaker says {\it two} a \ac{HMM} model with well trained parameters should output higher probability
         for \ac{HMM} representing {\it two}. For longer speaker sequences e.g. {\it two one one two ...} the \acp{HMM} are connected over the 
-$\epsilon$ transitions and search is used for selecting the most probable sequence.}
+$\epsilon$ transitions, and a search is used for selecting the most probable sequence.}
         \label{fig:hmm_alt} 
     \end{center}
 \end{figure}
@@ -561,21 +566,21 @@ as described in Subsection~\ref{sub:decode}.
 
 The pair $(a,t)$ is not supposed to be used in \ac{AM} training,
 because we are testing the ability to decode unknown speech.
-We should also measure the \ac{ASR} quality on speech from speaker,
-which was not use for \ac{AM} training, 
-because we usually want to decode speech of unheard speaker.
+We should also measure the \ac{ASR} quality on speech from a speaker,
+who did not provide speech used for \ac{AM} training, 
+because we usually want to decode speech of an unheard speaker.
 
-The \ac{WER} is computed as minimum edit distance on words between 
+The \ac{WER} is computed as a minimum edit distance on words between 
 pair $decoded(a), t$ typically using edit operations {\it substitution, deletion, insertion}\/ as described in~\ref{eq:edit_dist}.
 The effective implementation for computing WER uses dynamic programing and is not computationally intensive,
-because \ac{ASR} hypothesis are typically quite short.
+because \ac{ASR} hypotheses are typically quite short.
 \begin{equation} \label{eq:edit_dist}
     WER = 100* \frac{min\_dist(decoded_{AM, LM}(a), t, edit\_operation=\{Subs, Del, Ins\})}{\#\ words\ in\ t}
 \end{equation}
 \ml{reference}
 Note that \ac{WER} is an error function so the ideal value is zero, because for $WER=0$ the hypothesis $decoded(a)$ and 
 the reference transcription $t$ are identical. The \ac{WER} 100 for $decoded(a)$ and reference $t$ 
-with equal number of words shows that every single word is different between $decoded(a)$ and reference $t$.
+with equal number of words show that every single word is different between $decoded(a)$ and reference $t$.
 Despite the fact that \ac{WER} resembles percentage format, it can be bigger than 100. See Figure~\ref{fig:wer400}.
 \begin{figure}[!htp]
     \begin{center}
@@ -597,31 +602,31 @@ for all pairs $(a, t)$ in test set $T$.
     SER = \frac{\sum_{\{(a, t) \in T; decoded(a) = t\}}{1}}{|T|}
 \end{equation}
 
-If we are using alternative output format to one best hypothesis as n-best list or lattice,
+If we are using an alternative output format to one best hypothesis as n-best list or lattice,
 we are extracting one-one best hypothesis format for measuring \ac{WER} or \ac{SER}.
 On the other hand we are using n-best lists or lattice,
 because the one-best hypothesis might be wrong and the alternative
-hypothesis may be closer to reference.
+hypothesis may be closer to the~reference.
 
-We do not evaluate any other measurement except \ac{WER} and \ac{SER},
+We do not evaluate any other measurement except for \ac{WER} and \ac{SER},
 but note that richness and correctness of alternatives are desired qualities.
 The alternatives may contain additional information and are for example used
 in a dialog system \acl{SLU} unit which parses \ac{ASR} output.
 
 \subsubsection*{Measuring speed}
 \label{sub:the_metrics_in_speech_recognition}
-In this thesis we are especially concerned about speed of speech decoding,
+In this thesis we are especially concerned about the~speed of speech decoding,
 because the implemented decoder is used in a \acl{SDS}.
 
 \ml{\acl{RTF}}
-Very natural measure of speed for speech decoding is \acl{RTF},
-which express how much the recognizer decodes faster than the user speaks.
-We measure the \ac{RTF} for each recording described in~Equation~\ref{eq:rtf}.
+A very natural measure of the~speed for speech decoding is \acl{RTF},
+which expresses how much the recognizer decodes faster than the user speaks.
+We measure the \ac{RTF} for each recording as described in~Equation~\ref{eq:rtf}.
 \begin{equation}\label{eq:rtf}
     RTF = \frac{time(decode(a))}{length(a)}
 \end{equation}
 For real time decoding in a dialog system we need $RTF < 1.0$ for all tested utterances $a$.
-In other words the decoding of each utterance $a$ should takes less time than
+In other words, the decoding of each utterance $a$ should take less time than
 playing the utterance in a music player.
 With $RTF < 1.0$ we can decode faster than the user speaks, 
 so the hypothesis is ready immediately after the user finishes the speech. 
@@ -630,7 +635,7 @@ Note that in our decoder we have two phases of decoding.
 The forward decoding is performed as user speaks, but
 the backward decoding is triggered at the very end of the speech
 as described in~Subsection~\ref{sub:decode}.
-The users have to wait at least the time when backward decoding is performed,
+The users have to wait at least for~the time when backward decoding is performed,
 so we measure \ac{FWRTF} for forward decoding.
 
 \ml{latency}
@@ -644,7 +649,7 @@ Note if $FWRTF < 1.0 $ in our decoder then the latency is the time of backward d
 
 \section{\ac{HTK}}
 \label{sec:back_htk}
-The \ac{HTK} toolkit is set of command line tools, sample scripts and library
+The \ac{HTK} toolkit is a~set of command line tools, sample scripts and library
 for training and decoding \ac{HMM} focused on speech recognition.
 \ac{HTK} uses Baum-Welch algorithm for \ac{HMM} parameters estimation.
 With the toolkit are distributed two decoders {\it HVite} and {\it HDecode},
@@ -654,8 +659,8 @@ The {\it HDecode} decoder handles also a trigram \ac{LM}.
 
 The functionality of the library is wrapped by command line programs.
 The programs are typically combined in training scripts to train acoustic and language models.
-In the Figure~\ref{fig:htk_tools} the acoustic models are labelled as "HMMs" 
-and the language models are in \ac{HTK} represented in "Networks".
+In Figure~\ref{fig:htk_tools} the acoustic models are labelled as "HMMs" 
+and the language models in \ac{HTK} are represented in "Networks".
 The trained models are used in one of \ac{HTK} decoders e.g. {\it HVite}\/ for decoding
 transcriptions, which can be evaluated using {\it HResults}.
 
@@ -674,52 +679,53 @@ Only bigram \ac{LM} can be used with {\it HVite}.
 The \{\it HDecode} decoder can handle bigram or trigram language models. 
 
 
-Let us to stress that we use high quality Bash and Perl scripts for training \ac{HTK} \ac{AM}
+Let us stress that we use high quality Bash and Perl scripts for training \ac{HTK} \ac{AM}
 from Vertanen improved by Matěj Korvas.\cite{vertanen_baseline_2006}\cite{korvas_2014}
 
-The \ac{HTK} toolkit is licensed under special license\footnote{\url{http://htk.eng.cam.ac.uk/docs/license.shtml}}.
-The {\it HDecode} has very similar license condition but can be only used for research purposes.
-\footnote{You need to register even to see the license: \url{http://htk.eng.cam.ac.uk/prot-docs/hdecode_register.shtml}}
+The \ac{HTK} toolkit is licensed under a special license\footnote{\url{http://htk.eng.cam.ac.uk/docs/license.shtml}}.
+The {\it HDecode} has very similar license condition but can be only used for research purposes.\footnote{You
+need to register even to see the license: \url{http://htk.eng.cam.ac.uk/prot-docs/hdecode_register.shtml}}
 
 \section{Julius decoding engine}
 \label{sec:back_julius}
 
 % http://julius.sourceforge.jp/juliusbook/en/desc_overview.html
-Julius is large vocabulary continuous speech engine, which can use \ac{AM} in \ac{HTK} format for decoding.\cite{lee2009julius}
+Julius is a~large vocabulary continuous speech engine, which can use \ac{AM} in \ac{HTK} format for decoding.\cite{lee2009julius}
 Julius is BSD licensed\footnote{\url{http://www.linfo.org/bsdlicense.html}} and performs almost real-time decoding.
 
-Julius is two pass decoder. In first pass the forward decoding is perform as
+Julius is a~two pass decoder. In the~first pass the forward decoding is performed as
 a technique of time synchronous beam search.
-The second pass reranks and further prunes the extracted hypothesis from pass one.
+The second pass reranks and further prunes the extracted hypothesis from thethe~~pass one.
 The second pass is also known as backward decoding.
 Bigram \ac{LM} is used for forward decoding and more complex trigram \ac{LM} is used for backward decoding.
 
 Before the implementation of this thesis was finished 
-the team of Alex was interested in Julius, because its ability of real-time decoding 
+the team of Alex had been interested in Julius, because its ability of real-time decoding 
 and confusion 
 network\footnote{Confusion network is approximation of lattice described in~Subsection~\ref{sub:lattice}} 
 output format.
 
-The Alex team abandon the Julius decoder for software issues with crashes of the decoder. 
+The Alex team abandoned the Julius decoder for software issues with crashes of the decoder. 
 The crashes appeared during backward decoding and extracting
 the confusion network from Julius. 
-In addition the crashes were hard to detect,
-because Julius used to run in separate process and the dialog system Alex were waiting for the lattice output of dead process,
+In addition, the crashes were hard to detect,
+because Julius used to run in a~separate process and 
+the~dialog system Alex were waiting for the lattice output of dead process,
 which should had been passed through sockets.
 
 \section{Kaldi}
 \label{sec:back_kaldi}
 
-Kaldi is speech recognition toolkit consisting of library, command line programs, scripts for focus on acoustic modeling.
+Kaldi is a~speech recognition toolkit consisting of a~library, command line programs, scripts for focus on acoustic modeling.
 Kaldi deploys several decoders for evaluation Kaldi \ac{AM}.
 Kaldi uses Viterbi training for estimating \ac{AM}. 
 Only in special cases of speaker adaptive discriminative training is also used extended Baum-Welsch algorithm\cite{povey2011kaldi}.
 
-The architecture of Kaldi toolkit could be separated to Kaldi library and training scripts.
+The architecture of the~Kaldi toolkit could be separated to Kaldi library and training scripts.
 The scripts access the functionality of Kaldi library through command line programs.
-The C++ Kaldi library is based {\it OpenFST}\cite{allauzen2007openfst} library and 
+The C++ Kaldi library is based on the {\it OpenFST}\cite{allauzen2007openfst} library and 
 it uses optimized libraries for linear algebra such as BLAS and LAPACK.
-Related functionality is usually grouped in one namespace in C++ code, which usually also correspond
+Related functionality is usually grouped in one namespace in C++ code, which usually also corresponds
 to one directory on file system. The examples of the namespaces or directories can be seen in Figure~\ref{fig:kaldi_arch}
 
 \begin{figure}[!htp]
@@ -730,11 +736,13 @@ to one directory on file system. The examples of the namespaces or directories c
     \end{center}
 \end{figure}
 
-The Figure~\ref{fig:kaldi_prog} list programs used for speech parametrisation, feature transforms, acoustic model
-training, decoding and other utilities. Kaldi provides very useful standardized scripts which wraps
-Kaldi programs or add useful functionality. The scripts are located in {\it utils} and {\it steps}
+\todo{Create fig:TODO\_kaldi\_prog}
+The Figure~\ref{fig:TODO_kaldi_prog} list programs used 
+for speech parametrisation, feature transforms, acoustic model
+training, decoding and other utilities. Kaldi provides very useful standardized scripts which wrap
+Kaldi programs or add a~useful functionality. The scripts are located in {\it utils} and {\it steps}
 directories and are used in many training script recipes for different corpus data.
-In this thesis we created new training recipe using Kaldi infrastructure and
+In this thesis we created a~new training recipe using the~Kaldi infrastructure and
 Czech and English training corpus \cite{korvas_2014}.
 The recipe, the data and acoustic modeling scripts are described in~Chapter~\ref{cha:train}.
 
@@ -748,7 +756,7 @@ also for representing transformation between text, pronunciation and triphones.
 The \ac{FST} framework provides well studied graph operations\cite{mohri2002weighted},
 which can be effectively use for acoustic modeling.
 Using the \ac{FST} framework the speech decoding task is expressed as
-beam search in a graph, which is well studied problem.
+a beam search in a graph, which is well studied problem.
 
 The OpenFST library implements memory efficient representation of \ac{FST} and
 provides standardized efficient operations.
@@ -780,11 +788,11 @@ graph\footnote{Kaldi tutorial on building $HCLG$: \url{http://kaldi.sourceforge.
 
 
 % \subsubsection*{OpenFST datastructures in Kaldi}
-We would like to introduce toy examples of construction such data structures which are used in Kaldi.
-% Note that proper introduction to \ac{FST} framework for speech recognition we recommend\cite{mohri2002weighted}.
+% We would like to introduce toy examples of construction such data structures which are used in Kaldi.
+% Note that the~proper introduction to \ac{FST} framework for speech recognition we recommend\cite{mohri2002weighted}.
 % The Kaldi decoding graph construction is very well described in \href{http://kaldi.sourceforge.net/graph\_recipe\_test.html}{Kaldi documentation}.
-% We feel that few figures of toy speech recognition problem will help us explain algorithms,
-% which we describe in Chapters~\ref{cha:train} and~\ref{cha:decoder}.
+% We feel that a few figures of toy speech recognition problem will help us explain algorithms,
+% which we describe, in Chapters~\ref{cha:train} and~\ref{cha:decoder}.
 % The inspiration for such attitude was \href{http://vpanayotov.blogspot.cz/2012/06/kaldi-decoding-graph-construction.html}{Vassil Panayotov post}.
 % 
 % \todo{Introduction from:
