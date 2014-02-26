@@ -3,7 +3,7 @@
 \label{cha:decoder}
 
 This chapter describes the implementation
-of the new {\it OnlLatgenFasterDecoder}\/ and 
+of the new {\it OnlLatticeFasterDecoder}\/ and 
 the modification of an online speech parametrisation and feature transformations.
 
 We limited our task, so it fits our requirements for real time decoding
@@ -15,8 +15,8 @@ In addition, we require latency under 0.2 seconds after the end of user speech.
 
 We also wanted to reuse existing code as much as possible,
 so the decoder will benefit from constant development on Kaldi toolkit.
-As a bonus of the minimal changes we can compare our {\it OnlLatgenFasterDecoder}\/ 
-with {\it LatgenFasterDecoder}\/ which is used through binary executable {\it gmm-latgen-faster}.
+As a bonus of the minimal changes we can compare our {\it OnlLatticeFasterDecoder}\/ 
+with {\it LatticeFasterDecoder}\/ which is used through binary executable {\it gmm-latgen-faster}.
 Correctly setup, the decoders produce exactly the same results.
 
 
@@ -106,7 +106,7 @@ the cause of exceeding the {\it timeout}\/.
 We started developing the real-time speech recognizer by preparing the preprocessing
 pipeline as describe in~Section~\ref{sec:onl_preprocess}, after that we focused 
 on implementation the real time decoder. In the first step we changed 
-the batch {\it LatgenFasterDecoder}\/ only by reorganizing its methods into new interface.
+the batch {\it LatticeFasterDecoder}\/ only by reorganizing its methods into new interface.
 It turned out that the decoder with the new interface is 
 fast enough and sufficiently accurate for \ac{SDS}. 
 The evaluation in \ac{SDS} Alex is described in~Section~\ref{sec:evalution}.
@@ -181,7 +181,7 @@ and splitting the original {\it bool Decode(DecodableInterface *d)}\/ function
 into three simpler public functions.
 \begin{itemize}
     \item {\it size\_t Decode(DecodableInterface *d, size\_t max\_frames)}\/ 
-        Does the actual decoding using the functions:
+        Decodes using the function calls:
         \begin{itemize}
             \item {\it ProcessEmitting(decodbale, frame\_)}\/ process non $\epsilon$ arcs.
             \item {\it ProcessNonemitting(frame\_)}\/ process $\epsilon$ arcs.
@@ -194,10 +194,22 @@ into three simpler public functions.
         initial state.
 \end{itemize}
 
+\subsection*{Online interface use case}
+The {\it OnlLatticeFasterDecoder}\/ performs forward decoding using 
+the~{\it Decode(DecodableInterface *, size\_t max\_frames)}\/.
+The function {\it PruneFinal}\/ performs the final pruning and prepares the active tokens from beam,
+to be transformed to state level lattice using the backward decoding.
+We use the {\it GetLattice(fst::MutableFst<CompactLatticeArc> *ofst)}\/ function,
+because the {\it CompactLattice}\/ it efficiently performs 
+state level lattice determinisation.\cite{povey2012generating}.
 
+The {\it Reset()} function may be useful, if there is too many unprocessed frames,
+so we want to discard all the buffered audio. It is typically the case,
+when we did not have enough CPU resources and new user input appears and we want to process
+the latest audio input. If a \acl{SDS} has to choose which audio chunk to process, typically the last audio
+chunk is the most important for a conversation and the previous chunks are simply discarded.
 
-\todo{describe the behaviour of all functions especially the decode function}
-
+\code{Usage of the~{\it OnlLatticeFasterDecoder}\/ in its wrapper}{C}{snippets/onl_lat_dec_usage.cc}
 
 \section{Post-processing the state lattice}
 \label{sec:postprocess}
@@ -243,9 +255,9 @@ ale i rychlosty dekoderu, a rohodnes ktery dekoder z Kaldi je vhodny a jake nast
 
 \section{Summary}
 \label{sec:onl_summary}
-The {\it OnlLatgenFasterDecoder}\/ is able to perform real-time decoding.
+The {\it OnlLatticeFasterDecoder}\/ is able to perform real-time decoding.
 Its parameters for real-time decoding, 
-can be setup based on its reference batch decoder {\it LatgenFasterDecoder}\/ used through {\it gmm-latgen-faster}\/ executable.
+can be setup based on its reference batch decoder {\it LatticeFasterDecoder}\/ used through {\it gmm-latgen-faster}\/ executable.
 
 The minimal interface for speech parametrisation and feature transformations is not usable in general case,
 but works very well for the implemented setup.
