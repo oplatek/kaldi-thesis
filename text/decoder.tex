@@ -213,11 +213,53 @@ chunk is the most important for a conversation and the previous chunks are simpl
 
 \section{Post-processing the state lattice}
 \label{sec:postprocess}
+% \todo{The trick with discarding alignments}
+% \todo{How I converted the state lattice to word posterior lattice}
+% \todo{decoding lattices and normal outputs -- describe again the problems}
+The {\it CompactLattice}\/ determinised at state level still may contain
+multiple paths for each word sequence encoded in the lattice.
+In fact, typically there is number of state level alternatives for each word sequence.
+We need to realize that the phones are not represented individually at the state level
+and we does not concatenate the phone labels on path in order to obtain words and sentences.
+The words label is located on the first arc of the word \ac{HMM}. 
+The rest of the arcs in the graph are $\epsilon$ transition.
 
-\todo{How I converted the state lattice to word posterior lattice}
-\todo{decoding lattices and normal outputs -- describe again the problems}
+\ml{alignment}
+Note that \ac{HMM} states are time synchronous, so traversing one arc represent a fixed time slot.
+The time slot corresponds to frame shift as introduced in~Subsection~\ref{sub:param}.
+The mapping between each word and the number of arcs from beginning of the utterance is called
+alignment.
 
-\todo{The trick with discarding alignments}
+The {\it CompactLattice}\/ distinguishes each path not only according word labels on the path,
+but also according the alignments.
+In order to obtain only the word lattice we discard the alignments.
+In next steps we convert the {\it CompactLattice}\/ to standard OpenFST object.\footnote{Kaldi implements a special semiring for {\it CompactLattice}\cite{povey2012generating}.}  
+
+The following steps convert the weights on the lattice from representing likelihood
+to posterior probabilities. The posterior probabilities are of course approximation of
+true posterior probabilities for individual paths in lattice. 
+
+The first approximation has a very small impact. The first approximation is 
+that we are using only the lattice constructed from the active states in beam search
+and not the complete search space. 
+The discarded hypotheses have very low posterior probabilities, so it does a little harm.
+
+More serious problem is violating the assumption that the \ac{AM} and \ac{LM} models are 
+computing the true likelihood. 
+In generative models we are training and improving the models so the likelihood match
+the reality as much as possible.
+On contrary, the discriminative \ac{AM} models deliberately favor the most probable hypothesis,
+so they are not computing the true likelihood.
+The discriminative behaviour can be compensated, but we do not solve the problem
+in the decoder, because the decoder has no information, which \ac{AM} was used.
+
+\code{Converting {\it CompactLattice}\/ to posterior word lattice}{C}{snippets/compact2wordpost.cc}
+
+The computing of the posterior probabilities is done through
+standard forward-backward algorithm\cite{todo}.
+We reused Kaldi function for computing helper $\alpha$ and $\beta$ data structures,
+but we implemented the {\it MovePostToArcs}\/ function for updating the lattice weights 
+from likelihood to posterior probabilities based on $\alpha$ and $\beta$.
 
 \section{Objected oriented interface to speech recognition}
 \label{sec:ooi}
