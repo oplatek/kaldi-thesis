@@ -328,14 +328,24 @@ Consequently, all subsequent components returns its default $Null$ value and
 the {\it Decode(DecodableInterface *d, size\_t max\_frames)}\/ returns zero,
 indicating that zero frames were forward-decoded.
 
-We described the preprocessing pipeline in Section~\ref{sec:onl_preprocess}.
-
-The real time use of the decoder force us to design responsive \acl{API}.
-We  
-Note that the transformations need history of several frames
+As a side effect of creating the class {\it GmmLatgenWrapper}\/ representing speech recognition process
+we easily implemented Python wrapper for the speech recognition. 
+We just needed to implement a wrapper of a single class and the data structures transfered from and into the
+{\it GmmLatgenWrapper}\/ instance.
+In Listing~\ref{snippets/pykaldi_usage.py} we illustrate the usage of the {\it GmmLatgenWrapper}\/
+respectively its Python wrapper {\it PyGmmLatgenWrapper}.
 
 \code{Example of the decoder \ac{API} which is mapped in Python}{Python}{snippets/pykaldi_usage.py}
 
+From the~Listing~\ref{snippets/pykaldi_usage.py} should be obvious that 
+the forward decoding can be performed as the user speaks.
+If the \ac{RTF} is smaller than one, the forward decoding can be performed faster
+than the user produces the audio, so the end of the utterance
+the speech recognition engine has to perform only backward decoding using 
+the {\it get\_lattice}\/ function.
+If we have small enough \ac{RTF} and we supply the audio to the speech recognizer
+in reasonably small chunks, the latency is influenced only by time of decoding the last chunk
+and time of backward decoding and computing the word posterior lattice.
 
 \section{The setup for real-time decoding}
 
@@ -371,6 +381,8 @@ but works very well for the implemented setup.
 Our setup support \ac{MFCC} speech parametrisation, $\Delta+\Delta\Delta$ or \ac{LDA} transformation, with
 classic Viterbi trained \ac{AM} or \ac{AM} trained using \ac{bMMI}.
 The setup yields the best results for non-speaker adaptive methods.
+
+\todo{GmmLatgenWrapper could be templated class, to much work for us, we want minimalistic decoder}
 
 \subsection{Future improvements}
 \label{sub:onl_future}
