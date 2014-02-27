@@ -263,14 +263,50 @@ from likelihood to posterior probabilities based on $\alpha$ and $\beta$.
 
 \section{Objected oriented interface to speech recognition}
 \label{sec:ooi}
+The components of the Kaldi library such as decoder, or \ac{MLLT} transformation are designed using 
+the \ac{OOP} design patterns.
+On the other hand, the functionality of the Kaldi library is accessed by Kaldi executables, 
+which are typically organized into single function.
+The Kaldi executables are thin wrappers around the classes and 
+are further combined together using system tools e.g.\ system pipes
+and storing intermediate results to files. 
+Such setup is convenient for speech recognition experiments, because the intermediate results are  
+effectively reused by different experiments.
 
+Out task is to implement real-time speech recogniser into \acl{SDS}.
+We also experimented and searched for the best setup as described in~Section~\ref{sec:evaluation},
+but from the \ac{SDS} point of view we want simple component which accepts audio and produce \ac{ASR} hypothesis.
+We profit from the reference {\it LatticeFasterDecoder}, where the Kaldi preprocessing executables
+can be scripted in a such manner, so that the results of {\it LatticeFasterDecoder}\/ 
+and wrapped {\it OnlLatticeFasterDecoder}\/ are identical.
+We used the Kaldi executables to find the best experiment and once fixed,
+we created object wrapper around the whole recognition pipeline.
+
+Let us described the Kaldi executable in our best experiment,
+then we will describe the wrapper class for the speech recognition.
+We chose \ac{MFCC} speech parametrisation, \ac{LDA} and \ac{MLLT} feature transformations with 
+acoustic model trained by \ac{bMMI} as our best setup.
+In our experiments, we used Kaldi binaries, which are listed below, 
+for computing the one best \ac{ASR} hypothesis:
+% \todo{How I wrapped up the code instead of creating a binary executable}
+\begin{enumerate}
+    \item compute-mfcc-feats
+    \item copy-feats
+    \item splice-feats
+    \item transform-feats with trained \ac{LDA} and \ac{MLLT} matrix as parameter
+    \item \label{enum:latgen} gmm-latgen-faster
+    \item lattice-best-path
+\end{enumerate}
+
+\todo{Figure complementary to aggregated classes todo Figure~\ref{fig:online_pipeline}}
+
+We created 
 The real time use of the decoder force us to design responsive \acl{API}.
 We  
 Note that the transformations need history of several frames
 
 \code{Example of the decoder \ac{API} which is mapped in Python}{Python}{snippets/pykaldi_usage.py}
 
-\todo{How I wrapped up the code instead of creating a binary executable}
 
 \section{The setup for real-time decoding}
 
