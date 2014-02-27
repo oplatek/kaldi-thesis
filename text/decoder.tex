@@ -344,11 +344,36 @@ than the user produces the audio, so the end of the utterance
 the speech recognition engine has to perform only backward decoding using 
 the {\it get\_lattice}\/ function.
 If we have small enough \ac{RTF} and we supply the audio to the speech recognizer
-in reasonably small chunks, the latency is influenced only by time of decoding the last chunk
-and time of backward decoding and computing the word posterior lattice.
+in reasonably small chunks, the latency is influenced only by the~time of decoding the last chunk
+and the~time of backward decoding and computing the word posterior lattice.
+
 
 \section{The setup for real-time decoding}
+\label{sec:real-setup}
 
+In this section we focus on parameters of the speech recognizer {\it GmmLatgenWrapper}\/,
+which affect speed of decoding.
+The parameters of the speech recognizer are passed to one of the components,
+which are wrapped by the {\it GmmLatgenWrapper}\/ class.
+Most of the parameters for speech parametrisation and feature transformations 
+does not effect speed of decoding. 
+The frame width (set to 25 ms), the frame shift (set to 10 ms) and
+the frame splicing (nine frames are spliced) 
+are the only "preprocessing" parameters which could significantly affect the forward decoding speed.
+We did not experiment with setting those and we used the mentioned recommended values.
+
+On the other hand, there is a number {\it OnlLatticeFasterDecoder}\/ parameters,
+which directly affect the speed of forward decoding and there is a {\it lattice-beam}\/ parameter,
+which affect the speed of backward decoding and building a lattice.
+The forward decoding parameters are listed below\footnote{Full list of parameters is listed in Section~\ref{sec:gmmlatgenwrapper}}:
+\begin{enumerate}
+    \item {\it beam}
+    \item {\it max-active}
+    \item {\it max-mem}
+    \item {\it prune-interval}
+\end{enumerate}
+
+As described in Section~\ref{sec:ooi} we 
 \todo{WER - with equivalent setup as gmm-latgen-faster, describe the relation ship. Maybe reference pykaldi/binutils}
 
 \todo{The WER evaluation in SDS setup described in next chapter}
