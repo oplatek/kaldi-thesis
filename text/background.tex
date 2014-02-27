@@ -483,10 +483,10 @@ So far we focused on combination of \ac{HMM} \ac{AM} and \ac{LM} and its graph r
 but also mixing the probabilities of \ac{AM} and \ac{LM} according Equation~\ref{eq:best_fix}
 is not straightforward in practice. Due to numerous assumption violation for computing 
 \ac{AM} as well as \ac{LM} it proves to efficient to use weighted product of the two models.
-Typically, language model weight is used $w_lm$.
+Typically, language model weight is used $w_{lm}$.
 
 \begin{equation}\label{eq:am_lm}
-    w^* = argmax_{w}\{P(w \mid a)\} = argmax_{w}\{P(a \mid w) * P(w)^{w_{LM}}\}
+    w^* = argmax_{w}\{P(w \mid a)\} = argmax_{w}\{P(a \mid w) * P(w)^{w_{lm}}\}
 \end{equation}
 
 As you can imagine the path of phones in the search graph 

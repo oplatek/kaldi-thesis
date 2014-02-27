@@ -337,7 +337,7 @@ respectively its Python wrapper {\it PyGmmLatgenWrapper}.
 
 \code{Example of the decoder \ac{API} which is mapped in Python}{Python}{snippets/pykaldi_usage.py}
 
-From the~Listing~\ref{snippets/pykaldi_usage.py} should be obvious that 
+From Listing~\ref{snippets/pykaldi_usage.py} should be obvious that 
 the forward decoding can be performed as the user speaks.
 If the \ac{RTF} is smaller than one, the forward decoding can be performed faster
 than the user produces the audio, so the end of the utterance
@@ -367,23 +367,35 @@ which directly affect the speed of forward decoding and there is a {\it lattice-
 which affect the speed of backward decoding and building a lattice.
 The forward decoding parameters are listed below\footnote{Full list of parameters is listed in Section~\ref{sec:gmmlatgenwrapper}}:
 \begin{enumerate}
-    \item {\it beam}
-    \item {\it max-active}
-    \item {\it max-mem}
-    \item {\it prune-interval}
+    \item {\it beam} \todo{default value and description}
+    \item {\it max-active} \todo{default value and description}
+    \item {\it max-mem} \todo{default value and description}
+    \item {\it prune-interval} \todo{default value and description}
 \end{enumerate}
 
-As described in Section~\ref{sec:ooi} we 
-\todo{WER - with equivalent setup as gmm-latgen-faster, describe the relation ship. Maybe reference pykaldi/binutils}
-
-\todo{The WER evaluation in SDS setup described in next chapter}
+We estimated the forward decoding parameters using the {\it LatticeFasterDecoder}\/
+wrapped by {\it gmm-latgen-faster}\/ in the training scripts,
+which are described in~Chapter~\ref{cha:train}. The decoding part of the scripts evaluates 
+the \ac{RTF}, based on the \ac{RTF} we setup the parameters. 
+Note that the scripts uses precomputed \ac{MFCC}, but the time spent on \ac{MFCC} evaluation
+in {\it GmmLatgenWrapper}\/ is so tiny, that we ignore the difference.
 
 \todo{Which parameters influence decoding, which setup on which machine we use it}
+In our current settings tuned for our machine\footnote{\todo{specify CPU, ... parameters.}}
+we keep most of the default values and sets only four parameters.
+\begin{verbatim}
+--max-mem=10000000000 --lat-lm-scale=10 --beam=12.0 
+--lattice-beam=6.0 --max-active=5000
+\end{verbatim}
+Three of the parameters affect the decoding speed  for other parameters.
+The {\it lat-lm-scale}\/ loosely resembles the $w_{lm}$ from 
+Equation~\ref{eq:am_lm}.\footnote{In fact in {\it GmmLatgenWrapper}\/ 
+    a \ac{LM} weight is used for the first time in beam search,
+    but it is neutralized before using the {\it lat-lm-scale}\/ for scaling 
+the \ac{AM} versus the \ac{LM} in the state level lattice.}
 
 \todo{profiling -cpu, spent time in which methods, memory profiling}
 
-\todo{dej do evaluation, ze rozeberes nejenom presnost 
-ale i rychlosty dekoderu, a rohodnes ktery dekoder z Kaldi je vhodny a jake nastaveni potrebuje pro RT performance.}
 
 % \section[Comparison of real time decoders]{Comparison of real time decoders in Alex dialog system} 
 % \label{sec:comparison_of_real_time_decoders_in_alex_dialog_system}
@@ -408,6 +420,8 @@ classic Viterbi trained \ac{AM} or \ac{AM} trained using \ac{bMMI}.
 The setup yields the best results for non-speaker adaptive methods.
 
 \todo{GmmLatgenWrapper could be templated class, to much work for us, we want minimalistic decoder}
+
+\todo{dej do evaluation, ze rozeberes nejenom presnost ale i rychlosty dekoderu, a rohodnes ktery dekoder z Kaldi je vhodny a jake nastaveni potrebuje pro RT performance.}
 
 \subsection{Future improvements}
 \label{sub:onl_future}
