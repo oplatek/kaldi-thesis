@@ -300,7 +300,36 @@ for computing the one best \ac{ASR} hypothesis:
 
 \todo{Figure complementary to aggregated classes todo Figure~\ref{fig:online_pipeline}}
 
-We created 
+The {\it GmmLatgenWrapper}\/ class wraps the whole recognition process
+and provides \ac{API} convenient for real-time decoding.
+We designed the \ac{API} of the preprocessing and the decoder 
+so it can be nicely plugged into the {\it GmmLatgenWrapper}\/ implementation.
+
+The  {\it GmmLatgenWrapper}\/ instance accepts the audio in the~{\it FrameIn(\ldots)}\/
+function and passes the audio chunk to the {\it OnlBuffSource}\/ instance.
+At the end of the pipeline is the {\it OnlDecodableDiagGmmScaled}\/ instance,
+which implements the~{\it DecodableInterface}\/ and is queried by the {\it OnlLatticeFasterDecoder}\/
+for the probability of each frame.
+
+Let us remind that audio buffered in~{\it OnlBuffSource} is 
+segmented to 25ms frames which are shifted by 10ms\footnote{See Subsection~\ref{sub:param}}.
+The \ac{MFCC} features are computed for each frame, the \ac{LDA}\&\ac{MLLT} matrix
+is applied on features from 9 spliced frames.\footnote{Four frames from left 
+and four frames from right context are used}. 
+Finally, the {\it DecodableInterface}\/ queries the \acl{AM} for the probability of the acoustic features.
+
+\code{The real-time decoding \ac{API} of {\it GmmLatgenWrapper}}{C}{snippets/gmmLatgenWrapper_simple.cc}
+
+Note, that the action of computing the new features are initialized by the {\it OnlLatticeFasterDecoder},
+when the {\it Decode(DecodableInterface *d, size\_t max\_frames)}\/ is called.
+If one of the preprocessing components can not compute any features, 
+because it does not has sufficient data, it returns its default $Null$ value. 
+Consequently, all subsequent components returns its default $Null$ value and 
+the {\it Decode(DecodableInterface *d, size\_t max\_frames)}\/ returns zero,
+indicating that zero frames were forward-decoded.
+
+We described the preprocessing pipeline in Section~\ref{sec:onl_preprocess}.
+
 The real time use of the decoder force us to design responsive \acl{API}.
 We  
 Note that the transformations need history of several frames
