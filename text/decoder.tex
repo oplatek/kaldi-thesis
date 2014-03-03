@@ -381,7 +381,7 @@ Note that the scripts uses precomputed \ac{MFCC}, but the time spent on \ac{MFCC
 in {\it GmmLatgenWrapper}\/ is so tiny, that we ignore the difference.
 
 \todo{Which parameters influence decoding, which setup on which machine we use it}
-In our current settings tuned for our machine\footnote{\todo{specify CPU, ... parameters.}}
+In our current settings tuned for our machine\footnote{\todo{specify machine CPU, ... parameters.}}
 we keep most of the default values and sets only four parameters.
 \begin{verbatim}
 --max-mem=10000000000 --lat-lm-scale=10 --beam=12.0 
@@ -394,8 +394,34 @@ Equation~\ref{eq:am_lm}.\footnote{In fact in {\it GmmLatgenWrapper}\/
     but it is neutralized before using the {\it lat-lm-scale}\/ for scaling 
 the \ac{AM} versus the \ac{LM} in the state level lattice.}
 
-\todo{profiling -cpu, spent time in which methods, memory profiling}
+In Figure~\ref{fig:cpu_profile} see profiling.\footnote{For full log see Section~\ref{sec:profiling}}
+\todo{Profiling describe}.
 
+\begin{figure}[!htp]
+    \begin{center}
+    \begin{verbatim}
+Hits Time  Per Hit   %  Line Contents
+==============================================================
+                        def decode(d, pcm_chunks):
+13   0.00    0.00  0.0    for audio_chunk in pcm_chunks:
+12  0.002    0.00  0.1      d.frame_in(audio_chunk)
+12   0.70    0.06 37.4      dec_t = d.decode(max_frames=10)
+47   0.00    0.00  0.0      while dec_t > 0:
+35   0.83    0.02 43.9        dec_t = d.decode(max_frames=10)
+ 1   0.02    0.02  0.8      d.prune_final()
+ 1   0.33    0.33 17.6      lik, lat = d.get_lattice()
+ 1  0.002   0.002  0.1      d.reset(keep_buffer_data=False)
+ 1      3     3.0  0.0    return (lat, lik, decoded_frames)
+        
+    \end{verbatim}
+    \caption{System time profiling of forward and backward decoding.
+First column is number of row hits in {\it decode}\/ function. Second column
+is total system spent in the row in seconds, the third column shows per hit time. 
+The last fourth column assigns the relative amount of time to each row. 
+It is expressed in percent.}
+    \label{fig:cpu_profile} 
+    \end{center}
+\end{figure}
 
 % \section[Comparison of real time decoders]{Comparison of real time decoders in Alex dialog system} 
 % \label{sec:comparison_of_real_time_decoders_in_alex_dialog_system}

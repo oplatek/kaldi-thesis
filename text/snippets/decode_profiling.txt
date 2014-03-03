@@ -1,0 +1,54 @@
+# notebook, Ubuntu 12.10: 4GB Ram, Intel Core i3
+kaldi/src/pykaldi/pykaldi/binutils$ ./run_pykaldi-latgen-faster-decoder.sh
+Python args: ['pykaldi-latgen-faster-decoder.py', '/home/ondra/school/kaldi/src/pykaldi/pykaldi/binutils/data/vystadial-sample-cs/test/input_best.scp', '4560', '/home/ondra/school/kaldi/src/pykaldi/pykaldi/binutils/decode/pykaldi-latgen.tra', 'models/words.txt', '--verbose=0', '--max-mem=500000000', '--lat-lm-scale=15', '--config=models/mfcc.conf', '--beam=16.0', '--lattice-beam=10.0', '--max-active=14000', 'models/tri2b_bmmi.mdl', 'models/HCLG_tri2b_bmmi.fst', '1:2:3:4:5:6:7:8:9:10:11:12:13:14:15:16:17:18:19:20:21:22:23:24:25', 'models/tri2b_bmmi.mat']
+PyGmmLatgenWrapper --verbose=0 --max-mem=500000000 --lat-lm-scale=15 --config=models/mfcc.conf --beam=16.0 --lattice-beam=10.0 --max-active=14000 models/tri2b_bmmi.mdl models/HCLG_tri2b_bmmi.fst 1:2:3:4:5:6:7:8:9:10:11:12:13:14:15:16:17:18:19:20:21:22:23:24:25 models/tri2b_bmmi.mat
+
+vad-2013-06-08-22-50-01.897179.wav has 3.280000 sec
+forward decode: 1.5311589241 secs
+backward decode: 0.346894025803 secs
+Log-likelihood per frame for utterance vad-2013-06-08-22-50-01.897179.wav is -48.368213 over 322 frames
+
+# PROFILING start
+Timer unit: 1e-06 s
+
+File: pykaldi-latgen-faster-decoder.py
+Function: decode at line 45
+Total time: 1.87996 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    45                                           @profile
+    46                                           def decode(d, pcm):
+    47         1            5      5.0      0.0      frame_len = (2 * audio_batch_size)  # 16-bit audio so 1 sample = 2 chars
+    48         1            3      3.0      0.0      i, decoded_frames, max_end = 0, 0, len(pcm)
+    49         1           12     12.0      0.0      start = time.time()
+    50        13           40      3.1      0.0      while i * frame_len < len(pcm):
+    51        12           54      4.5      0.0          i, begin, end = i + 1, i * frame_len, min(max_end, (i + 1) * frame_len)
+    52        12           91      7.6      0.0          audio_chunk = pcm[begin:end]
+    53        12         1544    128.7      0.1          d.frame_in(audio_chunk)
+    54        12       703777  58648.1     37.4          dec_t = d.decode(max_frames=10)
+    55        47          214      4.6      0.0          while dec_t > 0:
+    56        35           56      1.6      0.0              decoded_frames += dec_t
+    57        35       825009  23571.7     43.9              dec_t = d.decode(max_frames=10)
+    58         1           64     64.0      0.0      print "forward decode: %s secs" % str(time.time() - start)
+    59         1            2      2.0      0.0      start = time.time()
+    60         1        15126  15126.0      0.8      d.prune_final()
+    61         1       331747 331747.0     17.6      lik, lat = d.get_lattice()
+    62         1           61     61.0      0.0      print "backward decode: %s secs" % str(time.time() - start)
+    63         1         2154   2154.0      0.1      d.reset(keep_buffer_data=False)
+    64         1            3      3.0      0.0      return (lat, lik, decoded_frames)
+
+# PROFILING End
+
+Reference
+
+vad-2013-06-08-22-50-01.897179.wav CHTEL BYCH JET ZE ZASTAVKY MUSTEK
+
+Decoded
+
+vad-2013-06-08-22-50-01.897179.wav CHTEL BYCH JET ZE ZASTAVKY MUSTEK
+
+compute-wer --text --mode=present ark:/home/ondra/school/kaldi/src/pykaldi/pykaldi/binutils/decode/input_best.scp.tra ark,p:/home/ondra/school/kaldi/src/pykaldi/pykaldi/binutils/decode/pykaldi-latgen.tra
+%WER 0.00 [ 0 / 6, 0 ins, 0 del, 0 sub ]
+%SER 0.00 [ 0 / 1 ]
+Scored 1 sentences, 0 not present in hyp.
