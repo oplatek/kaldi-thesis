@@ -1,6 +1,45 @@
+% \usepackage[usenames,dvipsnames]{pstricks}
+% \usepackage{epsfig}
+% \usepackage{pst-grad} % For gradients
+% \usepackage{pst-plot} % For axes
 \psscalebox{1.0 1.0} % Change this value to rescale the drawing.
 {
-\begin{pspicture}(0,-2.1866903)(14.64,2.1866903)
-\rput[bl](6.316553,0.59188676){TODO}
+\begin{pspicture}(0,-3.899762)(14.38,3.899762)
+\definecolor{colour2}{rgb}{0.101960786,0.2627451,0.10980392}
+\definecolor{colour0}{rgb}{0.13333334,0.41568628,0.7137255}
+\definecolor{colour4}{rgb}{0.68235296,0.35686275,0.1764706}
+\definecolor{colour3}{rgb}{0.27450982,0.3882353,0.50980395}
+\psframe[linecolor=black, linewidth=0.04, dimen=outer](13.6,2.059762)(11.42,1.5197619)
+\rput[bl](11.74,1.6597619){Decodable}
+\psframe[linecolor=black, linewidth=0.04, dimen=outer](9.84,2.059762)(7.14,1.5197619)
+\rput[bl](7.48,1.6397619){LDA+MLLT}
+\psframe[linecolor=black, linewidth=0.04, dimen=outer](2.84,2.039762)(1.22,1.4997619)
+\rput[bl](1.34,1.619762){Buffering}
+\psframe[linecolor=black, linewidth=0.04, dimen=outer](5.82,2.059762)(4.2,1.5197619)
+\rput[bl](4.58,1.6597619){Mfcc}
+\psline[linecolor=black, linewidth=0.04, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.1]{->}(3.04,1.7597619)(4.16,1.7597619)
+\psline[linecolor=black, linewidth=0.04, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.1]{->}(10.16,1.7597619)(11.28,1.7597619)
+\psline[linecolor=black, linewidth=0.04, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.1]{->}(5.96,1.799762)(7.08,1.799762)
+\psframe[linecolor=black, linewidth=0.04, dimen=outer, doubleline=true, doublesep=0.12](8.58,0.15976197)(5.7,-1.200238)
+\rput[bl](6.56,-0.64023805){Decoder}
+\psline[linecolor=black, linewidth=0.04, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.1]{->}(11.22,1.4997619)(7.2,0.77976197)(7.224516,0.19976196)
+\rput[bl](3.18,2.059762){$50ms$}
+\rput[bl](6.14,2.179762){$a_i$}
+\rput[bl](10.22,2.079762){$a_i^t$}
+\rput[bl](6.78,0.699762){$l_i$}
+\psellipse[linecolor=black, linewidth=0.04, dimen=outer](7.19,1.119762)(7.19,2.78)
+\psframe[linecolor=black, linewidth=0.04, dimen=outer](5.7,-2.840238)(3.1,-3.600238)
+\rput[bl](3.46,-3.2802382){GetLattice}
+\psframe[linecolor=black, linewidth=0.04, dimen=outer](12.02,-2.840238)(6.98,-3.600238)
+\rput[bl](7.38,-3.420238){CompactLatticeToWordPost}
+\psline[linecolor=black, linewidth=0.04, doubleline=true, doublesep=0.12, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.1]{->}(6.8,-1.320238)(4.28,-2.820238)
+\psline[linecolor=black, linewidth=0.04, doubleline=true, doublesep=0.12, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.1]{->}(5.78,-3.220238)(6.98,-3.200238)
+\rput[bl](5.14,3.299762){\textcolor{colour2}{Forward decoding: every 10ms}}
+\rput[bl](5.48,-2.5402381){\textcolor{colour0}{Backward decoding: Once per uterance}}
+\psline[linecolor=colour3, linewidth=0.04, linestyle=dashed, dash=0.17638889cm 0.10583334cm, shadow=true,shadowsize=0.10583334,shadowcolor=colour4, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.1]{->}(7.16,-3.580238)(6.32,-3.880238)(5.42,-3.680238)
+\psline[linecolor=colour3, linewidth=0.04, linestyle=dashed, dash=0.17638889cm 0.10583334cm, shadow=true,shadowsize=0.10583334,shadowcolor=colour4, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.1]{->}(8.58,-0.48023805)(12.38,0.37976196)(12.4,1.3997619)
+\psline[linecolor=colour3, linewidth=0.04, linestyle=dashed, dash=0.17638889cm 0.10583334cm, shadow=true,shadowsize=0.10583334,shadowcolor=colour4, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.1]{->}(12.26,2.079762)(11.24,2.819762)(9.68,2.819762)(9.16,2.279762)
+\psline[linecolor=colour3, linewidth=0.04, linestyle=dashed, dash=0.17638889cm 0.10583334cm, shadow=true,shadowsize=0.10583334,shadowcolor=colour4, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.1]{->}(7.98,2.159762)(7.28,2.9397619)(5.82,2.9597619)(4.9,2.139762)
+\psline[linecolor=colour3, linewidth=0.04, linestyle=dashed, dash=0.17638889cm 0.10583334cm, shadow=true,shadowsize=0.10583334,shadowcolor=colour4, arrowsize=0.05291666666666667cm 2.0,arrowlength=1.4,arrowinset=0.1]{->}(4.54,2.119762)(3.92,2.859762)(2.74,2.879762)(2.02,2.1997619)
 \end{pspicture}
 }
