@@ -1,22 +1,20 @@
 % !TEX root = main.tex
-\chapter{Integration into a Dialog System}
+\chapter{Evaluation in a Dialog System}
 \label{cha:integration}
-This chapter briefly discuss the technical details of interfacing
-a decoder from a dialog system.
-In addition, in~Section~\ref{sec:python_c_interface} we present our project specific issue.
-Namely, interfacing C/C++ code from Python.
-
-\todo{Python / C++ integration}
-
-\todo{Evaluation of the online decoder}
-
-\todo{udelat real time experiment }
-
-\todo{Describe domain data training and test data only SDS Alex domain difference}
+This chapter discuss the details of interfacing a decoder from a dialog system.
+Namely, Section~\ref{sec:integration} presents how the Python wrapper \term{PyOnlineLatgenRecogniser} was integrated 
+into~\ac{SDS} Alex.
+Section~\ref{sec:eval} evaluates the decoder in Alex dialogue system on Czech \ac{PTI} domain. 
 
 
-\section{Dialog system architecture} 
-\label{sec:dialog_system_architecture}
+\section{Integration of \term{OnlineLatgenRecogniser} into \ac{SDS}}
+\label{sec:}
+First the architecture of Alex \ac{SDS} is described in~Section~\ref{sec:arch}
+and later we present the 
+
+% section  (end)
+\subsection{Dialog system architecture} 
+\label{sec:arch}
 The Alex dialog system is developed in Python language and consist of~six major components. 
 \begin{enumerate}
     \item Voice Activity Detection (VAD)
@@ -69,23 +67,154 @@ The decoder for our system should be able to generate {\it n-best lists}, {\it l
 We will also compare and contrast possibilities of~different output formats for each of~tested decoders. The~memory consumption and the~stability of~decoders will be also observed. 
 
 
+\subsection{\term{PyOnlineLatgenRecogniser} as Alex ASR component}
+\label{sub:asr_component}
 
-% section dialog_system_architecture (end)
 
-\section{Python/C++ interface} 
-\label{sec:python_c_interface}
-Why I choose cffi and not traditional swig/ boost what so ever solution?
+\todo{Unused part from sigdial article, problem forward vs backward}
 
-% section python_c_interface (end)
 
-\todo{Contrast and compare with google. Julius?}
 
-\section{Software development in Open Source community} 
-\label{sec:software_development_in_open_source_community}
-\todo{ Shortly say that the source code will be merged into Kaldi and also promote Alex which is going to be on Github}
+
 
 \section{Evaluation on Alex data}
-\label{sec:evalution}
+\label{sec:eval}
+
+\begin{figure*}[t]
+    \begin{center}
+    \includegraphics[scale=0.5]{beam_vs_rtfwer.pdf.ps}
+    \includegraphics[scale=0.5]{latbeam_vs_latwer.pdf.ps}
+    \caption{The~left graph (a) shows that WER decreases with increasing \term{beam} and the~average RTF linearly grows with the~beam.
+    Setting the~maximum number of active states to 2000 stops the~growth of the~95th RTF percentile at 0.6, indicating that even in the~worst case, we can guarantee an~RTF around 0.6.
+    The~right graph (b) shows how latency grows in response to increasing \term{lattice-beam}.}
+    \label{fig:wer} 
+    \end{center}
+\end{figure*}
+
+\subsection{Acoustic and language model training}
+\label{sec:train}
+
+The~\term{OnlineLatgenRecogniser} is evaluated on a~corpus of audio data from the~Public Transport Information (PTI) domain.
+In PTI, users can interact in Czech language with a~telephone-based dialogue system to find public transport connections \cite{ptics2014url}.
+The~PTI corpus consist of approximately 12k user utterances with a length varying between 0.4 s and 18 s with median around 3 s.
+% The~data were divided into training, development, and test data where the~corresponding data sizes were 9496, 1188, 1188 respectively.
+The~data were divided into training and test data, consisting of 10999 and 1223 utterances respectively.
+For evaluation, a~domain specific class-based language model with a vocabulary size of approximately 52k  and 559k n-grams was estimated from the~training data.
+Named entities e.g., cities or bus stops, in class-based language model are expanded before building a~decoding graph.
+% The~perplexity of the~resulting language model evaluated on the~development data is about 48.
+% Any tunable parameters such were set on the~development data and the~reported results were obtained using the~test set.
+
+Since the~PTI acoustic data amounts to less then 5 hours, the~acoustic training data was extended by additional 15 hours of telephone out-of-domain data from VYSTADIAL 2013 - Czech corpus \cite{korvas_2014}.
+The~acoustic models were obtained by BMMI discriminative training with LDA and MLLT feature transformations.
+% For BMMI training, a~``weak`` bigram LM from the~training data was estimated.
+The~scripts used to train the~acoustic models are publicly available in ASDF \cite{asdf2014url} as well as in Kaldi \cite{kaldi2014url} and a detailed description of the~training procedure is given in Korvas et al. \cite{korvas_2014}.
+
+% The~experimented with AM trained for MFCC LDA+MLLT BMMI setup as described in Section~\ref{sec:train}.
+% For evaluation, a~custom in-domain class based LM from Alex Dialogue system is used.
+% The~LM contains vocabulary of 50k and circa 250k n-grams.
+% The~experiments were performed on 1222 utterances with variable length between 0.4 s and 18 s with median of around 3 s.
+
+\subsection{Experiments}
+
+% The~reliability of~a~spoken dialogue system largely depends on the~quality of~an automatic speech recognition (ASR).
+% When evaluating ASR systems, the~most common measures of quality are the~system's accuracy and speed.
+% % Accuracy is usually provided as word error rate (WER) which measures a~percentage of incorrectly recognised words against some reference.
+% Speed is usually reported as a~real-time factor which is proportion of the~time need to recognise the~input and the~duration of the~input.
+% In the~area of spoken dialogue systems, additional measures include latency, the~delay between utterance end and the~availability of the~recognition results, and the~quality of the~proposed alternative ASR hypotheses.
+% When deploying a~recogniser in a~dialogue system, one usually aims for real-time factor to be lower than 1.0, the~latency close to zero, and WER being minimal.
+% \todo{To archive this one has typically carefully construct its acoustic and language models, a~tune the~ASR decoding process.}
+% Best setup is achieved through carefully constructing the~acoustic and language models, and tuning the~ASR decoding process.
+
+
+We focus on evaluating the~speed of the \term{OnlineLatgenRecogniser} and its relationship with the accuracy of the~decoder, namely:
+\begin{itemize}
+    \item Real Time Factor (RTF) of decoding -- the ratio of the~recognition time to the~duration of the~audio input,
+    \item Latency -- the~delay between utterance end and the~availability of the~recognition results,
+    \item Word Error Rate (WER).
+\end{itemize}
+
+%. For $RTF < 1.0$ Latency can be estimated by backward decoding time.
+
+
+% DONE \todo{only non speed parameter LMW}
+Accuracy and speed of the~\term{OnlineLatgenRecogniser} are controlled by the \term{max-active-states},   \term{beam}, and \term{lattice-beam} parameters \cite{povey2011kaldi}.
+\term{Max-active-states} limits the~maximum number of active tokens during decoding.
+\term{Beam} is used during graph search to prune ASR hypotheses at the~state level.
+\term{Lattice-beam} is used when producing word level lattices after the~decoding is finished.
+It is crucial to tune these parameters optimally to obtain good results.
+
+In general, one aims for a setting giving RTF smaller than 1.0.
+However, in practice, it is useful if the~RTF is even smaller because other processes running on the machine can influence the~amount of available computational resources.
+Therefore, we target the~RTF of 0.6 in our setup.
+
+We used grid search on the~test set to identify optimal parameters.
+Figure~\ref{fig:wer} (a) shows the~impact of the~\term{beam} on the~WER and RTF measures.
+In this case, we set \term{max-active-states} to 2000 in order to limit the~worst case RTF to 0.6.
+Observing Figure~\ref{fig:wer} (a), we set \term{beam} to 13 as this setting balances the~WER, 95th RTF percentile, and the~average RTF.
+% Therefore, for Figure~\ref{fig:wer} (b) as this setting
+Figure~\ref{fig:wer} (b) shows the~impact of the~\term{lattice-beam} on WER and latency when \term{beam} is fixed to 13.
+We set \term{lattice-beam} to 5 based on Figure~\ref{fig:wer} (b) to obtain the~95th latency percentile of 200 ms, which is considered natural in a~dialogue \cite{skantze2009incremental}.
+\term{Lattice-beam} does not affect WER, but larger \term{lattice-beam} improves the~oracle WER of generated lattices~\cite{povey2012generating}.
+
+\begin{figure*}[t]
+    \begin{center}
+    \includegraphics[scale=0.5]{frtf_vs_prc.pdf.ps}
+    \includegraphics[scale=0.5]{lat_vs_prc.pdf.ps}
+    \caption{The~percentile graphs show RTF and Latency scores for test data for \term{max-active-sates}=2000, \term{beam}=13, \term{lattice-beam}=5.
+Note that 95 \% of utterances were decoded with the~latency lower that 200ms.}
+    \label{fig:prc}
+    \end{center}
+\end{figure*}
+
+% Figure~\ref{fig:wer}
+% The~\term{beam} and \term{lattice-beam} parameters significantly effect accuracy and speed of decoding.
+% First, we set \term{max-active-states} to 2000 to limit worst case RTF to 0.6. 
+% Second, we tune \term{beam} 
+
+% We fixed other parameters or used the~default values since other parameters have just technical character or does not influence the~speed and quality of decoding.\footnote{The~only exception is language model weight which affects WER, we set it up for our LM to 15.}
+% The~only exception is the~language model weight (LMW) parameter, which does not effect the~speed of the~decoding but only the~output probabilities determined by mixing AM and LM models.
+% As illustrated in Figure~\ref{fig:wer}, further increasing the~\term{beam} away from Alex \term{beam} configuration would significantly slow down decoding but reduce a~little WER.
+% Similarly, the~Alex \term{lattice-beam} setup balances between larger \term{lattice-beam} and quickly increasing latency.
+
+Figure~\ref{fig:prc} shows the~percentile graph of the~RTF and latency measures over the~test set.
+For example, the~95th percentile is the~value of a~measure such that 95\% of the~data has the~measure below that value.
+One can see from Figure~\ref{fig:prc} that 95\% of test utterances is decoded with RTF under 0.6 and latency under 200 ms.
+The~extreme values are typically caused by decoding long noisy utterances where uncertainty in decoding slows down the~recogniser.
+Using this setting, the~\term{OnlineLatgenRecogniser} decodes the~test utterances with a WER of about 21\%.
+
+% In ADSF a~Google ASR service had been used, because we did not have acoustic training data for AM training.
+
+\begin{figure*}[t]
+    \begin{center}
+    \includegraphics[scale=0.5]{lat_cloud_kaldi.pdf.ps}
+    \caption{Shorter latency of custom online decoder (OnlineLatgenRecogniser) over batch decoding with cloud service (Google ASR service).}
+    \label{fig:wer} 
+    \end{center}
+\end{figure*}
+
+In addition, we have also experimented with Google ASR service on the~test data from the~PTI domain.
+The~Google ASR service decodes 95\% of test utterances with latency under 1900 ms and WER is about 48\%.
+The~high latency is presumably caused by the~batch processing of audio data and network latency, and the~high WER is likely caused by a mismatch between Google's acoustic and language models and the~test data.
+% 
+% \subsection{Results}
+% \label{sub:results}
+% Based on evaluation we selected setup\footnote{Setup: \term{beam} 12, \term{lattice-beam} 5, \term{max-active-states} 2000.} for ASR component in Alex Dialogue System Framework with  WER under 22 \%, latency less tha 200 ms and RTF under 0.6.
+
+% \todo{Clearly, the~\term{OnlineLatgenRecogniser} performs significantly better when compared to Google ASR service.}
+
+
+% Compare the~latency with the~0.95 percentile latency of 1.9 s for Google ASR service, which we used in instead of  decoder on PTICS domain.
+% The~Google cloud based open domain recognition does not perform well on our domain resulting in 48.13 WER on test set.
+
+% The~best decoding setup was chosen based on Figure~\ref{fig:wer}
+% The~setup perform performs well on 95\% of the~data but around few utterances exceed the~desired limits as illustrated on Figure~\ref{fig:prc}.
+% \todo{\term{max-mem} parameter}
+% In fact, it turn out that other parameters does not effect decoding significantly and we keep the~default values. 
+% The~best setup never exceeds the~critical value of 400 ms, the~latency for most of the~utterances is under \todo{150} ms.
+
+
+
+\todo{Describe domain data training and test data only SDS Alex domain difference}
 \begin{verbatim}
     # waws:                  948
     Global RTF mean:         1.053494
@@ -145,6 +274,7 @@ user    13m4.224s
 sys     0m6.265s
 \end{verbatim}
 
+\todo{ Shortly say that the source code will be merged into Kaldi and also promote Alex which is going to be on Github}
 % section evalution_on_alex_data (end)
 
 % section software_development_in_open_source_community (end)

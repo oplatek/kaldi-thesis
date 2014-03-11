@@ -2,6 +2,50 @@
 \chapter{Real time decoder}
 \label{cha:decoder}
 
+
+\todo{SIGDIAL BEGIN}
+{OnlineLatgenRecogniser}
+\label{sec:impl}
+
+The~standard Kaldi interface between the~components of the toolkit is based on a~batch processing paradigm, where the~components assume that whole audio signal is available when recognition starts.
+However, when performing on-line recognition, one would like to take advantage of the~fact that the signal appears in small chunks and can be processed incrementally.
+When properly implemented, this significantly reduces recogniser output latency.
+
+\subsection{C++ implementation}
+\label{sub:verb_c_}
+
+To achieve this, we implemented Kaldi's \term{DecodableInterface} supporting incremental speech pre-processing, which includes speech parameterisation, feature transformations, and likelihood estimation.
+In addition, we subclassed \term{LatticeFasterDecoder} and split the~original batch processing interface.
+
+The~\term{OnlineLatgenRecogniser} makes use of the~new incremental speech pre-processing and modified \term{LatticeFasterDecoder}.
+It implements the~following interface:
+\begin{itemize}
+\item \term{AudioIn} -- queueing new audio for pre-processing,
+\item \term{Decode} -- decoding a~fixed number of audio frames,
+\item \term{PruneFinal} -- preparing internal data structures for lattice extraction,
+\item \term{GetLattice} -- extracting a word posterior lattice and returning log likelihood of processed audio,
+\item \term{Reset} -- preparing the~recogniser for a~new utterance,
+\end{itemize}
+
+The~\verb!C++! example in Listing~\ref{rec_usage.cc} shows a typical use of the~\term{OnlineLatgenRecogniser} interface.
+When audio data becomes available, it is queued into the~recogniser's buffer (line 11) and immediately decoded (lines 12-14).
+If the~audio data is supplied in small enough chunks, the~decoding of queued data is finished before new data arrives.
+When the recognition is finished, the~recogniser prepares for lattice extraction (line 16).
+Line 20 shows how to obtain word posterior lattice as an OpenFST object.
+The~\term{getAudio()} function represents a~separate process supplying speech data.
+Please note that the~recogniser's latency is mainly determined by the~time spent in the~\term{GetLattice} function.
+
+\code{Example of the~decoder API}{C}{snippets/rec_usage.cc}
+
+The~source code of the~\term{OnlineLatgenRecogniser} is available in Kaldi repository\footnote{\url{https://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/src/dec-wrap/}}.
+
+\subsection{Python extension}
+
+In addition, we developed a~Python extension exporting the~\term{OnlineLatgenRecogniser} C++ interface.
+This can be used as an example of bringing Kaldi's on-line speech recognition functionality to higher-level programming languages.
+This Python extension is used in the~Alex Dialogue Systems Framework \cite{asdf2014url}.
+
+\todo{SIGDIAL END}
 This chapter describes the implementation
 of the new {\it OnlLatticeFasterDecoder}\/ and 
 the modification of an online speech parametrisation and feature transformations.
@@ -431,6 +475,13 @@ It is expressed in percent.}
 %     \item Kaldi online decoder - Acoustic models were trained by training scripts for Kaldi described at~\ref{cha:models}.
 %     \item HDecode - HDecode is \ac{HTK} decoder and it decodes from acoustic models trained by \ac{HTK}.
 % \end{itemize}
+
+\section{Python interface} 
+\label{sec:python_c_interface}
+\todo{Describe what is necessary to do for wrapping decoder, easy}
+
+\todo{Describe what is necessary to wrap C++ -> hard but easy with pyfst -> extended}
+
 
 
 \section{Summary}

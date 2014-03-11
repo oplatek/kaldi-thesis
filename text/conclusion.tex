@@ -4,11 +4,37 @@
 
 \todo{The work specified by goals in Chapter~\ref{cha:intro} varies in many aspects. We successfully trained acoustic models, design and also implement decoders interface, improve real-time decoder and prepared experiments for evaluating results.}
 
-\subsection*{Acknowledgement}
-\label{sub:acknowledgement}
-This research was partly funded by the Ministry of Education, Youth and Sports
-of the Czech Republic under the grant agreement LK11221 and core research
-funding of Charles University in Prague. The authors would like to thank
-Ondřej Dušek, Matěj Korvas, David Marek and Tomáš iartinec for useful comments and discussions.  
+This work presented the~\term{OnlineLatgenRecogniser}, an extension of the~Kaldi automatic speech recognition toolkit.
+The~\term{OnlineLatgenRecogniser} is distributed under the~Apache 2.0 license, and therefore it is freely available for both research and commercial applications.
+The~recogniser and its Python extension is stable and intensively used in a~publicly available spoken dialogue system \cite{ptics2014url}.
+Thanks to the~use of a~standard Kaldi lattice decoder, the~recogniser produces high quality word posterior lattices.
+% In addition, this enable the~recogniser to benefit from future improvements in the~Kaldi decoders.
+% The~scripts for training acoustic models, including Czech data, are also freely available online.
+The training scripts for the~acoustic model and the~\term{OnlineLatgenRecogniser} code are currently being integrated in the~Kaldi toolkit.
+Future planned improvements include implementing more sophisticated speech parameterisation interface and feature transformations.
+
+% The~\term{OnlineLatgenRecogniser} recogniser, an extension the~Kaldi framework, is freely available\footnote{Apache, 2.0 license} and significantly improved speech recognition for a~dialog system Alex.
+% The~recognizer and its Python wrapper is stable and intensively used in a~freely available dialogue system in Czech public transport domain.
+% The~speech decoder is able to output high quality lattices, which can be utilised in SLU unit of dialogue system. 
+% The~scripts, Czech and English data  used for acoustic training are also freely available online.
+% 
+% The~\term{OnlLatticeFasterDecoder} modular design allows reusing the~code of \term{LatticeFasterDecoder}, which resulted in improving the~decoder based changes from \term{LatticeFasterDecoder}.
+% The~training scripts and also the~speech recognizer code is in process of integration back to Kaldi toolkit.
+% 
+% \subsection*{Future work}
+% Firstly, we se the~future work in implementing more sophisticated feature transformation and speech parameterisation interface, so decoding with larger variety of feature transformations can be supported.
+% Secondly, the~recordings with extreme latency values can be detected using the~one-best hypothesis.
+% Consequently, the~backward decoding could be skipped for recordings which contains only noise.
+% Finally, the~word posterior lattices should be more tightly integrated with SLU unit,
+% and the~potential of oracle WER should be more utilised.
+% 
+
+% \section*{Acknowledgments}
+% This research was partly funded by the~MEYS of the~Czech Republic under the~grant agreement LK11221 and core research funding of Charles University in Prague.
+% The work described herein uses language resources hosted by the LINDAT/CLARIN repository, funded by the project LM2010013 of the MEYS of the Czech Republic.
+% We would also like to thank Daniel Povey Ondřej Dušek, Matěj Korvas, David Marek and Tomáš Martinec for their useful comments and discussions.
+% Ondřej Dušek, Matěj Korvas, David Marek and Tomáš iartinec for useful comments and discussions.  
+
+% include your own bib file like this:
 
 \todo{create future work subsection}
