@@ -2,7 +2,8 @@
 % \usepackage{epsfig}
 % \usepackage{pst-grad} % For gradients
 % \usepackage{pst-plot} % For axes
-\psscalebox{1.0 1.0} % Change this value to rescale the drawing.
+% \psscalebox{1.0 1.0} % Change this value to rescale the drawing.
+\scalebox{0.55}
 {
 \begin{pspicture}(0,-3.899762)(14.38,3.899762)
 \definecolor{colour2}{rgb}{0.101960786,0.2627451,0.10980392}
@@ -11,6 +12,8 @@
 \definecolor{colour3}{rgb}{0.27450982,0.3882353,0.50980395}
 \psframe[linecolor=black, linewidth=0.04, dimen=outer](13.6,2.059762)(11.42,1.5197619)
 \rput[bl](11.74,1.6597619){Decodable}
+\psframe[linecolor=black, linewidth=0.04, dimen=outer](13.6,2.059762)(11.42,1.5197619)
+\rput[bl](9.0,0.0){Decode(max\_frames)}
 \psframe[linecolor=black, linewidth=0.04, dimen=outer](9.84,2.059762)(7.14,1.5197619)
 \rput[bl](7.48,1.6397619){LDA+MLLT}
 \psframe[linecolor=black, linewidth=0.04, dimen=outer](2.84,2.039762)(1.22,1.4997619)
