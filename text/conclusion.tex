@@ -4,6 +4,11 @@
 
 \todo{The work specified by goals in Chapter~\ref{cha:intro} varies in many aspects. We successfully trained acoustic models, design and also implement decoders interface, improve real-time decoder and prepared experiments for evaluating results.}
 
+The~Kaldi toolkit is a~speech recognition toolkit distributed under a~free license \cite{povey2011kaldi}.
+The~toolkit is based on Finite State Transducers, implements state-of-the-art acoustic modelling techniques, is computationally efficient, and is already widely adapted among research groups.
+Its only major drawback was the~lack of on-line recognition support.
+Therefore, it could not be used directly in applications such as spoken dialogue systems.
+
 This work presented the~\term{OnlineLatgenRecogniser}, an extension of the~Kaldi automatic speech recognition toolkit.
 The~\term{OnlineLatgenRecogniser} is distributed under the~Apache 2.0 license, and therefore it is freely available for both research and commercial applications.
 The~recogniser and its Python extension is stable and intensively used in a~publicly available spoken dialogue system \cite{ptics2014url}.
