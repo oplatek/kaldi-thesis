@@ -1,36 +1,33 @@
 % !TEX root = main.tex
 % do not remove begin
-\input{begin_settings}
-\input{snippets/c_style}
-\input{snippets/python_style}
+\input{begin_settings} % do not remove
+\input{snippets/c_style} % do not remove
+\input{snippets/python_style} % do not remove
 % \include{example}
-% do not remove end
+% \include{title_pages}  % FIXME breaks book style of headers
 
-\include{title_pages}  % FIXME breaks book style of headers
 % \listoftables
 % \listoffigures
 \tableofcontents
 
-\todo{UNIT words with multiple spelling:  real-time  vs real time}
+\todo{UNIT words with multiple spelling:  real-time  vs real time, online vs on-line, offine vs off-line}
 
 
-\include{intro}
+% \include{intro}
 % \include{background}
 % \include{training}
-% \include{decoder}
-% \include{integration}
-% \include{conclusion}
+\include{decoder}
+\include{integration}
+\include{conclusion}
 \appendix
 \include{acronyms}
-\include{train_scripts}
-\include{setup}
+% \include{train_scripts}
+% \include{setup}
 
 \addcontentsline{toc}{chapter}{The bibliography}
-% use http://scholar.google.cz/ find article click cite
 \nocite{*}
 \bibliographystyle{amsplain}
 \bibliography{citations}
 
 
-% do not remove
-\end{document}
+\end{document} % do not remove

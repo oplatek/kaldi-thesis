@@ -31,7 +31,7 @@ as described in~Section~\ref{sub:lattice}.
 
 The Alex dialog system has been using the \ac{HTK} toolkit\cite{young94htk} 
 to train acoustic models and 
-the OpenJulius\cite{lee2009julius} lattice decoder for real time decoding. 
+the OpenJulius\cite{lee2009julius} lattice decoder for real-time decoding. 
 Unfortunately, our project members were experiencing crashes 
 of OpenJulius during extracting lattices.
 
@@ -47,9 +47,9 @@ under the~permissive Apache License, Version 2.0\footnote{\url{http://www.apache
 
 The Kaldi community focused on improving acoustic model training. 
 In August 2012\footnote{The changes were introduced by \href{https://sourceforge.net/p/kaldi/code/1259/}{svn commit 1259}.}
-Kaldi team published a~demo version of~an online one best hypothesis decoder.
-The online decoder inspired us in designing 
-the online interface suitable for real-time use of a lattice decoder.
+Kaldi team published a~demo version of~an on-line one best hypothesis decoder.
+The on-line decoder inspired us in designing 
+the on-line interface suitable for real-time use of a lattice decoder.
 In addition we rewrote the feature preprocessing code base on the one best hypothesis decoder.
 
 \section{The goals of~the~thesis} 
@@ -100,7 +100,7 @@ Except for the standard introduction to speech recognition system we introduce F
 which is used by the~Kaldi toolkit. In~Chapter~\ref{cha:train} we describe the acoustic 
 models needed by the~Kaldi decoder. 
 In addition, we compare and contrast acoustic models trained by~\ac{HTK} and Kaldi. 
-Chapter~\ref{cha:decoder} presents the Kaldi real time decoder embedded into our dialog system.
+Chapter~\ref{cha:decoder} presents the Kaldi real-time decoder embedded into our dialog system.
 We discuss the architecture of~the decoder, its properties. 
 We also distinguish the original work done by the~Kaldi team and our improvements. 
 At~the end of~Chapter~\ref{cha:decoder} 

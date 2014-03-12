@@ -7,7 +7,7 @@ into~\ac{SDS} Alex.
 Section~\ref{sec:eval} evaluates the decoder in Alex dialogue system on Czech \ac{PTI} domain. 
 
 
-\section{Integration of \term{OnlineLatgenRecogniser} into \ac{SDS}}
+\section[ASR integration into SDS]{Integration of \term{OnlineLatgenRecogniser} into \ac{SDS}}
 \label{sec:}
 First the architecture of Alex \ac{SDS} is described in~Section~\ref{sec:arch}
 and later we present the 
@@ -33,7 +33,7 @@ The integration task consist of:
     \item Define the input and output interface for the Kaldi decoder - wrapped by Automatic Speech Recognition (ASR) unit in Alex.
 \end{itemize}
  The ASR unit takes output of~the VAD component and provides input for the SLU unit. 
- %The input and output interfaces are chosen according the real time needs of~the VAD unit and the SLU unit.
+ %The input and output interfaces are chosen according the real-time needs of~the VAD unit and the SLU unit.
 
 \begin{figure}
     \begin{center}
@@ -56,11 +56,11 @@ The decoder for our system should be able to generate \term{n-best lists}, \term
 % section integrate_kaldi_decoder_into_vystadial_framework (end)
 
 
-% \subsection{Development of~a~real time decoder}
+% \subsection{Development of~a~real-time decoder}
 % \label{sub:kaldi_rt_decoder}
-% In the our dialog system we need above all a~real time decoder for the Kaldi toolkit. At first, we will identify what prevents the current Kaldi decoders from being used as real time decoders. 
+% In the our dialog system we need above all a~real-time decoder for the Kaldi toolkit. At first, we will identify what prevents the current Kaldi decoders from being used as real-time decoders. 
 % 
-% Namely, we will explore problems with latency and suggest potential speed improvements e.g.\ approximations, use of~\ac{GPU}, and so on. Based on the experiments we will suggest the optimal setting for the real time use of~Kaldi decoder.
+% Namely, we will explore problems with latency and suggest potential speed improvements e.g.\ approximations, use of~\ac{GPU}, and so on. Based on the experiments we will suggest the optimal setting for the real-time use of~Kaldi decoder.
 % 
 % % section development_of_real_time_asr_decoder_for_the_kaldi_toolkit (end)
 
@@ -91,7 +91,7 @@ We will also compare and contrast possibilities of~different output formats for 
     \end{center}
 \end{figure*}
 
-\subsection{Acoustic and language model training}
+\subsection{Acoustic and language models used}
 \label{sec:train}
 
 The~\term{OnlineLatgenRecogniser} is evaluated on a~corpus of audio data from the~Public Transport Information (PTI) domain.
@@ -187,7 +187,7 @@ Using this setting, the~\term{OnlineLatgenRecogniser} decodes the~test utterance
 \begin{figure*}[t]
     \begin{center}
     \includegraphics[scale=0.5]{lat_cloud_kaldi.pdf.ps}
-    \caption{Shorter latency of custom online decoder (OnlineLatgenRecogniser) over batch decoding with cloud service (Google ASR service).}
+    \caption{Shorter latency of custom on-line decoder (OnlineLatgenRecogniser) over batch decoding with cloud service (Google ASR service).}
     \label{fig:wer} 
     \end{center}
 \end{figure*}
@@ -273,6 +273,10 @@ real    13m17.918s
 user    13m4.224s
 sys     0m6.265s
 \end{verbatim}
+
+\subsection{Results}
+\label{sec:results}
+
 
 \todo{ Shortly say that the source code will be merged into Kaldi and also promote Alex which is going to be on Github}
 % section evalution_on_alex_data (end)

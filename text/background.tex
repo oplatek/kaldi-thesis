@@ -625,7 +625,7 @@ We measure the \ac{RTF} for each recording as described in~Equation~\ref{eq:rtf}
 \begin{equation}\label{eq:rtf}
     RTF = \frac{time(decode(a))}{length(a)}
 \end{equation}
-For real time decoding in a dialog system we need $RTF < 1.0$ for all tested utterances $a$.
+For real-time decoding in a dialog system we need $RTF < 1.0$ for all tested utterances $a$.
 In other words, the decoding of each utterance $a$ should take less time than
 playing the utterance in a music player.
 With $RTF < 1.0$ we can decode faster than the user speaks, 
@@ -639,7 +639,7 @@ The users have to wait at least for~the time when backward decoding is performed
 so we measure \ac{FWRTF} for forward decoding.
 
 \ml{latency}
-In real time \ac{SDS} the critical measure is a delay how long the user
+In real-time \ac{SDS} the critical measure is a delay how long the user
 has to wait for its answer.
 The latency measures the time between the end of the user speech and
 the time when a decoder returns the hypothesis, 
@@ -653,7 +653,7 @@ The \ac{HTK} toolkit is a~set of command line tools, sample scripts and library
 for training and decoding \ac{HMM} focused on speech recognition.
 \ac{HTK} uses Baum-Welch algorithm for \ac{HMM} parameters estimation.
 With the toolkit are distributed two decoders \term{HVite} and \term{HDecode},
-which are not designed for real time applications.
+which are not designed for real-time applications.
 \term{HVite} can be used only with unigram or bigram \ac{LM}. 
 The \term{HDecode} decoder handles also a trigram \ac{LM}.
 

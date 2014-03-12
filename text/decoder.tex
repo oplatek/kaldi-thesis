@@ -99,7 +99,7 @@ We briefly describe each step:
 \begin{figure}[!htp]
     \begin{center}
         \input{images/online_pipeline}
-        \caption{Components for online decoding}
+        \caption{Components for on-line decoding}
     \label{fig:online_pipeline} 
     \end{center}
 \end{figure}
@@ -114,7 +114,7 @@ It returns the number of frames which were actually decoded, which is always sma
 In order to evaluate the probability of acoustic features for the new frame
 the decoder query the \term{Decodable} interface.
 
-In case of \term{OnlDecodableDiagGmmScaled}, the online implementation, can trigger chain reaction.
+In case of \term{OnlDecodableDiagGmmScaled}, the on-line implementation, can trigger chain reaction.
 If \term{OnlFeatureMatrix} does not contain the acoustic features for the new frame, it asks
 the previous component to compute the features, namely \term{OnlDeltaInput} or \term{OnlLdaInput}.
 If the previous component can not provide the features, it return default empty value indicating,
@@ -139,7 +139,7 @@ Note that we also added the \term{OnlBuffSource} class, which just allows buffer
 % \label{sec:improve}
 % We started developing the real-time speech recognizer by preparing the preprocessing
 % pipeline as describe in~Section~\ref{sec:onl_preprocess}, after that we focused 
-% on implementation the real time decoder. In the first step we changed 
+% on implementation the real-time decoder. In the first step we changed 
 % the batch \term{LatticeFasterDecoder} only by reorganizing its methods into new interface.
 % It turned out that the decoder with the new interface is 
 % fast enough and sufficiently accurate for \ac{SDS}. 
@@ -233,7 +233,7 @@ We reused Kaldi function for computing helper $\alpha$ and $\beta$ data structur
 but we implemented the \term{MovePostToArcs} function for updating the lattice weights 
 from likelihood to posterior probabilities based on $\alpha$ and $\beta$.
 
-\section{Batch interface versus object-oriented online interface}
+\section{Batch interface versus object-oriented on-line interface}
 \label{sec:ooi}
 
 \todo{
@@ -430,7 +430,7 @@ The setup yields the best results for non-speaker adaptive methods.
 \subsection{Future improvements}
 \label{sub:onl_future}
 As described, we support a narrow range of feature transformation,
-so it would be natural to implement more complicated online interface,
+so it would be natural to implement more complicated on-line interface,
 which could support more feature transformations, 
 which are available in Kaldi toolkit for batch mode. 
 
