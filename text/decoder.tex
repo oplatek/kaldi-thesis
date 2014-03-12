@@ -44,7 +44,7 @@ It implements the~following interface:
 \item \term{Reset} -- preparing the~recogniser for a~new utterance,
 \end{itemize}
 
-The~\verb!C++! example in Listing~\ref{rec_usage.cc} shows a typical use of the~\term{OnlineLatgenRecogniser} interface.
+The~\verb!C++! example in Listing~\ref{snippets/rec_usage.cc} shows a typical use of the~\term{OnlineLatgenRecogniser} interface.
 When audio data becomes available, it is queued into the~recogniser's buffer (line 11) and immediately decoded (lines 12-14).
 If the~audio data is supplied in small enough chunks, the~decoding of queued data is finished before new data arrives.
 When the recognition is finished, the~recogniser prepares for lattice extraction (line 16).
@@ -52,7 +52,7 @@ Line 20 shows how to obtain word posterior lattice as an OpenFST object.
 The~\term{getAudio()} function represents a~separate process supplying speech data.
 Please note that the~recogniser's latency is mainly determined by the~time spent in the~\term{GetLattice} function.
 
-\code{Example of the~decoder API}{C}{snippets/rec_usage.cc}
+\code{Example of the~decoder usage}{C}{snippets/rec_usage.cc}
 
 The~source code of the~\term{OnlineLatgenRecogniser} is available in Kaldi repository\footnote{\url{https://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/src/dec-wrap/}}.
 
@@ -65,6 +65,11 @@ The~source code of the~\term{OnlineLatgenRecogniser} is available in Kaldi repos
 In addition, we developed a~Python extension exporting the~\term{OnlineLatgenRecogniser} C++ interface.
 This can be used as an example of bringing Kaldi's on-line speech recognition functionality to higher-level programming languages.
 This Python extension is used in the~Alex Dialogue Systems Framework \cite{asdf2014url}.
+
+In Listing~\ref{snippets/pykaldi_usage.py} we illustrate the usage of the \term{GmmLatgenWrapper}\/
+respectively its Python wrapper \term{PyGmmLatgenWrapper}.
+
+\code{Example of the decoder \ac{API} which is mapped in Python}{Python}{snippets/pykaldi_usage.py}
 
 \section{Online pre-processing} 
 \label{sec:onl_preprocess}
@@ -231,9 +236,12 @@ from likelihood to posterior probabilities based on $\alpha$ and $\beta$.
 \section{Batch interface versus object-oriented online interface}
 \label{sec:ooi}
 
+\todo{
 We also wanted to reuse existing code as much as possible,
 so the decoder will benefit from constant development on Kaldi toolkit.
+}
 
+\todo{
 As a bonus of the minimal changes we can compare our \term{OnlLatticeFasterDecoder}\/ 
 with \term{LatticeFasterDecoder}\/ which is used through binary executable \term{gmm-latgen-faster}.
 Correctly setup, the decoders produce exactly the same results.
@@ -246,7 +254,9 @@ are further combined together using system tools e.g.\ system pipes
 and storing intermediate results to files. 
 Such setup is convenient for speech recognition experiments, because the intermediate results are  
 effectively reused by different experiments.
+}
 
+\todo{
 Out task is to implement real-time speech recogniser into \acl{SDS}.
 We also experimented and searched for the best setup as described in~Section~\ref{sec:evaluation},
 but from the \ac{SDS} point of view we want simple component which accepts audio and produce \ac{ASR} hypothesis.
@@ -255,7 +265,9 @@ can be scripted in a such manner, so that the results of \term{LatticeFasterDeco
 and wrapped \term{OnlLatticeFasterDecoder}\/ are identical.
 We used the Kaldi executables to find the best experiment and once fixed,
 we created object wrapper around the whole recognition pipeline.
+}
 
+\todo{
 Let us described the Kaldi executable in our best experiment,
 then we will describe the wrapper class for the speech recognition.
 We chose \ac{MFCC} speech parametrisation, \ac{LDA} and \ac{MLLT} feature transformations with 
@@ -271,29 +283,34 @@ for computing the one best \ac{ASR} hypothesis:
     \item \label{enum:latgen} gmm-latgen-faster
     \item lattice-best-path
 \end{enumerate}
+}
 
-\todo{Figure complementary to aggregated classes todo Figure~\ref{fig:online_pipeline}}
-
+\todo{
 The \term{GmmLatgenWrapper}\/ class wraps the whole recognition process
 and provides \ac{API} convenient for real-time decoding.
 We designed the \ac{API} of the preprocessing and the decoder 
 so it can be nicely plugged into the \term{GmmLatgenWrapper}\/ implementation.
+}
 
+\todo{
 The  \term{GmmLatgenWrapper}\/ instance accepts the audio in the~\term{FrameIn(\ldots)}\/
 function and passes the audio chunk to the \term{OnlBuffSource}\/ instance.
 At the end of the pipeline is the \term{OnlDecodableDiagGmmScaled}\/ instance,
 which implements the~\term{DecodableInterface}\/ and is queried by the \term{OnlLatticeFasterDecoder}\/
 for the probability of each frame.
+}
 
+\todo{
 Let us remind that audio buffered in~\term{OnlBuffSource} is 
 segmented to 25ms frames which are shifted by 10ms\footnote{See Subsection~\ref{sub:param}}.
 The \ac{MFCC} features are computed for each frame, the \ac{LDA}\&\ac{MLLT} matrix
 is applied on features from 9 spliced frames.\footnote{Four frames from left 
 and four frames from right context are used}. 
 Finally, the \term{DecodableInterface}\/ queries the \acl{AM} for the probability of the acoustic features.
+}
+% \code{The real-time decoding \ac{API} of \term{GmmLatgenWrapper}}{C}{snippets/gmmLatgenWrapper_simple.cc}
 
-\code{The real-time decoding \ac{API} of \term{GmmLatgenWrapper}}{C}{snippets/gmmLatgenWrapper_simple.cc}
-
+\todo{
 Note, that the action of computing the new features are initialized by the \term{OnlLatticeFasterDecoder},
 when the \term{Decode(DecodableInterface *d, size\_t max\_frames)}\/ is called.
 If one of the preprocessing components can not compute any features, 
@@ -301,15 +318,12 @@ because it does not has sufficient data, it returns its default $Null$ value.
 Consequently, all subsequent components returns its default $Null$ value and 
 the \term{Decode(DecodableInterface *d, size\_t max\_frames)}\/ returns zero,
 indicating that zero frames were forward-decoded.
+}
 
 As a side effect of creating the class \term{GmmLatgenWrapper}\/ representing speech recognition process
 we easily implemented Python wrapper for the speech recognition. 
 We just needed to implement a wrapper of a single class and the data structures transfered from and into the
 \term{GmmLatgenWrapper}\/ instance.
-In Listing~\ref{snippets/pykaldi_usage.py} we illustrate the usage of the \term{GmmLatgenWrapper}\/
-respectively its Python wrapper \term{PyGmmLatgenWrapper}.
-
-\code{Example of the decoder \ac{API} which is mapped in Python}{Python}{snippets/pykaldi_usage.py}
 
 From Listing~\ref{snippets/pykaldi_usage.py} should be obvious that 
 the forward decoding can be performed as the user speaks.
