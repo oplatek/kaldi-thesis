@@ -82,11 +82,11 @@ In our training recipe we use two discriminative functions.
 \end{itemize}
 
 \ml{Generative training}
-In our case the acoustic models {\it mono}, {\it tri1}, {\it tri2a}\/
-and {\it tri2b}\/ are trained generatively.
+In our case the acoustic models \term{mono}, \term{tri1}, \term{tri2a}
+and \term{tri2b} are trained generatively.
 Meaning the models are trained according \ac{MLE} criterion.
-On the other hand the acoustic models {\it tri2b\_mmi}, {\it tri2b\_bmmi}\/
-and {\it tri2b\_mpe}\/ are trained discriminatively.
+On the other hand the acoustic models \term{tri2b\_mmi}, \term{tri2b\_bmmi}
+and \term{tri2b\_mpe} are trained discriminatively.
 
 The discriminative models usually yield better results than generative models, 
 if enough data is available. 
@@ -268,18 +268,18 @@ and contains noises. The speech is spontaneous and contains proper names.
 \todo{Mention that HTK scripts are really good}
 \todo{Show that we can get similar results with Kaldi as Matej did with HTK}
 The experiments focus on comparing the quality of ASR hypothesis measured by~\ac{WER}.
-The speed of the decoding is not important at this moment.  The {\it gmm-latgen-faster}\/ decoder is used for evaluation on testing data. 
+The speed of the decoding is not important at this moment.  The \term{gmm-latgen-faster} decoder is used for evaluation on testing data. 
 \todo{Je to spatne - napsat presne-However, many of the methods from~Table~\ref{tab:disc_train}
 require specific feature transformations, which also needs to applied before using the decoder on testing data.}
 
 Note, that other Kaldi decoders may not support some of the trained models.
-In general, if a method is slow for the {\it gmm-latgen-faster}\/ decoder, it is slow for other decoders too.
-We measure the speed in terms of \ac{RTF}, because the {\it gmm-latgen-faster}\/ decoder is designed for~batch 
+In general, if a method is slow for the \term{gmm-latgen-faster} decoder, it is slow for other decoders too.
+We measure the speed in terms of \ac{RTF}, because the \term{gmm-latgen-faster} decoder is designed for~batch 
 processing, so the measuring latency is not convenient.
 
 
 \ml{datasets}
-The experiments were performed on dataset called {\it Vystadial}\footnote{\todo{Add link to Vystadial dataset.}}.
+The experiments were performed on dataset called \term{Vystadial}\footnote{\todo{Add link to Vystadial dataset.}}.
 However, in the~experiments we use the pretrained \ac{LM}.
 The pretrained \acl{LM} was trained by our colleagues in Cambridge for the~same domain.
 The pretrained \ac{LM} was also used in the~\ac{HTK} experiments and we use the~model in experiments 
