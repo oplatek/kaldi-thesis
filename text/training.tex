@@ -2,170 +2,48 @@
 \chapter{Acoustic model training}
 \label{cha:train}
 
-This chapter describes the~acoustic model training.
+This chapter present acoustic new Kaldi modeling recipe for new Czech and English data.
+The recipe scripts were developed as part of this thesis and are licensed under the Apache 2.0 license and publicly available in Kaldi repository\footnote{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/egs/vystadial/}.
+The \ac{AM} trained using this scripts can be used for both batch training with common Kaldi decoders or with the new \term{OnlineLatgenRecognizer}, which performs on-line decoding and is described in Chapter~\ref{cha:decoder}.
 
-Having a good acoustic model is the first necessary step for~a~quality real-time decoder.
-In this chapter, we focus on how to train good acoustic model.
+The first Section~\ref{sec:methods} introduces data used. 
+The chapter continues by~presenting the \acp{AM} training in~Section~\ref{sec:exps}. 
+Later, in~Section~\ref{sec:compare} we evaluate results of trained \acp{AM} and compare them to generative \acp{AM} trained state of art \ac{HTK} scripts.
+Note, that details about launching the scripts and file system organisation can be found in Appendix~\ref{cha:train_scripts}.  
 
-\todo{
-At first Section~\ref{sec:methods} introduces the used methods. 
-The chapter continues by~presenting results in~Section~\ref{sec:exps}. 
-Later, in~Section~\ref{sec:compare} we compare results obtained by Kaldi toolkit with results
-trained with \ac{HTK} toolkit by Matěj Korvas\cite{korvas_2014}.
-The details about training scripts and its file system organization
-is described in Appendix~\ref{cha:setup}.  
-}
+\section{Vystadial acoustic data}
+\label{sec:vystadial_acoustic_data}
 
-The Figure~\ref{fig:am-deps} list all acoustic models trained in our recipe and described in Section~\ref{sec:methods}.
-It also shows that some sophisticated models need to be trained before other simpler one. 
-The sophisticated model is initialized with aligned simpler \ac{AM}.
-For example, The Figure show that the basic triphone \ac{AM} is initialized with aligned monophone model.
+The data were collected in Vystadial project\footnote{http://ufal.mff.cuni.cz/grants/vystadial} and are released under the Creative Commons Share-alike (CC-BY-SA~3.0). 
+The Czech\footnote{Czech data: \url{http://lindat.mff.cuni.cz/repository/xmlui/handle/11858/00-097C-0000-0023-4670-6}}and English\footnote{English data: \url{http://lindat.mff.cuni.cz/repository/xmlui/handle/11858/00-097C-0000-0023-4671-4}} are available online in Lindat repository\footnote{{http://lindat.mff.cuni.cz/repository/}}.
+Note that the previous version of this recipe is published with the data in Lindat repository and described in~work~\cite{korvas_2014}.
 
-\begin{figure}[!htp]
-    \begin{center}
-    \input{images/am-deps}
+The English acoustic data are recorded phone calls among humans and statistical dialogue systems,
+which was designed to provide the user with information on a suitable dining venue in the town.
+Most of the data was spoken in American English.
+The typical sentences recorded from users were queries for the dialogue system e.g.,
+\begin{verbatim}
+I NEED A CHINESE TAKE AWAY RESTAURANT IN THE CHEAP PRICE RANGE
+I'M LOOKING FOR AN INTERNATIONAL RESTAURANT
+I NEED TO FIND A PUB IT SHOULD ALLOW CHILDREN AND HAVE A TELEVISION
+\end{verbatim}.
 
-    \small{\begin{tabular}{lll}
-    \hline
-    Training method name & Script shortcut \\
-    \hline
-    Monophone & mono \\
-    Triphone  & tri1 \\
-    $\Delta + \Delta\Delta$ & tri2a  \\
-    \acs{LDA}+\acs{MLLT} & tri2b  \\
-    \acs{LDA}+\acs{MLLT}+\acs{MMI} & tri2b\_mmi \\
-    \acs{LDA}+\acs{MLLT}+\acs{bMMI} & tri2b\_bmmi \\
-    \acs{MPE} & tri2b\_mpe \\
-    \hline
-    \end{tabular}}
-    \end{center}
-    \caption{Training partial order among \ac{AM} in our training recipe}
-    \label{fig:am-deps} 
-\end{figure}
+The Czech recordings were collected in three ways\cite{korvas_2014}:
+\begin{enumerate}
+    \item using a free Call Friend phone service (\term{FRIEND})
+    \item using the Repeat After Me speech data collecting process,
+    \item from telephone interactions with the Alex \ac{SDS} in public transport domain.
+\end{enumerate}
 
-The individual training methods and feature transformation are explained
-in~Sections~\ref{sec:methods} and~\ref{sec:transform}.
+In \term{FRIEND} service native Czech speakers were invited to make free calls.
+In Repeat After Me process volunteers called a number where they were asked to repeat 
+sentences synthesized by a \ac{TTS}.
 
-\section{Training methods} 
-\label{sec:methods}
-We use two types of \ac{HMM} \ac{AM} training in Vystadial recipe. 
-The \acl{ML} training and discriminative training.
-The discriminative training is applied on top of \ac{ML} training represented by Viterbi training.
-
-The Viterbi training, described in~Subsection~\ref{sub:trainhmm}, approximates \ac{MLE} in setting parameters to \ac{HMM}s in \ac{AM}.
-The \ac{MLE} is general attitude to setting statistical model parameters.
-The maximum likelihood estimation search for best parameters $\theta^*$ 
-in order to maximize the likelihood function $f$ for \ac{IID} training data illustrated in Equation~\ref{eq:maxlikelihood}.
-For \ac{IID} training data holds Equation~\ref{eq:lmjoint} describing data joint probability. 
-\begin{equation}\label{eq:lmjoint}
-    f(x_1, x_2, x_3, \ldots, x_n | \theta) = f(x_1 | \theta) * f(x_2 | \theta) * \ldots * f(x_n | \theta)
-\end{equation}
-The likelihood function can be derived from Equation~\ref{eq:lmjoint} assuming training data fixed
-and parameter $\theta$ free as described in Equation~\ref{eq:likelihood}.
-\begin{equation}\label{eq:likelihood}
-    \mathcal{L}(\theta\,|\,x_1,\ldots,x_n) = \sum_{i=1}^n f(x_i|\theta)
-\end{equation}
-\begin{equation}\label{eq:maxlikelihood}
-    \theta^* = argmax_{\theta} \mathcal{L}(\theta\,|\,x_1,\ldots,x_n)
-\end{equation}
-
-\ml{Discriminative training}
-On the other hand the discriminative training does not optimize the likelihood function.
-It uses the generative \ac{AM} and posterior probability to optimize 
-other function and change \ac{AM} parameters.
-In our training recipe we use two discriminative functions.
-\begin{itemize}
-    \item \acl{MMI}\cite{chow1990maximum} 
-        Note the \ac{MMI} function is implemented as \acs{bMMI} with boosted parameter set to 0.\todo{CHECK}
-    \item \acl{bMMI}\cite{povey2008boosted}
-    \item \acl{MPE}\cite{povey2003mmi}
-\end{itemize}
-
-\ml{Generative training}
-In our case the acoustic models \term{mono}, \term{tri1}, \term{tri2a}
-and \term{tri2b} are trained generatively.
-Meaning the models are trained according \ac{MLE} criterion.
-On the other hand the acoustic models \term{tri2b\_mmi}, \term{tri2b\_bmmi}
-and \term{tri2b\_mpe} are trained discriminatively.
-
-The discriminative models usually yield better results than generative models, 
-if enough data is available. 
-
-
-
-\section{Feature and model space transformations}
-\label{sec:transform}
-
-Kaldi toolkit has support for number of feature transformations, which are applied on top
-of speech parametrisation of \ac{MFCC}(See Subsection~\ref{sub:param}).
-Note that we will describe only transformation which are not speaker specific.
-Namely we will describe only $\Delta + \Delta\Delta$, \ac{LDA} and \ac{MLLT},
-because we use the above mentioned methods in our scripts.
-Note that together with ac{bMMI} discriminative training it is
-a state of the art set up for speaker independent speech recognition\cite{morbini2013asr}.
-
-\subsubsection*{The $\Delta+\Delta\Delta$ features}
-The $\Delta + \Delta\Delta$ feature transformation 
-just adds new features to speech parametrisation.
-We use \ac{MFCC} as speech parametrisation method. See Subsection~\ref{sub:param} for details.
-The $\Delta + \Delta\Delta$ method adds features to \ac{MFCC} feature vector, which approximates 
-first and second derivative of \ac{MFCC} features.
-See Figure~\ref{fig:delta} for typical setup of $\Delta + \Delta\Delta$ for \ac{MFCC},
-where from 13 \ac{MFCC} features 13 $\Delta$ and another 13 $\Delta\Delta$ features are extracted.
-
-\begin{figure}
-    \begin{center}
-    \input{images/mfcc-delta}
-    \caption{Typical setup with 39 features using \ac{MFCC}.}
-    \label{fig:delta} 
-    \end{center}
-\end{figure}
-
-
-\subsubsection*{\acl{LDA} and \ac{MLLT}}
-\ac{LDA} is used as linear classifier for acoustic features.
-Based on vectors of length 13 representing static \ac{MFCC} 
-spliced together in for each context window the \ac{LDA} tries to 
-find the best dynamic information, replacing the $\Delta+\Delta\Delta$ coefficients.
-
-The combination of \ac{LDA} and \ac{MLLT} reduce the feature dimension and
-rotates the feature space so the classes after \ac{LDA} has more diagonal covariance in two steps.\cite{gopinath1998maximum}
-The \ac{HLDA} performs dimension reduction and space transformation in one step.\cite{gales1999semi}
-The combination \ac{HLDA} and \ac{MLLT} perform very similar feature transformation
-and obtain similar improvements over $\Delta+\Delta\Delta$ transformation 
-as \ac{HLDA}\cite{gales1999semi}\cite{gopinath1998maximum}.
-We choose to use \ac{LDA} and \ac{MLLT}, because Kaldi toolkit offers scripts 
-for this combination and we gain substantial improvement over $\Delta+\Delta\Delta$ transformation.
-See Table~\ref{tab:TODO_results}
-
-In our experiments we use the context window with the default length of 9 frames, 
-four frames from left context and four frames from right context.
-The \ac{LDA} transforms uses and $\Delta$ and $\Delta\Delta$ dynamic features as prior.
-
-
-
-\section{Experimental setup} 
-\label{sec:exps}
-In this section we describe the organization of experiments,
-although we skip the implementation detail, which can be found in~Appendix~\ref{cha:setup}.
-The~Appendix~\ref{cha:setup} contains tutorial how to run the scripts, on the other hand
-this section briefly discuss the data and setup used in the scripts. 
-
-For training acoustic models we used Czech and English acoustic data
-collected under Vystadial project which are publicly available.\cite{korvas_2014}
-
-We developed training scripts for Czech as well English data.
-The trained \acp{AM} were evaluated on best hypothesis from generated lattice using
-\ac{WER} and \ac{SER} metrics.
-The results were compared against well-written \ac{HTK} scripts.\cite{korvas_2014}
-Note that the \ac{HTK} scripts were written by Keith Vertanen and improved by Matěj Korvas.
-
-\subsection{Training data description}
-\label{sub:training_data}
-
-The English and Czech dataset have been collected differently,
-but all Czech and English speech was transcribed by humans.
-The summary of audio sizes is presented in Table~\ref{tab:audio}.
+Note that the user language differ significantly in dialogues with Alex and the other two settings.
+% Remember we focus on training \acp{AM} for \ac{SDS} Alex and its public transport domain.
+The \acp{AM} for Czech are trained on acoustic data from the three very different domains, because there is available only 2 hours of in-domain data for public transport domain, which we target with the \ac{SDS} Alex.
+The summary of audio sizes in training, development and test set are presented in Table~\ref{tab:audio}.
+Both Czech and English orthographic speech transcriptions were transcribed by humans.
 
 \begin{table}[hbp]
     \centering
@@ -190,39 +68,12 @@ The summary of audio sizes is presented in Table~\ref{tab:audio}.
     \label{tab:audio}
 \end{table}
 
-The English date are recorded phone calls among humans and statistical dialogue systems,
-which was designed to provide the user with information on a suitable dining venue in the town.
-Most of the data was spoken in American English.
-The typical sentences recorded from users were queries for the dialogue system:
-\begin{verbatim}
-I NEED A CHINESE TAKE AWAY RESTAURANT IN THE CHEAP PRICE RANGE
-I'M LOOKING FOR AN INTERNATIONAL RESTAURANT
-I NEED TO FIND A PUB IT SHOULD ALLOW CHILDREN AND HAVE A TELEVISION
-\end{verbatim}
 
-The Czech data were collected in three ways:
-\begin{enumerate}
-    \item using a virtual switchboard service
-    \item using the Repeat After Me speech data collecting process
-    \item from telephone interactions with the Alex \ac{SDS} in public transport domain
-\end{enumerate}
-
-In switchboard service native Czech speakers were invited to make free calls.
-In Repeat After Me process volunteers called a number where they were asked to repeat 
-sentences synthesized by a \ac{TTS}.
-
-Note that the user language differ significantly in dialogues with Alex and the other two settings.
-Remember we focus on training \acp{AM} for \ac{SDS} Alex and its public transport domain.
-We were forced to train on the mixed settings with different domains, because
-we have only around 2hours of domain specific data for public transport domain.
-The different acoustic settings and also different user language negatively influence
-the quality of the decoded output.
-
-In~Section~\ref{sec:result} we use test set mixed from all three settings,
-so it matches the proportion of the domains in training data.
-On contrary, in evaluation of \ac{ASR} in Alex described in~Chapter~\ref{cha:integration}
-we use only transcribed utterances from Alex recordings, 
-so we can measure accuracy of the speech recognition task in~the dialog system.
+The evaluation in~Section~\ref{sec:result} is perform  on test set combined from all three domains.
+The test set is mixed according the proportion of the domains in training and development set.
+% On contrary, in evaluation of \ac{ASR} in Alex described in~Chapter~\ref{cha:integration}
+% we use only transcribed utterances from Alex recordings, 
+% so we can measure accuracy of the speech recognition task in~the dialog system.
 
 Consider differences in Czech language between sentences from dialogues with Alex 
 in first example and the sentences from the other two domains.
@@ -241,108 +92,151 @@ O LIBERALIZMU TEHDY NEBYLO ŘEČI
 CO BY TAM S TEBOU DĚLALI
 \end{verbatim}
 
-Notice that the sentences for Alex public transport domain are shorter
-and contains noises. The speech is spontaneous and contains proper names.
-
-\subsection{Data preprocessing}
-\label{sub:preproces}
-
-\todo{from korvas, speech dependent files, data format one wav one transcription -> no data specif}
-\todo{lang directory content describe from high level}
-
-
-\subsection{Experiment design}
-\label{sub:experiment_design}
-\todo{described setup, alignments, dependencies (again), best models, why best}
-
-\subsection{Evaluation and speech decoding}
-\label{sub:evaluation_and_speech_decoding}
-\todo{we use gmm-latgen-faster for evaluation it is good same results with wrapped pykaldi}
-\todo{it generates lattices, we use one best hypothesis}
+Notice that the sentences in Alex public transport domain are shorter
+and contain noises. The speech is spontaneous and proper names are frequently used.
 
 
 
+\section{Training recipe \acp{AM}}
+\label{sec:am_rec}
 
-\todo{Starting from flat start monophone system we train basic triphone models}
-\todo{Comment on 2 WER difference generative vs discriminative training}
-\todo{Mention that HTK scripts are really good}
-\todo{Show that we can get similar results with Kaldi as Matej did with HTK}
-The experiments focus on comparing the quality of ASR hypothesis measured by~\ac{WER}.
-The speed of the decoding is not important at this moment.  The \term{gmm-latgen-faster} decoder is used for evaluation on testing data. 
-\todo{Je to spatne - napsat presne-However, many of the methods from~Table~\ref{tab:disc_train}
-require specific feature transformations, which also needs to applied before using the decoder on testing data.}
+The acoustic modelling techniques focus on modelling the speech to word mapping, so the test utterances are decoded with the least error possible. 
+For correctness the testing uses previously unseen utterances in training or development set, so the real conditions are well simulated.
+The Figure~\ref{fig:am-deps} list all acoustic models trained in our recipe.
+The advanced \ac{AM} is always initiated by audio alignments (respectively acoustic features alignments) obtained using simpler \ac{AM}.
 
-Note, that other Kaldi decoders may not support some of the trained models.
-In general, if a method is slow for the \term{gmm-latgen-faster} decoder, it is slow for other decoders too.
-We measure the speed in terms of \ac{RTF}, because the \term{gmm-latgen-faster} decoder is designed for~batch 
-processing, so the measuring latency is not convenient.
+We train a mono-phone model from flat start using the MFCCs, $\Delta$ and $\Delta \Delta$ features.
+We force-align the feature vectors to HMM states for phones in the corresponding transcriptions.
+We retrain the triphone \ac{AM} (\term{tri1a}).
+One branch of experiment finishes by training \ac{MFCC} $\Delta + \Delta\Delta$ triphone \ac{AM} force-aligned using \term{tri1a} \ac{AM}.
 
+On contrary, the second branch instead of $\Delta + \Delta\Delta$ transformation uses \ac{LDA}+\ac{MLLT} to train \term{tri2b} \ac{AM}.
+Using the \ac{AM} with \ac{LDA}+\ac{MLLT} transformations three \acp{AM} are discriminatively trained using following objective functions:
+\begin{enumerate}
+    \item \acl{MMI}\cite{chow1990maximum}\footnote{Note the \ac{MMI} function is implemented as \acs{bMMI} with boosted parameter set to 0.}. The model is train in four loops.
+    \item \acl{bMMI}\cite{povey2008boosted}. The model is train in four loops with parameter 0.05.
+    \item \acl{MPE}\cite{povey2003mmi}. The model is retrained in four loops.
+\end{enumerate}
 
-\ml{datasets}
-The experiments were performed on dataset called \term{Vystadial}\footnote{\todo{Add link to Vystadial dataset.}}.
-However, in the~experiments we use the pretrained \ac{LM}.
-The pretrained \acl{LM} was trained by our colleagues in Cambridge for the~same domain.
-The pretrained \ac{LM} was also used in the~\ac{HTK} experiments and we use the~model in experiments 
-for comparing comparing Kaldi and \ac{HTK} results.\footnote{The Vystadial recipe can train simple \ac{LM} from the audio transcriptions}.
+\begin{figure}[!htp]
+    \begin{center}
+    \input{images/am-deps}
+    \small{\begin{tabular}{lll}
+    \hline
+    Training method name & Script shortcut \\
+    \hline
+    Monophone & mono \\
+    Triphone  & tri1 \\
+    $\Delta + \Delta\Delta$ & tri2a  \\
+    \acs{LDA}+\acs{MLLT} & tri2b  \\
+    \acs{LDA}+\acs{MLLT}+\acs{MMI} & tri2b\_mmi \\
+    \acs{LDA}+\acs{MLLT}+\acs{bMMI} & tri2b\_bmmi \\
+    \acs{MPE} & tri2b\_mpe \\
+    \hline
+    \end{tabular}}
+    \end{center}
+    \caption{Training partial order among \ac{AM} in our training recipe}
+    \label{fig:am-deps} 
+\end{figure}
+
+The acoustic models \term{mono}, \term{tri1}, \term{tri2a}
+and \term{tri2b} are trained generatively.
+The discriminative models yield better results than generative models, if enough data is available. 
+Note that the discriminative may over-fit to train data, so models from second or third retraining loop may yield better results. 
+
+The training scripts for Czech as well English data differs only data splitting and using different phonetic dictionary, the training itself remains exactly the same.
+
+\todo{Described LM build from training data}
 The pretrained \ac{LM} contains $2802$ unigrams, $109315$ bigrams and
 $118217$ trigrams. 
 
+\subsubsection*{\acl{LDA} and \ac{MLLT} feature transformation}
+The $\Delta + \Delta\Delta$ was introduced Section~\label{sub:param} and triples the number of features by by computing also first and second derivatives from \ac{MFCC} coefficients.
+The \ac{LDA}+\ac{MLLT} is an alternative setup.
+\ac{LDA} is used as linear classifier for acoustic features.
+Based on vectors of length 13 representing static \ac{MFCC} 
+spliced together in for each context window the \ac{LDA} tries to 
+find the best dynamic information, replacing the $\Delta+\Delta\Delta$ coefficients.
 
-\begin{table}[!htp]\label{tab:exp_best}
-\begin{tabular}{lrr}
-\hline
-\parbox[t]{6.0cm}{\ac{LM} and dictionary / Experiment} & Generated \acs{LM}  & Classic \ac{LM} \\
-\hline
-\ac{HTK} like parameters    &  $tri3b$-(19.59,17) & $tri2b$-(18.39,16) \\
-Best with OOV               & todo & todo \\
-Best without OOV            & todo & todo \\
-\hline
-\end{tabular}
-\caption{Kaldi experiments, best Maximum Likelihood method}
-\end{table}
+The combination of \ac{LDA} and \ac{MLLT} reduce the feature dimension and
+rotates the feature space so the classes after \ac{LDA} has more diagonal covariance in two steps.\cite{gopinath1998maximum}
+The \ac{HLDA} performs dimension reduction and space transformation in one step.\cite{gales1999semi}
+The combination \ac{HLDA} and \ac{MLLT} perform very similar feature transformation
+and obtain similar improvements over $\Delta+\Delta\Delta$ transformation 
+as \ac{HLDA}\cite{gales1999semi}\cite{gopinath1998maximum}.
+We choose to use \ac{LDA} and \ac{MLLT}, because Kaldi toolkit offers scripts 
+for this combination and we gain substantial improvement over $\Delta+\Delta\Delta$ transformation.
+See Table~\ref{tab:TODO_results}
 
-\todo{Delete the table? The summary of best results is described~Table~\ref{tab:exp_best}}
+In our experiments we use the context window with the default length of 9 frames, 
+four frames from left context and four frames from right context.
+The \ac{LDA} transforms uses and $\Delta$ and $\Delta\Delta$ dynamic features as prior.
 
-In~the detail tables 
-The tables~\ref{tab:htk_like},~\ref{tab:htk_like_gen_lm},~\ref{tab:best_oov} 
-and~\ref{tab:best_nooov}\footnote{All the tables are in~Appendix~\ref{cha:results}.} presents complete overview of the results. 
-Note, that the decoding on test data was performed with different \ac{LM} weights for each method and experiment. 
+
+% DONE \todo{described setup, alignments, dependencies (again)}
+
+
+
+% \subsection{Experimental setup} 
+% \label{sec:exps}
+% In this section we describe the organization of experiments,
+% although we skip the implementation detail, which can be found in~Appendix~\ref{cha:setup}.
+% The~Appendix~\ref{cha:setup} contains tutorial how to run the scripts, on the other hand
+% this section briefly discuss the data and setup used in the scripts. 
+
+% For training acoustic models we used Czech and English acoustic data
+% collected under Vystadial project which are publicly available.\cite{korvas_2014}
+
+
+
+% Note, that other Kaldi decoders may not support some of the trained models.
+% In general, if a method is slow for the \term{gmm-latgen-faster} decoder, it is slow for other decoders too.
+% We measure the speed in terms of \ac{RTF}, because the \term{gmm-latgen-faster} decoder is designed for~batch 
+% processing, so the measuring latency is not convenient.
+
+
+\section{Evaluation}
+\label{sec:am_eval}
+
+The experiments focus on comparing the quality of ASR hypothesis measured by~\ac{WER}.
+The speed of the decoding is not important at this moment.  
+The \term{gmm-latgen-faster} decoder is used for evaluation on testing data.
+We are able to exactly reproduce the results of \term{gmm-latgen-faster} decoder with our \term{OnlineLatgenRecogniser}.
+The \term{gmm-latgen-faster} was used for evaluation in the scripts, so the Kaldi users do not have to install our extension.
+The \term{gmm-latgen-faster} decoder generates a state level lattice for each utterance.
+The one best hypothesis is extracted from the decoded lattice and evaluated by \ac{WER} and \ac{SER} metrics agains against the reference transcription.
+The \term{gmm-latgen-faster} decoder is used with all \acp{AM} trained and wth the training bigram \ac{LM}.
+The \ac{AM}, \ac{LM} phonetic dictionary and few helper files are used to built \term{HCLG} decoding graph.
+The parameters are set to default the exceptions are \term{beam=12.0, lattice-beam=6.0, max-active-states=14000}. See Section~\ref{sec:real-setup} to find out what the parameters mean.
+
+
+The results were compared against results obtained well-written \ac{HTK} scripts by Keith Vertanen and improved by Matěj Korvas \cite{korvas_2014}.
+
+\todo{Note, that the decoding on test data was performed with different \ac{LM} weights for each method and experiment. 
 The we tried \ac{LM} weights $9, 10, 11, ...$ to $20$. 
 The best \ac{LM} weight is always the second number in bracket.
+}
+
 \todo{na jakych datech jsi tu  nejlepsi wahu urcil? na test nebo devel. Pokud na test. Pak to musis nejak omluvit protoze to neni idealni
 Muzes rict ze to delas aby jsi eliminoval vliv vahy LM na vysledku  a vzhledem k tomu ze netestujem kvalitu LM tak to nevadi jak ze tunis na test datech.}
 
 Similarly to \ac{WER}, we also measured \ac{SER}. It is computed as ratio of sentences at least with one incorrectly decoded word dived by the total number of sentences. Note that \ac{SER} largely depends on length of sentences. 
+\todo{best models, why best}
 
-\begin{table}[!htp]\label{tab:htk_like}\centering\begin{tabular}{l|rrr}
-exp             & RT coef       & WER         & SER        \\ 
-\hline
-mono            & 0.766032      & (41.68, 12) & (67.79, 18)\\ 
-tri1            & 0.6366977     & (21.97, 14) & (50.32, 20)\\ 
-tri2a           & 0.4987811     & (22.34, 18) & (49.94, 18)\\ 
-tri2b           & 0.4434147     & (18.39, 16) & (44.5, 19) \\ 
-tri2b-mmi       & 0.50897815    & (14.25, 13) & (39.07, 13)\\ 
-tri2b-mmi-b0.05 & 0.49218765    & (14.08, 14) & (38.29, 15)\\ 
-tri2b-mpe       & 0.43555075    & (15.62, 16) & (41.01, 15)\\ 
-tri3b           & 0.3002624     & (19.15, 17) & (47.22, 18)\\ 
-tri3b-mmi       & 0.3152644     & (14.71, 13) & (39.33, 17)\\ 
-tri3b-fmmi-b    & 2.46556       & (14.25, 12) & (38.55, 15)\\ 
-tri3b-fmmi-c    & 2.4882825     & (14.2, 14)  & (38.03, 14)\\ 
-tri3b-fmmi-d    & 1.84923083333 & (14.47, 14) & (38.42, 14)
-\end{tabular}
-\caption{Experiment with pretrained LM and dictionary "\ac{HTK}-like".}
-\end{table}  
-
-% section introduction_to_training_acoustic_models (end)
-
-\section[Kaldi and \acs{HTK} comparison]{Kaldi and previous \ac{HTK} results comparison} 
+\subsection[Kaldi and \acs{HTK} comparison]{Kaldi and previous \ac{HTK} results comparison} 
 \label{sec:compare}
+\todo{Mention that HTK scripts are really good}
+
+\todo{Show that we can get similar results with Kaldi as Matej did with HTK}
+
+\todo{Run experiments with every 50 30 20 10 5 1 shows tri2a, tri2b, tri2b-bmmi, trib2-mpe, graph and table only full data (every 1)}
 
 Let us remind, that we use OpenJulius decoder together with HTK models decoder in the~Alex dialog system.
 The \ac{HTK} scripts were written by Filip Jurčíček and Matěj Korvas. No discriminative training was performed,
 only experiments with mixing with different \acl{LM} settings were performed. 
 The best obtained results are listed in~Table~\ref{tab:res}.
 
+\todo{Add HTK results from paper Korvas}
 \begin{table}[!htp]\label{tab:htk_res}\centering\begin{tabular}{l|rr}
 Experiment      & \ac{WER} & \ac{SER} \\
 \hline
@@ -398,10 +292,5 @@ In future, we would like to use very general \ac{LM}
 \todo{Tohle by mohlo byt vypichnuto nekde jinde, a lepe. Delame jenom AM, LM nas nezajima, ale abychom mohli testovat nejaky potrebujeme. Jsou dva zpusoby. Primo z trenovacich dat, nebo nejaky obcnejsi.}
 % section kaldi_vs_htk_training_scripts_and_its_capabilities (end)
 
-
-
-
-
-
-
-% chapter model_training_modelsmodels (end)
+The experiment using \ac{MFCC}, \ac{LDA} \& \ac{MLLT} and \ac{bMMI} discriminative training is
+a state of the art set up for speaker independent speech recognition\cite{morbini2013asr}.

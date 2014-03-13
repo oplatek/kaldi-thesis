@@ -56,7 +56,6 @@ See Figure~\ref{fig:components}.
 
 \subsection{Speech parameterisation}
 \label{sub:param}
-% \section{Signal processing}
 % FIXME consult kaldi website with what I have written
 % http://kaldi.sourceforge.net/feat.html
 The goal of speech parameterization is to reduce the negative environmental influences on speech recognition.
@@ -123,8 +122,16 @@ The \ac{MFCC} features are computed by the~following steps:
     \item From the mel frequencies the logs of the powers are taken from each of the mel frequencies.
     \item At the end the discrete cosine transform is applied on the list of mel log powers.
     \item The \ac{MFCC} coefficients are the amplitudes of the resulting spectrum.
-    \item The delta and delta-delta coefficients are computed from the current and previous static features.
+    \item The delta and delta-delta coefficients are computed from the current and previous static features. See Figure~\ref{fig:delta}.
 \end{enumerate}
+
+\begin{figure}
+    \begin{center}
+    \input{images/mfcc-delta}
+    \caption{Typical setup with 39 features using \ac{MFCC}.}
+    \label{fig:delta} 
+    \end{center}
+\end{figure}
 
 \subsection*{Feature space transformations}
 Feature space transformations are usually applied in addition to \ac{MFCC} or \ac{PLP} preprocessing.
@@ -307,8 +314,29 @@ Using only the single best assignment $\phi$ the {\bf M-step} is also simpler th
 Baum-Welch algorithm case.
 We simply refer to the~\ac{EM} algorithm with Viterbi criterion as Viterbi training.
 
+\subsubsection*{\acl{MLE} method}
+\label{sub:mle_method}
+The \ac{MLE} is general attitude to setting statistical model parameters.
+The maximum likelihood estimation search for best parameters $\theta^*$ 
+in order to maximize the likelihood function $f$ for \ac{IID} training data illustrated in Equation~\ref{eq:maxlikelihood}.
+For \ac{IID} training data holds Equation~\ref{eq:lmjoint} describing data joint probability. 
+\begin{equation}\label{eq:lmjoint}
+    f(x_1, x_2, x_3, \ldots, x_n | \theta) = f(x_1 | \theta) * f(x_2 | \theta) * \ldots * f(x_n | \theta)
+\end{equation}
+The likelihood function can be derived from Equation~\ref{eq:lmjoint} assuming training data fixed
+and parameter $\theta$ free as described in Equation~\ref{eq:likelihood}.
+\begin{equation}\label{eq:likelihood}
+    \mathcal{L}(\theta\,|\,x_1,\ldots,x_n) = \sum_{i=1}^n f(x_i|\theta)
+\end{equation}
+\begin{equation}\label{eq:maxlikelihood}
+    \theta^* = argmax_{\theta} \mathcal{L}(\theta\,|\,x_1,\ldots,x_n)
+\end{equation}
+
+
+
 \subsubsection*{Viterbi training of acoustic models}
 We focus on Viterbi training because it is used in Kaldi toolkit and it is simpler.
+The Viterbi training approximates \ac{MLE} \ac{AM} training.
 Latest work suggest that Viterbi training is just as effective for continuous
 speech recognition as Baum-Welch algorithm \cite{rodriguez2003comparative}.
 In addition Viterbi training needs much less computational resources. 
@@ -352,6 +380,25 @@ Secondly, transition probabilities are estimated from the relative frequencies, 
 \end{equation}
 
 \todo{Add equations 4+ from buthpitiya2012parallel!}
+
+\ml{generative training}
+To conclude, \ac{AM} are trained using \ac{MLE} or Viterbi training, which approximates the theoretically optimal \ac{MLE} Baum-Welsh training; however, in practice Viterbi training performs as well as \ac{MLE} modelling.
+Baum-Welsch or Viterbi training aim at modelling the probabilities of spoken utterance and perform so called generative training.
+However, in practice, discriminative methods, which optimise its objective function, perform better.
+
+\subsubsection*{Discriminative training}
+\label{sub:subsection_name}
+% subsection subsection_name (end)
+\ml{discriminative training}
+The discriminative training is typically initialised by acoustic model by a generative model from Baum-Welsch or Viterbi training.
+In addition, the discriminative training uses its objective function and posterior probability to discriminate -- select the best hypothesis.
+In training scripts described in Chapter~\ref{cha:train} following objective functions and accordingly named discriminative training are used:
+\begin{itemize}
+    \item \acl{MMI}\cite{chow1990maximum} 
+        Note the \ac{MMI} function is implemented as \acs{bMMI} with boosted parameter set to 0.\todo{CHECK}
+    \item \acl{bMMI}\cite{povey2008boosted}
+    \item \acl{MPE}\cite{povey2003mmi}
+\end{itemize}
 
 \subsection{Language modeling}
 \label{sub:lm}
