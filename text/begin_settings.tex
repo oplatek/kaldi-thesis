@@ -42,7 +42,9 @@
 \usepackage{pst-plot} % For axes
 % another package for drawing
 \usepackage{tikz}
-
+\usepackage{booktabs}  % nice tables
+% options of package described at:http://tex.stackexchange.com/questions/25520/how-can-i-use-the-latex-acronym-package-and-optionally-create-an-acronym-list-i
+\usepackage[printonlyused,withpage]{acronym}
 
 
 % hyperref MUST BE the LAST PACKAGE
@@ -52,8 +54,6 @@
 \hypersetup{pdftitle=Automatic speech recognition using Kaldi}   
 \hypersetup{pdfauthor=Ond\^{r}ej Pl\'{a}tek}
 
-% options of package described at:http://tex.stackexchange.com/questions/25520/how-can-i-use-the-latex-acronym-package-and-optionally-create-an-acronym-list-i
-\usepackage[printonlyused,withpage]{acronym}
 
 %%% MACROS %%%% 
 % Tato makra přesvědčují mírně ošklivým trikem LaTeX, aby hlavičky kapitol
@@ -97,6 +97,7 @@
 \def\code#1#2#3{
     \lstinputlisting[style=#2, caption={#1}, label=#3, float=h]{#3}
 }
+\newcommand{\theader}[1]{\textbf{#1}}
 
 
 %%% END OF MACROS %%%
@@ -109,3 +110,5 @@
 \newtheorem{exmp}[thm]{Example} % same for example numbers
 
 \newcommand{\norm}{\ensuremath{\:\mathcal{N}}}
+\newlength{\tabindent}
+\setlength{\tabindent}{.8em}
