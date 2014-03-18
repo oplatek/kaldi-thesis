@@ -214,73 +214,69 @@ The~high latency is presumably caused by the~batch processing of audio data and 
 
 
 
-\todo{Describe domain data training and test data only SDS Alex domain difference}
-\begin{verbatim}
-    # waws:                  948
-    Global RTF mean:         1.053494
-    RTF median:              1.024411  RTF       < 1.123661 [in 95%]
-    Forward RTF median:      0.228039  FWRTF     < 0.576542 [in 95%]
-    Latency median:          0.039645  Latency   < 0.339410 [in 95%]
-    Forward latency median:  0.000000  FWLatency < 0.000000 [in 95%]
-    
-    95%RTF=1.12 95%FWRTF=0.58 95%LAT=0.34 95%FWLAT=0.00
+% \todo{Describe domain data training and test data only SDS Alex domain difference}
 
-
-    Please note that the scoring is implicitly ignoring all non-speech events.
-    
-    Ref: decoded\_kaldi/ref\_trn.txt
-    Tst: decoded\_kaldi/dec\_trn.txt
-    |==============================================================================================|
-    |            | # Sentences  |  # Words  |   Corr   |   Sub    |   Del    |   Ins    |   Err    |
-    |----------------------------------------------------------------------------------------------|
-    | Sum/Avg    |     948      |   2486    |  88.33   |   7.40   |   4.26   |   3.50   |  15.16   |
-    |==============================================================================================|
-    
-
-real    15m49.998s
-user    11m8.739s
-sys     0m6.585s
-\end{verbatim}
-
-\begin{verbatim}
-  # waws:                  948
-    Global RTF mean:         1.064172
-    RTF median:              1.026408  RTF       < 1.150286 [in 95%]
-    Forward RTF median:      0.243869  FWRTF     < 0.623924 [in 95%]
-    Latency median:          0.043117  Latency   < 0.404169 [in 95%]
-    Forward latency median:  0.000000  FWLatency < 0.000000 [in 95%]
-    
-    95%RTF=1.15 95%FWRTF=0.62 95%LAT=0.40 95%FWLAT=0.00
-
-
-    Please note that the scoring is implicitly ignoring all non-speech events.
-    
-    Ref: decoded_kaldi/ref_trn.txt
-    Tst: decoded_kaldi/dec_trn.txt
-    |=============================================================================================
-=|
-    |            | # Sentences  |  # Words  |   Corr   |   Sub    |   Del    |   Ins    |   Err   
- |
-    |---------------------------------------------------------------------------------------------
--|
-    | Sum/Avg    |     948      |   2265    |  89.71   |   6.23   |   4.06   |   2.87   |  13.16  
- |
-    |=============================================================================================
-=|
-    
-
-real    13m17.918s
-user    13m4.224s
-sys     0m6.265s
-\end{verbatim}
+% \begin{verbatim}
+%     # waws:                  948
+%     Global RTF mean:         1.053494
+%     RTF median:              1.024411  RTF       < 1.123661 [in 95%]
+%     Forward RTF median:      0.228039  FWRTF     < 0.576542 [in 95%]
+%     Latency median:          0.039645  Latency   < 0.339410 [in 95%]
+%     Forward latency median:  0.000000  FWLatency < 0.000000 [in 95%]
+%     
+%     95%RTF=1.12 95%FWRTF=0.58 95%LAT=0.34 95%FWLAT=0.00
+% 
+% 
+%     Please note that the scoring is implicitly ignoring all non-speech events.
+%     
+%     Ref: decoded\_kaldi/ref\_trn.txt
+%     Tst: decoded\_kaldi/dec\_trn.txt
+%     |==============================================================================================|
+%     |            | # Sentences  |  # Words  |   Corr   |   Sub    |   Del    |   Ins    |   Err    |
+%     |----------------------------------------------------------------------------------------------|
+%     | Sum/Avg    |     948      |   2486    |  88.33   |   7.40   |   4.26   |   3.50   |  15.16   |
+%     |==============================================================================================|
+%     
+% 
+% real    15m49.998s
+% user    11m8.739s
+% sys     0m6.585s
+% \end{verbatim}
+% 
+% \begin{verbatim}
+%   # waws:                  948
+%     Global RTF mean:         1.064172
+%     RTF median:              1.026408  RTF       < 1.150286 [in 95%]
+%     Forward RTF median:      0.243869  FWRTF     < 0.623924 [in 95%]
+%     Latency median:          0.043117  Latency   < 0.404169 [in 95%]
+%     Forward latency median:  0.000000  FWLatency < 0.000000 [in 95%]
+%     
+%     95%RTF=1.15 95%FWRTF=0.62 95%LAT=0.40 95%FWLAT=0.00
+% 
+% 
+%     Please note that the scoring is implicitly ignoring all non-speech events.
+%     
+%     Ref: decoded_kaldi/ref_trn.txt
+%     Tst: decoded_kaldi/dec_trn.txt
+%     |=============================================================================================
+% =|
+%     |            | # Sentences  |  # Words  |   Corr   |   Sub    |   Del    |   Ins    |   Err   
+%  |
+%     |---------------------------------------------------------------------------------------------
+% -|
+%     | Sum/Avg    |     948      |   2265    |  89.71   |   6.23   |   4.06   |   2.87   |  13.16  
+%  |
+%     |=============================================================================================
+% =|
+%     
+% 
+% real    13m17.918s
+% user    13m4.224s
+% sys     0m6.265s
+% \end{verbatim}
 
 \subsection{Results}
 \label{sec:results}
+Based on evaluation we selected setup\footnote{Setup: \term{beam} 12, \term{lattice-beam} 5, \term{max-active-states} 2000.} for ASR component in Alex Dialogue System Framework with  WER under 22 \%, latency less tha 200 ms and RTF under 0.6.
+The~\term{OnlineLatgenRecogniser} performs significantly better when to our previous implementation of queries to cloud Google ASR service.
 
-
-\todo{ Shortly say that the source code will be merged into Kaldi and also promote Alex which is going to be on Github}
-% section evalution_on_alex_data (end)
-
-% section software_development_in_open_source_community (end)
-
-% chapter integration_into_dialog_system (end)
