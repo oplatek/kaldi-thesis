@@ -2,3 +2,24 @@
 \label{cha:cd_content}
 
 \todo{List content of CD, add bachalor thesis too}
+\begin{itemize}
+    \item Alex - Alex Dialogue System Framework which I extended by work in following files and directories:
+        \begin{itemize}
+            \item \term{alex/components/asr/kaldi.py} - component interfacing \term{PyOnlineLatgenFaster}
+            \item \term{alex/tools/kaldi/} - training Kaldi scripts very similar to scripts in Kaldi/egs/vystadial 
+            \item \term{alex/applications/PublicTransportInfoCs/hclg/} - scripts for building decoding graph \term{HCLG} and running evaluation of ASR engines for Public Transport domain 
+        \end{itemize}
+    \item Kaldi toolkit - Speech recognition toolkit which I extended by implementing work in following directories:
+        \begin{itemize}
+            \item \term{src/onl-rec} - C++ code implementing \term{PyOnlineLatgenFaster}
+            \item \term{src/pykaldi} - Python wrapper \term{PyOnlineLatgenFaster}
+            \item \term{egs/vystadial/online\_demo} - Demos using pre-trained acoustic models and LMs on small test set. The demos run \term{OnlineLatgenFaster}, \term{PyOnlineLatgenFaster} and \term{gmm-latgen-faster}(original batch processing Kaldi executable).
+        \end{itemize} \term{egs/vystadial/s5} - training scripts for VYSTADIAL data published under TODO license and partially collected on Alex Public Transport domain 
+    \item Pyfst - Fork of Python wrapper of OpenFST, where I improved installation and add several simple functions.
+    \item pykaldi-eval - TODO
+    \item thesis.pdf
+    \item Related Published Papers - papers where I am main author or co-author and are related to this work.
+    \item Reference documentation for Kaldi. Code in \term{kaldi/src/onl-rec} is documented on pages todo in todo pdf.
+    \item Reference documentation for \term{kaldi/src/pykaldi}. See pages todo in todo pdf 
+    \item Reference documentation for Alex. See pages todo in todo pdf.
+\end{itemize}
