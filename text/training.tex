@@ -2,20 +2,20 @@
 \chapter{Acoustic model training}
 \label{cha:train}
 
-This chapter present acoustic new Kaldi modeling recipe for new Czech and English data.
-The recipe scripts were developed as part of this thesis and are licensed under the Apache 2.0 license and publicly available in Kaldi repository\footnote{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/egs/vystadial/}.
-The \ac{AM} trained using this scripts can be used for both batch training with common Kaldi decoders or with the new \term{OnlineLatgenRecognizer}, which performs on-line decoding and is described in Chapter~\ref{cha:decoder}.
+This chapter present new Kaldi acoustic modeling recipe for free Czech and English data.
+The recipe scripts were developed as part of this thesis and are licensed under the Apache 2.0 license and they are publicly available in Kaldi repository\footnote{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/egs/vystadial/}.
+The \ac{AM} trained using this scripts can be used for both batch training with common Kaldi decoders or with the new \term{OnlineLatgenRecognizer}, which performs on-line decoding described in Chapter~\ref{cha:decoder}.
 
-The first Section~\ref{sec:methods} introduces data used. 
-The chapter continues by~presenting the \acp{AM} training in~Section~\ref{sec:exps}. 
-Later, in~Section~\ref{sec:compare} we evaluate results of trained \acp{AM} and compare them to generative \acp{AM} trained state of art \ac{HTK} scripts.
+The first Section~\ref{sec:data} introduces data used. 
+The chapter continues by~presenting the \acp{AM} training in~Section~\ref{sec:am_train}. 
+Later, in~Section~\ref{sec:am_eval} we evaluate results of trained \acp{AM} and compare them to generative \acp{AM} trained state of art \ac{HTK} scripts.
 Note, that details about launching the scripts and file system organisation can be found in Appendix~\ref{cha:train_scripts}.  
 
 \section{Vystadial acoustic data}
-\label{sec:vystadial_acoustic_data}
+\label{sec:data}
 
 The data were collected in Vystadial project\footnote{http://ufal.mff.cuni.cz/grants/vystadial} and are released under the Creative Commons Share-alike (CC-BY-SA~3.0). 
-The Czech\footnote{Czech data: \url{http://lindat.mff.cuni.cz/repository/xmlui/handle/11858/00-097C-0000-0023-4670-6}}and English\footnote{English data: \url{http://lindat.mff.cuni.cz/repository/xmlui/handle/11858/00-097C-0000-0023-4671-4}} are available online in Lindat repository\footnote{{http://lindat.mff.cuni.cz/repository/}}.
+The Czech\footnote{Czech data: \url{http://lindat.mff.cuni.cz/repository/xmlui/handle/11858/00-097C-0000-0023-4670-6}}and English\footnote{English data: \url{http://lindat.mff.cuni.cz/repository/xmlui/handle/11858/00-097C-0000-0023-4671-4}} data are available online in Lindat repository\footnote{{http://lindat.mff.cuni.cz/repository/}}.
 Note that the previous version of this recipe is published with the data in Lindat repository and described in~work~\cite{korvas_2014}.
 
 The English acoustic data are recorded phone calls among humans and statistical dialogue systems,
@@ -39,9 +39,9 @@ In \term{FRIEND} service native Czech speakers were invited to make free calls.
 In Repeat After Me process volunteers called a number where they were asked to repeat 
 sentences synthesized by a \ac{TTS}.
 
-Note that the user language differ significantly in dialogues with Alex and the other two settings.
+Note that the user language differ significantly in dialogues with Alex system and the other two settings.
 % Remember we focus on training \acp{AM} for \ac{SDS} Alex and its public transport domain.
-The \acp{AM} for Czech are trained on acoustic data from the three very different domains, because there is available only 2 hours of in-domain data for public transport domain, which we target with the \ac{SDS} Alex.
+The \acp{AM} for Czech are trained on acoustic data from the three very different domains, because there is available only 2 hours of in-domain data for the Alex's public transport domain.
 The summary of audio sizes in training, development and test set are presented in Table~\ref{tab:audio}.
 Both Czech and English orthographic speech transcriptions were transcribed by humans.
 
@@ -69,14 +69,14 @@ Both Czech and English orthographic speech transcriptions were transcribed by hu
 \end{table}
 
 
-The evaluation in~Section~\ref{sec:result} is perform  on test set combined from all three domains.
+The evaluation in~Section~\ref{sec:results} is performed  on test set combined from all three domains.
 The test set is mixed according the proportion of the domains in training and development set.
 % On contrary, in evaluation of \ac{ASR} in Alex described in~Chapter~\ref{cha:integration}
 % we use only transcribed utterances from Alex recordings, 
 % so we can measure accuracy of the speech recognition task in~the dialog system.
 
-Consider differences in Czech language between sentences from dialogues with Alex 
-in first example and the sentences from the other two domains.
+Consider differences in Czech language between sentences from dialogues with Alex in first example and the sentences from the other two domains.
+
 \begin{verbatim}
 A DALŠÍ
 _NOISE_
@@ -92,13 +92,13 @@ O LIBERALIZMU TEHDY NEBYLO ŘEČI
 CO BY TAM S TEBOU DĚLALI
 \end{verbatim}
 
-Notice that the sentences in Alex public transport domain are shorter
-and contain noises. The speech is spontaneous and proper names are frequently used.
+The sentences in Alex public transport domain (as seen in the first paragraph) are shorter and contain noises.
+The speech is spontaneous and proper names are frequently used.
 
 
 
 \section{Training recipe \acp{AM}}
-\label{sec:am_rec}
+\label{sec:am_train}
 
 The acoustic modelling techniques focus on modelling the speech to word mapping, so the test utterances are decoded with the least error possible. 
 For correctness the testing uses previously unseen utterances in training or development set, so the real conditions are well simulated.
@@ -211,7 +211,8 @@ In addition, we give insights how the quality of \acp{AM} is going to improve wi
 \end{figure}
 
 
-\subsection*{Results}
+\subsection{Results}
+\label{sec:results}
 The Table~\ref{tab:best} presents best \acp{AM} results. 
 The \ac{AM} were estimated on training set and the development set was used to tune the \term{LMW} language model weight parameter.
 The evaluation was performed on the test set.
