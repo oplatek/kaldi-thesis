@@ -2,7 +2,6 @@
 \chapter{Conclusion}
 \label{cha:conclusion}
 
-\todo{The work specified by goals in Chapter~\ref{cha:intro} varies in many aspects. We successfully trained acoustic models, design and also implement decoders interface, improve real-time decoder and prepared experiments for evaluating results.}
 
 The~Kaldi toolkit is a~speech recognition toolkit distributed under a~free license \cite{povey2011kaldi}.
 The~toolkit is based on Finite State Transducers, implements state-of-the-art acoustic modelling techniques, is computationally efficient, and is already widely adapted among research groups.
@@ -14,11 +13,9 @@ The~\term{OnlineLatgenRecogniser} is distributed under the~Apache 2.0 license, a
 The~recogniser and its Python extension is stable and intensively used in a~publicly available spoken dialogue system \cite{ptics2014url}.
 Thanks to the~use of a~standard Kaldi lattice decoder, the~recogniser produces high quality word posterior lattices.
 % In addition, this enable the~recogniser to benefit from future improvements in the~Kaldi decoders.
-% The~scripts for training acoustic models, including Czech data, are also freely available online.
-The training scripts for the~acoustic model and the~\term{OnlineLatgenRecogniser} code are currently being integrated in the~Kaldi toolkit.
-Future planned improvements include implementing more sophisticated speech parameterisation interface and feature transformations.
 
-The source code of the \term{OnlineLatgenRecogniser} is currently merging into Kaldi\footnote{\url{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/src/dec-wrap/}}.
+
+The training script as well as the source code of the \term{OnlineLatgenRecogniser} is currently merging into Kaldi repository\footnote{\url{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/src/dec-wrap/}}\footnote{\url{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/egs/vystadial/}}.
 The Alex dialogue system and the integration of \term{OnlineLatgenRecogniser} is Apache, 2.0 licensed and freely available on Github\footnote{\url{https://github.com/UFAL-DSG/alex}}.
 The training scripts, the \term{OnlineLatgenRecogniser} and its Python wrapper \term{PyOnlineLatgenRecogniser} was developed also under Apache, 2.0 license on Github\footnote{\url{https://github.com/UFAL-DSG/pykaldi}, \url{https://github.com/UFAL-DSG/pyfst}} 
 
@@ -38,12 +35,12 @@ The training scripts, the \term{OnlineLatgenRecogniser} and its Python wrapper \
 % and the~potential of oracle WER should be more utilised.
 % 
 
-% \section*{Acknowledgments}
-% This research was partly funded by the~MEYS of the~Czech Republic under the~grant agreement LK11221 and core research funding of Charles University in Prague.
-% The work described herein uses language resources hosted by the LINDAT/CLARIN repository, funded by the project LM2010013 of the MEYS of the Czech Republic.
-% We would also like to thank Daniel Povey Ondřej Dušek, Matěj Korvas, David Marek and Tomáš Martinec for their useful comments and discussions.
-% Ondřej Dušek, Matěj Korvas, David Marek and Tomáš iartinec for useful comments and discussions.  
+The work specified by goals in introduction varies in many aspects. 
+We successfully trained acoustic models, design and also implement decoders interface, improve real-time decoder and prepared experiments for evaluating results.
 
-% include your own bib file like this:
+Future planned improvements include implementing more sophisticated speech parameterisation interface and feature transformations.
 
-\todo{create future work subsection}
+\section*{Acknowledgments}
+This research was partly funded by the~MEYS of the~Czech Republic under the~grant agreement LK11221 and core research funding of Charles University in Prague.
+The work described herein uses language resources hosted by the LINDAT/CLARIN repository, funded by the project LM2010013 of the MEYS of the Czech Republic.
+We would also like to thank Daniel Povey, Pavel Mencl, Ondřej Dušek, Matěj Korvas, David Marek and Tomáš Martinec for their useful comments and discussions.
