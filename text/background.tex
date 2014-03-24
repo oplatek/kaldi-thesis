@@ -22,6 +22,9 @@ The Kaldi toolkit is described in Section~\ref{sec:back_kaldi}, the \ac{HTK} too
 \label{sec:back_asr}
 
 The goal of statistical \ac{ASR} is to decode the best speech transcription for given speech recording.
+The term \term{decoding} find its origin in \acs{HMM} terminology. 
+In speech recognition it is equivalent to \term{recognizing} the word sequence from the speech. 
+The speech \ac{HMM} decoders recognise phones or triphones sequences from which the word sequence is extracted as explained in~Section~\ref{sec:decode}.
 Formally, we search for the most probable sequence of~words $w^*$ given the acoustic observations $a$.
 See Equation~\ref{eq:best_seq}, which can be simplified to Equation~\ref{eq:best_fix}, because we want decode $w^*$ for fixed speech $a$.
 
@@ -109,8 +112,8 @@ Let us describe the~\ac{MFCC} computation for 25 ms window shifted by 10 ms and 
 The $16000 * 0.025 = 400$ samples in one window are reduced to 13 static cepstral coefficients.
 
 The \ac{MFCC} or \ac{PLP} static features are usually extended 
-by time derivatives delta and delta-delta features \cite{psutka2001comparison},
-so it results to $13 + 13 + 13 = 39$ \ac{MFCC} delta \& delta-delta features 
+by time derivatives $\Delta+\Delta\Delta$ features \cite{psutka2001comparison},
+so it results to $13 + 13 + 13 = 39$ \ac{MFCC} $\Delta+\Delta\Delta$ features 
 per 400 samples in one window.
 
 The \ac{MFCC} features are computed by the~following steps:
@@ -122,7 +125,7 @@ The \ac{MFCC} features are computed by the~following steps:
     \item From the mel frequencies the logs of the powers are taken from each of the mel frequencies.
     \item At the end the discrete cosine transform is applied on the list of mel log powers.
     \item The \ac{MFCC} coefficients are the amplitudes of the resulting spectrum.
-    \item The delta and delta-delta coefficients are computed from the current and previous static features. See Figure~\ref{fig:delta}.
+    \item The $\Delta+\Delta\Delta$ coefficients are computed from the current and previous static features. See Figure~\ref{fig:delta}.
 \end{enumerate}
 
 \begin{figure}
@@ -154,8 +157,6 @@ Some transforms are trained on all acoustic data, some are per speaker.
 Some transforms are estimated discriminatively, some use generative models.
 
 We list some of Kaldi transforms in order to illustrate rich choice of feature transforms in Kaldi toolkit.
-In Section~\ref{sec:transform} we describe in more detail the transforms, which we use in our training scripts.
-
 % use and city http://kaldi.sourceforge.net/transform.html#transform_cmllr_global
 \begin{itemize}
     \item \acl{LDA}\cite{gopinath1998maximum}
@@ -165,6 +166,19 @@ In Section~\ref{sec:transform} we describe in more detail the transforms, which 
     \item \acl{CMVN}\cite{molau2003feature}
 \end{itemize}
 
+In our acoustic modelling scripts, see Chapter~\ref{cha:train},  we use two non-speaker adaptive feature transformations, which can be computed with very small context. 
+The first transformation, $\Delta+\Delta\Delta$  for \ac{MFCC} coefficients, was already introduced.
+The second transformation, \ac{LDA} \& \ac{MLLT}, is described briefly below, and we use it also with \ac{MFCC} coefficients.
+
+\subsubsection*{\acl{LDA} and \ac{MLLT} feature transformation}
+The \ac{LDA}+\ac{MLLT} is an alternative setup to $\Delta+\Delta\Delta$ transformation in our training scripts.
+Using several spliced \ac{MFCC} vectors the \ac{LDA}+\ac{MLLT} searches for the best dynamic information, replacing the $\Delta+\Delta\Delta$ coefficients.
+
+The combination of \ac{LDA} and \ac{MLLT} reduce the feature dimension and
+rotates the feature space so the classes after \ac{LDA} has more diagonal covariance in two steps.\cite{gopinath1998maximum}, whereas the \ac{HLDA} performs dimension reduction and space transformation in one step.\cite{gales1999semi}
+The combination \ac{HLDA} and \ac{MLLT} perform very similar feature transformation to \ac{HLDA}
+and gains significant improvements over $\Delta+\Delta\Delta$ transformation 
+as \ac{HLDA}\cite{gales1999semi}\cite{gopinath1998maximum}.
 
 % To conclude, the signal processing samples the continuous audio at regular interval intervals. 
 % Fixed number of consecutive samples forms a window. The~windows are usually overlapping.
@@ -894,64 +908,3 @@ Probability  &  $\mathcal{R}_{+}$  &  +  &  *  &  0  &  1  \\
 \end{tabular}
 \caption{Semirings used in speech recognition.}
 \end{table}
-
-
-% \subsubsection*{OpenFST datastructures in Kaldi}
-% We would like to introduce toy examples of construction such data structures which are used in Kaldi.
-% Note that the~proper introduction to \ac{FST} framework for speech recognition we recommend\cite{mohri2002weighted}.
-% The Kaldi decoding graph construction is very well described in \href{http://kaldi.sourceforge.net/graph\_recipe\_test.html}{Kaldi documentation}.
-% We feel that a few figures of toy speech recognition problem will help us explain algorithms,
-% which we describe, in Chapters~\ref{cha:train} and~\ref{cha:decoder}.
-% The inspiration for such attitude was \href{http://vpanayotov.blogspot.cz/2012/06/kaldi-decoding-graph-construction.html}{Vassil Panayotov post}.
-% 
-% \todo{Introduction from:
-%  OPENFST explanation in Finite State Transducers mechanism in speech recognition -Dan Povey
-%  OPENFST article: OpenFst: A General and Efficient Weighted Finite-State Transducer Library Cyril Allauzen1 , Michael Riley2,3 , Johan Schalkwyk2 , Wojciech Skut2 , and Mehryar Mohri1
-%  SPEECH RECOGNITION WITH WEIGHTED FINITE-STATE TRANSDUCERS Mehryar Mohri}
-% 
-% 
-% \subsubsection*{\todo{Sources - cite them!}} % (fold)
-% 
-% \begin{itemize}
-%     \item \todo{Consult Vassil blogpost}
-%     \item \href{http://kaldi.sourceforge.net/graph.html} {Decoding graph construction in Kaldi}
-%     \item \href{http://kaldi.sourceforge.net/lattices.html} {Lattices in Kaldi}
-% \end{itemize}
-% 
-% \subsection{Decoding graph construction in~Kaldi} % (fold)
-% % FIXME add source http://kaldi.sourceforge.net/graph.html
-% % FIXME consult Vassil blogpost
-% 
-% Let us explain the shortcuts in the list below. Note that the operation are described in detail
-% at page \href{http://kaldi.sourceforge.net/fst_algo.html#fst_algo_stochastic} {Finite State Transducer algorithms in Kaldi}. 
-% % The source code of these operations is in fstext and corresponding command-line program are in fstbin/
-% \begin{itemize}
-%     \item asl - Add self loops to \ac{FST}
-%     \item rds - Remove disambiguation symbols from \ac{FST}
-%     \item H' is \ac{FST} H without self loops
-%     \item min -\ac{FST} minimization
-%     \item $A\circ B$  - Composition of \ac{FST} $A$ and $B$.
-%     \item det - Determinization of \ac{FST}
-% \end{itemize}
-% 
-% {\bf Kaldi stochasticity} - weights of outgoing arcs sum to 1.
-% 
-% 
-% \subsubsection*{Kaldi decoders} % (fold)
-% \begin{itemize}
-%     \item SimpleDecoder(Beam width) - straightforward implementation of Viterbi algorithm
-%     \item LatticeSimpleDecoder(Beam width d, Lattice delta $\delta$), where $ \delta \le d$
-% 
-% \end{itemize}
-% 
-% \subsection*{Decoding algorithm}
-% \label{sub:dec_algorithm}
-% The Viterbi algorithm is the~basic search algorithm for \ac{HMM}. 
-% Briefly
-% However
-% 
-% \subsubsection{Decoding with lattices}
-% \label{sub:lattice}
-% \todo{what are lattices, why is they are good, depth of lattices for dialog system,
-% problem of backward search for lattices}
-% In~Subsection~\ref{sub:lattice} we will describe lattices as another output format convenient for dialog systems.

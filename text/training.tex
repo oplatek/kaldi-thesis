@@ -2,23 +2,23 @@
 \chapter{Acoustic model training}
 \label{cha:train}
 
-This chapter present new Kaldi acoustic modeling recipe for free Czech and English data.
-The recipe scripts were developed as part of this thesis and are licensed under the Apache 2.0 license and they are publicly available in Kaldi repository\footnote{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/egs/vystadial/}.
+This chapter present new Kaldi acoustic modeling recipe for free Czech and English "\term{Vystadial}" data.
+The recipe scripts were developed as part of this thesis, they are licensed under the Apache 2.0 license and publicly available in Kaldi repository\footnote{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/egs/vystadial/}.
 The \ac{AM} trained using this scripts can be used for both batch training with common Kaldi decoders or with the new \term{OnlineLatgenRecognizer}, which performs on-line decoding described in Chapter~\ref{cha:decoder}.
 
 The first Section~\ref{sec:data} introduces data used. 
 The chapter continues by~presenting the \acp{AM} training in~Section~\ref{sec:am_train}. 
-Later, in~Section~\ref{sec:am_eval} we evaluate results of trained \acp{AM} and compare them to generative \acp{AM} trained state of art \ac{HTK} scripts.
+Later, in~Section~\ref{sec:am_eval} we evaluate trained \acp{AM} and also compare them to generative \acp{AM} which are trained using state of art \ac{HTK} scripts.
 Note, that details about launching the scripts and file system organisation can be found in Appendix~\ref{cha:train_scripts}.  
 
 \section{Vystadial acoustic data}
 \label{sec:data}
 
 The data were collected in Vystadial project\footnote{http://ufal.mff.cuni.cz/grants/vystadial} and are released under the Creative Commons Share-alike (CC-BY-SA~3.0). 
-The Czech\footnote{Czech data: \url{http://lindat.mff.cuni.cz/repository/xmlui/handle/11858/00-097C-0000-0023-4670-6}}and English\footnote{English data: \url{http://lindat.mff.cuni.cz/repository/xmlui/handle/11858/00-097C-0000-0023-4671-4}} data are available online in Lindat repository\footnote{{http://lindat.mff.cuni.cz/repository/}}.
-Note that the previous version of this recipe is published with the data in Lindat repository and described in~work~\cite{korvas_2014}.
+The Czech\footnote{Czech data: \url{http://hdl.handle.net/11858/00-097C-0000-0023-4670-6}}and English\footnote{English data: \url{http://hdl.handle.net/11858/00-097C-0000-0023-4671-4}} data are available online in Lindat repository\footnote{{http://lindat.mff.cuni.cz/repository/}}.
+Note that the previous version of our training scripts is published with the data in Lindat repository and described in~work~\cite{korvas_2014}.
 
-The English acoustic data are recorded phone calls among humans and statistical dialogue systems,
+The English acoustic data are recorded phone calls among humans and \acl{SDS},
 which was designed to provide the user with information on a suitable dining venue in the town.
 Most of the data was spoken in American English.
 The typical sentences recorded from users were queries for the dialogue system e.g.,
@@ -28,54 +28,22 @@ I'M LOOKING FOR AN INTERNATIONAL RESTAURANT
 I NEED TO FIND A PUB IT SHOULD ALLOW CHILDREN AND HAVE A TELEVISION
 \end{verbatim}.
 
-The Czech recordings were collected in three ways\cite{korvas_2014}:
+On the other hand, the Czech recordings were collected in three different ways\cite{korvas_2014}:
 \begin{enumerate}
-    \item using a free Call Friend phone service (\term{FRIEND})
+    \item using a free Call Friend phone service
     \item using the Repeat After Me speech data collecting process,
     \item from telephone interactions with the Alex \ac{SDS} in public transport domain.
 \end{enumerate}
 
-In \term{FRIEND} service native Czech speakers were invited to make free calls.
+In Call Friend service native Czech speakers were invited to make free calls.
 In Repeat After Me process volunteers called a number where they were asked to repeat 
 sentences synthesized by a \ac{TTS}.
 
 Note that the user language differ significantly in dialogues with Alex system and the other two settings.
 % Remember we focus on training \acp{AM} for \ac{SDS} Alex and its public transport domain.
-The \acp{AM} for Czech are trained on acoustic data from the three very different domains, because there is available only 2 hours of in-domain data for the Alex's public transport domain.
-The summary of audio sizes in training, development and test set are presented in Table~\ref{tab:audio}.
-Both Czech and English orthographic speech transcriptions were transcribed by humans.
-
-\begin{table}[hbp]
-    \centering
-    \begin{tabular}{lrrr}
-        \hline
-            dataset & audio & \# sents & \# words \\
-        \hline
-            English & & & \\
-                train & 41:30 & 47,463 & 178,110 \\
-                dev & 01:45 & 2,000 & 7,376 \\
-                test & 01:46 & 2,000 & 7,772 \\
-        \hline
-            Czech & & & \\
-                train & 15:25 & 22,567 & 126,333 \\
-                dev & 01:23 & 2,000 & 11,478 \\
-                test & 01:22 & 2,000 & 11,204 \\
-        \hline
-		\end{tabular}
-    \caption{Size of the data: length of the audio (hours:minutes), number of sentences
-        (which is the same as the number of recordings), number of words in the 
-    transcriptions.\cite{korvas_2014}}
-    \label{tab:audio}
-\end{table}
-
-
-The evaluation in~Section~\ref{sec:results} is performed  on test set combined from all three domains.
-The test set is mixed according the proportion of the domains in training and development set.
-% On contrary, in evaluation of \ac{ASR} in Alex described in~Chapter~\ref{cha:integration}
-% we use only transcribed utterances from Alex recordings, 
-% so we can measure accuracy of the speech recognition task in~the dialog system.
-
-Consider differences in Czech language between sentences from dialogues with Alex in first example and the sentences from the other two domains.
+The sentences in Alex public transport domain, as seen in the first paragraph, are shorter and contain noises.
+The speech is spontaneous and proper names are frequently used.
+In contrary, the other two recording tasks, as seen in the second paragraph, have much broader vocabulary with less named entities, and the ideas are expressed in longer sentences.
 
 \begin{verbatim}
 A DALŠÍ
@@ -92,8 +60,41 @@ O LIBERALIZMU TEHDY NEBYLO ŘEČI
 CO BY TAM S TEBOU DĚLALI
 \end{verbatim}
 
-The sentences in Alex public transport domain (as seen in the first paragraph) are shorter and contain noises.
-The speech is spontaneous and proper names are frequently used.
+
+The \acp{AM} for Czech are trained on acoustic data from all three very different domains, because there is available only 2 hours of in-domain data for the Alex's public transport domain.
+The evaluation for Czech data in~Section~\ref{sec:results} is performed  on test set combined from all three domains.
+The Czech test set is mixed according the proportion of the domains in training and development set.
+The English \acp{AM} are trained and tested on the data collected from the Venue domain using \ac{SDS}.
+The summary of audio sizes in training, development and test set are presented in Table~\ref{tab:audio}.
+Both Czech and English orthographic speech transcriptions were transcribed by humans.
+
+\begin{table}[hbp]
+    \centering
+    \begin{tabular}{lrrr}
+        \hline
+            dataset & audio & \# sents & \# words \\
+        \hline
+        \textbf{English} & & & \\
+                train & 41:30 & 47,463 & 178,110 \\
+                dev & 01:45 & 2,000 & 7,376 \\
+                test & 01:46 & 2,000 & 7,772 \\
+        \hline
+        \textbf{Czech} & & & \\
+                train & 15:25 & 22,567 & 126,333 \\
+                dev & 01:23 & 2,000 & 11,478 \\
+                test & 01:22 & 2,000 & 11,204 \\
+        \hline
+		\end{tabular}
+    \caption{Size of the data: length of the audio (hours:minutes), number of sentences
+        (which is the same as the number of recordings), number of words in the 
+    transcriptions.\cite{korvas_2014}}
+    \label{tab:audio}
+\end{table}
+
+
+% On contrary, in evaluation of \ac{ASR} in Alex described in~Chapter~\ref{cha:integration}
+% we use only transcribed utterances from Alex recordings, 
+% so we can measure accuracy of the speech recognition task in~the dialog system.
 
 
 
@@ -105,17 +106,21 @@ For correctness the testing uses previously unseen utterances in training or dev
 The Figure~\ref{fig:am-deps} list all acoustic models trained in our recipe.
 The advanced \ac{AM} is always initiated by audio alignments (respectively acoustic features alignments) obtained using simpler \ac{AM}.
 
-We train a mono-phone model from flat start using the MFCCs, $\Delta$ and $\Delta \Delta$ features.
-We force-align the feature vectors to HMM states for phones in the corresponding transcriptions.
-We retrain the triphone \ac{AM} (\term{tri1a}).
-One branch of experiment finishes by training \ac{MFCC} $\Delta + \Delta\Delta$ triphone \ac{AM} force-aligned using \term{tri1a} \ac{AM}.
+In paragraphs below the organisation of acoustic model training is described. 
+The used methods are listed in~Figure~\ref{fig:am-deps} and also the their hierarchy is illustrated.
+The hierarchy shows that more advanced method typically reuses initial values from previously trained simpler \ac{AM}.
 
-On contrary, the second branch instead of $\Delta + \Delta\Delta$ transformation uses \ac{LDA}+\ac{MLLT} to train \term{tri2b} \ac{AM}.
-Using the \ac{AM} with \ac{LDA}+\ac{MLLT} transformations three \acp{AM} are discriminatively trained using following objective functions:
+At first, a mono-phone model is trained from flat start using the MFCCs, $\Delta$ and $\Delta \Delta$ features.
+We force-align the feature vectors to HMM states for phones in the corresponding transcriptions.
+Secondly, We retrain the triphone \ac{AM} (\term{tri1a}).
+One branch of experiments finishes by training \ac{MFCC} $\Delta + \Delta\Delta$ triphone \ac{AM} (\term{tri2a}). % force-aligned using \term{tri1a} \ac{AM}.
+
+On contrary, the second branch instead of $\Delta + \Delta\Delta$ transformation uses \ac{LDA}+\ac{MLLT} to train \ac{AM} (\term{tri2b}).
+Using the \ac{AM} \term{tri2b} three \acp{AM} are discriminatively trained using following objective functions:
 \begin{enumerate}
-    \item \acl{MMI}\cite{chow1990maximum}\footnote{Note the \ac{MMI} function is implemented as \acs{bMMI} with boosted parameter set to 0.}. The model is train in four loops.
-    \item \acl{bMMI}\cite{povey2008boosted}. The model is train in four loops with parameter 0.05.
-    \item \acl{MPE}\cite{povey2003mmi}. The model is retrained in four loops.
+    \item \acl{MMI}\cite{chow1990maximum}\footnote{Note the \ac{MMI} function is implemented as \acs{bMMI} with boosted parameter set to 0.}. The model \term{tri2b\_mmi}is train in four loops.
+    \item \acl{bMMI}\cite{povey2008boosted}. The model \term{tri2b\_bmmi} is train in four loops with parameter 0.05.
+    \item \acl{MPE}\cite{povey2003mmi}. The model \term{tri2b\_mpe} is also retrained in four loops.
 \end{enumerate}
 
 \begin{figure}[!htp]
@@ -141,36 +146,35 @@ Using the \ac{AM} with \ac{LDA}+\ac{MLLT} transformations three \acp{AM} are dis
 
 The acoustic models \term{mono}, \term{tri1}, \term{tri2a}
 and \term{tri2b} are trained generatively.
-The discriminative models yield better results than generative models, if enough data is available. 
+The discriminative models \term{tri2b\_mmi}, \term{tri2b\_bmmi} and \term{tri2b\_mpe} yield better results than generative models, if enough data is available. 
+See Figure~\ref{fig:partials}.
 Note that the discriminative may over-fit to train data, so models from second or third retraining loop may yield better results. 
 
 The training scripts for Czech as well English data differs only data splitting and using different phonetic dictionary, the training itself remains exactly the same.
+The default \acp{LM} for training and testing are built from orthographic transcriptions.
+We estimate bigram and zerogram language models. 
+The bigram \ac{LM} is estimated from training data transcriptions. 
+Consequently, in a test may appear \acl{OOV} words.
+The zerogram is a list of words with probabilities uniformly distributed, so it helps decoding just by limiting the vocabulary size.
+The zerogram is extracted from a test set transcriptions.
 
-\todo{Described LM build from training data}
-The pretrained \ac{LM} contains $2802$ unigrams, $109315$ bigrams and
-$118217$ trigrams. 
+As we are collecting more and more acoustic data, the acoustic models improve and the language models generated by the scripts slightly change.
+Obviously, the changing \acp{LM} disallow fair evaluation of trained \acp{AM}, but our goal is not to change
+In this work, we present results with fixed data sets as described in~Table~\ref{tab:audio}.
+The bigram \ac{LM} contains 17433 unigrams and 79333 bigrams. The zerogram \ac{LM} is limited to 2944 words.
 
-\subsubsection*{\acl{LDA} and \ac{MLLT} feature transformation}
-The $\Delta + \Delta\Delta$ was introduced Section~\label{sub:param} and triples the number of features by by computing also first and second derivatives from \ac{MFCC} coefficients.
-The \ac{LDA}+\ac{MLLT} is an alternative setup.
-\ac{LDA} is used as linear classifier for acoustic features.
-Based on vectors of length 13 representing static \ac{MFCC} 
-spliced together in for each context window the \ac{LDA} tries to 
-find the best dynamic information, replacing the $\Delta+\Delta\Delta$ coefficients.
 
-The combination of \ac{LDA} and \ac{MLLT} reduce the feature dimension and
-rotates the feature space so the classes after \ac{LDA} has more diagonal covariance in two steps.\cite{gopinath1998maximum}
-The \ac{HLDA} performs dimension reduction and space transformation in one step.\cite{gales1999semi}
-The combination \ac{HLDA} and \ac{MLLT} perform very similar feature transformation
-and obtain similar improvements over $\Delta+\Delta\Delta$ transformation 
-as \ac{HLDA}\cite{gales1999semi}\cite{gopinath1998maximum}.
-We choose to use \ac{LDA} and \ac{MLLT}, because Kaldi toolkit offers scripts 
-for this combination and we gain substantial improvement over $\Delta+\Delta\Delta$ transformation.
+Furthermore, we evaluate the trained Czech \acp{AM} on Public Transport Domain with a fine tuned \ac{LM} as described in~Chapter~\ref{cha:integration}.
+The best Czech \ac{AM} with the fined tuned \ac{LM} is used for speech recognition in a dialogues system Alex.
+
+
+\subsubsection*{Setup for feature transformations}
+The $\Delta + \Delta\Delta$ triples the number of 13 \ac{MFCC} features by by computing also first and second derivatives from \ac{MFCC} coefficients, resulting in 39 features per frame.
+
+The combination of \ac{LDA} and \ac{MLLT} is computed from 9 spliced frames consisting of 13 \ac{MFCC} features. 
+The default context window of 9 frames takes four frames from left context and four frames from right context.
+The \ac{LDA} and \ac{MLLT} feature transformation gains substantial improvement over $\Delta+\Delta\Delta$ transformation.
 See Table~\ref{tab:TODO_results}
-
-In our experiments we use the context window with the default length of 9 frames, 
-four frames from left context and four frames from right context.
-The \ac{LDA} transforms uses and $\Delta$ and $\Delta\Delta$ dynamic features as prior.
 
 % Note, that other Kaldi decoders may not support some of the trained models.
 % In general, if a method is slow for the \term{gmm-latgen-faster} decoder, it is slow for other decoders too.
