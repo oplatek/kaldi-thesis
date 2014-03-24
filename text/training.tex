@@ -185,7 +185,14 @@ See Table~\ref{tab:TODO_results}
 \section{Evaluation}
 \label{sec:am_eval}
 
-The experiments focus on comparing the quality of ASR hypothesis measured by~\ac{WER} among \acp{AM}.
+The experiments focus on comparing the quality of ASR hypothesis measured by~\ac{WER} on \acp{AM} trained by different methods.
+We are not interested in absolute numbers since we model the data language poorly focusing so on the acoustic modeling.
+By training only simple bigram \ac{LM} we let the \ac{AM} influence the \ac{WER} more significantly. 
+The same motivation lead us to use zerogram \ac{LM} which just limits vocabulary in decoding task.
+Consequently, when decoding the best hypothesis is chosen only by acoustic similarity.
+We believe that if two \acp{AM} are trained with the same weak $LM_{weak}$ and $AM_1$ is better than $AM_2$, then with better $LM_{rich}$ 
+
+
 The \term{gmm-latgen-faster} decoder is used for evaluation on testing data.
 It generates a state level lattice for each utterance and the one best hypothesis is extracted from the decoded lattice and evaluated by \ac{WER} and \ac{SER} metrics agains against the reference transcription.
 
