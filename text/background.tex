@@ -356,14 +356,15 @@ speech recognition as Baum-Welch algorithm \cite{rodriguez2003comparative}.
 In addition Viterbi training needs much less computational resources. 
 
 Given set of training observations $O^r, 1 \le r \le R$ and \ac{HMM} state sequence $ 1 < j < N$ the observation sequence is aligned to the state sequence via Viterbi alignment.\cite{buthpitiya2012parallel}
-The best alignment \todo{T} results from maximising Equation~\ref{eq:vit_align} for $ 1 < i < N$.
+The best alignment $T$ results from maximising Equation~\ref{eq:vit_align} for $ 1 < i < N$.
 
 
 \begin{equation}\label{eq:vit_align}
     \theta_N(T)= max_i[\theta_i(T)a_{iN}] 
 \end{equation}
 
-\todo{T versus $o_t$}
+\todo{describe T and T versus $o_t$}
+\todo{Should I cite every equation?}
 
 The $\theta_i(o_t)$ from Equation~\ref{eq:vit_align} is computed recursively according Equation~\ref{eq:state_prob}
 
@@ -387,13 +388,30 @@ The $M_j$ represents number of mixture components in state $j$, $c_{jm}$ is the 
 is multivariate Gausian with mean vector $\mu$ and covariance $\Sigma$.
 
 Firstly, model parameters are updated based on the single-best alignment of individual observation to states and Gaussian components within states.
-Secondly, transition probabilities are estimated from the relative frequencies, Equation~\ref{eq:freq}. 
+Secondly, transition probabilities are estimated from the relative frequencies, Equation~\ref{eq:freq} where $A_{ij}$ denotes the number of transitions from state $i$ to state $j$.
 
 \begin{equation}\label{eq:freq}
-   todo eq 4 from buthpitiya2012parallel
+    \^{a}_{ij} = \frac{A_{ij}}{\sum_{k=2}^{N}{A_{ik}}}
 \end{equation}
 
-\todo{Add equations 4+ from buthpitiya2012parallel!}
+The indicator function $\theta^r_{jm}(t)$ is used for updating means and covariance matrix from statistics.
+It returns one if $o^r_t$ is \todo{associated} with mixture component $m$ of state $j$ and is zero otherwise.
+The mean vector and covariance matrix is updated according Equations~\ref{eq:mean} and~\ref{eq:var}.
+
+\begin{equation}\label{eq:mean}
+    todo
+\end{equation}
+
+\begin{equation}\label{eq:var}
+    todo
+\end{equation}
+
+Finally, the mixture weights are computed based on the number of observations allocated to each component.
+
+\begin{equation}\label{eq:weights}
+    todo
+\end{equation}
+
 
 \ml{generative training}
 To conclude, \ac{AM} are trained using \ac{MLE} or Viterbi training, which approximates the theoretically optimal \ac{MLE} Baum-Welsh training; however, in practice Viterbi training performs as well as \ac{MLE} modelling.
@@ -409,7 +427,7 @@ In addition, the discriminative training uses its objective function and posteri
 In training scripts described in Chapter~\ref{cha:train} following objective functions and accordingly named discriminative training are used:
 \begin{itemize}
     \item \acl{MMI}\cite{chow1990maximum} 
-        Note the \ac{MMI} function is implemented as \acs{bMMI} with boosted parameter set to 0.\todo{CHECK}
+        % Note the \ac{MMI} function is implemented as \acs{bMMI} with boosted parameter set to 0.
     \item \acl{bMMI}\cite{povey2008boosted}
     \item \acl{MPE}\cite{povey2003mmi}
 \end{itemize}
@@ -538,7 +556,7 @@ The beam is used to limit search space in each iteration of Viterbi algorithm.
 The Viterbi algorithm is breadth-first search algorithm and the beam limits 
 number of nodes, which are expanded from current set of nodes to next iteration.
 
-\todo{picture beam search}
+% \todo{picture beam search}
 
 We list few alternatives how to set up the beam for speech decoding.
 \begin{itemize}
@@ -887,24 +905,24 @@ Most of the operation used in speech recognition operates on paths in the decodi
 Path is a sequence of edges which has weight and an input and an output label.
 Based on the weight type and weight path operations we distinguish several semirigns. 
 
-Formally, a \term{semiring} $(\mathcal{K}, plus, krat, nula, jedna)$ is an algebraic structure on set $\mathcal{K}$ with operations $plus$ and $krat$.
-The binary operations multiplication $plus$ and addition $krat$ have identity element $nula$ respectively $jedna$. 
-The $(\mathcal{K}, plus)$ forms commutative monoid and $(\mathcal{K}, krat)$ forms just a monoid.
+Formally, a \term{semiring} $(\mathcal{K}, \oplus, \otimes, \bar{0}, \bar{1})$ is an algebraic structure on set $\mathcal{K}$ with operations $\oplus$ and $\otimes$.
+The binary operations multiplication $\oplus$ and addition $\otimes$ have identity element $\bar{0}$ respectively $\bar{1}$. 
+The $(\mathcal{K}, \oplus)$ forms commutative monoid and $(\mathcal{K}, \otimes)$ forms just a monoid.
 The multiplication is left and right distributive over addition.
-Moreover, multiplication by $zero$ annihilates any member of $\mathcal{K}$ to $zero$. 
-Table~\ref{fig:semiring} shows useful semirings in OpenFST.
-
-\todo{translate table and krat, plus, nula, jedna to latex}
+Moreover, multiplication by $\bar{0}$ annihilates any member of $\mathcal{K}$ to $zero$. 
+Table~\ref{tab:semiring} shows useful semirings in OpenFST.
 
 \begin{table}[!htp]\label{tab:semiring}
+\begin{center}
 \begin{tabular}{lrrrrr}
 \hline
-Name & $\mathcal{K}$ & $plus$ & $krat$ & $nula$ & $jedna$ \\ 
+Name & $\mathcal{K}$ & $\oplus$ & $ \otimes$ & $\bar{0}$ & $\bar{1}$ \\ 
 \hline
-Probability  &  $\mathcal{R}_{+}$  &  +  &  *  &  0  &  1  \\
-% Log &    &  -log(e<sup>-x</sup> + e<sup>-y</sup>)  &  +  &  &infin;  &  0  \\
-% Tropical &  [-&infin;, &infin;]  &  min  &  +  &  &infin;  &  0  \\
-% \hline
+Real        & $[0,\infty)$        &  +                     &  * &  0        &  1  \\
+Log         & $(-\infty, \infty)$ & $-log(e^{-x} + e^{-y})$ & + &  $\infty$ &  0  \\
+Tropical    & $(-\infty, \infty)$ &  min                   &  + &  $\infty$ &  0  \\
+\hline
 \end{tabular}
-\caption{Semirings used in speech recognition.}
+\caption{Semirings used in speech recognition.\cite{openfst_web}}
+\end{center}
 \end{table}
