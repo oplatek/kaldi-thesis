@@ -10,7 +10,7 @@ The first Section~\ref{sec:data} describes used data.
 The chapter continues by~presenting the \acp{AM} training in~Section~\ref{sec:am_train}. 
 Later, in~Section~\ref{sec:am_eval} we evaluate trained \acp{AM} and also compare them to generative \ac{HTK} \acp{AM} which are trained using state of art \ac{HTK} scripts.
 Note, that details about launching the scripts and file system organisation can be found in Appendix~\ref{cha:train_scripts}.  
-The description and references to methods \todo{whose} setup we describe below can be found in Section~\ref{sec:back_asr}.
+The description and references to methods which setup we describe below can be found in Section~\ref{sec:back_asr}.
 
 \section{Vystadial acoustic data}
 \label{sec:data}
@@ -271,7 +271,7 @@ The Table~\ref{tab:best} presents \acp{AM} results.
                 &   68.2 &   53.9 & -1.0 \\
                 \hspace{2\tabindent}tri LDA+MLLT+MMI
                 &    65.3  &   49.5 & -1.0 \\
-                \hspace{2\tabindent}tri LDA+MLLT+BMMI
+                \hspace{2\tabindent}tri LDA+MLLT+bMMI
                 &    65.3  &   49.3 & -1.0 \\
                 \hspace{2\tabindent}tri LDA+MLLT+MPE
                 &    63.8  &   49.2 & -1.0 \\
@@ -283,7 +283,7 @@ The Table~\ref{tab:best} presents \acp{AM} results.
             &   37.3 &   17.2 & -1.0 \\
             \hspace{2\tabindent}tri LDA+MLLT+MMI
             &  TODO &   12.0 &  -1.0 \\
-            \hspace{2\tabindent}tri LDA+MLLT+BMMI
+            \hspace{2\tabindent}tri LDA+MLLT+bMMI
             &    TODO  & TODO & -1.0 \\
             \hspace{2\tabindent}tri LDA+MLLT+MPE
             &    TODO  & TODO & -1.0 \\
@@ -297,14 +297,30 @@ The Table~\ref{tab:best} presents \acp{AM} results.
 \end{table}
 
 The complexity of Czech data is clearly much larger than the complexity of English data.
+The low \ac{WER} on Czech dataset may be explained be following reasons:
+\begin{itemize}
+    \item The mix of very different domain and recording conditions is hardly to model by both \ac{AM} and \ac{LM}. 
+    \item The \term{Call Friend} and \term{Repeat After Me} collections task have a really broad domain which affect language modelling.
+    \item The flective languages such as Czech have larger vocabulary and higher \acp{OOV} since one word may have several variations.
+\end{itemize}
+Nevertheless, the training scripts for the Czech data are very important since there are no other Czech acoustic data available\footnote{According our knowledge.}.
+
+The \ac{WER} on the Vystadial English data is lower than 20\% for discriminative methods which is reasonable, given the broad but limited domain.
+
+The discriminative training methods clearly outperformed the generative \acp{AM}, and also the \ac{LDA}+\ac{MLLT} is more effective feature transformation than using $\Delta+\Delta\Delta$ features.
+On the other hand, there are subtle differences among the three discriminatively trained \ac{AM} in terms of performance, \todo{but \ac{bMMI} has lower \ac{RTF} than \ac{MPE} method}.
+As a result, we choose \ac{AM} (\term{tri2b\_bmmi}) discriminatively trained by \ac{bMMI} with \ac{MFCC}, \ac{LDA}+\ac{MLLT} preprocessing. 
+
 
 \subsection[Kaldi and \acs{HTK} comparison]{Kaldi and previous \ac{HTK} results comparison} 
 \label{sec:compare}
 
+We want to roughly compare Kaldi and HTK on the Vystadial Czech and English datasets, since we are not familiar with Kaldi toolkit.
+In addition, by using state of the art \ac{HTK} scripts which were used on ther domains we can see the complexity of collected Vystadial acoustic data.
+
 We present results for triphone \ac{AM} estimated using Baum-Welsch iterative training on zero-gram and bi-gram \acp{LM}.
-The \term{HVite} \ac{HTK} decoder was used to perform the decoding with the same \acp{LM} as used in Kaldi scripts. 
+The \term{HVite} \ac{HTK} decoder was used to perform \todo{the decoding with the same \acp{LM} as used in Kaldi scripts.} 
 The training procedure is further described in work~\cite{korvas_2014}.
-We present 
 
 \begin{table}[h]
   \centering
@@ -332,10 +348,6 @@ a substantial decrease in WER.
 The experiment using \ac{MFCC}, \ac{LDA} \& \ac{MLLT} and \ac{bMMI} discriminative training is
 a state of the art set up for speaker independent speech recognition\cite{morbini2013asr} and outperforms \ac{HTK} models.
 
-The \ac{WER} on the Vystadial English data is lower than 20\% for discriminative methods which is reasonable,
-given the broad but limited domain.
-The WER on the Vystadial Czech data from mixed domains are rather high, presumably because of lack of acoustic data for such large \todo{17000} vocabulary.
-Nevertheless, the training scripts for the Czech data are very important since there are no other Czech acoustic data available\footnote{According our knowledge.}.
 
 
 % Note, we tried to simulate the~\ac{HTK} settings in the~Kaldi experiment~\ref{tab:htk_like}.
