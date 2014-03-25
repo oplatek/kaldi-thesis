@@ -2,24 +2,23 @@
 \chapter{Acoustic model training}
 \label{cha:train}
 
-This chapter present new Kaldi acoustic modeling recipe for free Czech and English "\term{Vystadial}" data.
-The recipe scripts were developed as part of this thesis, they are licensed under the Apache 2.0 license and publicly available in Kaldi repository\footnote{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/egs/vystadial/}.
-The \ac{AM} trained using this scripts can be used for both batch training with common Kaldi decoders or with the new \term{OnlineLatgenRecognizer}, which performs on-line decoding described in Chapter~\ref{cha:decoder}.
+This chapter presents new Kaldi acoustic modeling recipe for free Czech and English "\term{Vystadial}" data.
+The recipe scripts were developed as part of this thesis, they are licensed under the Apache 2.0 license and are publicly available in Kaldi repository\footnote{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/egs/vystadial/}.
+The \ac{AM} trained using this scripts can be used for both batch speech recognition with common Kaldi decoders and for our \term{OnlineLatgenRecognizer}, which performs on-line decoding described in Chapter~\ref{cha:decoder}.
 
-The first Section~\ref{sec:data} introduces data used. 
+The first Section~\ref{sec:data} describes used data. 
 The chapter continues by~presenting the \acp{AM} training in~Section~\ref{sec:am_train}. 
-Later, in~Section~\ref{sec:am_eval} we evaluate trained \acp{AM} and also compare them to generative \acp{AM} which are trained using state of art \ac{HTK} scripts.
+Later, in~Section~\ref{sec:am_eval} we evaluate trained \acp{AM} and also compare them to generative \ac{HTK} \acp{AM} which are trained using state of art \ac{HTK} scripts.
 Note, that details about launching the scripts and file system organisation can be found in Appendix~\ref{cha:train_scripts}.  
+The description and references to methods \todo{whose} setup we describe below can be found in Section~\ref{sec:back_asr}.
 
 \section{Vystadial acoustic data}
 \label{sec:data}
 
-The data were collected in Vystadial project\footnote{http://ufal.mff.cuni.cz/grants/vystadial} and are released under the Creative Commons Share-alike (CC-BY-SA~3.0). 
-The Czech\footnote{Czech data: \url{http://hdl.handle.net/11858/00-097C-0000-0023-4670-6}}and English\footnote{English data: \url{http://hdl.handle.net/11858/00-097C-0000-0023-4671-4}} data are available online in Lindat repository\footnote{{http://lindat.mff.cuni.cz/repository/}}.
-Note that the previous version of our training scripts is published with the data in Lindat repository and described in~work~\cite{korvas_2014}.
+The data were collected in Vystadial project\footnote{http://ufal.mff.cuni.cz/grants/vystadial} and are released under the Creative Commons Share-alike (CC-BY-SA~3.0) license. 
+The Czech\footnote{Czech data: \url{http://hdl.handle.net/11858/00-097C-0000-0023-4670-6}}and English\footnote{English data: \url{http://hdl.handle.net/11858/00-097C-0000-0023-4671-4}} data are available online in Lindat repository\footnote{{http://lindat.mff.cuni.cz/repository/}}\footnote{A previous version of our training scripts is published with the data in Lindat repository and described in~work~\cite{korvas_2014}.}.
 
-The English acoustic data are recorded phone calls among humans and \acl{SDS},
-which was designed to provide the user with information on a suitable dining venue in the town.
+The English acoustic data consists of recorded phone calls among humans and \acl{SDS}, which was designed to provide the user with information on a suitable dining venue in the town.
 Most of the data was spoken in American English.
 The typical sentences recorded from users were queries for the dialogue system e.g.,
 \begin{verbatim}
@@ -39,7 +38,7 @@ In Call Friend service native Czech speakers were invited to make free calls.
 In Repeat After Me process volunteers called a number where they were asked to repeat 
 sentences synthesized by a \ac{TTS}.
 
-Note that the user language differ significantly in dialogues with Alex system and the other two settings.
+The user language differs significantly in dialogues with Alex system and the other two settings.
 % Remember we focus on training \acp{AM} for \ac{SDS} Alex and its public transport domain.
 The sentences in Alex public transport domain, as seen in the first paragraph, are shorter and contain noises.
 The speech is spontaneous and proper names are frequently used.
@@ -61,7 +60,7 @@ CO BY TAM S TEBOU DĚLALI
 \end{verbatim}
 
 
-The \acp{AM} for Czech are trained on acoustic data from all three very different domains, because there is available only 2 hours of in-domain data for the Alex's public transport domain.
+The \acp{AM} for Czech are trained on acoustic data from all three very different domains, because there is only 2 hours of in-domain data available in the Alex's public transport domain.
 The evaluation for Czech data in~Section~\ref{sec:results} is performed  on test set combined from all three domains.
 The Czech test set is mixed according the proportion of the domains in training and development set.
 The English \acp{AM} are trained and tested on the data collected from the Venue domain using \ac{SDS}.
@@ -98,8 +97,11 @@ Both Czech and English orthographic speech transcriptions were transcribed by hu
 
 
 
-\section{Training recipe \acp{AM}}
+\section{Acoustic modelling recipe}
 \label{sec:am_train}
+
+In the recipe we search for the best non-speaker adaptive \acp{AM}. 
+In this section, the explored methods and their settings are described, and the Section~\ref{sec:results} presents the results for both Czech and English data sets.
 
 The acoustic modelling techniques focus on modelling the speech to word mapping, so the test utterances are decoded with the least error possible. 
 For correctness the testing uses previously unseen utterances in training or development set, so the real conditions are well simulated.
@@ -148,126 +150,149 @@ The acoustic models \term{mono}, \term{tri1}, \term{tri2a}
 and \term{tri2b} are trained generatively.
 The discriminative models \term{tri2b\_mmi}, \term{tri2b\_bmmi} and \term{tri2b\_mpe} yield better results than generative models, if enough data is available. 
 See Figure~\ref{fig:partials}.
-Note that the discriminative may over-fit to train data, so models from second or third retraining loop may yield better results. 
+Note that the discriminative may over-fit to train data, so models from second or third retraining loop may provide better results in general case. 
+However, we have not experienced such behaviour.
+The discriminative methods use a \ac{LM} for improving its results over generative models by discriminating according their objective function.
+In our setup an unigram \ac{LM} estimated on train set transcriptions was used for discriminative training methods.
 
-The training scripts for Czech as well English data differs only data splitting and using different phonetic dictionary, the training itself remains exactly the same.
-The default \acp{LM} for training and testing are built from orthographic transcriptions.
-We estimate bigram and zerogram language models. 
+The training scripts for Czech and English data differ only in using different phonetic dictionary and preprocessing the data using the dictionary, but the training itself remains exactly the same.
+The default bigram and zerogram \acp{LM} for testing are built from orthographic transcriptions.
 The bigram \ac{LM} is estimated from training data transcriptions. 
-Consequently, in a test may appear \acl{OOV} words.
-The zerogram is a list of words with probabilities uniformly distributed, so it helps decoding just by limiting the vocabulary size.
+Consequently, in a test set may appear \acl{OOV} words.
 The zerogram is extracted from a test set transcriptions.
+The zerogram is a list of words with probabilities uniformly distributed, so it helps decoding just by limiting the vocabulary size.
 
-As we are collecting more and more acoustic data, the acoustic models improve and the language models generated by the scripts slightly change.
-Obviously, the changing \acp{LM} disallow fair evaluation of trained \acp{AM}, but our goal is not to change
+% As we are collecting more and more acoustic data, the acoustic models improve and the language models generated by the scripts slightly change.
+% Obviously, the changing \acp{LM} disallow fair evaluation of trained \acp{AM}, but our goal is not to change
 In this work, we present results with fixed data sets as described in~Table~\ref{tab:audio}.
 The bigram \ac{LM} contains 17433 unigrams and 79333 bigrams. The zerogram \ac{LM} is limited to 2944 words.
 
-
-Furthermore, we evaluate the trained Czech \acp{AM} on Public Transport Domain with a fine tuned \ac{LM} as described in~Chapter~\ref{cha:integration}.
-The best Czech \ac{AM} with the fined tuned \ac{LM} is used for speech recognition in a dialogues system Alex.
+Furthermore in~Chapter~\ref{cha:integration}, we evaluate the trained Czech \acp{AM} on Public Transport Domain on different test set with a fine tuned \ac{LM} and best \ac{AM} from list in Figure~\ref{fig:am-deps}.
+The best \ac{AM} is selected based on results in Section~\ref{sec:am_eval}.
+% The best Czech \ac{AM} with the fined tuned \ac{LM} is used for speech recognition in a dialogues system Alex.
 
 
 \subsubsection*{Setup for feature transformations}
-The $\Delta + \Delta\Delta$ triples the number of 13 \ac{MFCC} features by by computing also first and second derivatives from \ac{MFCC} coefficients, resulting in 39 features per frame.
+We explore not only \ac{AM} training methods, but we also experiment with two feature transformation techniques.
+Firstly, the $\Delta + \Delta\Delta$ triples the number of 13 \ac{MFCC} features by computing also first and second derivatives from \ac{MFCC} coefficients, resulting in 39 features per frame.
 
-The combination of \ac{LDA} and \ac{MLLT} is computed from 9 spliced frames consisting of 13 \ac{MFCC} features. 
+Secondly, the combination of \ac{LDA} and \ac{MLLT} is computed from 9 spliced frames consisting of 13 \ac{MFCC} features. 
 The default context window of 9 frames takes four frames from left context and four frames from right context.
 The \ac{LDA} and \ac{MLLT} feature transformation gains substantial improvement over $\Delta+\Delta\Delta$ transformation.
-See Table~\ref{tab:TODO_results}
+See Figure~\ref{fig:partials}.
 
-% Note, that other Kaldi decoders may not support some of the trained models.
-% In general, if a method is slow for the \term{gmm-latgen-faster} decoder, it is slow for other decoders too.
-% We measure the speed in terms of \ac{RTF}, because the \term{gmm-latgen-faster} decoder is designed for~batch 
-% processing, so the measuring latency is not convenient.
+\subsection*{Decoding setup}
+% \label{sub:decoding_setup}
+We described the training setup in sections above, and now we describe the setup for testing and evaluating the trained \acp{AM}.
+For each trained \ac{AM} we used the same speech parametrisation and feature transformation as used for given \ac{AM} at training time.
+We experiment with all trained \acp{AM} with both zerogram and bigram \ac{LM}.
 
+The \ac{AM}, \acp{LM}, phonetic dictionary and few helper files are used to built \term{HCLG} decoding graph for each \ac{AM} and feature transformation combination.
+The decoding graph is used for speech recognition on development and test test.
+The parameters are set to default values; the exceptions are \term{beam=12.0, lattice-beam=6.0, max-active-states=14000} and \term{lmw} \acl{LMW}. 
+The \term{lmw} is estimated on the development set and best value is used for testing.
+The details about the parameters can be found in Section~\ref{sec:real-setup}.
+
+The \term{gmm-latgen-faster} decoder is used for evaluation on testing data.
+It generates a word level lattice for each utterance and the one best hypothesis is extracted from the decoded lattice and evaluated by \ac{WER} and \ac{SER} metrics against the reference transcription.
+
+Note, we are able to exactly reproduce the results of \term{gmm-latgen-faster} decoder with our \term{OnlineLatgenRecogniser}, but the \term{gmm-latgen-faster} was used for evaluation in the scripts, so the Kaldi users do not have to install our extension.
+% The speed of the decoding is not important at this moment. 
 
 \section{Evaluation}
 \label{sec:am_eval}
 
 The experiments focus on comparing the quality of ASR hypothesis measured by~\ac{WER} on \acp{AM} trained by different methods.
-We are not interested in absolute numbers since we model the data language poorly focusing so on the acoustic modeling.
-By training only simple bigram \ac{LM} we let the \ac{AM} influence the \ac{WER} more significantly. 
-The same motivation lead us to use zerogram \ac{LM} which just limits vocabulary in decoding task.
-Consequently, when decoding the best hypothesis is chosen only by acoustic similarity.
-We believe that if two \acp{AM} are trained with the same weak $LM_{weak}$ and $AM_1$ is better than $AM_2$, then with better $LM_{rich}$ 
+We are not interested in absolute numbers since we model the language using a weak \ac{LM} focusing on the acoustic modeling.
+By training only simple bigram \ac{LM} we let the \ac{AM} influence the recognition quality more significantly. 
+The same motivation lead us to use zerogram \ac{LM} which just limits vocabulary in decoding task, and does not advice the decoding search more probable phrases as higher order \ac{LM} does.
+Consequently, the best words are chosen among all hypotheses only by acoustic similarity.
 
+We concentrate on acoustic modelling since we believe that; if two \acp{AM} $am_1$, $am_2$ are trained with the same weak $lm_{weak}$ and the first \ac{AM} gains lower \ac{WER} than the second one ($wer^{weak}_{1} <  wer^{weak}_{2}$), then in the same experiment just with richer \ac{LM} the first \ac{AM} will still gain lower \ac{WER} ($wer^{rich}_{1} <  wer^{rich}_{2}$).
 
-The \term{gmm-latgen-faster} decoder is used for evaluation on testing data.
-It generates a state level lattice for each utterance and the one best hypothesis is extracted from the decoded lattice and evaluated by \ac{WER} and \ac{SER} metrics agains against the reference transcription.
-
-\todo{The \term{gmm-latgen-faster} decoder is used with all \acp{AM} trained and wth the training bigram \ac{LM}.}
-The \ac{AM}, \ac{LM} phonetic dictionary and few helper files are used to built \term{HCLG} decoding graph.
-The parameters are set to default the exceptions are \term{beam=12.0, lattice-beam=6.0, max-active-states=14000}. See Section~\ref{sec:real-setup} to find out what the parameters mean.
-
-Note, we are able to exactly reproduce the results of \term{gmm-latgen-faster} decoder with our \term{OnlineLatgenRecogniser}, but the \term{gmm-latgen-faster} was used for evaluation in the scripts, so the Kaldi users do not have to install our extension.
-The speed of the decoding is not important at this moment. 
-
-Firstly, we show that how the data size influence the quality of \acp{AM} measured by \ac{WER}.
+Firstly, we show how the data size influence the quality of \acp{AM} measured by \ac{WER}.
 Secondly,  the best results on full data is presented.
 Finally in Subsection~\ref{sec:compare}, the best Kaldi results are compared against results obtained well-written \ac{HTK} scripts by Keith Vertanen and improved by Matěj Korvas \cite{korvas_2014} on the same Vystadial dataset.
 
-\todo{LM size Vocabulary size on test set}
+\begin{figure}[!htp]
+    \begin{center}
+    \includegraphics[scale=0.7]{images/partial-zerogram.ps}
+    \caption{Czech generative \acp{AM} performance based on different training size for acoustic models. The zerogram LM results in high WER, but allows as evaluate only acoustic modelling.}
+    \label{fig:partials} 
+    \end{center}
+\end{figure}
 
 The Figure~\ref{fig:everyn} describes how the amount of acoustic data influence the \ac{WER}.
 We illustrate that even with small datasets like Vystadial the high quality \ac{AM} can be trained.
-In addition, we give insights how the quality of \acp{AM} is going to improve with new collected data in Vystadial project.
+The WER decreases significantly if new data are added to small dataset, but \ac{WER} reduction becomes is very small between 50\% of data and full data.
+One can also see that the $\Delta+\Delta\Delta$ feature transformation is clearly outperformed by \ac{LDA}+\ac{MLLT} setup on full data.
+Note also that the monophone \ac{AM} is typically used for initialisation of triphone models and requires small portion of data to reach its limit.
+The WER is rather high due to use of zerogram \ac{LM}.
+We evaluate only generative \acp{LM} since we would have to fixed LM for discriminative methods and we do not have any obvious choice how to build one.
 
+It may seem that more acoustic data is not needed for this domain, but discriminative training methods requires more training data, and with more transcribed data better \ac{LM} adaptation can be achieved.
+The Figure~\ref{fig:partials_lm} shows the effect of in-domain data size for \ac{LM} on quality of speech decoding.
+The \ac{AM} \term{tri2b\_bmmi} and decoding parameters were fixed and the experiments were performed with different \acp{LM} which differ only in training size used for their estimation. 
+Note that this experiment was run by Ondřej Dušek and not as part of the training scripts\footnote{Ondřej Dušek used the scripts developed by us for Alex dialogue system for Public Transport Domain}.
+The experiment was run on different test set from Public Transport Domain and the \acp{LM} were built also from that in-domain data.
 \begin{figure}[!htp]
     \begin{center}
-        \todo{Run experiments with every 50 30 20 10 5 3 2 1 shows tri2a, tri2b, tri2b-bmmi, trib2-mpe, graph and table only full data (every 1)}
+    \includegraphics[scale=0.7]{images/partial-lm-tri2b-bmmi.ps}
+    \caption{Influence of in-domain text size of \ac{LM} on speech recognition quality. The \ac{AM} \term{tri2b\_bmmi} and parameters are fixed and only \ac{LM} training size varies.}
+    \label{fig:partials_lm} 
     \end{center}
-    \caption{Comparing Czech \acp{AM} performance  based on training data size. See that discriminative methods outperform generative training if they have enough data.}
-    \label{fig:am-deps} 
 \end{figure}
 
+To conclude first section, we continue to collect new acoustic data through dialogue system Alex because
+\begin{itemize}
+    \item the domain still changes due to new features and we need to update the \ac{LM},
+    \item we can still improve the best discriminatively trained \ac{AM},
+    \item and the speech recogniser is presumably more robust to new speakers.
+\end{itemize}
 
 \subsection{Results}
 \label{sec:results}
-The Table~\ref{tab:best} presents best \acp{AM} results. 
-The \ac{AM} were estimated on training set and the development set was used to tune the \term{LMW} language model weight parameter.
-The evaluation was performed on the test set.
-
-We used bigram language model trained on \todo{which set}.
-In addition for generative models, the zero-gram \ac{LM} was used in order to evaluate quality of \ac{AM} without the influence of \ac{LM} setup.
-The discriminative models are tuned bigram \ac{LM} estimated on training set. 
-The zero-gram \ac{LM} is just list of words with equally distributed likelihood, so it helps the speech decoding just by limiting the vocabulary size.
+In this section we present the results of different acoustic training methods and we choose the best non-speaker adaptive setup.
+The Table~\ref{tab:best} presents \acp{AM} results. 
 
 \begin{table}[h]
-    \centering
-    \begin{tabular}{lrr}
+\centering
+\begin{tabular}{lrrr}
     \toprule
             \theader{language/method}
-							& \hphantom{rogram}\llap{\theader{zerogram}}
-							& \theader{bigram} \\
+            & \hphantom{rogram}\llap{\theader{zerogram}}
+                            & \theader{bigram} 
+                            & \theader{RTF} \\
     \midrule
             \theader{Czech} & & \\
-                % in scripts called tri2a
                 \hspace{2\tabindent}tri $\Delta+\Delta\Delta$
-                      &   69.3 &   53.8 \\
-                % in scripts called tri2b
+                &   70.7 &   56.6  & -1.0 \\
                 \hspace{2\tabindent}tri LDA+MLLT
-                      &   65.4 &   51.2 \\
-                % in scrpits called tri2b_mmi_b0.05
+                &   68.2 &   53.9 & -1.0 \\
+                \hspace{2\tabindent}tri LDA+MLLT+MMI
+                &    65.3  &   49.5 & -1.0 \\
                 \hspace{2\tabindent}tri LDA+MLLT+BMMI
-											&    --  &   48.0 \\
-        \midrule
-            \theader{English} & \\
-                % in scripts called tri2a
-                \hspace{2\tabindent}tri $\Delta+\Delta\Delta$
-                        &   41.1 &   17.5 \\
-                % in scripts called tri2b
-                \hspace{2\tabindent}tri LDA+MLLT
-                        &   37.3 &   17.2 \\
-                % in scripts called tri2b_mmi_b0.05
-                \hspace{2\tabindent}tri LDA+MLLT+BMMI
-												&     -- &   12.0 \\
-        \bottomrule
-    \end{tabular}
-    \caption{Word error rates on test set obtained using Kaldi.
-		The `tri $\Delta+\Delta\Delta$' row shows results for a basic 
-		generative model with triphones which is comparable to the model
-		trained using the HTK scripts.}
+                &    65.3  &   49.3 & -1.0 \\
+                \hspace{2\tabindent}tri LDA+MLLT+MPE
+                &    63.8  &   49.2 & -1.0 \\
+    \midrule
+        \theader{English} & \\
+            \hspace{2\tabindent}tri $\Delta+\Delta\Delta$
+            &   41.1 &   17.5 & -1.0 \\
+            \hspace{2\tabindent}tri LDA+MLLT
+            &   37.3 &   17.2 & -1.0 \\
+            \hspace{2\tabindent}tri LDA+MLLT+MMI
+            &  TODO &   12.0 &  -1.0 \\
+            \hspace{2\tabindent}tri LDA+MLLT+BMMI
+            &    TODO  & TODO & -1.0 \\
+            \hspace{2\tabindent}tri LDA+MLLT+MPE
+            &    TODO  & TODO & -1.0 \\
+    \bottomrule
+\end{tabular}
+\caption{Word error rates for zerogram and bigram LM for different training triphone methods.
+    The RTF was measured for bigram \ac{LM}.
+    The `tri~$\Delta+\Delta\Delta$' row shows results for a generative model which is comparable to the model trained using the HTK scripts.
+}
 \label{tab:best}
 \end{table}
 
@@ -295,7 +320,7 @@ We present
         \bottomrule
   \end{tabular}
     \caption{Word error rates on test set obtained using HTK and either 
-    a zerogram or a bigram LM.}
+    a zerogram or a bigram LM. \cite{korvas_2014}}
     \label{tab:htk-results}
 \end{table}
 
@@ -312,21 +337,6 @@ given the broad but limited domain.
 The WER on the Vystadial Czech data from mixed domains are rather high, presumably because of lack of acoustic data for such large \todo{17000} vocabulary.
 Nevertheless, the training scripts for the Czech data are very important since there are no other Czech acoustic data available\footnote{According our knowledge.}.
 
-\begin{figure}[!htp]
-    \begin{center}
-    \includegraphics{images/partial-zerogram.ps}
-    \caption{Partials bigram, zerogram}
-    \label{fig:partials} 
-    \end{center}
-\end{figure}
-
-\begin{figure}[!htp]
-    \begin{center}
-    \includegraphics{images/partial-lm-tri2b-bmmi.ps}
-    \caption{Fixed \term{tri2b\_bmmi} \ac{AM} and varying \ac{LM} training size.}
-    \label{fig:partials_lm} 
-    \end{center}
-\end{figure}
 
 % Note, we tried to simulate the~\ac{HTK} settings in the~Kaldi experiment~\ref{tab:htk_like}.
 % We choose for all experiments the~parameters according the~\ac{HTK} scripts.
