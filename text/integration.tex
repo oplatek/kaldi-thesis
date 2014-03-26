@@ -2,10 +2,6 @@
 \chapter{Evaluation in a Dialog System}
 \label{cha:integration}
 
-\todo{describe components/kaldi.py module}
-
-\todo{describe hclg scripts}
-
 \todo{refactor sigdial comments: e.g. problem concurency forward vs backward decoding}
 
 
@@ -37,6 +33,14 @@ The~data~flow during single turn is depicted in~Figure~\ref{fig:dialog_system}.
 Each of the Alex's component runs in separate process in order parallelize the input data processing and data generation.
 The components communicates among themselves through system pipes.
 
+\begin{figure}
+    \begin{center}
+    \input{images/ds-diagram}
+    \caption{Single turn in Alex dialog system}
+    \label{fig:dialog_system} 
+    \end{center}
+\end{figure}
+
 The Alex's framework is organised into several logical parts which are reflected on file system organisation:
 \begin{itemize}
     \item The core domain and language independent library is stored at \term{alex/components}
@@ -63,55 +67,60 @@ The supported engines are:
     \item Kaldi \term{alex/components/asr/kaldi.py} imports \term{PyOnlineLatgenRecogniser} class and uses its methods and the utilities for on-line decoding.
 \end{itemize}
 
-\section[ASR integration into SDS]{Integration of \term{OnlineLatgenRecogniser} into \ac{SDS}}
+In order to prepare a concrete application such as a public phone call service about public transport and weather in Czech republic, you need to train appropriate models if using custom classifiers or create setup for cloud services.
+The Alex's framework provides source code for domain dependent training for models in \ac{VAD}, \ac{ASR}, \ac{SLU} and also \ac{DM}.
+The various models for same component can be easily change using simple configuration file. 
+For example, by specifying the \ac{ASR} tool, \ac{AM} and other parameters one can choose between \ac{ASR} cloud based service, local OpenJulius or Kaldi speech recognition.
+
+
+
+\section[Kaldi integration into \ac{SDS} framework]{Kaldi integration into Alex's \acl{SDS} framework}
 \label{sec:asrsds}
 
-The integration task consist of:
-\begin{itemize}
-    \item Building a~Python interface for a~C++ Kaldi decoder.
-    \item Define the input and output interface for the Kaldi decoder - wrapped by Automatic Speech Recognition (ASR) unit in Alex.
-\end{itemize}
- The ASR unit takes output of~the VAD component and provides input for the SLU unit. 
- %The input and output interfaces are chosen according the real-time needs of~the VAD unit and the SLU unit.
+Integration of Kaldi into Alex's framework consists from three tasks.
+Most importantly, we implemented \term{kaldi.py} module so the Alex's \ac{ASR} component can use \term{PyOnlineLatgenRecogniser} decoder through \term{ASRInterface}.
+See Subsection~\ref{sub:asr_component}.
+Secondly, we prepared the training scripts for \acp{AM} as described in Chapter~\ref{cha:train}.
+Last but not least, the scripts for building custom decoding graph \term{HCLG} and evaluation were developed.
+The decoded graph \term{HCLG} is constructed for \ac{AM} trained using scripts described in Chapter{cha:train} and fine tuned \ac{LM} for Alex's public transport domain.
+See Subsection~\ref{sub:hclg}.
+The evaluation scripts are used to find out decoding parameters which balance speech recognition quality and speed as described further in Section~\ref{sec:eval}.
 
-\begin{figure}
-    \begin{center}
-    \input{images/ds-diagram}
-    \caption{Single turn in Alex dialog system}
-    \label{fig:dialog_system} 
-    \end{center}
-\end{figure}
-
-In our dialog system we experiment with different outputs of~a~speech decoder in Spoken Language Understanding unit. 
-The decoder for our system should be able to generate \term{n-best lists}, \term{lattices} and \term{confusion networks} output.
-% Ideally, the decoder for our system would be able to generate \term{n-best lists}, \term{lattices} and \term{confusion networks}.
-
-%   d) output of~the decoder will be standard lattices 
-%     (both phone and word)
-%   e) compute posterior lattices (both phone and word),
-%   f) provide confusion networks for these lattices
-%   g) measure teh quality of~the lattices, depth, oracle error rate    
-
-% section integrate_kaldi_decoder_into_vystadial_framework (end)
-
-
-% \subsection{Development of~a~real-time decoder}
-% \label{sub:kaldi_rt_decoder}
-% In the our dialog system we need above all a~real-time decoder for the Kaldi toolkit. At first, we will identify what prevents the current Kaldi decoders from being used as real-time decoders. 
-% 
-% Namely, we will explore problems with latency and suggest potential speed improvements e.g.\ approximations, use of~\ac{GPU}, and so on. Based on the experiments we will suggest the optimal setting for the real-time use of~Kaldi decoder.
-% 
-% % section development_of_real_time_asr_decoder_for_the_kaldi_toolkit (end)
-
-We will also compare and contrast possibilities of~different output formats for each of~tested decoders. The~memory consumption and the~stability of~decoders will be also observed. 
-
-
-\subsection{\term{PyOnlineLatgenRecogniser} as Alex ASR component}
+\subsection{\term{PyOnlineLatgenRecogniser} in Alex}
 \label{sub:asr_component}
+The \ac{ASR} component in Alex dialogue system runs as separate process, and the speech recognition is triggered based on \ac{VAD} decisions.
+
+If \ac{VAD} detects starts of speech in input audio stream, it passes the data to \ac{ASR} component
+and \term{rec\_in} method is called. See Listing~\ref{snippets/asr_interface.py}.
+The audio data are passed to the ASR component as\term{frame} argument of \term{frame\_in} method.
+The speech chunks are passed to the recogniser gradually as the \ac{VAD} is detecting spoken input.
+
+If \ac{VAD} recognises end of speech, no more data are sent to \ac{ASR} engine and \term{hyp\_out} method is called.
+The \term{flush} method is used only if the speech recogniser wants to throw away the buffered audio input and reset the decoding.
+
+\code{ASRInterface}{Python}{snippets/asr_interface.py}
+
+The method \term{rec\_wav\_file} is only used for testing purposes but nicely illustrates how the two methods \term{rec\_in} and \term{hyp\_out} are used for decoding. However, in real-time application using Kaldi the audio are passed to \term{PyOnlineLatgenRecogniser} in small chunks, so the forward decoding can run as user speaks. 
+
+In our Kaldi real-time settings, the latency of \ac{ASR} unit depends only the time of decoding the last chunk and time spent in \term{hyp\_out} method.
+In the \term{hyp\_out} method the word posterior lattice is extracted using the \term{GetLattice} method as described in~Subsection~\ref{sec:pyext}. 
+The word posterior lattice in \term{PyFst} format is converted to n-best list represented as proprietary \term{TODONbestUtterance}.\footnote{In the future, we would like to implement keyword spotting using lattices directly in our \ac{SLU} unit.}
+The conversion from lattice to n-best list is done using \term{OpenFST} shortest path algorithm and is very fast since the lattices are small in size.
+For most cases the latency is deep below 200 ms for our settings as illustrated in Figure~\ref{fig:prc}.
 
 
-\todo{Unused part from sigdial article, problem forward vs backward}
+Be aware of triggering backward decoding too often. 
+We experience larger response times, due to queueing new frames during backward decoding (\term{rec\_in} method).
+The~problem was specific for chains of noises in an utterance, which confused our \acl{VAD}.
+The~backward decoding (\term{hyp\_out} method) was called so often that almost no forward decoding was performed which lead to buffering the input audio in \ac{PyOnlineLatgenRecogniser} and $RTF > 1.0$.
 
+It is useful to target settings for a~forward decoding \ac{RTF} smaller than 1.0, because with reduced RTF the~forward decoding can catch up the~delay caused by backward decoding the~previous utterance.
+The problem was solved by improving \ac{VAD} so the~\term{hyp\_out} method is not triggered so often.
+
+\subsection{Building custom decoding graph}
+\label{sub:hclg}
+
+\todo{describe hclg scripts}
 
 
 
