@@ -197,8 +197,7 @@ Modern speech recognition toolkits use \acl{HMM}
 for modeling uncertainty between acoustic features and the~corresponding transcription. 
 
 \subsubsection*{Choice of training units}
-The most successful acoustic modeling methods do not estimate the $P(a|w)$ directly,
-but estimate probability $P(a|f_{b}f_{c}f_{c})$ of generating acoustic features $a$ for triphone $f_{b}f_{c}f_{c}$.
+The most successful acoustic modeling methods do not estimate the $P(a|w)$ directly, but estimate probability $P(a|f_1f_2f_3)$ of generating acoustic features $a$ for triphone $f_1f_2f_3$.
 
 \ml{phoneme}
 Phone is the smallest contrastive unit of speech. 
@@ -210,8 +209,7 @@ Let us see few examples of words and their phonetic transcriptions according CMU
     \item \term{ear} with two transcribed pronunciations \term{IY1 R} and \term{IH1 R}
 \end{itemize}
 The CMU dictionary distinguishes among several variations for each vowel e.g. \term{AH1} and \term{AH0}.
-It distinguishes the~pronunciation for \term{earned} and \term{ear}
-despite the same transcription in the~first three letters.
+% It distinguishes the~pronunciation for \term{earned} and \term{ear} despite the same transcription in the~first three letters.
 It also stores two possible pronunciations for the word \term{ear}.
 
 The acoustic features for a phone significantly depend on the~context.
@@ -220,22 +218,22 @@ The previous and the~following phone strongly influence the sound of the phone i
 \ml{triphone}
 The triphone is a~sequence of three phonemes and captures the context of single phone.
 See~\ref{fig:hmm_words}.
-The triphones variate much less according to the~context than phonemes, so they can be easily trained.
+As a result, acoustic properties of the triphones vary much less according to the~context than phonemes.
 Let us note that certain combinations of prefixes have the same effect on the central phoneme,
 e.g. \term{q} and \term{k} has the same effect on \term{i}. % cite??
 In order to reduce the number of triphones, these triphones are clustered together.
 
-The advantage of training triphone-\ac{AM} over word-\ac{AM} 
-is due to words sparsity. 
-There is typically less clustered triphones and many words for training data,
-so a triphone model can be trained from much more examples than a word model. 
+% The advantage of training triphone-\ac{AM} over word-\ac{AM} 
+% is due to words sparsity. 
+% There is typically less clustered triphones and many words for training data,
+% so a triphone model can be trained from much more examples than a word model. 
 
 % TODO mentioned curse of dimensionality for words -> more parameters than triphones for less examples
 
 \begin{figure}[!htp]
     \begin{center}
     \input{images/hmm-words}
-    \caption{Markov Triphone model for three words. Transition probabilities within
+    \caption{Markov phone model for three words. Transition probabilities within
     words and observation probabilities are learnt.}
     \label{fig:hmm_words} 
     \end{center}
@@ -251,9 +249,9 @@ so a triphone model can be trained from much more examples than a word model.
 %     \end{center}
 % \end{figure}
 
-\subsubsection*{Hidden Markov Models}
-The~\ac{HMM} is a~very powerful statistical method for~characterizing observed data samples
-of~a~discrete-time series with an unknown state. Chapter 8, \cite{huang2001spoken}.
+\subsubsection*{\acfp{HMM}}
+The~\acp{HMM} is a~very powerful statistical method for~characterizing observed data samples
+of~a~discrete-time series with an unknown state. \todo{Chapter 8, \cite{huang2001spoken}}.
 In our case the hidden states represent triphones and we observe samples of the~acoustic features.
 
 \ml{transition probability}
@@ -264,19 +262,19 @@ Each transition can be represented as arc $e=qu$ between the states $q$ and $u$,
 The probability is often represented as the weight $w_e$ of arc $e$.
 For every node in a Markov model must hold that the sum weights of outgoing arcs is one.
 
-The Markov model emits deterministically in each node an observation during traversal over its arcs.
+The Markov model emits an observation during traversal over its arcs.
 The \acl{HMM} emits the observation stochastically based on the probabilistic distribution related
 to~the~visited state.
 
 \ml{Gaussian HMM}
-For speech recognition the multivariate Gaussian distribution is used in all states of \ac{HMM}. 
+\todo{In speech recognition, a multivariate Gaussian distribution is used to model observation probabilities of \ac{HMM} states.} 
 Typically the Gaussian distribution in each state models acoustic features $a$.
 Ideally the estimated \ac{HMM} \ac{AM} would generate in each state features belonging to one triphone.
 
 \subsubsection*{Training \ac{HMM}}
 \label{sub:trainhmm}
 
-The Kaldi as well as the~\ac{HTK} toolkit uses \acl{EM} algorithms to train \ac{HMM} \acl{AM}.
+\todo{The Kaldi as well as the~\ac{HTK} toolkit uses \acl{EM} algorithms to train \ac{HMM} \acl{AM}.}
 The toolkits models the observation probabilities using multivariate Gaussian distribution 
 with dimension of the acoustic features $a$.
 The \ac{EM} algorithm starts with \ac{HMM} with initial values. 
@@ -326,7 +324,7 @@ We simply refer to the~\ac{EM} algorithm with Viterbi criterion as Viterbi train
 
 \subsubsection*{\acl{MLE} method}
 \label{sub:mle_method}
-The \ac{MLE} is general attitude to setting statistical model parameters.
+The \ac{MLE} is general approach to setting statistical model parameters.
 The maximum likelihood estimation search for best parameters $\theta^*$ 
 in order to maximize the likelihood function $f$ for \ac{IID} training data illustrated in Equation~\ref{eq:maxlikelihood}.
 For \ac{IID} training data holds Equation~\ref{eq:lmjoint} describing data joint probability. 
@@ -336,7 +334,7 @@ For \ac{IID} training data holds Equation~\ref{eq:lmjoint} describing data joint
 The likelihood function can be derived from Equation~\ref{eq:lmjoint} assuming training data fixed
 and parameter $\theta$ free as described in Equation~\ref{eq:likelihood}.
 \begin{equation}\label{eq:likelihood}
-    \mathcal{L}(\theta\,|\,x_1,\ldots,x_n) = \sum_{i=1}^n f(x_i|\theta)
+    \mathcal{L}(\theta\,|\,x_1,\ldots,x_n) = \sum_{i=1}^n log(f(x_i|\theta))
 \end{equation}
 \begin{equation}\label{eq:maxlikelihood}
     \theta^* = argmax_{\theta} \mathcal{L}(\theta\,|\,x_1,\ldots,x_n)
@@ -345,7 +343,7 @@ and parameter $\theta$ free as described in Equation~\ref{eq:likelihood}.
 
 
 \subsubsection*{Viterbi training of acoustic models}
-We focus on Viterbi training because it is used in Kaldi toolkit and it is simpler.
+We focus on Viterbi training because it is used in Kaldi toolkit.
 The Viterbi training approximates \ac{MLE} \ac{AM} training.
 Latest work suggest that Viterbi training is just as effective for continuous
 speech recognition as Baum-Welch algorithm \cite{rodriguez2003comparative}.
@@ -418,8 +416,8 @@ However, in practice, discriminative methods, which optimise its objective funct
 \label{sub:subsection_name}
 % subsection subsection_name (end)
 \ml{discriminative training}
+The discriminative training uses its objective function and posterior probability to discriminate -- select the best hypothesis.
 The discriminative training is typically initialised by acoustic model by a generative model from Baum-Welsch or Viterbi training.
-In addition, the discriminative training uses its objective function and posterior probability to discriminate -- select the best hypothesis.
 In training scripts described in Chapter~\ref{cha:train} following objective functions and accordingly named discriminative training are used:
 \begin{itemize}
     \item \acl{MMI}\cite{chow1990maximum} 
@@ -433,27 +431,19 @@ In training scripts described in Chapter~\ref{cha:train} following objective fun
 
 \ac{LM} effectively reduces and more importantly priorities the \ac{AM} hypothesis.
 The statistical \ac{LM} assigns a given word sequence its probability.
-The probability of a word transcription from \ac{AM} is combined with
-the probability of the word transcription from \ac{LM}.
+The probability of a word transcription from \ac{AM} is combined with the probability of the word transcription from \ac{LM}.
 
-The invalid words sequences or the sequences not frequent in training data
-are estimated with a low probability. On the other hand the frequent sequences
-are assigned with high probability.
+The invalid words sequences or the sequences not frequent in training data are estimated with a low probability. 
+On the other hand, the frequent sequences are assigned with high probability.
 
-The word sequence "\term{are few born new york}" should be rewarded 
-with a lower probability from \ac{LM} than the alternative with similar phonetic representation
-"\term{are you from new york}".
+The word sequence "\term{are few born new york}" should be rewarded with a lower probability from \ac{LM} than the alternative with similar phonetic representation "\term{are you from new york}".
 
-Note that in our settings the \ac{AM} already limits the possible triphone
-sequences to sequences present in lexicon words - the words in training data.
+Note that in our settings the \ac{AM} already limits the possible triphone sequences to sequences present in lexicon words - the words in training data.
 % The lexicon bridges the \ac{AM} and \ac{LM}
-So the mapping from acoustic features $a$ to triphone sequences
-are restricted to sequences, which form probably word sequences.
+So the mapping from acoustic features $a$ to triphone sequences are restricted to sequences, which form probably word sequences.
 
-In practice it is unfeasible to compute the probability
-of $k$ word sequence $W$ according Equation~\ref{eq:lm}.
-In addition, it would require enormous amount of data for estimating
-probability for $k>10$.
+In practice it is unfeasible to compute the probability of $k$ word sequence $W$ according Equation~\ref{eq:lm}.
+In addition, it would require enormous amount of data for estimating probability for $k>3$.
 
 
 \begin{equation} \label{eq:lm}
@@ -539,12 +529,12 @@ and large lexicon.
 
 As you can see the search space of speech recognition problem with 
 large vocabulary is enormous and has to solved in very short time.
-The most famous \ac{AI} search algorithm $A^*$ for large search problem can not be used,
-because during decoding as user speaks we know little about what is he going to say in~the 
-rest of the utterance, so we can not design a good heuristic function.
-With $A*$ algorithm we could not exploit the time when user speak
-to perform any computation. A user expects a response around 200 ms after his speech, 
-so we need the find the best path in very short time.
+% The most famous \ac{AI} search algorithm $A^*$ for large search problem can not be used,
+% because during decoding as user speaks we know little about what is he going to say in~the 
+% rest of the utterance, so we can not design a good heuristic function.
+% With $A*$ algorithm we could not exploit the time when user speak
+% to perform any computation. A user expects a response around 200 ms after his speech, 
+% so we need the find the best path in very short time.
 
 Natural choice for one-best hypothesis is Viterbi beam search.\cite{huang2001spoken}
 We already described Viterbi algorithm in Subsection~\ref{sub:trainhmm}.
@@ -556,7 +546,7 @@ number of nodes, which are expanded from current set of nodes to next iteration.
 
 We list few alternatives how to set up the beam for speech decoding.
 \begin{itemize}
-    \item \term{Fixed beam} guarantees memory footprint and fast decoding.
+    \item \term{Fixed beam} guarantees maximum size of memory footprint and fast decoding.
     \item \term{One-best hypothesis comparison} effectively discards 
         most of the improbably hypothesis if the one-best hypothesis is significantly better than alternatives
         and keeps lot of alternatives if one-best hypothesis is weak.
@@ -647,15 +637,11 @@ The procedure is later described in detail in~Chapter~\ref{cha:decoder}.
 \label{sub:eval}
 \ml{WER}
 The quality of speech recognizer is typically measured using \acl{WER}.
-The \ac{WER} measure is computed on pairs $(decoded(a),t)$ for acoustic recoding $a$ and their human transcription $t$.
-The expression $decoded(a)$  in this section denotes \ac{ASR} hypothesis in one-best format 
-as described in Subsection~\ref{sub:decode}.
+The \ac{WER} measure is computed on pairs of \ac{ASR} hypotheses $(decoded(a),t)$ and their human transcriptions $t$.
+The expression $decoded(a)$  in this section denotes \ac{ASR} hypothesis in one-best format as described in Subsection~\ref{sub:decode}.
 
-The pair $(a,t)$ is not supposed to be used in \ac{AM} training,
-because we are testing the ability to decode unknown speech.
-We should also measure the \ac{ASR} quality on speech from a speaker,
-who did not provide speech used for \ac{AM} training, 
-because we usually want to decode speech of an unheard speaker.
+The pair $(a,t)$ is not supposed to be used in \ac{AM} training because we are testing the ability to decode unknown speech.
+We should also measure the \ac{ASR} quality on speech from a speaker, who does not appear in speech data used for \ac{AM} training because we usually want to decode speech of an unheard speaker.
 
 The \ac{WER} is computed as a minimum edit distance on words between 
 pair $decoded(a), t$ typically using edit operations \term{substitution, deletion, insertion} as described in~\ref{eq:edit_dist}.
@@ -689,67 +675,49 @@ for all pairs $(a, t)$ in test set $T$.
     SER = \frac{\sum_{\{(a, t) \in T; decoded(a) = t\}}{1}}{|T|}
 \end{equation}
 
-If we are using an alternative output format to one best hypothesis as n-best list or lattice,
-we are extracting one-one best hypothesis format for measuring \ac{WER} or \ac{SER}.
-On the other hand we are using n-best lists or lattice,
-because the one-best hypothesis might be wrong and the alternative
-hypothesis may be closer to the~reference.
+If we are using an alternative output format to one best hypothesis as n-best list or lattice, we are extracting one-one best hypothesis format for measuring \ac{WER} or \ac{SER}.
+On the other hand, we are using n-best lists or lattice, because the one-best hypothesis might be wrong and the alternative hypothesis may be closer to the~reference.
 
-We do not evaluate any other measurement except for \ac{WER} and \ac{SER},
-but note that richness and correctness of alternatives are desired qualities.
-The alternatives may contain additional information and are for example used
-in a dialogue system \acl{SLU} unit which parses \ac{ASR} output.
+We do not evaluate any other measurement except for \ac{WER} and \ac{SER}, but note that richness and correctness of alternatives are desired qualities.
+The alternatives may contain additional information and are for example used in a dialogue system \acl{SLU} unit which parses \ac{ASR} output.
 
 \subsubsection*{Measuring speed}
 \label{sub:the_metrics_in_speech_recognition}
-In this thesis we are especially concerned about the~speed of speech decoding,
-because the implemented decoder is used in a \acl{SDS}.
+In this thesis we are especially concerned about the~speed of speech decoding, because the implemented decoder is used in a \acl{SDS}.
 
 \ml{\acl{RTF}}
-A very natural measure of the~speed for speech decoding is \acl{RTF},
-which expresses how much the recognizer decodes faster than the user speaks.
+A very natural measure of the~speed for speech decoding is \acl{RTF}, which expresses how much the recognizer decodes faster than the user speaks.
 We measure the \ac{RTF} for each recording as described in~Equation~\ref{eq:rtf}.
 \begin{equation}\label{eq:rtf}
     RTF = \frac{time(decode(a))}{length(a)}
 \end{equation}
 For real-time decoding in a dialogue system we need $RTF < 1.0$ for all tested utterances $a$.
-In other words, the decoding of each utterance $a$ should take less time than
-playing the utterance in a music player.
-With $RTF < 1.0$ we can decode faster than the user speaks, 
-so the hypothesis is ready immediately after the user finishes the speech. 
+In other words, the decoding of each utterance $a$ should take less time than playing the utterance in a music player.
+With $RTF < 1.0$ we can decode faster than the user speaks, so the hypothesis is ready immediately after the user finishes the speech. 
 
 Note that in our decoder we have two phases of decoding.
-The forward decoding is performed as user speaks, but
-the backward decoding is triggered at the very end of the speech
-as described in~Subsection~\ref{sub:decode}.
-The users have to wait at least for~the time when backward decoding is performed,
-so we measure \ac{FWRTF} for forward decoding.
+The forward decoding is performed as user speaks, but the backward decoding is triggered at the very end of the speech as described in~Subsection~\ref{sub:decode}.
+The users have to wait at least for~the time when backward decoding is performed, so we measure \ac{FWRTF} for forward decoding.
 
 \ml{latency}
-In real-time \ac{SDS} the critical measure is a delay how long the user
-has to wait for its answer.
-The latency measures the time between the end of the user speech and
-the time when a decoder returns the hypothesis, 
-which is the most important speed measure for \ac{ASR} component in \ac{SDS}.
+In real-time \ac{SDS} the critical measure is a delay how long the user has to wait for its answer.
+The latency measures the time between the end of the user speech and the time when a decoder returns the hypothesis, which is the most important speed measure for \ac{ASR} component in \ac{SDS}.
 Note if $FWRTF < 1.0 $ in our decoder then the latency is the time of backward decoding.
 
 
 \section{\ac{HTK}}
 \label{sec:back_htk}
-The \ac{HTK} toolkit is a~set of command line tools, sample scripts and library
-for training and decoding \ac{HMM} focused on speech recognition.
+The \ac{HTK} toolkit is a~set of command line tools, sample scripts and library for training and decoding \ac{HMM} focused on speech recognition.
 \ac{HTK} uses Baum-Welch algorithm for \ac{HMM} parameters estimation.
-With the toolkit are distributed two decoders \term{HVite} and \term{HDecode},
-which are not designed for real-time applications.
-\term{HVite} can be used only with unigram or bigram \ac{LM}. 
+With the toolkit are distributed two decoders \term{HVite} and \term{HDecode}, which are not designed for real-time applications.
+\term{HVite} can be used only with unigram or bigram \ac{LM}.
 The \term{HDecode} decoder handles also a trigram \ac{LM}.
 
 The functionality of the library is wrapped by command line programs.
 The programs are typically combined in training scripts to train acoustic and language models.
 In Figure~\ref{fig:htk_tools} the acoustic models are labelled as "HMMs" 
 and the language models in \ac{HTK} are represented in "Networks".
-The trained models are used in one of \ac{HTK} decoders e.g. \term{HVite} for decoding
-transcriptions, which can be evaluated using \term{HResults}.
+The trained models are used in one of \ac{HTK} decoders e.g. \term{HVite} for decoding transcriptions, which can be evaluated using \term{HResults}.
 
 \begin{figure}[!htp]
     \begin{center}
@@ -766,12 +734,10 @@ Only bigram \ac{LM} can be used with \term{HVite}.
 The \\term{HDecode} decoder can handle bigram or trigram language models. 
 
 
-Let us stress that we use high quality Bash and Perl scripts for training \ac{HTK} \ac{AM}
-from Vertanen improved by Matěj Korvas.\cite{vertanen_baseline_2006}\cite{korvas_2014}
+Let us stress that we use high quality Bash and Perl scripts for training \ac{HTK} \ac{AM} from Vertanen improved by Matěj Korvas.\cite{vertanen_baseline_2006}\cite{korvas_2014}
 
 The \ac{HTK} toolkit is licensed under a special license\footnote{\url{http://htk.eng.cam.ac.uk/docs/license.shtml}}.
-The \term{HDecode} has very similar license condition but can be only used for research purposes.\footnote{You
-need to register even to see the license: \url{http://htk.eng.cam.ac.uk/prot-docs/hdecode_register.shtml}}
+The \term{HDecode} has very similar license condition but can be only used for research purposes.\footnote{You need to register even to see the license: \url{http://htk.eng.cam.ac.uk/prot-docs/hdecode_register.shtml}}
 
 \section{Julius decoding engine}
 \label{sec:back_julius}
@@ -780,17 +746,13 @@ need to register even to see the license: \url{http://htk.eng.cam.ac.uk/prot-doc
 Julius is a~large vocabulary continuous speech engine, which can use \ac{AM} in \ac{HTK} format for decoding.\cite{lee2009julius}
 Julius is BSD licensed\footnote{\url{http://www.linfo.org/bsdlicense.html}} and performs almost real-time decoding.
 
-Julius is a~two pass decoder. In the~first pass the forward decoding is performed as
-a technique of time synchronous beam search.
+Julius is a~two pass decoder. 
+In the~first pass, the forward decoding is performed using time synchronous beam search.
 The second pass reranks and further prunes the extracted hypothesis from thethe~~pass one.
 The second pass is also known as backward decoding.
 Bigram \ac{LM} is used for forward decoding and more complex trigram \ac{LM} is used for backward decoding.
 
-Before the implementation of this thesis was finished 
-the team of Alex had been interested in Julius, because its ability of real-time decoding 
-and confusion 
-network\footnote{Confusion network is approximation of lattice described in~Subsection~\ref{sub:lattice}} 
-output format.
+Before the implementation of this thesis was finished the team of Alex had been interested in Julius, because its ability of real-time decoding and confusion network\footnote{Confusion network is approximation of lattice described in~Subsection~\ref{sub:lattice}} output format.
 
 The Alex team abandoned the Julius decoder for software issues with crashes of the decoder. 
 The crashes appeared during backward decoding and extracting the confusion network from Julius. 
@@ -859,23 +821,18 @@ The recipe, the data and acoustic modeling scripts are described in~Chapter~\ref
 
 \subsection{Finite State Transducers} 
 \label{sec:fst}
-The \acl{FST} framework and its implementation OpenFST  
-determine the shape of the Kaldi data structures.
-Kaldi uses \ac{FST} as underlaying representation for \ac{LM}, partially for \ac{AM}, lexicon and 
-also for representing transformation between text, pronunciation and triphones.
+The \acl{FST} framework and its implementation OpenFST  determine the shape of the Kaldi data structures.
+Kaldi uses \ac{FST} as underlaying representation for \ac{LM}, partially for \ac{AM}, lexicon and also for representing transformation between text, pronunciation and triphones.
 
-The \ac{FST} framework provides well studied graph operations\cite{mohri2002weighted},
-which can be effectively use for acoustic modeling.
-Using the \ac{FST} framework the speech decoding task is expressed as
-a beam search in a graph, which is well studied problem.
+The \ac{FST} framework provides well studied graph operations\cite{mohri2002weighted}, which can be effectively used for acoustic modeling.
+Using the \ac{FST} framework the speech decoding task is expressed as a beam search in a graph, which is well studied problem.
 
 The OpenFST library implements memory efficient representation of \ac{FST} and
 provides standardized efficient operations.
 As stated in \cite{mohri2002weighted} and \cite{povey2011kaldi} the operations can be effectively used
 for speech decoding. 
 
-The \ac{FST} graphs used for \ac{AM} model training and speech decoding
-can be constructed as sequence of standardized OpenFST operations.\cite{mohri2002weighted}.
+The \ac{FST} graphs used for \ac{AM} model training and speech decoding can be constructed as sequence of standardized OpenFST operations.\cite{mohri2002weighted}.
 Decoding is performed using a final result of training, so called \term{decoding graph} $HCLG$. 
 \begin{equation} \label{eq:hclg}
 HCLG = H\circ C\circ L\circ G
