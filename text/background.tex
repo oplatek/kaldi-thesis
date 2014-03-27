@@ -3,11 +3,11 @@
 \label{cha:background}
 
 The statistical methods for continuous speech recognition were established more than 30 years ago. 
-The most popular statistical methods are based on \ac{HMM} \acl{AM} and n-grams \ac{LM}, which are also used in Kaldi, the toolkit of our choice.
+The most popular statistical methods are based on \ac{HMM} \aclp{AM} and n-grams \acp{LM}, which are also used in Kaldi, the toolkit of our choice.
 
-Section~\ref{sec:back_asr} introduces speech preprocessing, \ac{AM} and \ac{LM} training and explains the principle of speech decoding.
+Section~\ref{sec:back_asr} introduces speech preprocessing, \ac{AM} and \ac{LM} training, and explains the principle of speech decoding.
 
-The~three sections describe decoding or training models for a~particular software.
+Next sections describe decoding or training models for a~particular software.
 The Kaldi toolkit is described in Section~\ref{sec:back_kaldi}, the \ac{HTK} toolkit in Section~\ref{sec:back_htk} and the Julius decoder in Section~\ref{sec:back_julius}.
 
 \begin{figure}[!htp]
@@ -21,27 +21,27 @@ The Kaldi toolkit is described in Section~\ref{sec:back_kaldi}, the \ac{HTK} too
 \section{Automatic speech recognition}
 \label{sec:back_asr}
 
-The goal of statistical \ac{ASR} is to decode the best speech transcription for given speech recording.
-The term \term{decoding} find its origin in \acs{HMM} terminology. 
+The goal of statistical \ac{ASR} is to decode the most likely word sequence given speech.
+The term \term{decoding} finds its origin in \acs{HMM} terminology. 
 In speech recognition it is equivalent to \term{recognizing} the word sequence from the speech. 
-The speech \ac{HMM} decoders recognise phones or triphones sequences from which the word sequence is extracted as explained in~Section~\ref{sec:decode}.
+The speech \ac{HMM} decoders recognise phones or triphones sequences from which the word sequence is extracted as explained in~Subsection~\ref{sub:decode}.
 Formally, we search for the most probable sequence of~words $w^*$ given the acoustic observations $a$.
-See Equation~\ref{eq:best_seq}, which can be simplified to Equation~\ref{eq:best_fix}, because we want decode $w^*$ for fixed speech $a$.
-
-\begin{equation}\label{eq:best_seq}
-    w^* = argmax_{w}\{P(w \mid a)\} = argmax_{w}\{\frac{P(a \mid w) * P(w)}{P(a)}\}
-\end{equation}
+See Equation~\ref{eq:best_fix}, which can be simplified to Equation~\ref{eq:best_fix}, because we want decode $w^*$ for fixed speech $a$.
 
 \begin{equation}\label{eq:best_fix}
-    w^* = argmax_{w}\{P(w \mid a)\} = argmax_{w}\{P(a \mid w) * P(w)\}
+    \begin{split}
+    w^* = argmax_{w}\{P(w \mid a)\} &= argmax_{w}\{\frac{P(a \mid w) * P(w)}{P(a)}\} \\
+                                    &= argmax_{w}\{P(a \mid w) * P(w)\}
+    \end{split}
 \end{equation}
 
-The task of acoustic modeling is to estimate the probability $P(a \mid w)$, which we describe in Section~\ref{sub:am}. 
+The task of acoustic modeling is to estimate the parameters $\theta$ of a model so the probability $P(a \mid w ; \theta)$ is as accurate as possible, which is described in Section~\ref{sub:am}. 
 Similarly, the \ac{LM} represents the probability $P(w)$.
 We describe language modeling in Section~\ref{sub:lm}.
 
-Improving the accuracy of speech recognition engine is dependent mainly on improving the \ac{AM} and also the \ac{LM}.
-The \ac{AM} and \ac{LM} are trained separately and stored on a~hard disc.
+Improving the accuracy of speech recognition engine depends mainly on improving \ac{AM} and \ac{LM}.
+% The \ac{AM} and \ac{LM} are trained separately and stored on a~hard disc.
+\todo{Describe the ASR pipeline - describe figure 2.1}
 
 Typically it is easier to model preprocessed speech, so various feature and model space transforms are applied before \ac{AM} training.
 The speech recogniser has to use the same speech preprocessing, which is used for \ac{AM} model training.
@@ -72,9 +72,9 @@ The speech varies in a~number of aspects. Some of them are listed below:
         The quality of mobile phone signal also influences the quality of the audio signal.
 \end{itemize}
 
-Speech parametrisation improves robustness of the speech recognition in different recording conditions.
-Note that parametrisation of speech transforms the acoustic signal based on few numerical parameters, which are constant for all recording conditions during training and decoding.
-Simply put, the acoustic signal is transformed by boosting frequencies, which are informative for speech.
+Different speech parametrisation may improve robustness of speech recognition in different recording conditions.
+% Note that parametrisation of speech transforms the acoustic signal based on few numerical parameters, which are constant for all recording conditions during training and decoding.
+% Simply put, the acoustic signal is transformed by boosting frequencies, which are informative for speech.
 
 \ml{acoustic features}
 Speech parametrisation extracts speech-distinctive acoustic features from raw waveform.
@@ -95,8 +95,8 @@ Each sample is usually encoded to 8, 16 or 32 bits.
 In our experiments we use 16 kHz sampling frequency for 16 bit samples.  
 
 \ml{feature window}
-The \ac{MFCC} or \ac{PLP} statistics are computed for signal for overlapping windows.
-In Figure~\ref{fig:mfcc_window} there are 7 windows for audio of length 85 ms and window shift and length 10ms and 25 ms.
+The \ac{MFCC} or \ac{PLP} statistics are computed from overlapping windows of quantized audio signal.
+In Figure~\ref{fig:mfcc_window} there are 7 windows for audio of length 85 ms and window shift and length of 10 ms and 25 ms.
 
 \begin{figure}[!htp]
     \begin{center}
@@ -137,13 +137,11 @@ The \ac{MFCC} features are computed by the~following steps:
 \end{figure}
 
 \subsection*{Feature space transformations}
-Feature space transformations are usually applied in addition to \ac{MFCC} or \ac{PLP} preprocessing.
+Feature space transformations are usually applied in addition to \ac{MFCC} or \ac{PLP} parametrisation.
 \ml{frame}
-The feature space transformations are applied per frame. 
-Each feature vector extracted from \ac{MFCC}
-or \ac{PLP} window - frame, is projected to another space.
-Some transformations take into account context of several 
-preceding (left context) and consecutive frames (right context).
+The feature space transformations are typically applied per frame. 
+Each feature vector extracted from \ac{MFCC} or \ac{PLP} window - frame, is projected to another feature space.
+Some transformations take into account context of several preceding (left context) and consecutive frames (right context).
 
 The linear or affine transforms are expressed by matrix multiplications $Ax$ respectively $Ax^+$.
 The matrix $A$ represents the transformation. 
@@ -153,30 +151,30 @@ The affine transformations uses extended vector $(x^+)^T = (x_1, \ldots, x_n, 1)
 There is a large variety of available transforms and dependent on your acoustic data you should choose the most appropriate one.
 The transforms differ according to how they are estimated, namely for linear transforms how the matrix $A$ is trained.
 
-Some transforms are trained on all acoustic data, some are per speaker.
+\todo{Some transforms are estimated on all acoustic data, some transformations are trained on data selected per speaker.}
 Some transforms are estimated discriminatively, some use generative models.
 
 We list some of Kaldi transforms in order to illustrate rich choice of feature transforms in Kaldi toolkit.
 % use and city http://kaldi.sourceforge.net/transform.html#transform_cmllr_global
 \begin{itemize}
-    \item \acl{LDA}\cite{gopinath1998maximum}
-    \item \acl{HLDA}\cite{gales1999semi}
-    \item \acl{MLLT} also known as \acl{STC}\cite{gopinath1998maximum}
-    \item \acl{ET}Exponential Transform (ET)\cite{povey2011exponential}
-    \item \acl{CMVN}\cite{molau2003feature}
+    \item \acf{LDA}\cite{gopinath1998maximum}
+    \item \acf{HLDA}\cite{gales1999semi}
+    \item \acf{MLLT} also known as \acf{STC}\cite{gopinath1998maximum}
+    \item \acf{ET}\cite{povey2011exponential}
+    \item \acf{CMVN}\cite{molau2003feature}
 \end{itemize}
 
 In our acoustic modelling scripts, see Chapter~\ref{cha:train},  we use two non-speaker adaptive feature transformations, which can be computed with very small context. 
 The first transformation, $\Delta+\Delta\Delta$  for \ac{MFCC} coefficients, was already introduced.
-The second transformation, \ac{LDA} \& \ac{MLLT}, is described briefly below, and we use it also with \ac{MFCC} coefficients.
+The second transformation, \ac{LDA} and \ac{MLLT}, is described briefly below, and we use it also with \ac{MFCC} coefficients.
 
 \subsubsection*{\acl{LDA} and \ac{MLLT} feature transformation}
 The \ac{LDA}+\ac{MLLT} is an alternative setup to $\Delta+\Delta\Delta$ transformation in our training scripts.
-Using several spliced \ac{MFCC} vectors the \ac{LDA}+\ac{MLLT} searches for the best dynamic information, replacing the $\Delta+\Delta\Delta$ coefficients.
+Using several spliced \ac{MFCC} vectors the \ac{LDA}+\ac{MLLT} searches for the best dynamic transformation, replacing the $\Delta+\Delta\Delta$ coefficients.
 
-The combination of \ac{LDA} and \ac{MLLT} reduce the feature dimension and
-rotates the feature space so the classes after \ac{LDA} has more diagonal covariance in two steps.\cite{gopinath1998maximum}, whereas the \ac{HLDA} performs dimension reduction and space transformation in one step.\cite{gales1999semi}
-The combination \ac{HLDA} and \ac{MLLT} perform very similar feature transformation to \ac{HLDA}
+The combination of \ac{LDA} and \ac{MLLT} applies the feature transformation in two steps: \ac{LDA} reduces the feature dimension and \ac{MLLT} rotates the feature space so the classes after \ac{LDA} has more diagonal covariance in two steps.\cite{gopinath1998maximum}
+Whereas, the \ac{HLDA} performs dimension reduction and space transformation in one step.\cite{gales1999semi}
+The combination \ac{LDA} and \ac{MLLT} performs very similar feature transformation to \ac{HLDA}
 and gains significant improvements over $\Delta+\Delta\Delta$ transformation 
 as \ac{HLDA}\cite{gales1999semi}\cite{gopinath1998maximum}.
 
@@ -184,15 +182,13 @@ as \ac{HLDA}\cite{gales1999semi}\cite{gopinath1998maximum}.
 % Fixed number of consecutive samples forms a window. The~windows are usually overlapping.
 % The~acoustic features are computed for each of the overlapping window. 
 
-% section signal_processing (end)
-
 \subsection{Acoustic modeling}
 \label{sub:am}
 Acoustic modeling is arguably the heart of the~speech recognition.
 More realistic modeling of acoustic features directly affects the speech recognition quality as seen in Equation~\ref{eq:best_fix}. 
-The \ac{AM} estimates the probability $P(a|w)$ of generating acoustic features $a$ for a~given word $w$.
+The \ac{AM} estimates the probability $P(a|w; \theta)$ of generating acoustic features $a$ for a~given word $w$.
 
-The acoustic modeling has only partial information available for training \ac{AM}.
+The acoustic modeling has only partial information available for training \ac{AM} parameters $\theta$.
 Let us mention that acoustic features $a$ are collected every 10 ms.
 However, the corresponding textual transcription is time-unaligned.
 The hidden information of words time alignment in a sentence makes acoustic model training more challenging.
