@@ -278,17 +278,32 @@ The Table~\ref{tab:best} presents \acp{AM} results.
     \midrule
         \theader{English} & \\
             \hspace{2\tabindent}tri $\Delta+\Delta\Delta$
-            &   41.1 &   17.5 & -1.0 \\
+            &   35.7 &   16.2 & -1.0 \\
             \hspace{2\tabindent}tri LDA+MLLT
-            &   37.3 &   17.2 & -1.0 \\
+            &   33.28 &  15.8 & -1.0 \\
             \hspace{2\tabindent}tri LDA+MLLT+MMI
-            &  TODO &   12.0 &  -1.0 \\
+            &   25.01 & 10.4 &  -1.0 \\
             \hspace{2\tabindent}tri LDA+MLLT+bMMI
-            &    TODO  & TODO & -1.0 \\
+            &   23.9  & 10.2 & -1.0 \\
             \hspace{2\tabindent}tri LDA+MLLT+MPE
-            &    TODO  & TODO & -1.0 \\
+            &   22.41 & 11.1 & -1.0 \\
     \bottomrule
 \end{tabular}
+
+% tri1            test    build0  10      37.36   74.15
+% tri2a           test    build0  10      35.7    70.8 
+% tri2b           test    build0  10      33.28   69.2 
+% tri2b_mmi       test    build0  9       25.01   55.85
+% tri2b_mmi_b0.05 test    build0  9       23.9    54.2 
+% tri2b_mpe       test    build0  9       22.41   52.2 
+% mono            test    build2  13      31.2    63.2 
+% tri1            test    build2  19      15.68   43.1 
+% tri2a           test    build2  20      16.19   43.95
+% tri2b           test    build2  18      15.77   43.9 
+% tri2b_mmi       test    build2  16      10.41   30.8 
+% tri2b_mmi_b0.05 test    build2  17      10.22   30.4 
+% tri2b_mpe       test    build2  19      11.11   32.45
+
 \caption{Word error rates for zerogram and bigram LM for different training triphone methods.
     The RTF was measured for bigram \ac{LM}.
     The `tri~$\Delta+\Delta\Delta$' row shows results for a generative model which is comparable to the model trained using the HTK scripts.
