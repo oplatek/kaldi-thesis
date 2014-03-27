@@ -1,17 +1,17 @@
 % !TEX root = main.tex
-\chapter{Kaldi \acs{ASR} in Alex Dialog System}
+\chapter{Kaldi \acs{ASR} in Alex Dialogue System}
 \label{cha:integration}
 
 The Python wrapper of \term{OnlineLatgenRecogniser} is used as \ac{ASR} engine in Alex dialogue system for Czech Public Transport Domain available on public toll-free (+420) 800 899 998 line.
-This chapter discuss the details of interfacing \term{OnlineLatgenRecogniser} in Alex dialog system.
+This chapter discuss the details of interfacing \term{OnlineLatgenRecogniser} in Alex dialogue system.
 
 At first, the architecture of Alex \ac{SDS} is described.
 Secondly, Section~\ref{sec:asrsds} presents how the Python wrapper \term{PyOnlineLatgenRecogniser} was integrated into~\ac{SDS} Alex.
 Finally, Section~\ref{sec:eval} evaluates the decoder in Alex dialogue system on Czech \ac{PTI} domain. 
 
-\section{Alex dialog system architecture} 
+\section{Alex dialogue system architecture} 
 \label{sec:arch}
-The Alex dialog system is developed in Python language and consist of~six major components. 
+The Alex dialogue system is developed in Python language and consist of~six major components. 
 \begin{enumerate}
     \item Voice Activity Detection (VAD)
     \item Automatic Speech Recognition (ASR) 
@@ -20,10 +20,10 @@ The Alex dialog system is developed in Python language and consist of~six major 
     \item Natural Language Generation (NLG)
     \item Text To Speech (TTS)
 \end{enumerate}
-The~Alex dialog system has a~speech to speech user interface. 
+The~Alex dialogue system has a~speech to speech user interface. 
 The~system interacts with the user in \term{turns}. 
-During a~single turn the dialog system waits for a~user spoken input, process the speech and generates the reply.
-The~data~flow during single turn is depicted in~Figure~\ref{fig:dialog_system}.
+During a~single turn the dialogue system waits for a~user spoken input, process the speech and generates the reply.
+The~data~flow during single turn is depicted in~Figure~\ref{fig:dialogue_system}.
 
 Each of the Alex's component runs in separate process in order parallelize the input data processing and data generation.
 The components communicates among themselves through system pipes.
@@ -31,8 +31,8 @@ The components communicates among themselves through system pipes.
 \begin{figure}
     \begin{center}
     \input{images/ds-diagram}
-    \caption{Single turn in Alex dialog system}
-    \label{fig:dialog_system} 
+    \caption{Single turn in Alex dialogue system}
+    \label{fig:alex} 
     \end{center}
 \end{figure}
 
@@ -50,7 +50,7 @@ The Alex's framework is organised into several logical parts which are reflected
     \item The \term{alex/utils} directory stores simple utilities for various purposes.
 \end{itemize}
 
-The components depicted in Figure~\ref{fig:dialog_system} are represented as 
+The components depicted in Figure~\ref{fig:alex} are represented as 
 modules under \term{alex/components/} e.g. \term{alex/components/asr},  \term{alex/components/tts}.
 The source code of components are completely language and domain independent and is very modular.
 For example the \ac{ASR} component currently supports several \ac{ASR} engines wrapped in several modules

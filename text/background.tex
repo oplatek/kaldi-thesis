@@ -65,7 +65,7 @@ The goal of speech parameterization is to reduce the negative environmental infl
 The speech varies in a~number of aspects. Some of them are listed below:
 \begin{itemize}
     \item Differences among speakers pronunciation depends on gender, dialect, voice, etc.
-    \item Environmental noises. In the~application for a dialog system the typical speech is
+    \item Environmental noises. In the~application for a dialogue system the typical speech is
         recorded on a~noisy street. 
     \item The recorded channel. 
         For example the telephone signal is reduced to frequency band between 300 to 3000Hz.
@@ -84,7 +84,7 @@ The two most successful methods for speech parametrisation in last decades are \
 The methods are very computationally effective and significantly improve the quality of recognised speech.
 
 
-The toolkits used in our dialog system, Kaldi and \ac{HTK} toolkit, compute \ac{MFCC} coefficients for given audio input similarly.\footnote{The~subtle differences are caused by implementation approaches, but does not effect the quality of~\ac{MFCC} coefficients in~significant way.}
+The toolkits used in our dialogue system, Kaldi and \ac{HTK} toolkit, compute \ac{MFCC} coefficients for given audio input similarly.\footnote{The~subtle differences are caused by implementation approaches, but does not effect the quality of~\ac{MFCC} coefficients in~significant way.}
 We choose \ac{MFCC} as speech parametrisation technique for both toolkits, so we can compare them.
 
 % An interested reader can find comprehensive introduction into signal processing 
@@ -614,7 +614,7 @@ In n-best list is included apart from the most probable word sequence, also
 the~second, third, \ldots, n-th most probable hypothesis. 
 Usually, also the likelihood is reported with each word sequence.
 For some applications the likelihood is sufficient,
-other application for example in a dialog system prefer
+other application for example in a dialogue system prefer
 posterior probabilities reported in the n-best list.
 Note that the posterior probabilities of 3-best list on Figure~\ref{fig:nbest}
 do not sum to one, because n-best list typically omits some hypothesis.
@@ -702,7 +702,7 @@ hypothesis may be closer to the~reference.
 We do not evaluate any other measurement except for \ac{WER} and \ac{SER},
 but note that richness and correctness of alternatives are desired qualities.
 The alternatives may contain additional information and are for example used
-in a dialog system \acl{SLU} unit which parses \ac{ASR} output.
+in a dialogue system \acl{SLU} unit which parses \ac{ASR} output.
 
 \subsubsection*{Measuring speed}
 \label{sub:the_metrics_in_speech_recognition}
@@ -716,7 +716,7 @@ We measure the \ac{RTF} for each recording as described in~Equation~\ref{eq:rtf}
 \begin{equation}\label{eq:rtf}
     RTF = \frac{time(decode(a))}{length(a)}
 \end{equation}
-For real-time decoding in a dialog system we need $RTF < 1.0$ for all tested utterances $a$.
+For real-time decoding in a dialogue system we need $RTF < 1.0$ for all tested utterances $a$.
 In other words, the decoding of each utterance $a$ should take less time than
 playing the utterance in a music player.
 With $RTF < 1.0$ we can decode faster than the user speaks, 
@@ -799,7 +799,7 @@ output format.
 The Alex team abandoned the Julius decoder for software issues with crashes of the decoder. 
 The crashes appeared during backward decoding and extracting the confusion network from Julius. 
 In addition, the crashes were hard to detect, because Julius used to run in a~separate process.
-% and the~dialog system Alex were waiting for the lattice output of dead process, which should had been passed through sockets.
+% and the~dialogue system Alex were waiting for the lattice output of dead process, which should had been passed through sockets.
 
 \section{Kaldi}
 \label{sec:back_kaldi}
