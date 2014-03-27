@@ -2,8 +2,8 @@
 \chapter{Kaldi \acs{ASR} in Alex \acs{SDS}}
 \label{cha:integration}
 
-Since implemented, the \term{OnlineLatgenRecogniser} has been used as \ac{ASR} engine in Alex dialogue system for Czech Public Transport Domain available on public toll-free (+420) 800 899 998 line.
 This chapter discuss the details of deploying \term{OnlineLatgenRecogniser} into Alex dialogue system written in Python.
+The \term{OnlineLatgenRecogniser} is used in Alex dialogue system for Czech Public Transport Domain available on public toll-free (+420) 800 899 998 line.
 
 First, the architecture of Alex \acf{SDS} is described.
 Second, Section~\ref{sec:asrsds} presents how the Python wrapper \term{PyOnlineLatgenRecogniser} was integrated into~\ac{SDS} Alex.
@@ -22,8 +22,8 @@ The Alex dialogue system is developed in Python programming language and consist
 \end{enumerate}
 The~Alex dialogue system has a~speech to speech user interface. 
 The~system interacts with the user in \term{turns}. 
-During a~single turn the dialogue system waits for a~user spoken input, processes the speech and generates the spoken reply.
-The~data~flow during single turn is depicted in~Figure~\ref{fig:alex}.
+During a~single turn the dialogue system waits for a~user spoken input, processes the speech and generates the spoken response.
+The~data~flow in a single turn is depicted in~Figure~\ref{fig:alex}.
 
 Each of the Alex's component runs in separate process in order parallelize the input data processing and output data generation.
 The components communicates among themselves through system pipes.
@@ -36,12 +36,12 @@ The components communicates among themselves through system pipes.
     \end{center}
 \end{figure}
 
-The Alex's framework is organised into several logical parts which are reflected on file system organisation:
+The Alex's framework is organised into several logical parts:
 \begin{itemize}
-    \item The core library is stored at \term{alex/components/}. The library is domain and language independent. All components in Figure~\ref{fig:alex} are implemented in the core library.
-    \item Settings and scripts for specific domain applications are located at \term{alex/applications/}.
+    \item The core library is located at \term{alex/components/}. The library is domain and language independent. All components in Figure~\ref{fig:alex} are implemented in this core library.
+    \item Settings and scripts for specific domain applications are located in \term{alex/applications/}.
         For example, there is a bash scripts \term{alex/applications/PublicTransportInfoCS/vhub\_live\_kaldi} which starts the Alex \ac{SDS} service which provides \acl{PTI} at the 800 899 998 toll free line.
-    \item The general scripts which use external tools or data arj stored in:
+    \item The general scripts which use external tools or data can be found in:
         \begin{itemize}
             \item \term{alex/corpustools/} directory which focuses on formatting and organising the collected data,
             \item and \term \term{alex/tools/} directory which stores code for modelling \ac{VAD}, \ac{ASR}. It also stores code for evaluation and \term{SIP} client.
@@ -62,10 +62,10 @@ The supported engines are:
     \item Kaldi \term{alex/components/asr/kaldi.py} imports \term{PyOnlineLatgenRecogniser} class and uses its methods and the utilities for on-line decoding.
 \end{itemize}
 
-The various models for same component can be easily change using simple configuration file. 
+Implementations of components can be easily change using simple configuration file. 
 For example, by specifying the \ac{ASR} tool, \ac{AM} and other parameters one can choose between \ac{ASR} cloud based service, local OpenJulius or Kaldi speech recognition.
 
-In order to prepare a specific application you need to train appropriate models for classifiers or create setup for cloud services, which implements Alex components functionality.
+In order to prepare a specific application one need to train appropriate models for classifiers or create setup for cloud services, which implements Alex components functionality.
 As an example, a public phone call service\footnote{On telephone number (+420) 800 899 998}, which provides \ac{PTI} and weather information in Czech language,  is developed in directory \term{alex/applications/PublicTransportInfoCS/}.
 The Alex's framework provides source code for domain dependent training for models in \ac{VAD}, \ac{ASR}, \ac{SLU} and also \ac{DM}.
 
@@ -74,7 +74,7 @@ The Alex's framework provides source code for domain dependent training for mode
 \section[Kaldi integration into \acs{SDS} framework]{Kaldi integration into Alex's \acl{SDS} framework}
 \label{sec:asrsds}
 
-Integration of the~new real-time recognizer into Alex's framework was implemented in three steps.
+Integration of the~Kaldi real-time recognizer into Alex's framework requires implementing new features:
 \begin{enumerate}
     \item The \term{kaldi.py} module is implemented so the Alex's \ac{ASR} component can use \term{PyOnlineLatgenRecogniser} decoder through \term{ASRInterface}.
         See Subsection~\ref{sub:asr_component}.
@@ -92,34 +92,36 @@ The \ac{ASR} component in the~Alex dialogue system runs as separate process, and
 If \ac{VAD} detects starts of speech in input audio stream, it passes the audio data to \ac{ASR} component and \term{rec\_in} method is called. 
 See Listing~\ref{snippets/asr_interface.py}.
 The audio data are passed to the ASR component as instance of class \term{Frame} in \term{rec\_in} method.
-The speech chunks are passed to the recogniser gradually as the \ac{VAD} is detecting spoken input.
-Concretely, the method \term{rec\_in} adds the new audio in \term{PyOnlineLatgenRecogniser} buffer and calls forward decoding on all buffered audio.
-
+The audio is forward decoded using beam search as user speaks.
+The method \term{rec\_in} adds gradually the new audio in \term{PyOnlineLatgenRecogniser} buffer and calls forward decoding on new buffered audio.
 The buffering and forward decoding could have been split into two steps, but the current setup works well.\footnote{If the \ac{ASR} component is busy with forward decoding and is not able to accept the audio from \ac{VAD} component the audio just waits in \ac{VAD} buffer instead of in \term{PyOnlineLatgenRecogniser}'s buffer.}
 
-If \ac{VAD} recognises end of speech, no more data are sent to \ac{ASR} engine and \term{hyp\_out} method is called in order to extracted \ac{ASR} hypothesis.
-
+If \ac{VAD} recognises end of speech, no more data are sent to \ac{ASR} engine and \term{hyp\_out} method is called in order to extracted word lattice.
+Extracting the word lattice is also referred as backward decoding since the data structures are traversed in time-synchronous backward.
+In case of \term{PyOnlineLatgenRecogniser} word posterior probabilities are computed using forward-backward algorithm.
+Then, the word posterior lattice in \term{PyFst} format is converted to an~n-best list represented as proprietary \term{UtteranceNBlist} n-best list.\footnote{In the future, we would like to implement keyword spotting using directly \term{pyfst} lattices in our \ac{SLU} unit.}
+The conversion from a lattice to an~n-best list is very fast because the~\term{OpenFST} shortest path algorithm is used on lattices which usually contain only tens of words.
 
 The \term{flush} method is used only if the speech recogniser wants to throw away the buffered audio input and reset the decoding.
 
 \code{ASRInterface}{Python}{snippets/asr_interface.py}
 
 The method \term{rec\_wav\_file} nicely illustrates how the two methods \term{rec\_in} and \term{hyp\_out} are used for decoding. 
-Since the method is used only for testing purposes it sends all input audio to the speech recogniser at once.
+Since the method is used only for testing purposes, it sends all input audio to the speech recogniser at once.
 However, in real-time application the audio is passed to \term{PyOnlineLatgenRecogniser} in small chunks, so the forward decoding can run as a user speaks. 
 
-In~the Kaldi real-time settings, latency of \ac{ASR} unit depends only on~the time spent in \term{hyp\_out} method and time of decoding the last audio chunk.
-In~the \term{hyp\_out} method the word posterior lattice is extracted using the \term{PyOnlineLatgenRecogniser::GetLattice} method as described in~Subsection~\ref{sec:pyext}. 
-The word posterior lattice in \term{PyFst} format is converted to n-best list represented as proprietary \term{UtteranceNBlist} n-best list.\footnote{In the future, we would like to implement keyword spotting using directly \term{pyfst} lattices in our \ac{SLU} unit.}
-The conversion from lattice to n-best list is very fast because the~\term{OpenFST} shortest path algorithm is used on lattices which usually contain only tens of words.
-For most cases the latency is deep below 200 ms for our settings as illustrated in Figure~\ref{fig:prc}.
+In~the Kaldi real-time settings, latency of \ac{ASR} unit depends mostly on~the time spent in \term{hyp\_out} method.
+In~the \term{hyp\_out} method a~word posterior lattice is extracted using the \term{PyOnlineLatgenRecogniser::GetLattice} method as described in~Subsection~\ref{sec:pyext}. 
+For most cases the latency is well below 200 ms for our settings as illustrated in Figure~\ref{fig:prc}.
 
-The integration of \ac{PyOnlineLatgenRecogniser} is simple yet effective.
+\todo{SIMPLE HIGH LEVEL POINT OF VIEW:
+The integration of \term{PyOnlineLatgenRecogniser} is simple yet effective.
 However, be aware of triggering backward decoding too often. 
 It may seem that a user should wait to response of the Alex dialogue system before he speaks again and consequently new audio is buffered to recognition.
 However in practice, users speak spontaneously; quite often an user finishes utterance and immediately starts speaking in order to change his request.
 The spontaneous speech may cause delays of \ac{ASR} unit since the forward and backward decoding run in single process.
 In case of very short consecutive utterances, the processor time which is meant for backward decoding should also be used to forward decoding.
+}
 
 We notices the problem for chains of noises detected in \ac{VAD} components as multiple short utterances.
 The backward decoding (\term{rec\_in} method) was extracting hypothesis while the audio input was still buffering the noisy speech and want to call \term{rec\_in}.
@@ -130,7 +132,7 @@ See Section~\ref{sec:eval} for \ac{RTF} definition.
 
 \subsection{Building in-domain decoding graph}
 \label{sub:hclg}
-We developed scripts for building a decoding graph and other necessary files for decoding with \term{PyOnlineLatgenRecogniser}. \footnote{The evaluation scripts and \term{HCLG} scripts are located in \term{alex/applications/PublicTransportInfoCS/hclg}.}
+We developed scripts for building a decoding graph and other necessary files for decoding with \term{PyOnlineLatgenRecogniser}.\footnote{The evaluation scripts and \term{HCLG} scripts are located in \term{alex/applications/PublicTransportInfoCS/hclg}.}
 In order to build the decoding graph the best \ac{AM} obtained by training scripts  and an in-domain \ac{LM} are used.
 The scripts are based on standard Kaldi utilities.
 If new \ac{LM} or \ac{AM} needs to be tested, new \term{HCLG} graph has to be built.
@@ -139,7 +141,7 @@ The decoding graph also needs to specified in configuration file before launchin
 \subsubsection*{Acoustic and language models used}
 \label{sec:ptilm}
 The~\term{OnlineLatgenRecogniser} is evaluated on a~corpus of audio data from the~Public Transport Information (PTI) domain.
-The phone call audio data were collected from Alex's users, so the test data simulates the real setup perfectly.
+% The phone call audio data were collected from Alex's users, so the test data simulates the real setup perfectly.
 In PTI, users can interact in Czech language with a~telephone-based dialogue system to find public transport connections \cite{ptics2014url}.
 The~PTI corpus consist of approximately 12k user utterances with a length varying between 0.4 s and 18 s with median around 3 s.
 The~data were divided into training, development, and test data where the~corresponding data sizes were 9496, 1188, 1188 respectively.
@@ -149,15 +151,16 @@ The~perplexity of the~resulting language model evaluated on the~development data
 
 Since the~PTI acoustic data amounts to less then 5 hours, the~acoustic training data was extended by additional 15 hours of telephone out-of-domain data from VYSTADIAL 2013 - Czech corpus \cite{korvas_2014}.
 The~acoustic models were obtained by BMMI discriminative training with LDA and MLLT feature transformations.
-The~scripts used to train the~acoustic models are publicly available in ASDF \cite{asdf2014url} as well as in Kaldi \cite{kaldi2014url} and a detailed description of the~training procedure is given in Chapter~\ref{cha:train}. 
+% The~scripts used to train the~acoustic models are publicly available in ASDF \cite{asdf2014url} as well as in Kaldi \cite{kaldi2014url} and 
+A~detailed description of the~training procedure is given in Chapter~\ref{cha:train}. 
 
 
 
 
-\section{\term{PyOnlineLatgenRecogniser} evaluation in Alex}
+\section{Evaluation of \term{PyOnlineLatgenRecogniser} in Alex}
 \label{sec:eval}
-The evaluation uses the Alex's \term{ASRInterface} and the decoding graph built from \ac{LM} and \ac{AM} described in Subsection~\ref{sec:ptilm}.
 We focus on evaluating the~speed of the \term{OnlineLatgenRecogniser} and its relationship with the accuracy of the~decoder.
+% The decoding graph built from \ac{LM} and \ac{AM} described in Subsection~\ref{sec:ptilm}.
 We evaluate following measures:
 \begin{itemize}
     \item Real Time Factor (RTF) of decoding -- the ratio of the~recognition time to the~duration of the~audio input,
