@@ -1,5 +1,5 @@
 % !TEX root = main.tex
-\chapter{Real time decoder}
+\chapter{Real time recogniser}
 \label{cha:decoder}
 % \todo{SIGDIAL BEGIN}
 
@@ -56,7 +56,7 @@ Please note that the~recogniser's latency is mainly determined by the~time spent
 
 The~source code of the~\term{OnlineLatgenRecogniser} is available in Kaldi repository\footnote{\url{https://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/src/dec-wrap/}}.
 
-\subsection{Python extension}
+\subsection{PyOnlineLatgenRecogniser}
 \label{sec:pyext}
 
 \todo{Describe what is necessary to do for wrapping decoder, easy}
@@ -67,22 +67,24 @@ In addition, we developed a~Python extension exporting the~\term{OnlineLatgenRec
 This can be used as an example of bringing Kaldi's on-line speech recognition functionality to higher-level programming languages.
 This Python extension is used in the~Alex Dialogue Systems Framework \cite{asdf2014url}.
 
-In Listing~\ref{snippets/pykaldi_usage.py} we illustrate the usage of the \term{GmmLatgenWrapper}
-respectively its Python wrapper \term{PyGmmLatgenWrapper}.
+The word posterior lattices are returned as instances of the OpenFST \cite{allauzen2007openfst} class.
+The OpenFST implementation for Python is provided \term{pyfst} library \cite{pyfst2014url}.
+In the ADSF we implemented conversion of the word posterior lattices to an~n-best list. 
+The implementation is efficient since the~OpenFST shortest path algorithm is used on small lattices.
 
-\code{Example of the decoder \ac{API} which is mapped in Python}{Python}{snippets/pykaldi_usage.py}
+The minimalistic Python example in Listing~\ref{snippets/pykaldi_usage.py} shows usage of the \term{PyOnlineLatgenRecogniser} and the~decoding of a single utterance.
+
+\code{Fully functional example of the \term{PyOnlineLatgenRecogniser} interface}{Python}{snippets/pykaldi_usage.py}
 
 \section{Online pre-processing} 
 \label{sec:onl_preprocess}
-The pre-processing consist of audio signal buffering, \ac{MFCC} feature extraction and
-applying feature transformation. 
-The pre-processing and the decoder are bridged by the \term{decodable} 
-interface as illustrated in Figure~\ref{fig:online_pipeline}.
+The pre-processing consist of audio signal buffering, \ac{MFCC} feature extraction and applying feature transformation. 
+The pre-processing and the decoder are bridged by the \term{decodable} interface as illustrated in Figure~\ref{fig:online_pipeline}.
 We briefly describe each step:
 \begin{itemize}
     \item Audio buffering
-    \item Computation of \ac{MFCC} features
-    \item Applying feature transformation. 
+    \item Computation of \ac{MFCC} features on overlapping audio window.
+    \item Applying feature transformation on top of \ac{MFCC} features. 
         \begin{itemize}
             \item $\Delta + \Delta\Delta$ \todo{How many frames requires}
             \item The $LDA+MLLT$ is computed using context,
@@ -231,185 +233,122 @@ We reused Kaldi function for computing helper $\alpha$ and $\beta$ data structur
 but we implemented the \term{MovePostToArcs} function for updating the lattice weights 
 from likelihood to posterior probabilities based on $\alpha$ and $\beta$.
 
-\section{Batch interface versus object-oriented on-line interface}
-\label{sec:ooi}
+% \section{Batch interface versus object-oriented on-line interface}
+% \label{sec:ooi}
+% 
+% \todo{
+% We also wanted to reuse existing code as much as possible,
+% so the decoder will benefit from constant development on Kaldi toolkit.
+% }
+% 
+% \todo{
+% As a bonus of the minimal changes we can compare our \term{OnlLatticeFasterDecoder} 
+% with \term{LatticeFasterDecoder} which is used through binary executable \term{gmm-latgen-faster}.
+% Correctly setup, the decoders produce exactly the same results.
+% The components of the Kaldi library such as decoder, or \ac{MLLT} transformation are designed using 
+% the \ac{OOP} design patterns.
+% On the other hand, the functionality of the Kaldi library is accessed by Kaldi executables, 
+% which are typically organized into single function.
+% The Kaldi executables are thin wrappers around the classes and 
+% are further combined together using system tools e.g.\ system pipes
+% and storing intermediate results to files. 
+% Such setup is convenient for speech recognition experiments, because the intermediate results are  
+% effectively reused by different experiments.
+% }
+% 
+% \todo{
+% Out task is to implement real-time speech recogniser into \acl{SDS}.
+% We also experimented and searched for the best setup as described in~Section~\ref{sec:evaluation},
+% but from the \ac{SDS} point of view we want simple component which accepts audio and produce \ac{ASR} hypothesis.
+% We profit from the reference \term{LatticeFasterDecoder}, where the Kaldi preprocessing executables
+% can be scripted in a such manner, so that the results of \term{LatticeFasterDecoder} 
+% and wrapped \term{OnlLatticeFasterDecoder} are identical.
+% We used the Kaldi executables to find the best experiment and once fixed,
+% we created object wrapper around the whole recognition pipeline.
+% }
+% 
+% \todo{
+% Let us described the Kaldi executable in our best experiment,
+% then we will describe the wrapper class for the speech recognition.
+% We chose \ac{MFCC} speech parametrisation, \ac{LDA} and \ac{MLLT} feature transformations with 
+% acoustic model trained by \ac{bMMI} as our best setup.
+% In our experiments, we used Kaldi binaries, which are listed below, 
+% for computing the one best \ac{ASR} hypothesis:
+% % \todo{How I wrapped up the code instead of creating a binary executable}
+% \begin{enumerate}
+%     \item compute-mfcc-feats
+%     \item copy-feats
+%     \item splice-feats
+%     \item transform-feats with trained \ac{LDA} and \ac{MLLT} matrix as parameter
+%     \item \label{enum:latgen} gmm-latgen-faster
+%     \item lattice-best-path
+% \end{enumerate}
+% }
+% 
+% \todo{
+% The \term{GmmLatgenWrapper} class wraps the whole recognition process
+% and provides \ac{API} convenient for real-time decoding.
+% We designed the \ac{API} of the preprocessing and the decoder 
+% so it can be nicely plugged into the \term{GmmLatgenWrapper} implementation.
+% }
+% 
+% \todo{
+% The  \term{GmmLatgenWrapper} instance accepts the audio in the~\term{FrameIn(\ldots)}
+% function and passes the audio chunk to the \term{OnlBuffSource} instance.
+% At the end of the pipeline is the \term{OnlDecodableDiagGmmScaled} instance,
+% which implements the~\term{DecodableInterface} and is queried by the \term{OnlLatticeFasterDecoder}
+% for the probability of each frame.
+% }
+% 
+% \todo{
+% Let us remind that audio buffered in~\term{OnlBuffSource} is 
+% segmented to 25ms frames which are shifted by 10ms\footnote{See Subsection~\ref{sub:param}}.
+% The \ac{MFCC} features are computed for each frame, the \ac{LDA}\&\ac{MLLT} matrix
+% is applied on features from 9 spliced frames.\footnote{Four frames from left 
+% and four frames from right context are used}. 
+% Finally, the \term{DecodableInterface} queries the \acl{AM} for the probability of the acoustic features.
+% }
+% % \code{The real-time decoding \ac{API} of \term{GmmLatgenWrapper}}{C}{snippets/gmmLatgenWrapper_simple.cc}
+% 
+% \todo{
+% Note, that the action of computing the new features are initialized by the \term{OnlLatticeFasterDecoder},
+% when the \term{Decode(DecodableInterface *d, size\_t max\_frames)} is called.
+% If one of the preprocessing components can not compute any features, 
+% because it does not has sufficient data, it returns its default $Null$ value. 
+% Consequently, all subsequent components returns its default $Null$ value and 
+% the \term{Decode(DecodableInterface *d, size\_t max\_frames)} returns zero,
+% indicating that zero frames were forward-decoded.
+% }
+% 
+% As a side effect of creating the class \term{GmmLatgenWrapper} representing speech recognition process
+% we easily implemented Python wrapper for the speech recognition. 
+% We just needed to implement a wrapper of a single class and the data structures transfered from and into the
+% \term{GmmLatgenWrapper} instance.
+% 
+% From Listing~\ref{snippets/pykaldi_usage.py} should be obvious that 
+% the forward decoding can be performed as the user speaks.
+% If the \ac{RTF} is smaller than one, the forward decoding can be performed faster
+% than the user produces the audio, so the end of the utterance
+% the speech recognition engine has to perform only backward decoding using 
+% the \term{get\_lattice} function.
+% If we have small enough \ac{RTF} and we supply the audio to the speech recognizer
+% in reasonably small chunks, the latency is influenced only by the~time of decoding the last chunk
+% and the~time of backward decoding and computing the word posterior lattice.
 
-\todo{
-We also wanted to reuse existing code as much as possible,
-so the decoder will benefit from constant development on Kaldi toolkit.
-}
-
-\todo{
-As a bonus of the minimal changes we can compare our \term{OnlLatticeFasterDecoder} 
-with \term{LatticeFasterDecoder} which is used through binary executable \term{gmm-latgen-faster}.
-Correctly setup, the decoders produce exactly the same results.
-The components of the Kaldi library such as decoder, or \ac{MLLT} transformation are designed using 
-the \ac{OOP} design patterns.
-On the other hand, the functionality of the Kaldi library is accessed by Kaldi executables, 
-which are typically organized into single function.
-The Kaldi executables are thin wrappers around the classes and 
-are further combined together using system tools e.g.\ system pipes
-and storing intermediate results to files. 
-Such setup is convenient for speech recognition experiments, because the intermediate results are  
-effectively reused by different experiments.
-}
-
-\todo{
-Out task is to implement real-time speech recogniser into \acl{SDS}.
-We also experimented and searched for the best setup as described in~Section~\ref{sec:evaluation},
-but from the \ac{SDS} point of view we want simple component which accepts audio and produce \ac{ASR} hypothesis.
-We profit from the reference \term{LatticeFasterDecoder}, where the Kaldi preprocessing executables
-can be scripted in a such manner, so that the results of \term{LatticeFasterDecoder} 
-and wrapped \term{OnlLatticeFasterDecoder} are identical.
-We used the Kaldi executables to find the best experiment and once fixed,
-we created object wrapper around the whole recognition pipeline.
-}
-
-\todo{
-Let us described the Kaldi executable in our best experiment,
-then we will describe the wrapper class for the speech recognition.
-We chose \ac{MFCC} speech parametrisation, \ac{LDA} and \ac{MLLT} feature transformations with 
-acoustic model trained by \ac{bMMI} as our best setup.
-In our experiments, we used Kaldi binaries, which are listed below, 
-for computing the one best \ac{ASR} hypothesis:
-% \todo{How I wrapped up the code instead of creating a binary executable}
-\begin{enumerate}
-    \item compute-mfcc-feats
-    \item copy-feats
-    \item splice-feats
-    \item transform-feats with trained \ac{LDA} and \ac{MLLT} matrix as parameter
-    \item \label{enum:latgen} gmm-latgen-faster
-    \item lattice-best-path
-\end{enumerate}
-}
-
-\todo{
-The \term{GmmLatgenWrapper} class wraps the whole recognition process
-and provides \ac{API} convenient for real-time decoding.
-We designed the \ac{API} of the preprocessing and the decoder 
-so it can be nicely plugged into the \term{GmmLatgenWrapper} implementation.
-}
-
-\todo{
-The  \term{GmmLatgenWrapper} instance accepts the audio in the~\term{FrameIn(\ldots)}
-function and passes the audio chunk to the \term{OnlBuffSource} instance.
-At the end of the pipeline is the \term{OnlDecodableDiagGmmScaled} instance,
-which implements the~\term{DecodableInterface} and is queried by the \term{OnlLatticeFasterDecoder}
-for the probability of each frame.
-}
-
-\todo{
-Let us remind that audio buffered in~\term{OnlBuffSource} is 
-segmented to 25ms frames which are shifted by 10ms\footnote{See Subsection~\ref{sub:param}}.
-The \ac{MFCC} features are computed for each frame, the \ac{LDA}\&\ac{MLLT} matrix
-is applied on features from 9 spliced frames.\footnote{Four frames from left 
-and four frames from right context are used}. 
-Finally, the \term{DecodableInterface} queries the \acl{AM} for the probability of the acoustic features.
-}
-% \code{The real-time decoding \ac{API} of \term{GmmLatgenWrapper}}{C}{snippets/gmmLatgenWrapper_simple.cc}
-
-\todo{
-Note, that the action of computing the new features are initialized by the \term{OnlLatticeFasterDecoder},
-when the \term{Decode(DecodableInterface *d, size\_t max\_frames)} is called.
-If one of the preprocessing components can not compute any features, 
-because it does not has sufficient data, it returns its default $Null$ value. 
-Consequently, all subsequent components returns its default $Null$ value and 
-the \term{Decode(DecodableInterface *d, size\_t max\_frames)} returns zero,
-indicating that zero frames were forward-decoded.
-}
-
-As a side effect of creating the class \term{GmmLatgenWrapper} representing speech recognition process
-we easily implemented Python wrapper for the speech recognition. 
-We just needed to implement a wrapper of a single class and the data structures transfered from and into the
-\term{GmmLatgenWrapper} instance.
-
-From Listing~\ref{snippets/pykaldi_usage.py} should be obvious that 
-the forward decoding can be performed as the user speaks.
-If the \ac{RTF} is smaller than one, the forward decoding can be performed faster
-than the user produces the audio, so the end of the utterance
-the speech recognition engine has to perform only backward decoding using 
-the \term{get\_lattice} function.
-If we have small enough \ac{RTF} and we supply the audio to the speech recognizer
-in reasonably small chunks, the latency is influenced only by the~time of decoding the last chunk
-and the~time of backward decoding and computing the word posterior lattice.
-
-\section{The setup for real-time decoding}
+\section{Decoder parameters}
 \label{sec:real-setup}
 
-In this section we focus on parameters of the speech recognizer \term{GmmLatgenWrapper},
+In this section we focus on parameters of the \term{OnlineLatgenRecogniser},
 which affect speed of decoding.
-The parameters of the speech recognizer are passed to one of the components,
-which are wrapped by the \term{GmmLatgenWrapper} class.
-Most of the parameters for speech parametrisation and feature transformations 
-does not effect speed of decoding. 
-The frame width (set to 25 ms), the frame shift (set to 10 ms) and
-the frame splicing (nine frames are spliced) 
-are the only "preprocessing" parameters which could significantly affect the forward decoding speed.
-We did not experiment with setting those and we used the mentioned recommended values.
+The parameters of the speech recognizer are passed to speech parametrisation, feature transformations or \term{OnlLatticeFasterDecoder}.
+Most of the parameters for speech parametrisation and feature transformations does not effect speed of decoding. 
+The frame width (set to 25 ms), the frame shift (set to 10 ms) and the frame splicing (nine frames are spliced) are the only "preprocessing" parameters which could significantly affect the forward decoding speed.
+We did not experiment with setting those and we used the recommended values.
 
-On the other hand, there is a number \term{OnlLatticeFasterDecoder} parameters,
-which directly affect the speed of forward decoding and there is a \term{lattice-beam} parameter,
-which affect the speed of backward decoding and building a lattice.
-The forward decoding parameters are listed below\footnote{Full list of parameters is listed in Section~\ref{sec:gmmlatgenwrapper}}:
-\begin{enumerate}
-    \item \term{beam} \todo{default value and description}
-    \item \term{max-active} \todo{default value and description}
-    \item \term{max-mem} \todo{default value and description}
-    \item \term{prune-interval} \todo{default value and description}
-\end{enumerate}
+On the other hand, the \term{beam}, \term{lattice-beam} and \term{max-active-states} parameters directly affect the speed of speech recognition. 
+The \term{beam} and \term{max-active-states} parameters affect speed of beam search, whereas \term{lattice-beam} influence speed of lattice extraction.
 
-We estimated the forward decoding parameters using the \term{LatticeFasterDecoder}
-wrapped by \term{gmm-latgen-faster} in the training scripts,
-which are described in~Chapter~\ref{cha:train}. The decoding part of the scripts evaluates 
-the \ac{RTF}, based on the \ac{RTF} we setup the parameters. 
-Note that the scripts uses precomputed \ac{MFCC}, but the time spent on \ac{MFCC} evaluation
-in \term{GmmLatgenWrapper} is so tiny, that we ignore the difference.
-
-\todo{Which parameters influence decoding, which setup on which machine we use it}
-In our current settings tuned for our machine\footnote{\todo{specify machine CPU, ... parameters.}}
-we keep most of the default values and sets only four parameters.
-\begin{verbatim}
---max-mem=10000000000 --lat-lm-scale=10 --beam=12.0 
---lattice-beam=6.0 --max-active=5000
-\end{verbatim}
-Three of the parameters affect the decoding speed  for other parameters.
-The \term{lat-lm-scale} loosely resembles the $w_{lm}$ from 
-Equation~\ref{eq:am_lm}.\footnote{In fact in \term{GmmLatgenWrapper} 
-    a \ac{LM} weight is used for the first time in beam search,
-    but it is neutralized before using the \term{lat-lm-scale} for scaling 
-the \ac{AM} versus the \ac{LM} in the state level lattice.}
-
-In Figure~\ref{fig:cpu_profile} see profiling.\footnote{For full log see Section~\ref{sec:profiling}}
-\todo{Profiling describe}.
-
-\begin{figure}[!htp]
-    \begin{center}
-    \begin{verbatim}
-Hits Time  Per Hit   %  Line Contents
-==============================================================
-                        def decode(d, pcm_chunks):
-13   0.00    0.00  0.0    for audio_chunk in pcm_chunks:
-12  0.002    0.00  0.1      d.frame_in(audio_chunk)
-12   0.70    0.06 37.4      dec_t = d.decode(max_frames=10)
-47   0.00    0.00  0.0      while dec_t > 0:
-35   0.83    0.02 43.9        dec_t = d.decode(max_frames=10)
- 1   0.02    0.02  0.8      d.prune_final()
- 1   0.33    0.33 17.6      lik, lat = d.get_lattice()
- 1  0.002   0.002  0.1      d.reset(keep_buffer_data=False)
- 1      3     3.0  0.0    return (lat, lik, decoded_frames)
-        
-    \end{verbatim}
-    \caption{System time profiling of forward and backward decoding.
-First column is number of row hits in \term{decode} function. Second column
-is total system spent in the row in seconds, the third column shows per hit time. 
-The last fourth column assigns the relative amount of time to each row. 
-It is expressed in percent.}
-    \label{fig:cpu_profile} 
-    \end{center}
-\end{figure}
-
-
-\section{Summary}
+section{Summary}
 \label{sec:onl_summary}
 The \term{OnlLatticeFasterDecoder} is able to perform real-time decoding.
 Its parameters for real-time decoding, 
