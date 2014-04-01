@@ -3,34 +3,64 @@
 \label{cha:decoder}
 % \todo{SIGDIAL BEGIN}
 
-The significant drawback of Kaldi toolkit was the~lack of an on-line recognition support.
-Therefore, it could not be used directly in applications such as spoken dialogue systems.
-We implemented a~lightweight modification of the~\term{LatticeFasterDecoder} from the~Kaldi toolkit and created an on-line recogniser with an interface that is suitable for statistical dialogue systems.
-The~Kaldi toolkit as well as the~on-line recogniser is distributed under the~Apache 2.0 license\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
+We implemented a~lightweight modification of the~\term{LatticeFasterDecoder} from the~Kaldi toolkit, improved on-line speech parametrisation and feature processing in order to create an \term{OnlineLatgenRecogniser}.
+The Kaldi \term{OnlineLatgenRecogniser} implements on-line interface which allows incremental speech processing which is able to process the incoming speech in small chunks incrementally.
+As a result, the speech decoding is performed as user speaks and the ASR output is obtained with minimal latency.
+% The~Kaldi toolkit as well as the~on-line recogniser is distributed under the~Apache 2.0 license\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
 
-Kaldi included an on-line recognition application; however, hard-wired timeout exceptions, audio source fixed to a~sound card, and a specialised 1-best decoder limit its use to demonstration of Kaldi recognition capabilities only.
+The implementation of the recogniser was motivated by the~lack of an on-line recognition support in Kaldi toolkit.
+Therefore, the toolkit decoders could not be used in applications such as spoken dialogue systems.
+Although Kaldi included an on-line recognition application; but hard-wired timeout exceptions, audio source fixed to a~sound card, and a specialised 1-best decoder limit its use to demonstration of Kaldi recognition capabilities only.
 
 Our on-line recogniser may use acoustic models trained using the~state-of-the-art techniques, 
 such as Linear Discriminant Analysis (LDA), Maximum Likelihood Linear Transform (MLLT), Boosted Maximum Mutual Information (BMMI), Minimum Phone Error (MPE).
 It produces word posterior lattices which can be easily converted into high quality n-best lists.
-The~recogniser's speed and latency can be effectively controlled off-line by optimising a~language model and during decoding by beam thresholds.
+The~recogniser's speed and latency can be effectively controlled off-line by optimising a~language model. 
+At runtime the speed of decoding is controlled by a beam threshold.
+The latency which corresponds to the amount of time spent on word posterior lattice extraction depends on level of approximations used.
 
-Section~\ref{sec:impl} describes the~implementation and interface of the~\term{OnlineLatgenRecogniser}.
-The interface of \term{OnlineLatgenRecogniser} reflects implementation of \term{OnlLatticeFasterDecoder} which is also introduced.
-Next Section~\ref{sec:} describes on-line speech parametrisation and feature transformations, and Section~\ref{sec:} details word posterior lattice extraction.
-Finally, Section~\ref{sec:conclusion} concludes this work.
+Section~\ref{sec:rec} describes the~implementation of the~\term{OnlineLatgenRecogniser}.
+\term{OnlLatticeFasterDecoder} is the core component of the speech recogniser and it greatly influences the interface of \term{OnlineLatgenRecogniser}.
+First, we describe the \term{OnlineLatgenRecogniser} in Subsection~\ref{sub:dec}. 
+Later, we present the new interface of audio buffering, speech parametrisation and feature transformations in Subsection~\ref{sub:preprocess}, and Subsection~\ref{sub:postprocess} discuss word posterior lattice extraction.
+Next Section~\ref{sec:pyext} describes, \term{PyOnlineLatgenRecogniser}, an extension of \term{OnlineLatgenRecogniser} into Python.
+Finally, Section~\ref{sec:conclusion} summarize how we extended the Kaldi library.
 
 \section{OnlineLatgenRecogniser}
-\label{sec:impl}
+\label{sec:rec}
 
 The~standard Kaldi interface between the~components of the toolkit is based on a~batch processing paradigm, where the~components assume that whole audio signal is available when recognition starts.
 However, when performing on-line recognition, one would like to take advantage of the~fact that the signal appears in small chunks and can be processed incrementally.
 When properly implemented, this significantly reduces recogniser output latency.
 
 \subsection{\term{OnlLatticeFasterDecoder}}
-\todo{todo}
+\label{sub:dec}
+We did not implement no new functionality \term{OnlLatticeFasterDecoder}, but we only reorganised the code of base class \term{LatticeFasterDecoder}.
+We splited the LatticeFasterDecoder::Decode which performed two separate tasks into two other functions.
+The \term{LatticeFasterDecoder::Decode} function runs a beam search from frame 0 to the end of each utterance.
+In addition, a pruning is triggered periodically in the function.
+Namely, we control the beam search by following functions: 
+\begin{itemize}
+\item \term{Decode} -- decoding a~fixed number of audio frames instead of decoding whole utterance, pruning is triggered periodically,
+\item \term{PruneFinal} -- run final pruning and so prepare the internal data structures for lattice extraction,
+\item \term{Reset} -- preparing the~recogniser for a~new utterance.
+\end{itemize}
+In the \term{PruneFinal} function, called at the end of an utterance, the states selected by beam search are pruned with the knowledge that no further search will be performed so more states can be safely discarded.
 
-\subsection{C++ implementation}
+The \ac{ASR} hypotheses functionality remains exactly the same as implemented in \term{OnlLatticeFasterDecoder}.
+\begin{itemize}
+    \item \term{GetRawLattice}
+    \item \term{GetLattice}
+    \item \term{GetBestPath}
+\end{itemize}
+
+
+
+
+    furthprocessed states  pruning and later marking the last frame of the utterance as final.
+    Namely, we create orward decoding, marking current frame as final and extracting lattice from frame 0 to final frame into three function
+
+\subsection{\term{OnlineLatgenRecogniser} interface}
 \label{sub:verb_c_}
 
 To achieve this, we implemented Kaldi's \term{DecodableInterface} supporting incremental speech pre-processing, which includes speech parameterisation, feature transformations, and likelihood estimation.
@@ -58,28 +88,8 @@ Please note that the~recogniser's latency is mainly determined by the~time spent
 
 The~source code of the~\term{OnlineLatgenRecogniser} is available in Kaldi repository\footnote{\url{https://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/src/dec-wrap/}}.
 
-\subsection{PyOnlineLatgenRecogniser}
-\label{sec:pyext}
-
-In addition, we developed a~Python extension, \term{PyOnlineLatgenRecogniser}, exporting the~\term{OnlineLatgenRecogniser} C++ interface.
-This can be used as an example of bringing Kaldi's on-line speech recognition functionality to higher-level programming languages.
-This Python extension is used in the~Alex Dialogue Systems Framework \cite{asdf2014url}.
-
-\term{PyOnlineLatgenRecogniser} is a thin wrapper around \term{OnlineLatgenRecogniser} implemented using Cython\cite{cython2014url}.
-The Cython is well known for its speed when interfacing Python and C++.
-In addition, we extended PyFST library\cite{pyfst2014url} which interfaces via Cython the core parts of OpenFST library into Python.
-The output of the \term{OnlineLatgenRecogniser} is represented as OpenFST lattices and is input is raw binary data.
-Consequently, the recogniser as well as its input and output can be seamlessly used from Python.
-
-We also implemented conversion of the word posterior lattices which are returned by \term{PyOnlineLatgenRecogniser} to an~n-best list. 
-The implementation is efficient since the~OpenFST shortest path algorithm is used on small lattices.
-
-The minimalistic Python example in Listing~\ref{snippets/pykaldi_usage.py} shows usage of the \term{PyOnlineLatgenRecogniser} and the~decoding of a single utterance.
-
-\code{Fully functional example of the \term{PyOnlineLatgenRecogniser} interface}{Python}{snippets/pykaldi_usage.py}
-
-\section{On-line feature pre-processing} 
-\label{sec:onl_preprocess}
+\subsection{On-line feature pre-processing} 
+\label{sub:preprocess}
 The pre-processing consist of audio signal buffering, \ac{MFCC} feature extraction and applying feature transformation. 
 The pre-processing and the decoder are bridged by the \term{decodable} interface as illustrated in Figure~\ref{fig:online_pipeline}.
 We briefly describe each step:
@@ -185,7 +195,7 @@ Note that we also added the \term{OnlBuffSource} class, which just allows buffer
 % 
 % \code{Usage of the~\term{OnlLatticeFasterDecoder} in its wrapper}{C}{snippets/onl_lat_dec_usage.cc}
 
-\section{Post-processing the state lattice}
+\subsection{Post-processing the state lattice}
 \label{sec:postprocess}
 % \todo{The trick with discarding alignments}
 % \todo{How I converted the state lattice to word posterior lattice}
@@ -334,6 +344,26 @@ We reused Kaldi function for computing helper $\alpha$ and $\beta$ data structur
 % in reasonably small chunks, the latency is influenced only by the~time of decoding the last chunk
 % and the~time of backward decoding and computing the word posterior lattice.
 
+\section{PyOnlineLatgenRecogniser}
+\label{sec:pyext}
+
+In addition, we developed a~Python extension, \term{PyOnlineLatgenRecogniser}, exporting the~\term{OnlineLatgenRecogniser} C++ interface.
+This can be used as an example of bringing Kaldi's on-line speech recognition functionality to higher-level programming languages.
+This Python extension is used in the~Alex Dialogue Systems Framework \cite{asdf2014url}.
+
+\term{PyOnlineLatgenRecogniser} is a thin wrapper around \term{OnlineLatgenRecogniser} implemented using Cython\cite{cython2014url}.
+The Cython is well known for its speed when interfacing Python and C++.
+In addition, we extended PyFST library\cite{pyfst2014url} which interfaces via Cython the core parts of OpenFST library into Python.
+The output of the \term{OnlineLatgenRecogniser} is represented as OpenFST lattices and is input is raw binary data.
+Consequently, the recogniser as well as its input and output can be seamlessly used from Python.
+
+We also implemented conversion of the word posterior lattices which are returned by \term{PyOnlineLatgenRecogniser} to an~n-best list. 
+The implementation is efficient since the~OpenFST shortest path algorithm is used on small lattices.
+
+The minimalistic Python example in Listing~\ref{snippets/pykaldi_usage.py} shows usage of the \term{PyOnlineLatgenRecogniser} and the~decoding of a single utterance.
+
+\code{Fully functional example of the \term{PyOnlineLatgenRecogniser} interface}{Python}{snippets/pykaldi_usage.py}
+
 \section{Decoder parameters}
 \label{sec:real-setup}
 
@@ -356,10 +386,10 @@ The minimal interface works very well for supported \ac{MFCC} speech parametrisa
 and both generative training and discriminative training using \ac{bMMI} and \ac{MPE}.
 The setup yields the best results for non-speaker adaptive methods.
 
-\subsection{Future improvements}
-\label{sub:onl_future}
-As described, we support a narrow range of feature transformation, so it would be natural to implement more sophisticated on-line interface, which could support more feature transformations available in Kaldi.
-
-In next work, we would like to focus on acoustic modeling with \acl{DNN}.
-The \ac{DNN} provide more accurate acoustic probabilities, which should lead to faster beam search, because the search is more informed.\cite{zhang2014improving} 
-We see the challenge in implementation of \acl{DNN} evaluation in real time, probably using \ac{GPU}.
+% \subsection*{Future improvements}
+% \label{sub:onl_future}
+% As described, we support a narrow range of feature transformation, so it would be natural to implement more sophisticated on-line interface, which could support more feature transformations available in Kaldi.
+% 
+% In next work, we would like to focus on acoustic modeling with \acl{DNN}.
+% The \ac{DNN} provide more accurate acoustic probabilities, which should lead to faster beam search, because the search is more informed.\cite{zhang2014improving} 
+% We see the challenge in implementation of \acl{DNN} evaluation in real time, probably using \ac{GPU}.
