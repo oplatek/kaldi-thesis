@@ -39,22 +39,18 @@ The task of acoustic modeling is to estimate the parameters $\theta$ of a model 
 Similarly, the \ac{LM} represents the probability $P(w)$.
 We describe language modeling in Section~\ref{sub:lm}.
 
-Improving the accuracy of speech recognition engine depends mainly on improving \ac{AM} and \ac{LM}.
-% The \ac{AM} and \ac{LM} are trained separately and stored on a~hard disc.
-\todo{Describe the ASR pipeline - describe figure 2.1}
+\ml{frames}
+The Figure~\ref{fig:components} illustrate the process of decoding the most probable word hypotheses $w^*$ for given speech utterance. 
+First, the sampled audio signal is processed by speech parametrisation and feature transformations, so the decoding itself takes acoustic features $a$ as input. The signal processing is computed on small overlapping windows of audio signal, typically denoted as frames.
+The decoding itself is performed time synchronously for each frame using beam search.
+The beam search expands hypotheses from previous step by taking account the new frame features, and it computes probabilities of the expanded hypotheses using \ac{AM} and \ac{LM}.
+If the~number of hypotheses exceeds the beam, the low probable hypotheses are pruned.
+Pruning the least probable hypotheses and the described simple beam search may lead to discarding globally optimal hypotheses.
+After the decoding the last audio frame, all hypotheses represents whole utterance.
+The word labels $w^*$ are extracted from the most probably hypothesis which survived the beam search.
 
-Typically it is easier to model preprocessed speech, so various feature and model space transforms are applied before \ac{AM} training.
-The speech recogniser has to use the same speech preprocessing, which is used for \ac{AM} model training.
-See Figure~\ref{fig:components}.
-
-
-% \term{Supervised learning} is the~machine learning task of inferring a function from labeled training data.\cite{mohri2012foundations}. 
-%Labeled data is set of training examples pairs. The pairs consists of input features and desired output as captured in~Figure~\ref{fig:supervised}. The supervised learning algorithm infers a function partially influenced by the training examples and partially determined by the algorithm itself. In ideal case, the inferred function would be able to predict correct output values for unseen input data. 
-% The inferred function is often called \term{model}. 
-% 
-% \term{Unsupervised learning} can be thought of as finding patterns in the input data beyond what would be considered 
-% pure unstructured noise\cite{ghahramani2004unsupervised}. Very often unsupervised learning is an application 
-% of~statistical methods as in language modeling depicted in~Figure~\ref{fig:unsupervised}
+Improving the accuracy of speech recognition engine depends mainly on improving \ac{AM} and \ac{LM}
+and also on parameters of the beam search such as threshold how many hypotheses are allowed at maximum.
 
 
 \subsection{Speech parameterisation}
@@ -233,8 +229,7 @@ In order to reduce the number of triphones, these triphones are clustered togeth
 \begin{figure}[!htp]
     \begin{center}
     \input{images/hmm-words}
-    \caption{Markov phone model for three words. Transition probabilities within
-    words and observation probabilities are learnt.}
+    \caption{Markov monophone model for three words. \todo{Can be used for explaining Viterbi.}}
     \label{fig:hmm_words} 
     \end{center}
 \end{figure}
@@ -251,8 +246,8 @@ In order to reduce the number of triphones, these triphones are clustered togeth
 
 \subsubsection*{\acfp{HMM}}
 The~\acp{HMM} is a~very powerful statistical method for~characterizing observed data samples
-of~a~discrete-time series with an unknown state. \todo{Chapter 8, \cite{huang2001spoken}}.
-In our case the hidden states represent triphones and we observe samples of the~acoustic features.
+of~a~discrete-time series with an unknown state. \cite{huang2001spoken}. % huang2001spoken chapter 8
+In case of speech recognition the hidden states typically represent monophones or triphones and we observe samples of the~acoustic features.
 
 \ml{transition probability}
 Hidden Markov Models have two type of parameters \term{transition probabilities among states}
@@ -262,18 +257,17 @@ Each transition can be represented as arc $e=qu$ between the states $q$ and $u$,
 The probability is often represented as the weight $w_e$ of arc $e$.
 For every node in a Markov model must hold that the sum weights of outgoing arcs is one.
 
-The Markov model emits an observation during traversal over its arcs.
-The \acl{HMM} emits the observation stochastically based on the probabilistic distribution related
-to~the~visited state.
-
 \ml{Gaussian HMM}
-\todo{In speech recognition, a multivariate Gaussian distribution is used to model observation probabilities of \ac{HMM} states.} 
-Typically the Gaussian distribution in each state models acoustic features $a$.
-Ideally the estimated \ac{HMM} \ac{AM} would generate in each state features belonging to one triphone.
+The Markov model emits an observation during traversal over its arcs.
+The \acl{HMM} emits the observation stochastically based on the probabilistic distribution related to~the~visited state.
+In speech recognition, a multivariate Gaussian distribution is typically used to model observation probabilities of \ac{HMM} states.
+% Typically the Gaussian distribution in each state models acoustic features $a$.
+% Ideally the estimated \ac{HMM} \ac{AM} would generate in each state features belonging to one triphone.
 
 \subsubsection*{Training \ac{HMM}}
 \label{sub:trainhmm}
 
+\todo{Viterbi vs Baum-Welsh}
 \todo{The Kaldi as well as the~\ac{HTK} toolkit uses \acl{EM} algorithms to train \ac{HMM} \acl{AM}.}
 The toolkits models the observation probabilities using multivariate Gaussian distribution 
 with dimension of the acoustic features $a$.
@@ -627,7 +621,7 @@ The procedure is later described in detail in~Chapter~\ref{cha:decoder}.
 \begin{figure}[!htp]
     \begin{center}
     \input{images/non_symetric}
-    \caption{Small lattice. \todo{numbers to words}}
+    \caption{Small lattice. \todo{TODO draw it with Ipython}}
     \label{fig:toy_lat} 
     \end{center}
 \end{figure}
