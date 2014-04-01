@@ -45,14 +45,17 @@ Namely, we control the beam search by following functions:
 \item \term{PruneFinal} -- run final pruning and so prepare the internal data structures for lattice extraction,
 \item \term{Reset} -- preparing the~recogniser for a~new utterance.
 \end{itemize}
+
 In the \term{PruneFinal} function, called at the end of an utterance, the states selected by beam search are pruned with the knowledge that no further search will be performed so more states can be safely discarded.
 
-The \ac{ASR} hypotheses functionality remains exactly the same as implemented in \term{OnlLatticeFasterDecoder}.
+Extracting the \ac{ASR} is performed by method of \term{LatticeFasterDecoder}, namely:
 \begin{itemize}
-    \item \term{GetRawLattice}
-    \item \term{GetLattice}
-    \item \term{GetBestPath}
+    \item \term{GetRawLattice} returns state-level lattice,
+    \item \term{GetLattice} extracts from state-level lattice word lattice which is returned,
+    \item \term{GetBestPath} finally return just one-best bath.
 \end{itemize}
+The state-level lattice returned from \term{GetRawLattice} method can be understand as lattice on triphone level.
+Single word hypothesis is typically represented as multiple state-level hypotheses since the words are aligned differently, which means that the same words were pronounced at different time according the state-level hypotheses.
 
 
 
