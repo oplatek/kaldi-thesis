@@ -52,21 +52,16 @@ Extracting the \ac{ASR} is performed by method of \term{LatticeFasterDecoder}, n
 \begin{itemize}
     \item \term{GetRawLattice} returns state-level lattice,
     \item \term{GetLattice} extracts from state-level lattice word lattice which is returned,
-    \item \term{GetBestPath} finally return just one-best bath.
+    \item \term{GetBestPath} returns just one-best bath.
 \end{itemize}
-The state-level lattice returned from \term{GetRawLattice} method can be understand as lattice on triphone level.
-Single word hypothesis is typically represented as multiple state-level hypotheses since the words are aligned differently, which means that the same words were pronounced at different time according the state-level hypotheses.
 
-
-
-
-    furthprocessed states  pruning and later marking the last frame of the utterance as final.
-    Namely, we create orward decoding, marking current frame as final and extracting lattice from frame 0 to final frame into three function
+The state-level lattice returned from the \term{GetRawLattice} method can be understand as lattice on triphone level.
+In the state-level lattice, single word hypothesis is typically represented as multiple state-level hypotheses due to different word alignments, i.e., the same words sequences were pronounced with different timing.
 
 \subsection{\term{OnlineLatgenRecogniser} interface}
 \label{sub:verb_c_}
 
-To achieve this, we implemented Kaldi's \term{DecodableInterface} supporting incremental speech pre-processing, which includes speech parameterisation, feature transformations, and likelihood estimation.
+We implemented Kaldi's \term{DecodableInterface} supporting incremental speech pre-processing, which includes speech parameterisation, feature transformations, and likelihood estimation.
 In addition, we subclassed \term{LatticeFasterDecoder} and split the~original batch processing interface.
 
 The~\term{OnlineLatgenRecogniser} makes use of the~new incremental speech pre-processing and modified \term{LatticeFasterDecoder}.
@@ -93,11 +88,11 @@ The~source code of the~\term{OnlineLatgenRecogniser} is available in Kaldi repos
 
 \subsection{On-line feature pre-processing} 
 \label{sub:preprocess}
-The pre-processing consist of audio signal buffering, \ac{MFCC} feature extraction and applying feature transformation. 
-The pre-processing and the decoder are bridged by the \term{decodable} interface as illustrated in Figure~\ref{fig:online_pipeline}.
+This section describes of audio signal buffering, \ac{MFCC} feature extraction and feature transformation. 
+\todo{The pre-processing and the decoder are bridged by the \term{decodable} interface as illustrated in Figure~\ref{fig:online_pipeline}.}
 We briefly describe each step:
 \begin{itemize}
-    \item Audio buffering
+    \item Audio buffering \todo{describe}
     \item Computation of \ac{MFCC} features on overlapping audio window.
     \item Applying feature transformation on top of \ac{MFCC} features. 
         \begin{itemize}
@@ -198,11 +193,9 @@ Note that we also added the \term{OnlBuffSource} class, which just allows buffer
 % 
 % \code{Usage of the~\term{OnlLatticeFasterDecoder} in its wrapper}{C}{snippets/onl_lat_dec_usage.cc}
 
-\subsection{Post-processing the state lattice}
+\subsection{Post-processing the lattice}
 \label{sec:postprocess}
-% \todo{The trick with discarding alignments}
-% \todo{How I converted the state lattice to word posterior lattice}
-% \todo{decoding lattices and normal outputs -- describe again the problems}
+\todo{What is CompactLattice}
 The \term{CompactLattice} determinised at state level still may contain
 multiple paths for each word sequence encoded in the lattice.
 In fact, typically there is number of state level alternatives for each word sequence.
@@ -350,14 +343,13 @@ We reused Kaldi function for computing helper $\alpha$ and $\beta$ data structur
 \section{PyOnlineLatgenRecogniser}
 \label{sec:pyext}
 
-In addition, we developed a~Python extension, \term{PyOnlineLatgenRecogniser}, exporting the~\term{OnlineLatgenRecogniser} C++ interface.
+We developed a~Python extension, \term{PyOnlineLatgenRecogniser}, exporting the~\term{OnlineLatgenRecogniser} C++ interface.
 This can be used as an example of bringing Kaldi's on-line speech recognition functionality to higher-level programming languages.
 This Python extension is used in the~Alex Dialogue Systems Framework \cite{asdf2014url}.
 
 \term{PyOnlineLatgenRecogniser} is a thin wrapper around \term{OnlineLatgenRecogniser} implemented using Cython\cite{cython2014url}.
 The Cython is well known for its speed when interfacing Python and C++.
-In addition, we extended PyFST library\cite{pyfst2014url} which interfaces via Cython the core parts of OpenFST library into Python.
-The output of the \term{OnlineLatgenRecogniser} is represented as OpenFST lattices and is input is raw binary data.
+In addition, we extended PyFST library\cite{pyfst2014url} which interfaces OpenFST library into Python because we need to use in Python the OpenFST lattices produced by \term{OnlineLatgenRecogniser}.
 Consequently, the recogniser as well as its input and output can be seamlessly used from Python.
 
 We also implemented conversion of the word posterior lattices which are returned by \term{PyOnlineLatgenRecogniser} to an~n-best list. 
@@ -365,10 +357,17 @@ The implementation is efficient since the~OpenFST shortest path algorithm is use
 
 The minimalistic Python example in Listing~\ref{snippets/pykaldi_usage.py} shows usage of the \term{PyOnlineLatgenRecogniser} and the~decoding of a single utterance.
 
+The audio is passed to the recogniser in small chunks (line 4), so the decoding (line 5 and 8) can be performed as user speaks.
+When no more audio data is available a likelihood and a word posterior lattice is extracted from the recogniser(line 10).
 \code{Fully functional example of the \term{PyOnlineLatgenRecogniser} interface}{Python}{snippets/pykaldi_usage.py}
+
+Note that \term{PyOnlineLatgenRecogniser} and \term{OnlineLatgenRecogniser} are initialised by string vector of arguments in command line format.
+The parameters are parsed using Kaldi's command line parser and options affect behaviour speech parametrisation, feature transformations and  the \term{OnlLatticeFasterDecoder}.
+In addition, exactly the same parameters can be parsed by standard Kaldi utilities. We created scripts which use exactly the same speech recognition parameters and performs speech recognition with both standard Kaldi utilities and our \term{PyOnlineLatgenRecogniser} where the alternatives produce exactly the same results.
 
 \section{Decoder parameters}
 \label{sec:real-setup}
+\todo{Write about influence of beam search on Lattice extraction}
 
 In this section we focus on parameters of the \term{OnlineLatgenRecogniser},
 which affect speed of decoding.
