@@ -137,27 +137,26 @@ Feature space transformations are usually applied in addition to \ac{MFCC} or \a
 \ml{frame}
 The feature space transformations are typically applied per frame. 
 Each feature vector extracted from \ac{MFCC} or \ac{PLP} window - frame, is projected to another feature space.
-Some transformations take into account context of several preceding (left context) and consecutive frames (right context).
+Transformations usually take into account context of several preceding (left context) and consecutive frames (right context).
 
 The linear or affine transforms are expressed by matrix multiplications $Ax$ respectively $Ax^+$.
 The matrix $A$ represents the transformation. 
 The $x$ is the input vector and $Ax$ are the transformed features.
 The affine transformations uses extended vector $(x^+)^T = (x_1, \ldots, x_n, 1)$ and matrix $A: (n+1)*(n+1)$.
 
-There is a large variety of available transforms and dependent on your acoustic data you should choose the most appropriate one.
-The transforms differ according to how they are estimated, namely for linear transforms how the matrix $A$ is trained.
-
-\todo{Some transforms are estimated on all acoustic data, some transformations are trained on data selected per speaker.}
+There is a large variety of available transforms and dependent on acoustic data one should choose the most appropriate one.
+% The transforms differ according to how they are estimated, namely for linear transforms how the matrix $A$ is trained.
 Some transforms are estimated discriminatively, some use generative models.
+Some are speaker dependent, some speaker independent.
 
 We list some of Kaldi transforms in order to illustrate rich choice of feature transforms in Kaldi toolkit.
 % use and city http://kaldi.sourceforge.net/transform.html#transform_cmllr_global
 \begin{itemize}
-    \item \acf{LDA}\cite{gopinath1998maximum}
-    \item \acf{HLDA}\cite{gales1999semi}
+    \item \acf{HLDA}\cite{gales1999semi}.
+    \item \acf{LDA}\cite{gopinath1998maximum} is typically used with \acs{MLLT} for speaker independent training.
     \item \acf{MLLT} also known as \acf{STC}\cite{gopinath1998maximum}
-    \item \acf{ET}\cite{povey2011exponential}
-    \item \acf{CMVN}\cite{molau2003feature}
+    \item \acf{ET}\cite{povey2011exponential}. It uses small number of speaker specific parameters for adaptation on speaker.
+    \item \acf{CMVN}\cite{molau2003feature}. Typically normalise the cepstrum mean and variance per speaker.
 \end{itemize}
 
 In our acoustic modelling scripts, see Chapter~\ref{cha:train},  we use two non-speaker adaptive feature transformations, which can be computed with very small context. 
@@ -226,15 +225,6 @@ In order to reduce the number of triphones, these triphones are clustered togeth
 
 % TODO mentioned curse of dimensionality for words -> more parameters than triphones for less examples
 
-\begin{figure}[!htp]
-    \begin{center}
-    \input{images/hmm-words}
-    \caption{Markov monophone model for three words. \todo{Can be used for explaining Viterbi.}}
-    \label{fig:hmm_words} 
-    \end{center}
-\end{figure}
-
-
 % \begin{figure}[!htp]
 %     \begin{center}
 %     \input{images/supervised-general}
@@ -267,11 +257,10 @@ In speech recognition, a multivariate Gaussian distribution is typically used to
 \subsubsection*{Training \ac{HMM}}
 \label{sub:trainhmm}
 
-\todo{Viterbi vs Baum-Welsh}
-\todo{The Kaldi as well as the~\ac{HTK} toolkit uses \acl{EM} algorithms to train \ac{HMM} \acl{AM}.}
+The Kaldi uses Viterbi training and the~\ac{HTK} toolkit uses \acl{EM} algorithms to train \ac{HMM} \acl{AM}.
 The toolkits models the observation probabilities using multivariate Gaussian distribution 
 with dimension of the acoustic features $a$.
-The \ac{EM} algorithm starts with \ac{HMM} with initial values. 
+Both Viterbi training and the \ac{EM} algorithm starts with \ac{HMM} with initial values. 
 
 Typically, the~transition probabilities follow uniform distribution.
 The observation probabilities are usually initialized by multivariate Gaussian distribution
@@ -298,23 +287,17 @@ to update parameters of transition and observation probabilities:
 \end{itemize}
 
 \ml{Baum-Welsch}
-The acoustic model training conceptually differs for \ac{HTK} and Kaldi only in the {\bf expectation (E) step}.
-The \ac{HTK} toolkit in {\bf E-step} finds the most probable distribution 
-which map acoustic observation to \ac{HMM} states using \ac{MLE}\cite{gopinath1998maximum}.
+The {\bf E-step} finds the most probable distribution as a weighted combination of distributions which map acoustic observation to \ac{HMM} states using \ac{MLE}\cite{gopinath1998maximum}.
+The Baum-Welsch equations can be derived from the fact, that the~\ac{MLE} criterion is used for finding the most probable distribution in {\bf M-step}.\cite{huang2001spoken}
+% This variation of \ac{EM} algorithm for estimating \ac{HMM} parameters is called Baum-Welsch algorithm.
 
-
-The Baum-Welsch equations can be derived from the fact, 
-that the~\ac{MLE} criterion is used for finding the most probable distribution in {\bf M-step}.\cite{huang2001spoken}
-This variation of \ac{EM} algorithm for estimating \ac{HMM} parameters is called Baum-Welsch algorithm.
-
-\ml{Viterbi}
-On the other, hand the Kaldi toolkit applies the Viterbi 
-criterion in assigning the acoustic observation to \ac{HMM} states.
-Using the Viterbi criterion Kaldi just finds 
-the most probable assignment $\phi$ of observations to states.\cite{buthpitiya2012parallel}
-Using only the single best assignment $\phi$ the {\bf M-step} is also simpler than
-Baum-Welch algorithm case.
-We simply refer to the~\ac{EM} algorithm with Viterbi criterion as Viterbi training.
+\begin{figure}[!htp]
+    \begin{center}
+    \input{images/hmm-words}
+    \caption{Markov monophone model for three words. Such an \ac{HMM} is constructed for monophone Viterbi training and reference transcriptions \textit{how do you do}. The parameters of the \ac{HMM} model are updated according Equation~\ref{eq:mean},~\ref{eq:var} and~\ref{eq:weights}.}
+    \label{fig:hmm_words} 
+    \end{center}
+\end{figure}
 
 \subsubsection*{\acl{MLE} method}
 \label{sub:mle_method}
@@ -334,18 +317,17 @@ and parameter $\theta$ free as described in Equation~\ref{eq:likelihood}.
     \theta^* = argmax_{\theta} \mathcal{L}(\theta\,|\,x_1,\ldots,x_n)
 \end{equation}
 
-
-
 \subsubsection*{Viterbi training of acoustic models}
-We focus on Viterbi training because it is used in Kaldi toolkit.
-The Viterbi training approximates \ac{MLE} \ac{AM} training.
-Latest work suggest that Viterbi training is just as effective for continuous
-speech recognition as Baum-Welch algorithm \cite{rodriguez2003comparative}.
-In addition Viterbi training needs much less computational resources. 
+On the other, hand the Kaldi toolkit applies the Viterbi criterion in assigning the acoustic observation to \ac{HMM} states.
+The Viterbi training approximates \ac{EM} \ac{AM} training by choosing single best alignment and maximizing the posterior probability for the chosen alignment.
+Latest work suggest that Viterbi training is just as effective for continuous speech recognition as Baum-Welch algorithm \cite{rodriguez2003comparative}.
+Moreover, Viterbi training needs much less computational resources. 
+
+We details the Viterbi training since it is used in the~Kaldi toolkit for acoustic model training.
+\todo{In addition, with minor modifications a Viterbi algorithm is used also for decoding in Kaldi.}
 
 Given set of training observations $O^r, 1 \le r \le R$ and \ac{HMM} state sequence $ 1 < j < N$ the observation sequence is aligned to the state sequence via Viterbi alignment.\cite{buthpitiya2012parallel}
 The best alignment $T$ results from maximising Equation~\ref{eq:vit_align} for $ 1 < i < N$.
-
 
 \begin{equation}\label{eq:vit_align}
     \theta_N(T)= max_i[\theta_i(T)a_{iN}] 
@@ -366,7 +348,7 @@ The $\theta_i(o_t)$ from Equation~\ref{eq:vit_align} is computed recursively acc
 \end{equation}
 
 The initial conditions are $\theta_1(1)=1$ and $\theta_j(1)= a_{1j}b_j(o_1)$, for $ 1 < j < N$.
-In our case the likelihoods are modeled as mixture Gaussian densities, so the output probability $b_j(o_t)$ is defined as in Equation~\ref{eq:observ_prop}.
+In our case the likelihoods are modeled as mixture Gaussian densities, so the output probability $b_j(o_t)$ is defined as in Equation~\ref{eq:observ_prob}.
 
 \begin{equation}\label{eq:observ_prob}
     b_j(o_t) = \sum_{m=1}^{M_j}{c_{jm}\mathcal{N}(o_t; \mu_{jm}, \Sigma_{jm})}
@@ -496,8 +478,7 @@ but the decoding is more complicated for \ac{CSR}.
 Imagine we have a \ac{LM} order 1 of only two words - \term{one} and \term{two} each uniformly distributed\footnote{If a \ac{LM} of order 1 assigns to every word equal probability, we say it has order 0}.
 We want to decode any possible sequence of words \term{one}, \term{two}, so we add additional $\epsilon$ transition at the end of words \acp{HMM}. 
 The words are chained using silence \ac{HMM} model as illustrated in Figure~\ref{fig:hmm_lm}.
-Figure~\ref{fig:hmm_alt} shows expanded \acp{HMM}, which have $\epsilon$ transitions
-at the beginning and the end of the words. 
+Figure~\ref{fig:hmm_alt} shows expanded \acp{HMM}, which have $\epsilon$ transitions at the beginning and the end of the words. 
 Note that \ac{LM} weight $P(w)$ can be stored on the in the $\epsilon$ transition at the beginning.
 \begin{figure}[!htp]
     \begin{center}
@@ -512,17 +493,11 @@ $\epsilon$ transitions, and a search is used for selecting the most probable seq
     \end{center}
 \end{figure}
 
-Even the simple \ac{HMM} network in Figure~\ref{fig:hmm_alt} can become
-large search problem partially because the search space of words grows
-exponentially in number of words in utterance and partially
-because the word boundaries are unknown. 
-Each word can begin in any moment and last with decreasing probability ad infinity,
-so the search space explode.
-In our trivial case we skip problems with higher order \acp{LM}, silence modeling
-and large lexicon.
+Even the simple \ac{HMM} network in Figure~\ref{fig:hmm_alt} can become large search problem partially because the search space of words grows exponentially in number of words in utterance and partially because the word boundaries are unknown. 
+Each word can begin in any moment and last with decreasing probability ad infinity, so the search space explode.
+In our trivial case we skip problems with higher order \acp{LM}, silence modeling and large lexicon.
 
-As you can see the search space of speech recognition problem with 
-large vocabulary is enormous and has to solved in very short time.
+One can see that the search space of speech recognition problem with large vocabulary is enormous and has to solved in very short time.
 % The most famous \ac{AI} search algorithm $A^*$ for large search problem can not be used,
 % because during decoding as user speaks we know little about what is he going to say in~the 
 % rest of the utterance, so we can not design a good heuristic function.
@@ -530,47 +505,34 @@ large vocabulary is enormous and has to solved in very short time.
 % to perform any computation. A user expects a response around 200 ms after his speech, 
 % so we need the find the best path in very short time.
 
-Natural choice for one-best hypothesis is Viterbi beam search.\cite{huang2001spoken}
+Natural choice for one-best hypothesis is Viterbi beam search\cite{huang2001spoken}.
 We already described Viterbi algorithm in Subsection~\ref{sub:trainhmm}.
 The beam is used to limit search space in each iteration of Viterbi algorithm.
-The Viterbi algorithm is breadth-first search algorithm and the beam limits 
-number of nodes, which are expanded from current set of nodes to next iteration.
+The Viterbi algorithm is breadth-first search algorithm and the beam limits number of nodes, which are expanded from current set of nodes to next iteration.
 
 % \todo{picture beam search}
 
 We list few alternatives how to set up the beam for speech decoding.
 \begin{itemize}
     \item \term{Fixed beam} guarantees maximum size of memory footprint and fast decoding.
-    \item \term{One-best hypothesis comparison} effectively discards 
-        most of the improbably hypothesis if the one-best hypothesis is significantly better than alternatives
-        and keeps lot of alternatives if one-best hypothesis is weak.
-        The relative one-best hypothesis comparison naturally broaden the beam in uncertain region,
-        but does not guarantee no hard limits.
+    \item \term{One-best hypothesis comparison} effectively discards most of the improbably hypothesis if the one-best hypothesis is significantly better than alternatives and keeps lot of alternatives if one-best hypothesis is weak.
+        The relative one-best hypothesis comparison naturally broaden the beam in uncertain region, but does not guarantee no hard limits.
     \item \term{Combination} of methods applies the strictest criteria on beam in each iteration.
 \end{itemize}
 
 
-So far we focused on combination of \ac{HMM} \ac{AM} and \ac{LM} and its graph representation,
-but also mixing the probabilities of \ac{AM} and \ac{LM} according Equation~\ref{eq:best_fix}
-is not straightforward in practice. Due to numerous assumption violation for computing 
-\ac{AM} as well as \ac{LM} it proves to efficient to use weighted product of the two models.
+So far we focused on combination of \ac{HMM} \ac{AM} and \ac{LM} and its graph representation, but also mixing the probabilities of \ac{AM} and \ac{LM} according Equation~\ref{eq:best_fix} is not straightforward in practice. 
+Due to numerous assumption violation for computing \ac{AM} as well as \ac{LM} it proves to efficient to use weighted product of the two models.
 Typically, language model weight is used $w_{lm}$.
 
 \begin{equation}\label{eq:am_lm}
     w^* = argmax_{w}\{P(w \mid a)\} = argmax_{w}\{P(a \mid w) * P(w)^{w_{lm}}\}
 \end{equation}
 
-As you can imagine the path of phones in the search graph 
-become rather large easily and even with a beam search lot of hypothesis
-are assign with tiny probabilities.
-In order to keep the numeric stability, the probabilities 
-are computed in log scale. We are searching for the most probable path in a graph,
-however the typical search task for is shortest path problem.
-In order to use the shortest distance measure to find the most probably path
-and avoid multiplication we use formula~\ref{eq:am_lm_log} derived from equation~\ref{eq:am_lm}.
-The $C(a \mid w)$ and $C(w)$ are costs with range between zero and one,
-where cost of one corresponds to zero probability $C(1) \cong P(0)$ 
-and cost of infinity corresponds to one probability $C(\infty) \cong P(1)$.
+As you can imagine the path of phones in the search graph become rather large easily and even with a beam search lot of hypothesis are assign with tiny probabilities.
+In order to keep the numeric stability, the probabilities are computed in log scale. We are searching for the most probable path in a graph, however the typical search task for is shortest path problem.
+In order to use the shortest distance measure to find the most probably path and avoid multiplication we use formula~\ref{eq:am_lm_log} derived from equation~\ref{eq:am_lm}.
+The $C(a \mid w)$ and $C(w)$ are costs with range between zero and one, where cost of one corresponds to zero probability $C(1) \cong P(0)$ and cost of infinity corresponds to one probability $C(\infty) \cong P(1)$.
 
 \begin{equation}\label{eq:am_lm}
     \begin{split}
@@ -581,23 +543,13 @@ and cost of infinity corresponds to one probability $C(\infty) \cong P(1)$.
 \end{equation}
 
 \subsubsection*{Decoding formats}
-In many applications formats, which can represent also alternative hypothesis,
-provide better results for further processing than one-best hypothesis,
-because the alternatives contain missing information.
+Formats which can represent also alternative hypothesis provide better results for further processing than one-best hypothesis because the alternatives contain missing information.
 
 \ml{n-best list}
-We present n-best list and lattice formats, which both can also represent 
-alternative hypothesis.
+We present n-best list and lattice formats, which both are able to represent alternative hypothesis.
 
 N-best list is an extension to the one-best hypothesis. 
-In n-best list is included apart from the most probable word sequence, also 
-the~second, third, \ldots, n-th most probable hypothesis. 
-Usually, also the likelihood is reported with each word sequence.
-For some applications the likelihood is sufficient,
-other application for example in a dialogue system prefer
-posterior probabilities reported in the n-best list.
-Note that the posterior probabilities of 3-best list on Figure~\ref{fig:nbest}
-do not sum to one, because n-best list typically omits some hypothesis.
+In n-best list is included apart from the most probable word sequence, also the~second, third, \ldots, n-th most probable hypothesis. 
 
 \begin{figure}[!htp]
     \begin{center}
@@ -612,11 +564,8 @@ do not sum to one, because n-best list typically omits some hypothesis.
 \end{figure}
 
 The n-best list and lattice are extracted from the beam history.
-Note that the Kaldi toolkit always generates state level lattices
-\footnote{State level lattices uses states very similar to triphone states}.\cite{povey2012generating} 
-The word lattice and later word n-best list can be extracted 
-from the state level lattice. 
-The procedure is later described in detail in~Chapter~\ref{cha:decoder}.
+Note that the Kaldi toolkit always generates state level lattices \cite{povey2012generating}\footnote{State level lattices uses states very similar to triphone states}. 
+The word lattice and later word n-best list are extracted from the state level lattice where the states roughly corresponds to triphones. 
 
 \begin{figure}[!htp]
     \begin{center}
@@ -626,6 +575,11 @@ The procedure is later described in detail in~Chapter~\ref{cha:decoder}.
     \end{center}
 \end{figure}
 
+It is convenient to output with each hypothesis a measure so one can see how good the hypothesis is in contrast to its alternatives or in absolute measure. 
+Typically likelihood and posterior probability is associated with each word sequence.
+The likelihood measure can be used only for relative comparison, whereas posterior probability is an absolute measure since because it is normalised to one.
+For some applications the likelihood measure is sufficient, other applications for example dialogue systems prefer posterior probabilities.
+Note that the posterior probabilities of 3-best list on Figure~\ref{fig:nbest} do not sum to one, because n-best list omits some hypothesis which are used to compute the posterior probability.
 
 \subsection[Evaluating \acs{ASR} quality]{Evaluating \acl{ASR} quality}
 \label{sub:eval}
