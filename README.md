@@ -6,7 +6,7 @@ Please, use the highest NUMBER to read the most recent version.
 
 Work described
 --------------
-This thesis describes work from various projects.
+This thesis text describes work on projects listed below.
 Please, see the overview below.
 
  * Alex - Alex Dialogue System Framework(https://github.com/UFAL-DSG/alex) where I added following files and directories:
