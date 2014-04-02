@@ -1,5 +1,5 @@
-Thesis: Speech recognition using Kaldi
-======================================
+Thesis: Automatic speech recognition using Kaldi
+================================================
 This repository contains the source code of the thesis and its presentation.
 If you want to read the thesis (at particular version) please open the pdf file: `text/tags/oplatek_NUMBER.pdf`. 
 Please, use the highest NUMBER number is the highest number available.
@@ -25,6 +25,6 @@ The links should correspond to CD content attached with the thesis.
    https://github.com/UFAL-DSG/pyfst
  * Repository for evaluation of OnlineLatgenRecogniser with graphs in Ipython notebook:
    https://github.com/oplatek/pykaldi-eval
- * TODO link to reference documentation for C++ code in Kaldi
- * TODO link to reference documentation for Python code in Kaldi
- * TODO link to reference documentation for Python code in Alex
+ * TODO link to the reference documentation for C++ code in Kaldi
+ * TODO link to the reference documentation for Python code in Kaldi
+ * TODO link to the reference documentation for Python code in Alex
