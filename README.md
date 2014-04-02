@@ -8,9 +8,9 @@ Work described
 --------------
 This thesis describes work from various projects.
 Please, see the overview below.
-The links should correspond to the thesis CD content.
+The links should correspond to the CD content which is attached with the thesis.
 
- * Alex - Alex Dialogue System Framework(https://github.com/UFAL-DSG/alex) which I extended by work in following files and directories:
+ * Alex - Alex Dialogue System Framework(https://github.com/UFAL-DSG/alex) where I added following files and directories:
     * https://github.com/UFAL-DSG/alex/alex/components/asr/kaldi.py
     * https://github.com/UFAL-DSG/alex/alex/tools/kaldi/
     * https://github.com/UFAL-DSG/alex/alex/PublicTransportInfoCs/hclg/
