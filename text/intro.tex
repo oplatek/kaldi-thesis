@@ -7,9 +7,14 @@ A spoken dialog is the most intuitive way of~communication among people.
 The quality of~a~dialog largely depends on the quality of~speech recognition because the~reasoning and the~answer is based on the recognised speech. 
 
 In this work, we build \acl{ASR} for a dialog system called Alex. 
-We use Kaldi speech recognition toolkit\cite{povey2011kaldi} for acoustic modeling as well as real-time recognition the textual representation from speech.
-We see the added value of this thesis in a~new training scripts deployed with open acoustic data\cite{korvas_2014}, but also in new C++ interface for speech recognition and its Python wrapper which were integrated into Alex dialogue system. 
+We see the added value of this thesis in:
+\begin{itemize}
+    \item a~new training scripts deployed with open acoustic data\cite{korvas_2014}, 
+    \item but also in new C++ interface for speech recognition 
+    \item and its Python wrapper which is integrated into Alex dialogue system. 
+\end{itemize}
 Training scripts, which use free publicly available data, evaluate the quality of trained \aclp{AM}.
+We use Kaldi speech recognition toolkit\cite{povey2011kaldi} for acoustic modeling as well as for real-time recognition the textual representation from speech.
 The~newly developed speech recogniser is deployed in the dialogue system Alex available at a public toll-free line 800 899 998. 
 
 % The Alex dialog system is mostly domain and language independent.
@@ -20,11 +25,11 @@ The~newly developed speech recogniser is deployed in the dialogue system Alex av
 \section{The problem} 
 \label{sec:problem}
 
-The speech recognition in a dialog system closely interacts with a~\acl{SLU} unit.
+The \ac{ASR} in a dialog system closely interacts with a~\acl{SLU} unit.
 The \ac{SLU} unit typically classifies the speech better if the speech recogniser outputs more than one hypothesis for one utterance. 
 A word lattice effectively represents multiple hypothesis, so it is convenient for passing the hypothesis between \ac{ASR} and \ac{SLU} unit.
 
-The Alex dialog system has been using the \ac{HTK} toolkit\cite{young94htk} and OpenJulius\cite{lee2009julius} lattice decoderto in order to train acoustic models respectively to decode lattices in real time. 
+The Alex dialog system has used the \ac{HTK} toolkit\cite{young94htk} and OpenJulius\cite{lee2009julius} lattice decoder in order to train acoustic models respectively to decode lattices in real time. 
 Unfortunately, our project members were experiencing crashes of OpenJulius during extracting lattices.
 
 Bearing in mind the OpenJulius's complicated code base and relatively slow development of both \ac{HTK} and OpenJulius, we were looking for another open source toolkit with a real-time decoder.
