@@ -3,9 +3,9 @@
 \label{cha:background}
 
 The statistical methods for continuous speech recognition were established more than 30 years ago. 
-The most popular statistical methods are based on \ac{HMM} \aclp{AM} and n-grams \acp{LM}, which are also used in Kaldi, the toolkit of our choice.
+The most popular statistical methods are based on acoustic modeling using \acp{HMM} and n-grams \acp{LM}, which are also used in Kaldi, the toolkit of our choice.
 
-Section~\ref{sec:back_asr} introduces speech preprocessing, \ac{AM} and \ac{LM} training, and explains the principle of speech decoding.
+Section~\ref{sec:back_asr} introduces speech preprocessing, \acf{AM} and \acf{LM} training, and explains the principle of speech decoding.
 
 Next sections describe decoding or training models for a~particular software.
 The Kaldi toolkit is described in Section~\ref{sec:back_kaldi}, the \ac{HTK} toolkit in Section~\ref{sec:back_htk} and the Julius decoder in Section~\ref{sec:back_julius}.
@@ -25,8 +25,8 @@ The goal of statistical \ac{ASR} is to decode the most likely word sequence give
 The term \term{decoding} finds its origin in \acs{HMM} terminology. 
 In speech recognition it is equivalent to \term{recognizing} the word sequence from the speech. 
 The speech \ac{HMM} decoders recognise phones or triphones sequences from which the word sequence is extracted as explained in~Subsection~\ref{sub:decode}.
-Formally, we search for the most probable sequence of~words $w^*$ given the acoustic observations $a$.
-See Equation~\ref{eq:best_fix}, which can be simplified to Equation~\ref{eq:best_fix}, because we want decode $w^*$ for fixed speech $a$.
+Formally, we search for the most probable sequence of~words $w^*$ given the acoustic observations $a$ as described in Equation~\ref{eq:best_fix}.
+The best word sequence $w^*$ does not depend on probability of the acoustic feature $P(a)$ so it can be eliminated on the second row of the Equation.
 
 \begin{equation}\label{eq:best_fix}
     \begin{split}
@@ -80,8 +80,8 @@ The two most successful methods for speech parametrisation in last decades are \
 The methods are very computationally effective and significantly improve the quality of recognised speech.
 
 
-The toolkits used in our dialogue system, Kaldi and \ac{HTK} toolkit, compute \ac{MFCC} coefficients for given audio input similarly.\footnote{The~subtle differences are caused by implementation approaches, but does not effect the quality of~\ac{MFCC} coefficients in~significant way.}
-We choose \ac{MFCC} as speech parametrisation technique for both toolkits, so we can compare them.
+Both the toolkits used in our dialogue system, Kaldi and \ac{HTK} toolkit, compute \ac{MFCC} coefficients for given audio input in a similar way.\footnote{The~subtle differences are caused by implementation approaches, but does not effect the quality of~\ac{MFCC} coefficients in~significant way.}
+Therefore, we choose \ac{MFCC} as speech parametrisation technique for both toolkits, so we can compare them.
 
 % An interested reader can find comprehensive introduction into signal processing 
 % in~the~fourth Chapter of Spoken Language Processing book\cite{huang2001spoken}.
@@ -116,8 +116,7 @@ The \ac{MFCC} features are computed by the~following steps:
 
 \small{\begin{enumerate}
     \item The~audio samples are transformed into \term{frequency domain} by~\ac{DFT} in the window.
-    \item The frequency spectrum from the~previous step is transformed onto the mel scale, 
-        using triangular overlapping filters.
+    \item The frequency spectrum from the~previous step is transformed onto the mel scale, a perceptual scale of frequencies, using triangular overlapping filters.
     \item From the mel frequencies the logs of the powers are taken from each of the mel frequencies.
     \item At the end the discrete cosine transform is applied on the list of mel log powers.
     \item The \ac{MFCC} coefficients are the amplitudes of the resulting spectrum.
@@ -144,7 +143,8 @@ The matrix $A$ represents the transformation.
 The $x$ is the input vector and $Ax$ are the transformed features.
 The affine transformations uses extended vector $(x^+)^T = (x_1, \ldots, x_n, 1)$ and matrix $A: (n+1)*(n+1)$.
 
-There is a large variety of available transforms and dependent on acoustic data one should choose the most appropriate one.
+There is a large variety of available transforms. 
+Dependently on acoustic data one should choose the most appropriate one.
 % The transforms differ according to how they are estimated, namely for linear transforms how the matrix $A$ is trained.
 Some transforms are estimated discriminatively, some use generative models.
 Some are speaker dependent, some speaker independent.
@@ -167,11 +167,9 @@ The second transformation, \ac{LDA} and \ac{MLLT}, is described briefly below, a
 The \ac{LDA}+\ac{MLLT} is an alternative setup to $\Delta+\Delta\Delta$ transformation in our training scripts.
 Using several spliced \ac{MFCC} vectors the \ac{LDA}+\ac{MLLT} searches for the best dynamic transformation, replacing the $\Delta+\Delta\Delta$ coefficients.
 
-The combination of \ac{LDA} and \ac{MLLT} applies the feature transformation in two steps: \ac{LDA} reduces the feature dimension and \ac{MLLT} rotates the feature space so the classes after \ac{LDA} has more diagonal covariance in two steps.\cite{gopinath1998maximum}
+The combination of \ac{LDA} and \ac{MLLT} applies the feature transformation in two steps: \ac{LDA} reduces the feature dimension and \ac{MLLT} rotates the feature space \todo{so the classes after \ac{LDA} has more diagonal covariance.}\cite{gopinath1998maximum}
 Whereas, the \ac{HLDA} performs dimension reduction and space transformation in one step.\cite{gales1999semi}
-The combination \ac{LDA} and \ac{MLLT} performs very similar feature transformation to \ac{HLDA}
-and gains significant improvements over $\Delta+\Delta\Delta$ transformation 
-as \ac{HLDA}\cite{gales1999semi}\cite{gopinath1998maximum}.
+The combination \ac{LDA} and \ac{MLLT} performs very similar feature transformation to \ac{HLDA} and gains significant improvements over $\Delta+\Delta\Delta$ transformation similarly as \ac{HLDA}\cite{gales1999semi}\cite{gopinath1998maximum}.
 
 % To conclude, the signal processing samples the continuous audio at regular interval intervals. 
 % Fixed number of consecutive samples forms a window. The~windows are usually overlapping.
@@ -294,7 +292,7 @@ The Baum-Welsch equations can be derived from the fact, that the~\ac{MLE} criter
 \begin{figure}[!htp]
     \begin{center}
     \input{images/hmm-words}
-    \caption{Markov monophone model for three words. Such an \ac{HMM} is constructed for monophone Viterbi training and reference transcriptions \textit{how do you do}. The parameters of the \ac{HMM} model are updated according Equation~\ref{eq:mean},~\ref{eq:var} and~\ref{eq:weights}.}
+    \caption{Markov monophone model for four words. Such an \ac{HMM} is constructed for monophone Viterbi training and reference transcriptions \textit{how do you do}. The parameters of the \ac{HMM} model are updated according Equation~\ref{eq:mean},~\ref{eq:var} and~\ref{eq:weights}.}
     \label{fig:hmm_words} 
     \end{center}
 \end{figure}
@@ -323,7 +321,7 @@ The Viterbi training approximates \ac{EM} \ac{AM} training by choosing single be
 Latest work suggest that Viterbi training is just as effective for continuous speech recognition as Baum-Welch algorithm \cite{rodriguez2003comparative}.
 Moreover, Viterbi training needs much less computational resources. 
 
-We details the Viterbi training since it is used in the~Kaldi toolkit for acoustic model training.
+We detail the Viterbi training since it is used in the~Kaldi toolkit for acoustic model training.
 \todo{In addition, with minor modifications a Viterbi algorithm is used also for decoding in Kaldi.}
 
 Given set of training observations $O^r, 1 \le r \le R$ and \ac{HMM} state sequence $ 1 < j < N$ the observation sequence is aligned to the state sequence via Viterbi alignment.\cite{buthpitiya2012parallel}
@@ -405,7 +403,7 @@ In training scripts described in Chapter~\ref{cha:train} following objective fun
 \subsection{Language modeling}
 \label{sub:lm}
 
-\ac{LM} effectively reduces and more importantly priorities the \ac{AM} hypothesis.
+\ac{LM} effectively reduces and more importantly prioritise the \ac{AM} hypothesis.
 The statistical \ac{LM} assigns a given word sequence its probability.
 The probability of a word transcription from \ac{AM} is combined with the probability of the word transcription from \ac{LM}.
 
@@ -497,7 +495,7 @@ Even the simple \ac{HMM} network in Figure~\ref{fig:hmm_alt} can become large se
 Each word can begin in any moment and last with decreasing probability ad infinity, so the search space explode.
 In our trivial case we skip problems with higher order \acp{LM}, silence modeling and large lexicon.
 
-One can see that the search space of speech recognition problem with large vocabulary is enormous and has to solved in very short time.
+One can see that the search space of speech recognition problem with large vocabulary is enormous and has to be solved in very short time.
 % The most famous \ac{AI} search algorithm $A^*$ for large search problem can not be used,
 % because during decoding as user speaks we know little about what is he going to say in~the 
 % rest of the utterance, so we can not design a good heuristic function.
@@ -506,7 +504,7 @@ One can see that the search space of speech recognition problem with large vocab
 % so we need the find the best path in very short time.
 
 Natural choice for one-best hypothesis is Viterbi beam search\cite{huang2001spoken}.
-We already described Viterbi algorithm in Subsection~\ref{sub:trainhmm}.
+We have already described Viterbi algorithm in Subsection~\ref{sub:trainhmm}.
 The beam is used to limit search space in each iteration of Viterbi algorithm.
 The Viterbi algorithm is breadth-first search algorithm and the beam limits number of nodes, which are expanded from current set of nodes to next iteration.
 
@@ -521,7 +519,7 @@ We list few alternatives how to set up the beam for speech decoding.
 \end{itemize}
 
 
-So far we focused on combination of \ac{HMM} \ac{AM} and \ac{LM} and its graph representation, but also mixing the probabilities of \ac{AM} and \ac{LM} according Equation~\ref{eq:best_fix} is not straightforward in practice. 
+So far we focused on combination of \ac{AM} and \ac{LM} and its graph representation, but also mixing the probabilities of \ac{AM} and \ac{LM} according Equation~\ref{eq:best_fix} is not straightforward in practice. 
 Due to numerous assumption violation for computing \ac{AM} as well as \ac{LM} it proves to efficient to use weighted product of the two models.
 Typically, language model weight is used $w_{lm}$.
 
@@ -531,10 +529,10 @@ Typically, language model weight is used $w_{lm}$.
 
 As you can imagine the path of phones in the search graph become rather large easily and even with a beam search lot of hypothesis are assign with tiny probabilities.
 In order to keep the numeric stability, the probabilities are computed in log scale. We are searching for the most probable path in a graph, however the typical search task for is shortest path problem.
-In order to use the shortest distance measure to find the most probably path and avoid multiplication we use formula~\ref{eq:am_lm_log} derived from equation~\ref{eq:am_lm}.
+In order to use the shortest distance measure to find the most probable path and avoid multiplication we use formula~\ref{eq:am_lm_log} derived from equation~\ref{eq:am_lm}.
 The $C(a \mid w)$ and $C(w)$ are costs with range between zero and one, where cost of one corresponds to zero probability $C(1) \cong P(0)$ and cost of infinity corresponds to one probability $C(\infty) \cong P(1)$.
 
-\begin{equation}\label{eq:am_lm}
+\begin{equation}\label{eq:am_lm_log}
     \begin{split}
         w^* &= argmin_{w}\{log(\frac{1}{C(a \mid w) * C(w)^{w_{lm}}})\} \\
         &= argmin_{w}\{-log(C(a \mid w) * C(w)^{w_{lm}})\} \\
