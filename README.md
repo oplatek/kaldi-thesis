@@ -6,9 +6,9 @@ Please, use the highest NUMBER to read the most recent version.
 
 Work described
 --------------
-The thesis describes the work done on various places.
-Please see the overview below.
-The links should correspond to CD content attached with the thesis.
+This thesis describes work from various projects.
+Please, see the overview below.
+The links should correspond to the thesis CD content.
 
  * Alex - Alex Dialogue System Framework(https://github.com/UFAL-DSG/alex) which I extended by work in following files and directories:
     * https://github.com/UFAL-DSG/alex/alex/components/asr/kaldi.py
