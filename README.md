@@ -13,15 +13,16 @@ Please, see the overview below.
     * https://github.com/UFAL-DSG/alex/alex/components/asr/kaldi.py
     * https://github.com/UFAL-DSG/alex/alex/tools/kaldi/
     * https://github.com/UFAL-DSG/alex/alex/PublicTransportInfoCs/hclg/
- * The Kaldi toolkit - Speech recognition toolkit: I use https://github.com/UFAL-DSG/pykaldi repository for my development which I mirror back to my Kaldi sandbox http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2 which  can be merged to trunk. I extended the Kaldi toolkit by implementing work in following directories:
-    * https://github.com/UFAL-DSG/pykaldi/tree/master/src/onl-rec/
-    * https://github.com/UFAL-DSG/pykaldi/tree/master/src/pykaldi/
-    * https://github.com/UFAL-DSG/pykaldi/tree/master/egs/vystadial/s5/
-      This training scripts are already in the Kaldi trunk but the training scripts are separated for Czech and English:
+ * The Kaldi toolkit - Speech recognition toolkit where I added following directories:
+    * https://github.com/UFAL-DSG/pykaldi/tree/master/src/onl-rec/ - implementation of OnlineLatgenRecogniser and utilities
+    * https://github.com/UFAL-DSG/pykaldi/tree/master/src/pykaldi/ - Python wrapper PyOnlineLatgenRecogniser and utilities
+    * https://github.com/UFAL-DSG/pykaldi/tree/master/egs/vystadial/s5/  - training scripts for acoustic modelling
+      The training scripts are also accepted in the Kaldi trunk but they are separated for Czech and English:
          * https://sourceforge.net/p/kaldi/code/HEAD/tree/trunk/egs/vystadial_en/
          * https://sourceforge.net/p/kaldi/code/HEAD/tree/trunk/egs/vystadial_cz/
- * Fork of Python wrapper of OpenFST, where I improved installation and add several simple functions.
-   https://github.com/UFAL-DSG/pyfst
+      I use https://github.com/UFAL-DSG/pykaldi repository for my development which I mirror back to my Kaldi sandbox http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2 which  can be merged to trunk. 
+ * https://github.com/UFAL-DSG/pyfst - Python wrapper of OpenFST, where I improved installation and add several simple functions. Note we use fork of the original pyfst library
+   
  * Repository for evaluation OnlineLatgenRecogniser written in Ipython notebook. See interesting graphs:
    https://github.com/oplatek/pykaldi-eval
  * TODO link to the reference documentation for C++ code in Kaldi
