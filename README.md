@@ -21,7 +21,7 @@ The links below should correspond to CD content attach with the thesis.
          * https://sourceforge.net/p/kaldi/code/HEAD/tree/trunk/egs/vystadial_cz/
  * Fork of Python wrapper of OpenFST, where I improved installation and add several simple functions.
    https://github.com/UFAL-DSG/pyfst
- * Repository with graphs and evaluation of the Python wrapper of OnlineLatgenRecogniser:
+ * Repository for evaluation of OnlineLatgenRecogniser with graphs in Ipython notebook:
    https://github.com/oplatek/pykaldi-eval
  * TODO link to reference documentation for C++ code in Kaldi
  * TODO link to reference documentation for Python code in Kaldi
