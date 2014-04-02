@@ -16,7 +16,7 @@ Please, see the overview below.
  * The Kaldi toolkit - Speech recognition toolkit where I added following directories:
     * Implementation of OnlineLatgenRecogniser and utilities - https://github.com/UFAL-DSG/pykaldi/tree/master/src/onl-rec/
     * Python wrapper PyOnlineLatgenRecogniser and utilities - https://github.com/UFAL-DSG/pykaldi/tree/master/src/pykaldi/
-    * Training scripts for acoustic modelling - https://github.com/UFAL-DSG/pykaldi/tree/master/src/onl-rec/ -
+    * Training scripts for acoustic modelling - https://github.com/UFAL-DSG/pykaldi/tree/master/egs/vystadial/s5/
       The training scripts are also accepted in the Kaldi trunk but they are separated for Czech and English:
          * https://sourceforge.net/p/kaldi/code/HEAD/tree/trunk/egs/vystadial_en/
          * https://sourceforge.net/p/kaldi/code/HEAD/tree/trunk/egs/vystadial_cz/
