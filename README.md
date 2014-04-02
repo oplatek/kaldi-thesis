@@ -21,6 +21,7 @@ Please, see the overview below.
          * https://sourceforge.net/p/kaldi/code/HEAD/tree/trunk/egs/vystadial_en/
          * https://sourceforge.net/p/kaldi/code/HEAD/tree/trunk/egs/vystadial_cz/
     * Several demos using OnlineLatgenRecogniser and PyOnlineLatgenRecogniser - https://github.com/UFAL-DSG/pykaldi/tree/master/egs/vystadial/online_demo/
+
    The https://github.com/UFAL-DSG/pykaldi repository is used for my development which I mirror back to my Kaldi sandbox http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2 which  can be merged to Kaldi trunk. 
  * pyfst - https://github.com/UFAL-DSG/pyfst - Python wrapper of OpenFST, where I improved installation and add several simple functions. Note we use fork of the original pyfst library.
    
