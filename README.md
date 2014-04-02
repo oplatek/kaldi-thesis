@@ -20,11 +20,12 @@ Please, see the overview below.
       The training scripts are also accepted in the Kaldi trunk but they are separated for Czech and English:
          * https://sourceforge.net/p/kaldi/code/HEAD/tree/trunk/egs/vystadial_en/
          * https://sourceforge.net/p/kaldi/code/HEAD/tree/trunk/egs/vystadial_cz/
-      I use https://github.com/UFAL-DSG/pykaldi repository for my development which I mirror back to my Kaldi sandbox http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2 which  can be merged to trunk. 
- * https://github.com/UFAL-DSG/pyfst - Python wrapper of OpenFST, where I improved installation and add several simple functions. Note we use fork of the original pyfst library
+    
+   The https://github.com/UFAL-DSG/pykaldi repository is used for my development which I mirror back to my Kaldi sandbox http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2 which  can be merged to Kaldi trunk. 
+ * pyfst - https://github.com/UFAL-DSG/pyfst - Python wrapper of OpenFST, where I improved installation and add several simple functions. Note we use fork of the original pyfst library.
    
- * Repository for evaluation OnlineLatgenRecogniser written in Ipython notebook. See interesting graphs:
-   https://github.com/oplatek/pykaldi-eval
+ * Pykaldi-eval - https://github.com/oplatek/pykaldi-eval - Repository for evaluation OnlineLatgenRecogniser written in Ipython notebook. See interesting graphs:
+   
  * TODO link to the reference documentation for C++ code in Kaldi
  * TODO link to the reference documentation for Python code in Kaldi
  * TODO link to the reference documentation for Python code in Alex
