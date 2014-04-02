@@ -14,11 +14,11 @@ The links should correspond to the thesis CD content.
     * https://github.com/UFAL-DSG/alex/alex/components/asr/kaldi.py
     * https://github.com/UFAL-DSG/alex/alex/tools/kaldi/
     * https://github.com/UFAL-DSG/alex/alex/PublicTransportInfoCs/hclg/
- * The Kaldi toolkit - Speech recognition toolkit: I use https://github.com/UFAL-DSG/pykaldi repository for my development which I mirror back to my Kaldi sandbox http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2 which  can be merged to trunk. For example the training scripts are already merged to trunk. I extended the Kaldi toolkit by implementing work in following directories:
+ * The Kaldi toolkit - Speech recognition toolkit: I use https://github.com/UFAL-DSG/pykaldi repository for my development which I mirror back to my Kaldi sandbox http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2 which  can be merged to trunk. I extended the Kaldi toolkit by implementing work in following directories:
     * https://github.com/UFAL-DSG/pykaldi/tree/master/src/onl-rec/
     * https://github.com/UFAL-DSG/pykaldi/tree/master/src/pykaldi/
     * https://github.com/UFAL-DSG/pykaldi/tree/master/egs/vystadial/s5/
-      This training scripts are already in the Kaldi trunk but there are separated for Czech and English:
+      This training scripts are already in the Kaldi trunk but the training scripts are separated for Czech and English:
          * https://sourceforge.net/p/kaldi/code/HEAD/tree/trunk/egs/vystadial_en/
          * https://sourceforge.net/p/kaldi/code/HEAD/tree/trunk/egs/vystadial_cz/
  * Fork of Python wrapper of OpenFST, where I improved installation and add several simple functions.
