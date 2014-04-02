@@ -2,7 +2,7 @@ Thesis: Automatic speech recognition using Kaldi
 ================================================
 This repository contains the source code of the thesis and its presentation.
 If you want to read the thesis please chose the most recent version in [text/tags/](text/tags) directory. 
-Please, open the pdf file with highest NUMBER suffix to read the most recent version.
+(Please, open the pdf file with the highest NUMBER in suffix to read the most recent version.)
 
 Work described
 --------------
