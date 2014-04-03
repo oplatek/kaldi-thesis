@@ -4,25 +4,25 @@
 % \todo{SIGDIAL BEGIN}
 
 We implemented a~lightweight modification of the~\term{LatticeFasterDecoder} from the~Kaldi toolkit, improved on-line speech parametrisation and feature processing in order to create an \term{OnlineLatgenRecogniser}.
-The Kaldi \term{OnlineLatgenRecogniser} implements on-line interface which allows incremental speech processing which is able to process the incoming speech in small chunks incrementally.
+The Kaldi \term{OnlineLatgenRecogniser} implements on-line interface which allows incremental speech processing, and it is able to process the incoming speech in small chunks incrementally.
 As a result, the speech decoding is performed as user speaks and the ASR output is obtained with minimal latency.
 % The~Kaldi toolkit as well as the~on-line recogniser is distributed under the~Apache 2.0 license\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
 
 The implementation of the recogniser was motivated by the~lack of an on-line recognition support in Kaldi toolkit.
 Therefore, the toolkit decoders could not be used in applications such as spoken dialogue systems.
-Although Kaldi included an on-line recognition application; but hard-wired timeout exceptions, audio source fixed to a~sound card, and a specialised 1-best decoder limit its use to demonstration of Kaldi recognition capabilities only.
+Although Kaldi included an on-line recognition application; but hard-wired timeout exceptions, audio source fixed to a~sound card, and a specialised 1-best decoder limit its use only to demonstration of Kaldi recognition capabilities.
 
-Our on-line recogniser may use acoustic models trained using the~state-of-the-art techniques, 
-such as Linear Discriminant Analysis (LDA), Maximum Likelihood Linear Transform (MLLT), Boosted Maximum Mutual Information (BMMI), Minimum Phone Error (MPE).
+Our on-line recogniser uses acoustic models trained using the~state-of-the-art techniques, 
+such as Linear Discriminant Analysis (LDA), Maximum Likelihood Linear Transform (MLLT), Boosted Maximum Mutual Information (BMMI) and Minimum Phone Error (MPE).
 It produces word posterior lattices which can be easily converted into high quality n-best lists.
+
 The~recogniser's speed and latency can be effectively controlled off-line by optimising a~language model. 
 At runtime the speed of decoding is controlled by a beam threshold.
 The latency which corresponds to the amount of time spent on word posterior lattice extraction depends on level of approximations used.
 
 Section~\ref{sec:rec} describes the~implementation of the~\term{OnlineLatgenRecogniser}.
-\term{OnlLatticeFasterDecoder} is the core component of the speech recogniser and it greatly influences the interface of \term{OnlineLatgenRecogniser}.
+\term{OnlLatticeFasterDecoder} is the core component of the speech recogniser and it greatly influences the interface of the recogniser.
 First, we describe the \term{OnlineLatgenRecogniser} in Subsection~\ref{sub:dec}. 
-Later, we present the new interface of audio buffering, speech parametrisation and feature transformations in Subsection~\ref{sub:preprocess}, and Subsection~\ref{sub:postprocess} discuss word posterior lattice extraction.
 Next Section~\ref{sec:pyext} describes, \term{PyOnlineLatgenRecogniser}, an extension of \term{OnlineLatgenRecogniser} into Python.
 Finally, Section~\ref{sec:conclusion} summarize how we extended the Kaldi library.
 
@@ -35,7 +35,9 @@ However, when performing on-line recognition, one would like to take advantage o
 When properly implemented, this significantly reduces recogniser output latency.
 We reimplemented incremental speech parameterisation and feature transformations, and likelihood estimation to be more responsive.
 In addition, we subclassed \term{LatticeFasterDecoder} and reorganized the~original batch interface to on-line interface.
-First, we present the resulting interface and in next subsections we introduce the implemented components of \term{OnlineLatgenRecogniser}.
+First, we present the interface of \term{OnlineLatgenRecogniser} and in next subsections we introduce its components.
+The Subsection~\ref{sub:dec} describes the decoder, the core component.
+Subsection~\ref{sub:preprocess} introduces on-line speech parametrisation and feature transformations and the Subsection~\ref{sub:postprocess} discuss word posterior lattice extraction.
 
 \subsection{\term{OnlineLatgenRecogniser} interface}
 \label{sub:verb_c_}
@@ -80,24 +82,23 @@ Extracting one best word sequence is much faster and can be called at any time.
 \subsection{\term{OnlLatticeFasterDecoder}}
 \label{sub:dec}
 We did not implement no new functionality \term{OnlLatticeFasterDecoder}, but we only reorganised the code of base class \term{LatticeFasterDecoder}.
-We splited the LatticeFasterDecoder::Decode which performed two separate tasks into two other functions.
+We splited the LatticeFasterDecoder::Decode method which performed several tasks into more functions.
 The \term{LatticeFasterDecoder::Decode} function runs a beam search from frame 0 to the end of each utterance.
 In addition, a pruning is triggered periodically in the function.
-Namely, we control the beam search by following functions: 
+In \term{OnlineLatgenRecogniser},  we control the beam search by following functions: 
 \begin{itemize}
 \item \term{Decode} -- decoding a~fixed number of audio frames instead of decoding whole utterance, pruning is triggered periodically,
 \item \term{PruneFinal} -- run final pruning and so prepare the internal data structures for lattice extraction,
 \item \term{Reset} -- preparing the~recogniser for a~new utterance.
 \end{itemize}
 
-In the \term{PruneFinal} function, called at the end of an utterance, the states selected by beam search are pruned with the knowledge that no further search will be performed so more states can be safely discarded.
+In the \term{PruneFinal} function, which is called at the end of an utterance, the states are pruned by beam search with the knowledge that no further search will be performed so more states can be safely discarded.
 
 The \term{OnlLatticeFasterDecoder} performs forward decoding frame by frame using the Viterbi beam search.
 The forward decoding is performed on request by calling the method \term{decode(int max\_frames)}.
 It returns the number of frames which were actually decoded, which is always smaller than the \term{max\_frames} passed as input parameter.
 
-
-Extracting the \ac{ASR} is performed by method of \term{LatticeFasterDecoder}, namely:
+However, extracting the \ac{ASR} output is still performed by method of \term{LatticeFasterDecoder}, namely:
 \begin{itemize}
     \item \term{GetRawLattice} returns state-level lattice,
     \item \term{GetLattice} extracts from state-level lattice word lattice which is returned,
@@ -150,6 +151,17 @@ If the previous component can not provide the features, it return default empty 
 that no features are not available at the moment. It triggers the message that no data is available
 and the decoder's method \term{decode(..)}, returns zero, meaning that no frames were decoded.
 
+
+\todo{The frame width (set to 25 ms), the frame shift (set to 10 ms) and the frame splicing (nine frames are spliced) are the only "preprocessing" parameters which could significantly affect the forward decoding speed.
+We did not experiment with setting those and we used the recommended values.
+}
+
+\todo{
+On the other hand, the \term{beam}, \term{lattice-beam} and \term{max-active-states} parameters directly affect the speed of speech recognition. 
+The \term{beam} and \term{max-active-states} parameters affect speed of beam search, whereas \term{lattice-beam} influence speed of lattice extraction.
+}
+
+
 % We did not implement the classes \term{OnlDeltaInput, OnlLdaInput, OnlFeInput} and \term{OnlFeatureMatrix}
 % from scratch. We started the work with Mathias Pawlik implementation and we implemented few buffering details
 % in the classes, but mainly we removed the built in timeouts and changed the interface.
@@ -193,7 +205,6 @@ and the decoder's method \term{decode(..)}, returns zero, meaning that no frames
 
 \subsection{Post-processing the lattice}
 \label{sec:postprocess}
-\todo{What is CompactLattice}
 The \term{OnlineLatgenRecogniser} not only extracts word lattice using \term{OnlLatticeFasterDecoder::GetLattice} function, but also computes posterior probabilities for the word lattice.
 The \term{OnlLatticeFasterDecoder} returns word lattice with alignments in form of \term{CompactLattice}.
 The \term{CompactLattice} determinised at state level still may contain multiple paths for each word sequence encoded in the lattice.
@@ -214,39 +225,32 @@ In order to obtain only the word lattice we discard the alignments because it si
 % }
 
 
-The further steps of converting \term{CompactLattice} to word posterior lattice include as illustrated in Figure:
+The steps of converting \term{CompactLattice} to word posterior lattice are listed below. For implementation details see Listing~\ref{snippets/compact2wordpost.cc}:
 \begin{itemize}
-    \item Converting the \term{CompactLattice} to standard OpenFST objecti (line ).\footnote{Kaldi implements a special semiring for \term{CompactLattice}\cite{povey2012generating}.}  
-    \item 
+    \item Joining multiple word sequences which differer in word alignments is performed in two steps:
+    \begin{itemize}
+        \item Discarding the alignments from \term{CompactLattice}.
+        \item Converting the lattice to its minimal lattice representation with no alternatives for one word hypothesis. 
+    \end{itemize}
+    \item The computing of the posterior probabilities through standard forward-backward algorithm, which is implemented in two steps:
+    \begin{itemize}
+        \item Computing $\alpha$ and $\beta$ data structures for which a Kaldi implementation is reused.
+        \item Updating the lattice weights from likelihood to posterior probabilities based on $\alpha$ and $\beta$, which we implemented in the \term{MovePostToArcs} function.
+    \end{itemize}
 \end{itemize}
-\todo{
-The following steps convert the weights on the lattice from representing likelihood
-to posterior probabilities. The posterior probabilities are of course approximation of
-true posterior probabilities for individual paths in lattice. 
-}
-
-\todo{
-The first approximation has a very small impact. The first approximation is 
-that we are using only the lattice constructed from the active states in beam search
-and not the complete search space. 
-The discarded hypotheses have very low posterior probabilities, so it does a little harm.
-}
-
-\todo{
-More serious problem is violating the assumption that the \ac{AM} and \ac{LM} models are 
-computing the true likelihood. 
-In generative models we are training and improving the models so the likelihood match
-the reality as much as possible.
-On contrary, the discriminative \ac{AM} models deliberately favor the most probable hypothesis,
-so they are not computing the true likelihood.
-The discriminative behaviour can be compensated, but we do not solve the problem
-in the decoder, because the decoder has no information, which \ac{AM} was used.
-}
 
 \code{Converting \term{CompactLattice} to posterior word lattice}{C}{snippets/compact2wordpost.cc}
 
-The computing of the posterior probabilities is done through standard forward-backward algorithm. %\cite{??}.
-We reused Kaldi function for computing helper $\alpha$ and $\beta$ data structures, but we implemented the \term{MovePostToArcs} function for updating the lattice weights from likelihood to posterior probabilities based on $\alpha$ and $\beta$.
+The word posterior probability is converted from the likelihood of the words in word lattice. 
+The word lattice obviously contains alternatives which were explored by the beam search during decoding the utterance.
+Consequently, the posterior probability is an approximation because the very low probable alternatives discarded by beam search are not considered.
+On the other hand, the discarded alternatives are so improbable so they almost does not influence the posterior probability.
+
+Presumably the word posterior values are more impacted by inaccurate likelihood values taken from \acl{AM}.
+In generative models we are training and improving the models so the likelihood match the reality as much as possible.
+On the other hand, the discriminative \ac{AM} models deliberately favor the most probable hypothesis, so they are boosting the likelihood of the most probable hypothesis.
+As a result, the word posterior probabilities for the best hypothesis are also artificially boosted.
+At the moment, we do not renormalise the word posterior probabilities in extracted lattices.
 
 % \section{Batch interface versus object-oriented on-line interface}
 % \label{sec:ooi}
@@ -335,13 +339,7 @@ We reused Kaldi function for computing helper $\alpha$ and $\beta$ data structur
 % indicating that zero frames were forward-decoded.
 % }
 % 
-% As a side effect of creating the class \term{GmmLatgenWrapper} representing speech recognition process
-% we easily implemented Python wrapper for the speech recognition. 
-% We just needed to implement a wrapper of a single class and the data structures transfered from and into the
-% \term{GmmLatgenWrapper} instance.
 % 
-% From Listing~\ref{snippets/pykaldi_usage.py} should be obvious that 
-% the forward decoding can be performed as the user speaks.
 % If the \ac{RTF} is smaller than one, the forward decoding can be performed faster
 % than the user produces the audio, so the end of the utterance
 % the speech recognition engine has to perform only backward decoding using 
@@ -353,16 +351,16 @@ We reused Kaldi function for computing helper $\alpha$ and $\beta$ data structur
 \section{PyOnlineLatgenRecogniser}
 \label{sec:pyext}
 
-We developed a~Python extension, \term{PyOnlineLatgenRecogniser}, exporting the~\term{OnlineLatgenRecogniser} C++ interface.
-This can be used as an example of bringing Kaldi's on-line speech recognition functionality to higher-level programming languages.
-This Python extension is used in the~Alex Dialogue Systems Framework \cite{asdf2014url}.
+We developed a~Python extension, \term{PyOnlineLatgenRecogniser}, exporting the~\term{OnlineLatgenRecogniser} C++ interface to Python.
+It can be used as an example of bringing Kaldi's on-line speech recognition functionality to higher-level programming languages.
+We extended also PyFST library\cite{pyfst2014url} which interfaces OpenFST C++ template library into Python because we need to process further the OpenFST lattices produced by \term{PyOnlineLatgenRecogniser} in Python.
+Consequently, the recogniser as well as its input and output can be seamlessly used both from C++ and Python.
+% This Python extension is used in the~Alex Dialogue Systems Framework \cite{asdf2014url}.
 
 \term{PyOnlineLatgenRecogniser} is a thin wrapper around \term{OnlineLatgenRecogniser} implemented using Cython\cite{cython2014url}.
-The Cython is well known for its speed when interfacing Python and C++.
-In addition, we extended PyFST library\cite{pyfst2014url} which interfaces OpenFST library into Python because we need to use in Python the OpenFST lattices produced by \term{OnlineLatgenRecogniser}.
-Consequently, the recogniser as well as its input and output can be seamlessly used from Python.
+The Cython compiler is well known for generating fast code when interfacing Python and C++ and the wrapper causes no measurable overhead.
 
-We also implemented conversion of the word posterior lattices which are returned by \term{PyOnlineLatgenRecogniser} to an~n-best list. 
+We implemented conversion of the word posterior lattices to an~n-best list.
 The implementation is efficient since the~OpenFST shortest path algorithm is used on small lattices.
 
 The minimalistic Python example in Listing~\ref{snippets/pykaldi_usage.py} shows usage of the \term{PyOnlineLatgenRecogniser} and the~decoding of a single utterance.
@@ -373,37 +371,23 @@ When no more audio data is available a likelihood and a word posterior lattice i
 
 Note that \term{PyOnlineLatgenRecogniser} and \term{OnlineLatgenRecogniser} are initialised by string vector of arguments in command line format.
 The parameters are parsed using Kaldi's command line parser and options affect behaviour speech parametrisation, feature transformations and  the \term{OnlLatticeFasterDecoder}.
-In addition, exactly the same parameters can be parsed by standard Kaldi utilities. We created scripts which use exactly the same speech recognition parameters and performs speech recognition with both standard Kaldi utilities and our \term{PyOnlineLatgenRecogniser} where the alternatives produce exactly the same results.
-
-\section{Decoder parameters}
-\label{sec:real-setup}
-\todo{Write about influence of beam search on Lattice extraction}
-
-In this section we focus on parameters of the \term{OnlineLatgenRecogniser},
-which affect speed of decoding.
-The parameters of the speech recognizer are passed to speech parametrisation, feature transformations or \term{OnlLatticeFasterDecoder}.
-Most of the parameters for speech parametrisation and feature transformations does not effect speed of decoding. 
-The frame width (set to 25 ms), the frame shift (set to 10 ms) and the frame splicing (nine frames are spliced) are the only "preprocessing" parameters which could significantly affect the forward decoding speed.
-We did not experiment with setting those and we used the recommended values.
-
-On the other hand, the \term{beam}, \term{lattice-beam} and \term{max-active-states} parameters directly affect the speed of speech recognition. 
-The \term{beam} and \term{max-active-states} parameters affect speed of beam search, whereas \term{lattice-beam} influence speed of lattice extraction.
+In addition, exactly the same parameters can be parsed by standard Kaldi utilities. 
+We created demos\footnote{\url{https://github.com/UFAL-DSG/pykaldi/tree/master/egs/vystadial/online_demo}} which use the same parameters for speech recognition using:
+\begin{itemize}
+    \item standard Kaldi executables and scripts
+    \item \term{PyOnlineLatgenRecogniser} 
+    \item \term{OnlineLatgenRecogniser}
+\end{itemize}
+The alternatives produces exactly the same results.
 
 \section{Summary}
 \label{sec:onl_summary}
 The \term{OnlLatticeFasterDecoder} is able to perform on-line speech recognition.
-Its parameters for real-time decoding, can be setup based on its reference batch decoder \term{LatticeFasterDecoder} used through \term{gmm-latgen-faster} executable.
+We suggest exploit the \term{OnlineLatgenRecogniser} and decode the utterance in small chunks and pass the audio to the recogniser immediately as it is available.
+The speech recognition parameters are initialized with reasonable default values and the parameters are the same as used in Kaldi executables. 
+As a result, one can use the parameters from any Kaldi recipe to obtain the exactly same high quality results but with on-line speech recognition.
 
-The minimal interface works very well for supported \ac{MFCC} speech parametrisation, $\Delta-\Delta\Delta$ feature transformation or \ac{LDA}+\ac{MLLT}
-and both generative training and discriminative training using \ac{bMMI} and \ac{MPE}.
-The setup yields the best results for non-speaker adaptive methods.
-
-The~source code of the~\term{OnlineLatgenRecogniser} is available in Kaldi repository\footnote{\url{https://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/src/dec-wrap/}}.
-
-% \subsection*{Future improvements}
-% \label{sub:onl_future}
-% As described, we support a narrow range of feature transformation, so it would be natural to implement more sophisticated on-line interface, which could support more feature transformations available in Kaldi.
-% 
-% In next work, we would like to focus on acoustic modeling with \acl{DNN}.
-% The \ac{DNN} provide more accurate acoustic probabilities, which should lead to faster beam search, because the search is more informed.\cite{zhang2014improving} 
-% We see the challenge in implementation of \acl{DNN} evaluation in real time, probably using \ac{GPU}.
+The implemented minimal on-line interface which supports \ac{MFCC} speech parametrisation, $\Delta-\Delta\Delta$ feature transformation or \ac{LDA}+\ac{MLLT} and both generative training and discriminative training using \ac{bMMI} and \ac{MPE}.
+The \ac{MFFC}, \ac{LDA}+\ac{MLLT} and \ac{bMMI} is one of the best setup for non-speaker adaptive speech recognition.
+To conclude, we reimplemented Kaldi batch speech recognition so it can perform on-line real-time speech recognition and maintain its quality.
+The next Chapter~\ref{cha:integration} evaluates the recognisers performance in real-time usage in detail.

@@ -38,7 +38,10 @@ The training scripts, the \term{OnlineLatgenRecogniser} and its Python wrapper \
 The work specified by goals in introduction varies in many aspects. 
 We successfully trained acoustic models, design and also implement decoders interface, improve real-time decoder and prepared experiments for evaluating results.
 
-Future planned improvements include implementing more sophisticated speech parameterisation interface and feature transformations.
+Future planned improvements include implementing more sophisticated speech parameterisation interface and feature transformations. Also normalisation of word posterior lattices extracted using discriminatively trained \ac{AM} may prove useful for \acl{SLU} in Alex dialogue system.
+% We would like to focus on acoustic modeling with \acl{DNN}.
+% The \ac{DNN} provide more accurate acoustic probabilities, which should lead to faster beam search, because the search is more informed.\cite{zhang2014improving} 
+% We see the challenge in implementation of \acl{DNN} evaluation in real time, probably using \ac{GPU}.
 
 \section*{Acknowledgments}
 This research was partly funded by the~MEYS of the~Czech Republic under the~grant agreement LK11221 and core research funding of Charles University in Prague.
