@@ -26,7 +26,7 @@ The term \term{decoding} finds its origin in \acs{HMM} terminology.
 In speech recognition it is equivalent to \term{recognizing} the word sequence from the speech. 
 The speech \ac{HMM} decoders recognise phones or triphones sequences from which the word sequence is extracted as explained in~Subsection~\ref{sub:decode}.
 Formally, we search for the most probable sequence of~words $w^*$ given the acoustic observations $a$ as described in Equation~\ref{eq:best_fix}.
-The best word sequence $w^*$ does not depend on probability of the acoustic feature $P(a)$ so it can be eliminated on the second row of the Equation.
+The best word sequence $w^*$ does not depend on probability of the acoustic feature $P(a)$ so it can be eliminated on the second row of the equation.
 
 \begin{equation}\label{eq:best_fix}
     \begin{split}
@@ -300,14 +300,12 @@ The Baum-Welsch equations can be derived from the fact, that the~\ac{MLE} criter
 \subsubsection*{\acl{MLE} method}
 \label{sub:mle_method}
 The \ac{MLE} is general approach to setting statistical model parameters.
-The maximum likelihood estimation search for best parameters $\theta^*$ 
-in order to maximize the likelihood function $f$ for \ac{IID} training data illustrated in Equation~\ref{eq:maxlikelihood}.
+The maximum likelihood estimation search for best parameters $\theta^*$ in order to maximize the likelihood function $f$ for \ac{IID} training data illustrated in Equation~\ref{eq:maxlikelihood}.
 For \ac{IID} training data holds Equation~\ref{eq:lmjoint} describing data joint probability. 
 \begin{equation}\label{eq:lmjoint}
     f(x_1, x_2, x_3, \ldots, x_n | \theta) = f(x_1 | \theta) * f(x_2 | \theta) * \ldots * f(x_n | \theta)
 \end{equation}
-The likelihood function can be derived from Equation~\ref{eq:lmjoint} assuming training data fixed
-and parameter $\theta$ free as described in Equation~\ref{eq:likelihood}.
+The likelihood function can be derived from Equation~\ref{eq:lmjoint} assuming training data fixed and parameter $\theta$ free as described in Equation~\ref{eq:likelihood}.
 \begin{equation}\label{eq:likelihood}
     \mathcal{L}(\theta\,|\,x_1,\ldots,x_n) = \sum_{i=1}^n log(f(x_i|\theta))
 \end{equation}
@@ -760,17 +758,17 @@ In contrast to \ac{HTK}, there are many alternatives as seen in list of executab
             \item \ldots
         \end{itemize}
 \end{enumerate}
-In addition, Kaldi provides very useful standardized scripts which wrap Kaldi executables or add a~useful functionality. 
+In addition, Kaldi provides very useful standardized scripts which wrap Kaldi executables or add a~new functionality. 
 The scripts are located in \term{utils} and \term{steps} directories and are used in many training script recipes for different corpus data.
 In this thesis we created a~new training recipe using the~Kaldi infrastructure and Czech and English training corpus \cite{korvas_2014}.
 The recipe, the data and acoustic modeling scripts are described in~Chapter~\ref{cha:train}.
 
 \subsection{Finite State Transducers} 
 \label{sec:fst}
-The \acl{FST} framework and its implementation OpenFST  determine the shape of the Kaldi data structures.
+The \acl{FST} framework and its implementation OpenFST determines the shape of the Kaldi data structures.
 Kaldi uses \ac{FST} as underlaying representation for \ac{LM}, partially for \ac{AM}, lexicon and also for representing transformation between text, pronunciation and triphones.
 
-The \ac{FST} framework provides well studied graph operations\cite{mohri2002weighted}, which can be effectively used for acoustic modeling.
+The \ac{FST} framework provides well studied graph operations\cite{mohri2002weighted} which can be effectively used for acoustic modeling.
 Using the \ac{FST} framework the speech decoding task is expressed as a beam search in a graph, which is well studied problem.
 
 The OpenFST library implements memory efficient representation of \ac{FST} and
