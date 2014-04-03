@@ -40,8 +40,7 @@ Subsection~\ref{sub:preprocess} introduces on-line speech parametrisation and fe
 
 \subsection{\term{OnlineLatgenRecogniser} interface}
 \label{sub:verb_c_}
-The~\term{OnlineLatgenRecogniser} makes use of the~incremental speech pre-processing and modified \term{LatticeFasterDecoder}.
-It provides the~following speech recognition interface:
+The~\term{OnlineLatgenRecogniser} makes use of the~incremental speech pre-processing and modified \term{LatticeFasterDecoder} in order to provide the~following speech recognition interface:
 \begin{itemize}
 \item \term{AudioIn} -- queueing new audio for pre-processing,
 \item \term{Decode} -- decoding a~fixed number of audio frames,
@@ -50,6 +49,9 @@ It provides the~following speech recognition interface:
 \item \term{GetBestPath} -- extracting a one best word sequence,
 \item \term{Reset} -- preparing the~recogniser for a~new utterance,
 \end{itemize}
+
+The interface is greatly influenced by the decoder interface and the preprocessing of the utterance is completely hidden for the user of \term{OnlineLatgenRecogniser}.
+The \term{AudioIn} is the single method which is not related to the decoders functionality. 
 
 The~\verb!C++! example in Listing~\ref{snippets/rec_usage.cc} shows a typical use of \term{OnlineLatgenRecogniser}.
 When audio data becomes available, it is queued into the~recogniser's buffer (line 11) and immediately decoded (lines 12-14).
@@ -396,6 +398,6 @@ The speech recognition parameters are initialized with reasonable default values
 As a result, one can use the parameters from any Kaldi recipe to obtain the exactly same high quality results but with on-line speech recognition.
 
 The implemented minimal on-line interface which supports \ac{MFCC} speech parametrisation, $\Delta-\Delta\Delta$ feature transformation or \ac{LDA}+\ac{MLLT} and both generative training and discriminative training using \ac{bMMI} and \ac{MPE}.
-The \ac{MFFC}, \ac{LDA}+\ac{MLLT} and \ac{bMMI} is one of the best setup for non-speaker adaptive speech recognition.
-To conclude, we reimplemented Kaldi batch speech recognition so it can perform on-line real-time speech recognition and maintain its quality.
-The next Chapter~\ref{cha:integration} evaluates the recognisers performance in real-time usage in detail.
+The \ac{MFCC}, \ac{LDA}+\ac{MLLT} and \ac{bMMI} is one of the best setup for non-speaker adaptive speech recognition.
+To conclude, we reimplemented Kaldi batch speech recognition so it can perform on-line real-time speech recognition and still maintain its high quality.
+The next Chapter~\ref{cha:integration} evaluates in detail the recognisers real-time performance in environment of Alex \ac{SDS}.
