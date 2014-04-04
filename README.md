@@ -22,10 +22,11 @@ The text of this thesis describes my work on projects listed below:
          * https://sourceforge.net/p/kaldi/code/HEAD/tree/trunk/egs/vystadial_cz/
     * Several demos using OnlineLatgenRecogniser and PyOnlineLatgenRecogniser - https://github.com/UFAL-DSG/pykaldi/tree/master/egs/vystadial/online_demo/
 
-   I am developing the new features in https://github.com/UFAL-DSG/pykaldi repository which I mirror back to my Kaldi sandbox http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2 which  can be merged to Kaldi trunk. 
- * pyfst - https://github.com/UFAL-DSG/pyfst - Python wrapper of OpenFST, where I improved installation and added several simple functions. Note I forked the original pyfst library.
+   I am developing the new features in https://github.com/UFAL-DSG/pykaldi repository which I mirror back to my Kaldi sandbox http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2 which  can be merged to Kaldi trunk.
    
- * Pykaldi-eval - https://github.com/oplatek/pykaldi-eval - Repository for evaluation OnlineLatgenRecogniser written in Ipython notebook. See interesting graphs:
+ * pyfst - https://github.com/UFAL-DSG/pyfst - Python wrapper of OpenFST, where I improved installation and added several simple functions. Note I forked the original pyfst library.
+
+ * Pykaldi-eval - https://github.com/oplatek/pykaldi-eval - Repository for evaluation OnlineLatgenRecogniser written in IPython notebook. See interesting graphs.
    
  * TODO link to the reference documentation for C++ code in Kaldi
  * TODO link to the reference documentation for Python code in Kaldi
