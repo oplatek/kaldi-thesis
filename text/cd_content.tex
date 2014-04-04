@@ -1,21 +1,24 @@
 \chapter{CD content}
 \label{cha:cd_content}
+The CD content contains source code of projects developed, extended or modified as implementation part of this thesis.
+The thesis texts describes my work on projects listed below:
 
 \begin{itemize}
-    \item Alex - Alex Dialogue System Framework which I extended by work in following files and directories:
+    \item Alex - Alex Dialogue System Framework where I added following files and directories:
         \begin{itemize}
-            \item \term{alex/components/asr/kaldi.py} - component interfacing \term{PyOnlineLatgenFaster}
-            \item \term{alex/tools/kaldi/} - training Kaldi scripts very similar to scripts in Kaldi/egs/vystadial 
-            \item \term{alex/applications/PublicTransportInfoCs/hclg/} - scripts for building decoding graph \term{HCLG} and running evaluation of ASR engines for Public Transport domain 
+            \item \term{alex/components/asr/kaldi.py} - ASR component interfacing \term{PyOnlineLatgenRecogniser}
+            \item \term{alex/tools/kaldi/} - Kaldi training scripts modified for Alex 
+            \item \term{alex/applications/PublicTransportInfoCs/hclg/} - Decoding graph (\term{HCLG}) scripts, and scripts for \acs{ASR} evaluation.
         \end{itemize}
-    \item Kaldi toolkit - Speech recognition toolkit which I extended by implementing work in following directories:
+    \item The Kaldi toolkit - Speech recognition toolkit where I added directories:
         \begin{itemize}
-            \item \term{src/onl-rec} - C++ code implementing \term{PyOnlineLatgenFaster}
-            \item \term{src/pykaldi} - Python wrapper \term{PyOnlineLatgenFaster}
-            \item \term{egs/vystadial/online\_demo} - Demos using pre-trained acoustic models and LMs on small test set. The demos run \term{OnlineLatgenFaster}, \term{PyOnlineLatgenFaster} and \term{gmm-latgen-faster}(original batch processing Kaldi executable).
-        \end{itemize} \term{egs/vystadial/s5} - training scripts for VYSTADIAL data published under TODO license and partially collected on Alex Public Transport domain 
-    \item Pyfst - Fork of Python wrapper of OpenFST, where I improved installation and add several simple functions.
-    \item pykaldi-eval - Repository for evaluation OnlineLatgenRecogniser written in Ipython notebook. See interesting graphs.
+            \item \term{src/onl-rec} - Implementation of \term{OnlineLatgenRecogniser} and utilities 
+            \item \term{src/pykaldi} - Python wrapper \term{PyOnlineLatgenRecogniser} and utilities
+            \item \term{egs/vystadial/s5} - Training scripts for acoustic modelling\footnote{The same scripts were integrated into Kaldi svn trunk repository. However, the scripts are separated for Czech and English data. See \url{http://sourceforge.net/p/kaldi/code/HEAD/tree/trunk/egs/vystadial_cz/} and \url{http://sourceforge.net/p/kaldi/code/HEAD/tree/trunk/egs/vystadial_en/}}
+            \item \term{egs/vystadial/online\_demo} - Demos using using \term{OnlineLatgenRecogniser} and \term{PyOnlineLatgenRecogniser}.
+        \end{itemize} 
+    \item Pyfst - Python wrapper of OpenFst, where I improved installation and addedd several simple functions. Note I forked the original pyfst library.
+    \item Pykaldi-eval - Repository for evaluation OnlineLatgenRecogniser written in IPython notebook. See interesting graphs.
     \item thesis.pdf
     \item Reference documentation for C++ code in \term{kaldi/src/onl-rec}.
     \item Reference documentation for Python code in \term{kaldi/src/pykaldi}.

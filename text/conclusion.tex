@@ -15,7 +15,7 @@ Thanks to the~use of a~standard Kaldi lattice decoder, the~recogniser produces h
 % In addition, this enable the~recogniser to benefit from future improvements in the~Kaldi decoders.
 
 
-The training script as well as the source code of the \term{OnlineLatgenRecogniser} is currently merging into Kaldi repository\footnote{\url{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/src/dec-wrap/}}\footnote{\url{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/egs/vystadial/}}.
+The training scripts as well as the source code of the \term{OnlineLatgenRecogniser} are currently merged into Kaldi repository\footnote{\url{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/src/dec-wrap/}}\footnote{\url{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/egs/vystadial/}}.
 The Alex dialogue system and the integration of \term{OnlineLatgenRecogniser} is Apache, 2.0 licensed and freely available on Github\footnote{\url{https://github.com/UFAL-DSG/alex}}.
 The training scripts, the \term{OnlineLatgenRecogniser} and its Python wrapper \term{PyOnlineLatgenRecogniser} were developed also under Apache, 2.0 license on Github\footnote{\url{https://github.com/UFAL-DSG/pykaldi}, \url{https://github.com/UFAL-DSG/pyfst}} 
 
@@ -38,7 +38,7 @@ The training scripts, the \term{OnlineLatgenRecogniser} and its Python wrapper \
 The work specified by goals in introduction varies in many aspects. 
 We successfully trained acoustic models, design and also implement decoders interface, improve real-time decoder and prepared experiments for evaluating results.
 
-Future planned improvements include implementing more sophisticated speech parameterisation interface and feature transformations. Also normalisation of word posterior lattices extracted using discriminatively trained \ac{AM} may prove useful for \acl{SLU} in Alex dialogue system.
+Future plans include implementing more sophisticated speech parameterisation interface and feature transformations, implementing normalisation of word posterior lattices extracted and exploring acoustic modelling based on \acl{DNN}.
 % We would like to focus on acoustic modeling with \acl{DNN}.
 % The \ac{DNN} provide more accurate acoustic probabilities, which should lead to faster beam search, because the search is more informed.\cite{zhang2014improving} 
 % We see the challenge in implementation of \acl{DNN} evaluation in real time, probably using \ac{GPU}.
