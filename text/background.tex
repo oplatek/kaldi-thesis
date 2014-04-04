@@ -495,7 +495,7 @@ In our trivial case we skip problems with higher order \acp{LM}, silence modelin
 
 One can see that the search space of speech recognition problem with large vocabulary is enormous and has to be solved in very short time.
 % The most famous \ac{AI} search algorithm $A^*$ for large search problem can not be used,
-% because during decoding as user speaks we know little about what is he going to say in~the 
+% because during decoding while user speaks we know little about what is he going to say in~the 
 % rest of the utterance, so we can not design a good heuristic function.
 % With $A*$ algorithm we could not exploit the time when user speak
 % to perform any computation. A user expects a response around 200 ms after his speech, 
@@ -639,14 +639,13 @@ For real-time decoding in a dialogue system we need $RTF < 1.0$ for all tested u
 In other words, the decoding of each utterance $a$ should take less time than playing the utterance in a music player.
 With $RTF < 1.0$ we can decode faster than the user speaks, so the hypothesis is ready immediately after the user finishes the speech. 
 
-Note that in our decoder we have two phases of decoding.
-The forward decoding is performed as user speaks, but the backward decoding is triggered at the very end of the speech as described in~Subsection~\ref{sub:decode}.
-The users have to wait at least for~the time when backward decoding is performed, so we measure \ac{FWRTF} for forward decoding.
+The decoding is performed while user is speaking, but extracting the \ac{ASR} hypothesis output is triggered at the very end of the speech as described in~Subsection~\ref{sub:decode}.
+The users have to wait at least for~the time when the \ac{ASR} hypotheses is extracted.
 
 \ml{latency}
 In real-time \ac{SDS} the critical measure is a delay how long the user has to wait for its answer.
 The latency measures the time between the end of the user speech and the time when a decoder returns the hypothesis, which is the most important speed measure for \ac{ASR} component in \ac{SDS}.
-Note if $FWRTF < 1.0 $ in our decoder then the latency is the time of backward decoding.
+Note if $RTF < 1.0$ then the latency corresponds to time of \ac{ASR} hypotheses extraction.
 
 
 \section{\ac{HTK}}

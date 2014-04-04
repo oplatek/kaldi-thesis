@@ -4,7 +4,7 @@
 
 We implemented a~lightweight modification of the~\term{LatticeFasterDecoder} from the~Kaldi toolkit, improved on-line speech parametrisation and feature processing in order to create an \term{OnlineLatgenRecogniser}.
 The Kaldi \term{OnlineLatgenRecogniser} implements on-line interface which allows incremental speech processing, and it is able to process the incoming speech in small chunks incrementally.
-As a result, the speech decoding can be performed as user speaks and the ASR output is obtained with minimal latency.
+As a result, the speech decoding can be performed while user is speaking and the ASR output is obtained with minimal latency.
 % The~Kaldi toolkit as well as the~on-line recogniser is distributed under the~Apache 2.0 license\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
 
 The implementation of the recogniser was motivated by the~lack of an on-line recognition support in Kaldi toolkit.
@@ -32,7 +32,7 @@ However, in real-time applications one would like to take advantage of the~fact 
 
 We reimplemented speech parameterisation and feature transformations in order to fit on-line interface which can process audio features incrementally.
 In addition, we subclassed \term{LatticeFasterDecoder} and reorganized its~original batch interface so it supports on-line interface.
-Such interface almost eliminates latency of a recogniser since almost all the decoding can be performed as user speaks.
+Such interface almost eliminates latency of a recogniser since almost all the decoding can be performed while the user is still speaking.
 
 First, we present the new on-line interface of \term{OnlineLatgenRecogniser} and in next subsections we introduce its components.
 The Subsection~\ref{sub:dec} describes the decoder, the core component.
@@ -59,7 +59,7 @@ If the~audio data is supplied in small enough chunks, the~decoding of queued dat
 When the recognition is finished, the~recogniser prepares for lattice extraction (line 16).
 Line 20 shows how to obtain word posterior lattice as an OpenFST object.
 The~auxiliary \term{getAudio()} function represents a~separate process supplying speech data.
-Please note that the~recogniser's latency is mainly determined by the~time spent in the~\term{GetLattice} function since the whole loop is processed as user speaks.
+Please note that the~recogniser's latency is mainly determined by the~time spent in the~\term{GetLattice} function since the whole loop is processed while the user is speaking.
 
 \code{Example of the~decoder usage}{C}{snippets/rec_usage.cc}
 
@@ -73,7 +73,7 @@ We designed the interface with following criteria in mind:
 Consequently, \term{OnlineLatgenRecogniser} does not block a~process to either load audio or decode an utterance.
 The loading of audio and the decoding can be easily alternated back and forth.
 Obviously, the decoding of single utterance can be separated into many parts and other tasks can be run in single process with speech recognition in order to allow an application to stay responsive.
-We are able to decode the utterance as user speaks.
+We are able to decode the utterance while the user speaks.
 
 On the other hand, extracting the word posterior lattice may block the process since it is very computationally demanding.
 It lasts several tens of milliseconds, but is called only at the end of each utterance.
@@ -375,7 +375,7 @@ The implementation is efficient since the~OpenFST shortest path algorithm is use
 
 The minimalistic Python example in Listing~\ref{snippets/pykaldi_usage.py} shows usage of the \term{PyOnlineLatgenRecogniser} and the~decoding of a single utterance.
 
-The audio is passed to the recogniser in small chunks (line 4), so the decoding (line 5 and 8) can be performed as user speaks.
+The audio is passed to the recogniser in small chunks (line 4), so the decoding (line 5 and 8) can be performed while the user is speaking.
 When no more audio data is available a likelihood and a word posterior lattice is extracted from the recogniser(line 10).
 \code{Fully functional example of the \term{PyOnlineLatgenRecogniser} interface}{Python}{snippets/pykaldi_usage.py}
 

@@ -101,7 +101,7 @@ The \ac{ASR} component in the~Alex dialogue system runs as separate process, and
 If \ac{VAD} detects start of speech in the~input audio stream, it passes the speech signal to \ac{ASR} component and the~\term{rec\_in} method is called. 
 The~\term{rec\_in} method is a part of Alex abstract \term{ASRInterface} illustrated in~Listing~\ref{snippets/asr_interface.py}.
 See Listing~\ref{snippets/asr_interface.py}.
-In Kaldi implementation of \term{rec\_in}, the audio is decoded using beam search as user speaks, i.e., the method \term{rec\_in} gradually adds the new audio in \term{PyOnlineLatgenRecogniser} buffer and immediately decodes it.\footnote{If the \ac{ASR} component is busy with decoding the audio just waits in \ac{VAD} buffer instead of in \term{PyOnlineLatgenRecogniser}'s buffer.}
+In Kaldi implementation of \term{rec\_in}, the audio is decoded using beam search while the user is speaking, i.e., the method \term{rec\_in} gradually adds the new audio to \term{PyOnlineLatgenRecogniser's} buffer and immediately decodes it.\footnote{If the \ac{ASR} component is busy with decoding the audio just waits in \ac{VAD} buffer instead of in \term{PyOnlineLatgenRecogniser}'s buffer.}
 
 If \ac{VAD} recognises end of speech, no more data are sent to \term{PyOnlineLatgenRecogniser} engine and \term{hyp\_out} method is called in order to extracted word posterior lattice.
 Then, the word posterior lattice is converted to an~n-best list.\footnote{We would like to implement direct keyword spotting from \term{pyfst} lattices in Alex \ac{SLU} unit in future.}
