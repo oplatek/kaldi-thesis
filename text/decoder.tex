@@ -214,7 +214,7 @@ The list the most important parameters:
 % chunk is the most important for a conversation and the previous chunks are simply discarded.
 
 \subsection{Post-processing the lattice}
-\label{sec:postprocess}
+\label{sub:postprocess}
 The \term{OnlineLatgenRecogniser} not only extracts word lattice using \term{OnlLatticeFasterDecoder::GetLattice} function, but also computes posterior probabilities for the word lattice.
 The \term{OnlLatticeFasterDecoder} returns word lattice with alignments in form of \term{CompactLattice}.
 The \term{CompactLattice} determinised at state level still may contain multiple paths for each word sequence encoded in the lattice.
