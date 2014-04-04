@@ -208,7 +208,7 @@ By training only simple bigram \ac{LM} we let the \ac{AM} influence the recognit
 The same motivation lead us to use zerogram \ac{LM} which just limits vocabulary in the~decoding task, and does not advise the decoding search more probable phrases as higher order \ac{LM} does.
 Consequently, the best words are chosen among all hypotheses only by acoustic similarity.
 
-We concentrate on acoustic modelling since we believe that; if two \acp{AM} $am_1$, $am_2$ are trained with the same weak $lm_{weak}$ and the first \ac{AM} gains lower \ac{WER} than the second one ($wer^{weak}_{1} <  wer^{weak}_{2}$), then in the same experiment just with a~richer \ac{LM} the first \ac{AM} will still gain lower \ac{WER} ($wer^{rich}_{1} <  wer^{rich}_{2}$).
+We concentrate on acoustic modelling since we believe that; if two \acp{AM} $am_1$, $am_2$ are trained with the same weak \acl{LM} $lm_{weak}$ and the first \ac{AM} gains lower \ac{WER} than the second one ($wer^{weak}_{1} <  wer^{weak}_{2}$), then in the same experiment with a~richer \ac{LM} $lm_{rich}$ will still gain lower \ac{WER} for the first \ac{AM} ($wer^{rich}_{1} <  wer^{rich}_{2}$).
 
 First, we show how the data size influence the quality of \acp{AM} measured by \ac{WER}.
 Second,  the best results on full data is presented.
@@ -217,23 +217,24 @@ Finally in Subsection~\ref{sec:compare}, the best Kaldi results are compared aga
 \begin{figure}[!htp]
     \begin{center}
     \includegraphics[scale=0.7]{images/partial-zerogram.ps}
-    \caption{Performance of Czech generative \acp{AM} based on training size for acoustic models. The zerogram LM results in a high WER, but allows evaluating only acoustic modelling.}
+    \caption{Performance of Czech generative \acp{AM} based on training size for acoustic models. The zerogram LM results in a high WER value, but allows to evaluate only acoustic modelling.}
     \label{fig:partials} 
     \end{center}
 \end{figure}
 
-The Figure~\ref{fig:everyn} describes how the amount of acoustic data influences the \ac{WER}.
+The Figure~\ref{fig:partials} describes how the amount of acoustic data influences the \ac{WER}.
 We illustrate that even with small datasets like Vystadial the high quality \ac{AM} can be trained.
-The WER decreases significantly if new data are added to small dataset, but \ac{WER} reduction becomes very small between 50\% of data and the~full data.
-One can also see that the $\Delta+\Delta\Delta$ feature transformation is clearly outperformed by \ac{LDA}+\ac{MLLT} setup on full data.
+The WER decreases significantly if new data are added to small dataset, but only small \ac{WER} reduction is achieved when the last 50\% of data is added.
+One can also see that the $\Delta+\Delta\Delta$ feature transformation is clearly outperformed on full data by \ac{LDA}+\ac{MLLT} setup.
 Note also that the monophone \ac{AM} is typically used for the~initialisation of triphone models and requires small portion of data to reach its limit.
 The WER is rather high due to the use of zerogram \ac{LM}.
 We evaluate only generative \acp{LM} since we would have to have a~fixed LM for discriminative methods and we do not have any obvious choice how to build one.
 
 It may seem that more acoustic data is not needed for this domain, but discriminative training methods require more training data, and with more transcribed data a~better \ac{LM} adaptation can be achieved.
 The Figure~\ref{fig:partials_lm} shows the effect of in-domain data size for \ac{LM} on quality of speech decoding.
-The \ac{AM} \term{tri2b\_bmmi} and decoding parameters were fixed and the experiments were performed with different \acp{LM} which differ only in the~training size used for their estimation. 
-Note that this experiment was run by Ondřej Dušek and not as a part of the training scripts\footnote{Ondřej Dušek used the scripts developed by us for Alex dialogue system for Public Transport Domain}.
+The \ac{AM} \term{tri2b\_bmmi} and decoding parameters were fixed.
+The experiments were performed with different \acp{LM} which differ only in the~training size used for their estimation. 
+Note that this experiment was run by Ondřej Dušek and not as a part of the training scripts\footnote{Ondřej Dušek used our scripts developed for Alex dialogue system for the~\ac{PTI} domain}.
 The experiment was run on different test set from Public Transport Domain and the \acp{LM} were built also from that in-domain data.
 \begin{figure}[!htp]
     \begin{center}
@@ -243,11 +244,12 @@ The experiment was run on different test set from Public Transport Domain and th
     \end{center}
 \end{figure}
 
-To conclude the~first section, we continue to collect new acoustic data through the~dialogue system Alex because
+To conclude we are able to train reasonable \ac{AM} with relatively small dataset such as Vystadial.
+On the other hand, additional data should improve speech recognition accuracy because
 \begin{itemize}
-    \item the domain still changes due to new features and we need to update the \ac{LM},
-    \item we can still improve the best discriminatively trained \ac{AM},
-    \item and the speech recogniser is presumably more robust to new speakers.
+    \item the language domain changes in time and the new data reflect the differences,
+    \item more data still may improve the best discriminatively trained \ac{AM},
+    \item and last but not least the speech recogniser is more robust to new speakers.
 \end{itemize}
 
 \subsection{Results}
@@ -312,29 +314,29 @@ The Table~\ref{tab:best} presents \acp{AM} results.
 \end{table}
 
 The complexity of the~Czech data is clearly much larger than the complexity of English data.
-The low \ac{WER} on the~Czech dataset may be explained be following reasons:
+The high \ac{WER} on the~Czech dataset may be explained be following reasons:
 \begin{itemize}
     \item The mix of a very different domain and recording conditions is difficult to model by both \ac{AM} and \ac{LM}. 
     \item The \term{Call Friend} and \term{Repeat After Me} collections task have a really broad domain which affect language modelling.
     \item The flective languages such as Czech have larger vocabulary and higher \acp{OOV} since one word may have several variations.
 \end{itemize}
-Nevertheless, the training scripts for the Czech data are very important since there is no other Czech acoustic data available\footnote{According our knowledge.}.
+Nevertheless, the training scripts for the Czech data are very important since there is no other Czech acoustic data available, at least according our knowledge.
 
 The \ac{WER} on the Vystadial English data is lower than 20\% for discriminative methods, which is reasonable, given the broad but limited domain.
 
 The discriminative training methods clearly outperformed the generative \acp{AM}, and also the \ac{LDA}+\ac{MLLT} is more effective feature transformation than using $\Delta+\Delta\Delta$ features.
-On the other hand, there are subtle differences among the three discriminatively trained \ac{AM} in terms of performance, \todo{but \ac{bMMI} has lower \ac{RTF} than \ac{MPE} method}.
-As a result, we choose \ac{AM} (\term{tri2b\_bmmi}) discriminatively trained by \ac{bMMI} with \ac{MFCC}, \ac{LDA}+\ac{MLLT} preprocessing. 
+On the other hand, there are subtle differences among the three discriminatively trained \ac{AM} in terms of performance.
+As a result, we choose \ac{AM} (\term{tri2b\_bmmi}) discriminatively trained by \ac{bMMI} with \ac{MFCC}, \ac{LDA}+\ac{MLLT} preprocessing because informal experiments shows that decoding with \ac{MPE} \acl{AM} is slightly slower than with \ac{bMMI} \ac{AM}. 
 
 
 \subsection[Kaldi and \acs{HTK} comparison]{Kaldi and previous \ac{HTK} results comparison} 
 \label{sec:compare}
 
-We want to roughly compare Kaldi and HTK on the Vystadial Czech and English datasets, since we are not familiar with the~Kaldi toolkit.
-In addition, by using state of the art \ac{HTK} scripts which were used on ther domains we can see the complexity of collected Vystadial acoustic data.
+We want to roughly compare Kaldi and HTK on the Vystadial Czech and English datasets, since we are not sure if the~Kaldi toolkit is good enough alternative for \ac{HTK} toolkit.
+In addition, by using state of the art \ac{HTK} scripts which were used on freshly collected domains we can see the complexity of the collected Vystadial acoustic data.
 
 We present results for triphone \ac{AM} estimated using Baum-Welsch iterative training on zero-gram and bi-gram \acp{LM}.
-The \term{HVite} \ac{HTK} decoder was used to perform \todo{the decoding with the same \acp{LM} as used in Kaldi scripts.} 
+The \term{HVite} \ac{HTK} decoder was used to perform the decoding with the same \acp{LM} as used in Kaldi scripts.
 The training procedure is further described in work~\cite{korvas_2014}.
 
 \begin{table}[h]
@@ -350,13 +352,12 @@ The training procedure is further described in work~\cite{korvas_2014}.
            \hspace{2\tabindent}tri $\Delta+\Delta\Delta$  & 50.0 & 17.5 \\
         \bottomrule
   \end{tabular}
-    \caption{Word error rates on test set obtained using HTK and either 
-    a zerogram or a bigram LM. \cite{korvas_2014}}
+    \caption{Word error rates on test set obtained using HTK and either for both a zerogram and a bigram LM. \cite{korvas_2014}}
     \label{tab:htk-results}
 \end{table}
 
 The results suggest that Kaldi achieves similar \ac{WER} compared to \ac{HTK} when using standard generative training methods and bigram \acp{LM}.
-Using more advanced discriminative training methods, one can obtain a substantial decrease in \ac{WER}.
+Furthermore, one obtains a substantial decrease in \ac{WER} by using more advanced discriminative training methods.
 
 The experiment using \ac{MFCC}, \ac{LDA} \& \ac{MLLT} and \ac{bMMI} discriminative training is a state of the art set up for speaker independent speech recognition\cite{morbini2013asr} and outperforms \ac{HTK} models.
 
