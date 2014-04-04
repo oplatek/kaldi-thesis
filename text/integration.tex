@@ -56,23 +56,23 @@ The framework is separated into several logical parts:
     \item The \term{alex/utils/} directory contains simple utilities for various purposes.
 \end{itemize}
 
-The components depicted in Figure~\ref{fig:alex} are represented as Python modules under \term{alex/components/} e.g. \term{alex/components/asr/},  \term{alex/components/tts/}, etc..
-The~source code of the~components is very modular.
+The components depicted in Figure~\ref{fig:alex} are represented as Python modules under the \term{alex/components/} directory.
+The~source code of the~components is very modular, so each component may support multiple implementations.
 For example the \ac{ASR} component currently supports several \ac{ASR} recognisers.
-The recognisers are used from dedicated Python modules which implement the common interface of a base class \term{ASRInterface}. 
-See Listing~\ref{snippets/asr_interface.py}.
+The recognisers implement a common base class \term{ASRInterface} which is presented in Listing~\ref{snippets/asr_interface.py}.
 The supported speech recognisers are:
 \begin{itemize}
-    \item OpenJulius \term{alex/components/asr/julius.py} interfaces OpenJulius decoder through sockets for on-line recognition.
-    \item Google \term{alex/components/asr/google.py} uses cloud service for batch decoding.
-    \item Kaldi \term{alex/components/asr/kaldi.py} imports \term{PyOnlineLatgenRecogniser} class and uses its methods and the utilities for on-line decoding.
+    \item OpenJulius (\term{alex/components/asr/julius.py}) interfaces OpenJulius decoder through sockets for on-line recognition.
+    \item Google (\term{alex/components/asr/google.py}) uses cloud service for batch decoding.
+    \item Kaldi (\term{alex/components/asr/kaldi.py}) imports \term{PyOnlineLatgenRecogniser} class and uses its functionality for on-line decoding.
 \end{itemize}
 
 One can easily choose an \ac{ASR} recogniser in Alex configuration file.
 The configuration file is also the right place to specify \ac{AM} and \ac{LM} and the speech recognition parameters if necessary.
 % For example, by specifying the \ac{ASR} tool, \ac{AM} and other parameters one can choose between \ac{ASR} cloud based service, local OpenJulius or Kaldi speech recognition.
 
-In order to prepare a specific application with \term{PyOnlineLatgenRecogniser} one need to train \ac{AM} and \ac{LM} and also train \ac{SLU} unit based on the \ac{ASR} unit outputs.
+In order to prepare a specific application with \term{PyOnlineLatgenRecogniser} one need to train \ac{AM} and \ac{LM}.
+One need to always train \ac{SLU} unit based on the \ac{ASR} unit outputs.
 The \ac{LM} model training and consequently \ac{SLU} training is very domain specific so the scripts are deployed for each application separately.
 For example, the scripts for \ac{LM} and \ac{SLU} model training for \ac{PTI} domain are located under directory \term{alex/applications/PublicTransportInfoCS/} in directories \term{lm/} and \term{slu/}.
 
@@ -83,32 +83,28 @@ Integration of the~Kaldi real-time recognizer into Alex's framework requires imp
 \begin{enumerate}
     \item The \term{kaldi.py} module which exploits functionality of \term{PyOnlineLatgenRecogniser} and implements the abstract \term{ASRInterface}.
     \item The training scripts for \acp{AM}.
-    \item The scripts for building custom decoding graph \term{HCLG}, which is Kaldi effective representation for \ac{AM} and \ac{LM} used for decoding. 
-    \item Evaluation of the \ac{ASR} recogniser in Alex, so the best one can be selected.
+        \item The scripts for building custom decoding graph \term{HCLG}.\term{HCLG} graph is a Kaldi effective representation of \ac{AM} and \ac{LM} used for decoding. 
+    \item Evaluation of the \ac{ASR} recogniser in Alex, so the best speech recogniser can be selected.
 \end{enumerate}
 
-The \term{PyOnlineLatgenRecogniser} integration in \term{kaldi.py} is described in Subsection~\ref{sub:asr_component}.
+The \term{PyOnlineLatgenRecogniser} integration is described in Subsection~\ref{sub:asr_component}.
 The training scripts for training \acp{AM} were described in Chapter~\ref{cha:train}.
-However, note that we adjusted their directory structure and copied them into \term{alex/tools/kaldi} directory so they nicely integrates with Alex tools.
+However, note that we adjusted their directory structure and copied them into \term{alex/tools/kaldi} directory so they nicely in the Alex \ac{SDS}.
 The scripts for building the \term{HCLG} decoding graph are introduced in~Subsection~\ref{sub:hclg}.
 They are stored at \term{alex/applications/PublicTransportInfoCS/hclg/}.
-Finally, the Section~\ref{sec:eval} evaluates the performance of \term{PyOnlineLatgenRecogniser} in Alex \ac{SDS} and briefly compares it with module which uses Google speech recognition service.
+Finally, the Section~\ref{sec:eval} evaluates the performance of \term{PyOnlineLatgenRecogniser} in Alex \ac{SDS} and briefly compares it with Google speech recognition service used through Python module \term{alex/components/asr/google.py}.
 
 \subsection{\term{PyOnlineLatgenRecogniser} in Alex}
 \label{sub:asr_component}
 The \ac{ASR} component in the~Alex dialogue system runs as separate process, and the speech recognition is triggered based on \ac{VAD} decisions.
 
-If \ac{VAD} detects start of speech in input audio stream, it passes the speech signal to \ac{ASR} component and \term{rec\_in} method is called. 
+If \ac{VAD} detects start of speech in the~input audio stream, it passes the speech signal to \ac{ASR} component and the~\term{rec\_in} method is called. 
+The~\term{rec\_in} method is a part of Alex abstract \term{ASRInterface} illustrated in~Listing~\ref{snippets/asr_interface.py}.
 See Listing~\ref{snippets/asr_interface.py}.
-% The audio data are passed to the ASR component as instance of class \term{Frame} in \term{rec\_in} method.
-The audio is decoded using beam search as user speaks.
-The method \term{rec\_in} gradually adds the new audio in \term{PyOnlineLatgenRecogniser} buffer and immediately decodes it.
-The buffering and decoding could have been split into two steps, but the current setup works well.\footnote{If the \ac{ASR} component is busy with decoding and is not able to accept the audio from \ac{VAD} component the audio just waits in \ac{VAD} buffer instead of in \term{PyOnlineLatgenRecogniser}'s buffer.}
+In Kaldi implementation of \term{rec\_in}, the audio is decoded using beam search as user speaks, i.e., the method \term{rec\_in} gradually adds the new audio in \term{PyOnlineLatgenRecogniser} buffer and immediately decodes it.\footnote{If the \ac{ASR} component is busy with decoding the audio just waits in \ac{VAD} buffer instead of in \term{PyOnlineLatgenRecogniser}'s buffer.}
 
-If \ac{VAD} recognises end of speech, no more data are sent to \ac{ASR} engine and \term{hyp\_out} method is called in order to extracted word lattice.
-Extracting the word lattice is also referred as backward decoding since the data structures are traversed in time-synchronous backward.
-In case of \term{PyOnlineLatgenRecogniser} word posterior probabilities are computed using forward-backward algorithm.
-Then, the word posterior lattice in \term{PyFst} format is converted to an~n-best list.\footnote{We would like to implement direct keyword spotting from \term{pyfst} lattices in Alex \ac{SLU} unit in future.}
+If \ac{VAD} recognises end of speech, no more data are sent to \term{PyOnlineLatgenRecogniser} engine and \term{hyp\_out} method is called in order to extracted word posterior lattice.
+Then, the word posterior lattice is converted to an~n-best list.\footnote{We would like to implement direct keyword spotting from \term{pyfst} lattices in Alex \ac{SLU} unit in future.}
 %represented as proprietary \term{UtteranceNBlist} n-best list.
 
 The \term{flush} method is used only if the speech recogniser wants to throw away the buffered audio input and reset the decoding.
@@ -120,7 +116,7 @@ Since the method is used only for testing purposes, it sends all input audio to 
 However, in real-time application the audio is passed to \term{PyOnlineLatgenRecogniser} in small chunks, so the decoding can run as a user speaks. 
 }
 
-In~the Kaldi real-time settings, latency of \ac{ASR} unit depends mostly on~the time spent in \term{hyp\_out} method.
+In~the Kaldi real-time settings, latency of the~\ac{ASR} unit depends mostly on~the time spent in \term{hyp\_out} method.
 In~the \term{hyp\_out} method a~word posterior lattice is extracted using the \term{PyOnlineLatgenRecogniser::GetLattice} method as described in~Subsection~\ref{sec:pyext}. 
 For most cases the latency is well below 200 ms for our settings as illustrated in Figure~\ref{fig:prc}.
 
@@ -144,12 +140,11 @@ See Section~\ref{sec:eval} for \ac{RTF} definition.
 
 \subsection{Building in-domain decoding graph}
 \label{sub:hclg}
-We developed scripts for building a decoding graph. 
 A decoding graph is a graph represented as an OpenFst object it stores all the \ac{LM} model information and part of information for acoustic modelling. 
 The decoding graph is necessary for decoding with Kaldi decoders.
 We build the \term{HCLG} graph using standard OpenFst operations which are implemented in Kaldi utilities. 
 
-We designed our scripts so they automatically update newly built \acp{AM} and \acp{LM} and create all files necessary for decoding with \term{OnlineLatgenRecogniser}.
+We designed our scripts so they automatically update newly built \acp{AM} and \acp{LM} and create all files necessary for decoding with \term{OnlineLatgenRecogniser} including \term{HCLG} graph.
 The same files can also be used with standard Kaldi decoders or \term{PyOnlineLatgenRecogniser}.
 
 The \term{HCLG} build script requires:
@@ -157,13 +152,12 @@ The \term{HCLG} build script requires:
     \item \todo{Fill the files}
 \end{itemize}
 
-The \term{HCLG} build script produces follwing files which are required for decoding with \term{PyOnlineLatgenRecogniser}:
+As the script's results, the \term{HCLG} build script produces follwing files which are required for decoding with \term{PyOnlineLatgenRecogniser}:
 \begin{itemize}
     \item \todo{Fill the files}
 \end{itemize}
 
-We also developed evaluation scripts which simply computes the statistics which are evaluated given \ac{AM}, \ac{LM} and parameters.
-The evaluation itself is describe Section~\ref{sec:eval}.
+We also developed evaluation scripts which simply compute the statistics of measures which are evaluated given \ac{AM}, \ac{LM} and parameters in~Section~\ref{sec:eval}.
 Both the evaluation scripts and build \term{HCLG} script are located in the~\term{alex/applications/PublicTransportInfoCS/hclg/} directory.
 
 \subsubsection*{Acoustic and language models for \acs{PTI} domain}
@@ -171,9 +165,9 @@ Both the evaluation scripts and build \term{HCLG} script are located in the~\ter
 The~\term{OnlineLatgenRecogniser} is evaluated on a~corpus of audio data from the~Public Transport Information (PTI) domain.
 % The phone call audio data were collected from Alex's users, so the test data simulates the real setup perfectly.
 In PTI, users can interact in Czech language with a~telephone-based dialogue system to find public transport connections \cite{ptics2014url}.
-The~PTI corpus consist of approximately 12k user utterances with a length varying between 0.4 s and 18 s with median around 3 s.
-The~data were divided into training, development, and test data where the~corresponding data sizes were 9496, 1188, 1188 respectively.
-For evaluation, a~domain specific class-based language model with a vocabulary size of approximately 52k  and 559k n-grams was estimated from the~training data.
+The~PTI corpus consist of approximately 12,000 user utterances with a length varying between 0.4 s and 18 s with median around 3 s.
+The~data were divided into training, development, and test data where the~corresponding data sizes are 9496, 1188, 1188 utterances respectively.
+For evaluation, a~domain specific class-based language model with a vocabulary size of approximately 52,000  and 559,000 n-grams was estimated from the~training data.
 Named entities e.g., cities or bus stops, in class-based language model are expanded before building a~decoding graph.
 The~perplexity of the~resulting language model evaluated on the~development data is about 48.
 
@@ -199,11 +193,11 @@ Accuracy and speed of the~\term{OnlineLatgenRecogniser} are controlled by the \t
 \term{Max-active-states} limits the~maximum number of active tokens during decoding.
 \term{Beam} is used during graph search to prune ASR hypotheses at the~state level.
 \term{Lattice-beam} is used when producing word level lattices after the~decoding is finished.
-It is crucial to tune these parameters optimally to obtain good results.
+It is crucial to tune these parameters to obtain good results.
 
 In general, one aims for a \ac{RTF} smaller than 1.0.
 Moreover, it is useful in practice if the~RTF is even smaller because other processes running on the machine can influence the~amount of available computational resources.
-Therefore, we target the~RTF the lower value of 0.6, which was estimated by informal experiments.
+Therefore, we target the~RTF with value of 0.6, which was estimated as sufficient by informal experiments.
 
 \begin{figure*}[t]
     \begin{center}
