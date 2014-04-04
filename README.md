@@ -12,7 +12,7 @@ The text of this thesis describes my work on projects listed below:
  * Alex - Alex Dialogue System Framework(https://github.com/UFAL-DSG/alex) where I added following files and directories:
     * ASR component interfacing PyOnlineLatgenRecogniser - https://github.com/UFAL-DSG/alex/alex/components/asr/kaldi.py
     * Kaldi training scripts modified for Alex - https://github.com/UFAL-DSG/alex/alex/tools/kaldi/
-    * Decoding graph (HCLG) scripts - https://github.com/UFAL-DSG/alex/alex/PublicTransportInfoCs/hclg/
+    * Decoding graph (HCLG) scripts, and scripts for ASR evaluation - https://github.com/UFAL-DSG/alex/alex/PublicTransportInfoCs/hclg/
  * The Kaldi toolkit - Speech recognition toolkit where I added following directories:
     * Implementation of OnlineLatgenRecogniser and utilities - https://github.com/UFAL-DSG/pykaldi/tree/master/src/onl-rec/
     * Python wrapper PyOnlineLatgenRecogniser and utilities - https://github.com/UFAL-DSG/pykaldi/tree/master/src/pykaldi/
