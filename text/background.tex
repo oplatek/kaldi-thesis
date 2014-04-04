@@ -270,7 +270,7 @@ of training data consisting of acoustic features $a$ extracted from speech
 and corresponding text speech transcription $t$.
 We create \ac{HMM} $t'$, where each state represents one triphone. 
 The triphones are extracted from transcription $t$ using pronunciation dictionary.
-In Figure~\ref{fig:hmm} the transcription \term{how do you do} 
+In Figure~\ref{fig:hmm_words} the transcription \term{how do you do} 
 was the~expanded \ac{HMM} model representing triphone sequence.
 It should be obvious that only parameters of HMM states 
 occurring in $t'$ can be updated from pair $(a, t)$.
@@ -670,8 +670,7 @@ The trained models are used in one of \ac{HTK} decoders e.g. \term{HVite} for de
 \end{figure}
 
 The \ac{HTK} use Baum-Welch algorithm to train acoustic models.
-The \term{HVite} decoder uses token passing algorithm and Viterbi criterion.
-\cite{HTKBook3.4} % chapter 2
+The \term{HVite} decoder uses token passing algorithm and Viterbi criterion.\cite{young2006htk} % chapter 2
 Only bigram \ac{LM} can be used with \term{HVite}.
 The \\term{HDecode} decoder can handle bigram or trigram language models. 
 
@@ -694,7 +693,7 @@ The second pass reranks and further prunes the extracted hypothesis from thethe~
 The second pass is also known as backward decoding.
 Bigram \ac{LM} is used for forward decoding and more complex trigram \ac{LM} is used for backward decoding.
 
-Before the implementation of this thesis was finished the team of Alex had been interested in Julius, because its ability of real-time decoding and confusion network\footnote{Confusion network is approximation of lattice described in~Subsection~\ref{sub:lattice}} output format.
+Before the implementation of this thesis was finished the team of Alex had been interested in Julius, because its ability of real-time decoding and confusion network\footnote{A confusion network is approximation of a lattice described in~Section~\ref{sub:decode}.} output format.
 
 The Alex team abandoned the Julius decoder for software issues with crashes of the decoder. 
 The crashes appeared during backward decoding and extracting the confusion network from Julius. 

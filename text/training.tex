@@ -9,8 +9,8 @@ The \ac{AM} trained using these scripts can be used for both batch speech recogn
 The first Section~\ref{sec:data} describes used data. 
 The chapter continues by~presenting the \acp{AM} training in~Section~\ref{sec:am_train}. 
 Later, in~Section~\ref{sec:am_eval} we evaluate trained \acp{AM} and also compare them to generative \ac{HTK} \acp{AM} which are trained using state of art \ac{HTK} scripts.
-Note, that the~details about launching the scripts and file system organisation can be found in Appendix~\ref{cha:train_scripts}.  
-The description and references to methods which setup we describe below can be found in Section~\ref{sec:back_asr}.
+% Note, that the~details about launching the scripts and file system organisation can be found in Appendix~\ref{cha:train_scripts}.  
+% The description and references to methods which setup we describe below can be found in Section~\ref{sec:back_asr}.
 
 \section{Vystadial acoustic data}
 \label{sec:data}
@@ -190,8 +190,10 @@ We experiment with all trained \acp{AM} with both zerogram and bigram \ac{LM}.
 The \ac{AM}, \acp{LM}, phonetic dictionary and few helper files are used to build \term{HCLG} decoding graph for each \ac{AM} and feature transformation combination.
 The decoding graph is used for the~speech recognition on development and test set.
 The parameters are set to default values; the exceptions are \term{beam=12.0, lattice-beam=6.0, max-active-states=14000} and \acl{LMW}. 
-The \ac{LMW} is estimated on the development set and the~best value is used for testing.
-The details on the parameters can be found in Section~\ref{sec:real-setup}.
+The \ac{LMW} parameter sets the weight of a \ac{LM}, i.e., it regulates how much the \ac{LM} is used to help \ac{AM} in decoding. 
+The \ac{LMW} value is estimated on the development set and the~best value is used for testing.
+The details about \term{beam=12.0, lattice-beam=6.0 and max-active-states=14000} can be found in Subsection~\ref{sub:dec}.
+Section~\ref{sec:eval} evaluates the \ac{ASR} performance for this parameters.
 
 The \term{gmm-latgen-faster} decoder is used for the~evaluation on testing data.
 It generates a word level lattice for each utterance and the one best hypothesis is extracted from the decoded lattice and evaluated by \ac{WER} and \ac{SER} metrics against the reference transcription.
