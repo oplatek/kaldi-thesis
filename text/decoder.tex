@@ -21,7 +21,7 @@ The latency depends on the amount of time spent on word posterior lattice extrac
 
 Section~\ref{sec:rec} describes the~implementation of the~\term{OnlineLatgenRecogniser}.
 Next Section~\ref{sec:pyext} describes, \term{PyOnlineLatgenRecogniser}, a Python extension of C++ \term{OnlineLatgenRecogniser}.
-Finally, Section~\ref{sec:conclusion} summarize properties of the new implemented Kaldi recogniser.
+Finally, Section~\ref{sec:dec_sum} summarizes properties of the new implemented Kaldi recogniser.
 
 \section{OnlineLatgenRecogniser}
 \label{sec:rec}
@@ -391,7 +391,7 @@ We created demos\footnote{\url{https://github.com/UFAL-DSG/pykaldi/tree/master/e
 The alternatives produces exactly the same results.
 
 \section{Summary}
-\label{sec:onl_summary}
+\label{sec:dec_sum}
 The \term{OnlLatticeFasterDecoder} is able to perform on-line speech recognition.
 We suggest exploit the \term{OnlineLatgenRecogniser} and decode the utterance in small chunks and pass the audio to the recogniser immediately as it is available.
 The speech recognition parameters are initialized with reasonable default values and the parameters are the same as used in Kaldi executables. 

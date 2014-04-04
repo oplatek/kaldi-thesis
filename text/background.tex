@@ -167,7 +167,7 @@ The second transformation, \ac{LDA} and \ac{MLLT}, is described briefly below, a
 The \ac{LDA}+\ac{MLLT} is an alternative setup to $\Delta+\Delta\Delta$ transformation in our training scripts.
 Using several spliced \ac{MFCC} vectors the \ac{LDA}+\ac{MLLT} searches for the best dynamic transformation, replacing the $\Delta+\Delta\Delta$ coefficients.
 
-The combination of \ac{LDA} and \ac{MLLT} applies the feature transformation in two steps: \ac{LDA} reduces the feature dimension and \ac{MLLT} rotates the feature space \todo{so the classes after \ac{LDA} has more diagonal covariance.}\cite{gopinath1998maximum}
+The combination of \ac{LDA} and \ac{MLLT} applies the feature transformation in two steps: \ac{LDA} reduces the feature dimension and \ac{MLLT} rotates the feature space \todo{so the classes after \ac{LDA}} has more diagonal covariance\cite{gopinath1998maximum}.
 Whereas, the \ac{HLDA} performs dimension reduction and space transformation in one step.\cite{gales1999semi}
 The combination \ac{LDA} and \ac{MLLT} performs very similar feature transformation to \ac{HLDA} and gains significant improvements over $\Delta+\Delta\Delta$ transformation similarly as \ac{HLDA}\cite{gales1999semi}\cite{gopinath1998maximum}.
 
@@ -190,14 +190,14 @@ Modern speech recognition toolkits use \acl{HMM}
 for modeling uncertainty between acoustic features and the~corresponding transcription. 
 
 \subsubsection*{Choice of training units}
-The most successful acoustic modeling methods do not estimate the $P(a|w)$ directly, but estimate probability $P(a|f_1f_2f_3)$ of generating acoustic features $a$ for triphone $f_1f_2f_3$.
+The most successful acoustic modeling methods do not estimate the $P(a|w)$ directly, but estimate probability $P(a|f_1f_2f_3f_4)$ of generating acoustic features $a$ for phones $w=f_1f_2f_3f_4$ which forms the pronunciation of the word $w$. Moreover, the triphones are used even more successfully for estimating probability of acoustic features give word pronunciation.
 
-\ml{phoneme}
+\ml{phone}
 Phone is the smallest contrastive unit of speech. 
 Let us see few examples of words and their phonetic transcriptions according CMU dictionary\cite{weide1998cmu}.
 \begin{itemize}
-    \item \term{youngest} \& \term{ Y AH1 NG G AH0 S T }
-    \item \term{youngman} \& \term{ Y AH1 NG M AE2 N }
+    \item \term{youngest} \& \term{Y AH1 NG G AH0 S T}
+    \item \term{youngman} \& \term{Y AH1 NG M AE2 N}
     \item \term{earned} \& \term{ER1 N D}
     \item \term{ear} with two transcribed pronunciations \term{IY1 R} and \term{IH1 R}
 \end{itemize}
@@ -205,16 +205,15 @@ The CMU dictionary distinguishes among several variations for each vowel e.g. \t
 % It distinguishes the~pronunciation for \term{earned} and \term{ear} despite the same transcription in the~first three letters.
 It also stores two possible pronunciations for the word \term{ear}.
 
-The acoustic features for a phone significantly depend on the~context.
-The previous and the~following phone strongly influence the sound of the phone in the middle.
+The acoustic features for a phone significantly depend on its~context.
+The previous and the~following phone strongly influence the sound of the middle phone.
 
 \ml{triphone}
-The triphone is a~sequence of three phonemes and captures the context of single phone.
-See~\ref{fig:hmm_words}.
-As a result, acoustic properties of the triphones vary much less according to the~context than phonemes.
-Let us note that certain combinations of prefixes have the same effect on the central phoneme,
+The triphone is a~sequence of three phones and captures the context of single phone.
+As a result, acoustic properties of the triphones vary much less according to the~context than phones.
+Let us note that certain combinations of prefixes have the same effect on the central phone,
 e.g. \term{q} and \term{k} has the same effect on \term{i}. % cite??
-In order to reduce the number of triphones, these triphones are clustered together.
+In order to reduce the number of triphones for acoustic modelling, these triphones are clustered together .
 
 % The advantage of training triphone-\ac{AM} over word-\ac{AM} 
 % is due to words sparsity. 
@@ -326,24 +325,24 @@ Given set of training observations $O^r, 1 \le r \le R$ and \ac{HMM} state seque
 The best alignment $T$ results from maximising Equation~\ref{eq:vit_align} for $ 1 < i < N$.
 
 \begin{equation}\label{eq:vit_align}
-    \theta_N(T)= max_i[\theta_i(T)a_{iN}] 
+    \phi_N(T)= max_i[\phi_i(T)a_{iN}] 
 \end{equation}
 
 \todo{describe T and T versus $o_t$}
 \todo{Should I cite every equation?}
 
-The $\theta_i(o_t)$ from Equation~\ref{eq:vit_align} is computed recursively according Equation~\ref{eq:state_prob}
+The $\phi_i(o_t)$ from Equation~\ref{eq:vit_align} is computed recursively according Equation~\ref{eq:state_prob}
 
 \begin{equation}\label{eq:state_prob}
-    \theta_i(o_t) = b_j(o_t) max \left\{
+    \phi_i(o_t) = b_j(o_t) max \left\{
   \begin{array}{lr}
-      \theta_j(t-1)a{jj}\\
-      \theta_{j-1}(t-1)a{j-1j}
+      \phi_j(t-1)a{jj}\\
+      \phi_{j-1}(t-1)a{j-1j}
   \end{array}
 \right.
 \end{equation}
 
-The initial conditions are $\theta_1(1)=1$ and $\theta_j(1)= a_{1j}b_j(o_1)$, for $ 1 < j < N$.
+The initial conditions are $\phi_1(1)=1$ and $\phi_j(1)= a_{1j}b_j(o_1)$, for $ 1 < j < N$.
 In our case the likelihoods are modeled as mixture Gaussian densities, so the output probability $b_j(o_t)$ is defined as in Equation~\ref{eq:observ_prob}.
 
 \begin{equation}\label{eq:observ_prob}
@@ -357,25 +356,25 @@ Firstly, model parameters are updated based on the single-best alignment of indi
 Secondly, transition probabilities are estimated from the relative frequencies, Equation~\ref{eq:freq} where $A_{ij}$ denotes the number of transitions from state $i$ to state $j$.
 
 \begin{equation}\label{eq:freq}
-    \^{a}_{ij} = \frac{A_{ij}}{\sum_{k=2}^{N}{A_{ik}}}
+    \hat{a}_{ij} = \frac{A_{ij}}{\sum_{k=2}^{N}{A_{ik}}}
 \end{equation}
 
-The indicator function $\theta^r_{jm}(t)$ is used for updating means and covariance matrix from statistics.
+The indicator function $\psi^r_{jm}(t)$ is used for updating means and covariance matrix from statistics.
 It returns one if $o^r_t$ is \todo{associated} with mixture component $m$ of state $j$ and is zero otherwise.
 The mean vector and covariance matrix is updated according Equations~\ref{eq:mean} and~\ref{eq:var}.
 
 \begin{equation}\label{eq:mean}
-    todo
+    \hat{\mu_{jm}} = \frac{\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)o^r_t}}}  {\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)}}}
 \end{equation}
 
 \begin{equation}\label{eq:var}
-    todo
+    \hat{\Sigma_{jm}} = \frac{\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)(o^r_t - \hat{\mu_{jm}})(o^r_t - \hat{\mu_{jm}})'}}}  {\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)}}}
 \end{equation}
 
-Finally, the mixture weights are computed based on the number of observations allocated to each component.
+Finally, the mixture weights are computed based on the number of observations allocated to each component.\footnote{The Viterbi equations has the same notation as in \cite{buthpitiya2012parallel}.}
 
 \begin{equation}\label{eq:weights}
-    todo
+    c_{jm} = \frac{\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)}}} {\sum_{r=1}^{R}{\sum_{t=1}^{T_r}\sum_{l=1}^{M}{\psi^r_{jl}(t)}}}
 \end{equation}
 
 
