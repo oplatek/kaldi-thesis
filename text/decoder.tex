@@ -51,7 +51,7 @@ The~\term{OnlineLatgenRecogniser} makes use of the~incremental speech pre-proces
 \end{itemize}
 
 The interface is greatly influenced by the decoder interface and the preprocessing of the utterance is completely hidden for the user of \term{OnlineLatgenRecogniser}.
-The \term{AudioIn} is the single method which is not related to the decoders functionality. 
+The \term{AudioIn} is the only method which is not related to the decoder functionality. 
 
 The~\verb!C++! example in Listing~\ref{snippets/rec_usage.cc} shows a typical use of \term{OnlineLatgenRecogniser}.
 When audio data becomes available, it is queued into the~recogniser's buffer (line 11) and immediately decoded (lines 12-14).

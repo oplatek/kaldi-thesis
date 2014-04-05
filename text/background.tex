@@ -553,28 +553,35 @@ In n-best list is included apart from the most probable word sequence, also the~
     0.2 hi where are you
     0.1 bey how are you
 \end{verbatim}
-    \caption{Toy example of 3-best list output with posterior probability for each path.}
+\caption{Example of 3-best list output with posterior probability for each path. N-best in Kaldi can be easily extracted from lattices. Corresponding example lattice is in Figure~\ref{fig:toy_lat}.}
     \label{fig:nbest} 
     \end{center}
 \end{figure}
 
-The n-best list and lattice are extracted from the beam history.
-Note that the Kaldi toolkit always generates state level lattices \cite{povey2012generating}\footnote{State level lattices uses states very similar to triphone states}. 
-The word lattice and later word n-best list are extracted from the state level lattice where the states roughly corresponds to triphones. 
+% The n-best list and lattice are extracted from the beam history.
+% Note that the Kaldi toolkit always generates state level lattices \cite{povey2012generating}\footnote{State level lattices uses states very similar to triphone states}. 
+% The word lattice and later word n-best list are extracted from the state level lattice where the states roughly corresponds to triphones. 
 
 \begin{figure}[!htp]
     \begin{center}
-    \input{images/non_symetric}
-    \caption{Small lattice. \todo{TODO draw it with Ipython}}
+    \includegraphics[width=30em]{images/toy_lattice.ps}
+    \caption{Word posterior lattice. All outgoing arcs for each node sum to 1.0. Common parts of hypotheses are effectively represented.}
     \label{fig:toy_lat} 
     \end{center}
 \end{figure}
 
-It is convenient to output with each hypothesis a measure so one can see how good the hypothesis is in contrast to its alternatives or in absolute measure. 
-Typically likelihood and posterior probability is associated with each word sequence.
-The likelihood measure can be used only for relative comparison, whereas posterior probability is an absolute measure since because it is normalised to one.
+A lattice is a convenient type of \ac{ASR} output.  
+It effectively represent the alternative hypotheses by sharing their common parts.
+Example of word lattice in~Figure~\ref{fig:toy_lat} show word posterior lattice.
+Each hypothesis is represented as sequence of arcs from starts to final node.
+The words and their weights are associated with the arcs.
+The posterior probability of a hypothesis is computed as a product of posterior probabilities of each word in the hypothesis.
+
+It is useful to capture how the quality of each hypothesis in contrast to its alternatives or even in absolute measure. 
+Typically likelihood and posterior probability is associated with each word sequence to express its quality.
+The likelihood measure can be used only for relative comparison, whereas posterior probability is an normalised absolute measure.
 For some applications the likelihood measure is sufficient, other applications for example dialogue systems prefer posterior probabilities.
-Note that the posterior probabilities of 3-best list on Figure~\ref{fig:nbest} do not sum to one, because n-best list omits some hypothesis which are used to compute the posterior probability.
+Note that posterior probabilities for n-best lists typically do not sum to one and may need to be renormalised, because n-best list omits some hypothesis which are used to compute the posterior probability in lattices. See Figure~\ref{fig:nbest} for such example for 3-best list.
 
 \subsection[Evaluating \acs{ASR} quality]{Evaluating \acl{ASR} quality}
 \label{sub:eval}
