@@ -4,7 +4,7 @@
 
 We implemented a~lightweight modification of the~\term{LatticeFasterDecoder} from the~Kaldi toolkit, improved on-line speech parametrisation and feature processing in order to create an \term{OnlineLatgenRecogniser}.
 The Kaldi \term{OnlineLatgenRecogniser} implements on-line interface which allows incremental speech processing, and it is able to process the incoming speech in small chunks incrementally.
-As a result, the speech decoding can be performed while user is speaking and the ASR output is obtained with minimal latency.
+As a result, the real-time speech decoding can be performed while a user is speaking and the ASR output is obtained with a minimal latency.
 % The~Kaldi toolkit as well as the~on-line recogniser is distributed under the~Apache 2.0 license\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
 
 The implementation of the recogniser was motivated by the~lack of an on-line recognition support in Kaldi toolkit.
