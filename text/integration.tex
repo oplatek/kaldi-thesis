@@ -98,7 +98,7 @@ Finally, the Section~\ref{sec:eval} evaluates the performance of \term{PyOnlineL
 \label{sub:asr_component}
 The \ac{ASR} component in the~Alex dialogue system runs as separate process, and the speech recognition is triggered based on \ac{VAD} decisions.
 
-If \ac{VAD} detects start of speech in the~input audio stream, it passes the speech signal to \ac{ASR} component and the~\term{rec\_in} method is called. 
+If \ac{VAD} detects start of speech in the~input audio stream, it sends the speech signal to \ac{ASR} component and the~\term{rec\_in} method is called. 
 The~\term{rec\_in} method is a part of Alex abstract \term{ASRInterface} illustrated in~Listing~\ref{snippets/asr_interface.py}.
 See Listing~\ref{snippets/asr_interface.py}.
 In Kaldi implementation of \term{rec\_in}, the audio is decoded using beam search while the user is speaking, i.e., the method \term{rec\_in} gradually adds the new audio to \term{PyOnlineLatgenRecogniser's} buffer and immediately decodes it.\footnote{If the \ac{ASR} component is busy with decoding the audio just waits in \ac{VAD} buffer instead of in \term{PyOnlineLatgenRecogniser}'s buffer.}
@@ -111,32 +111,25 @@ The \term{flush} method is used only if the speech recogniser wants to throw awa
 
 \code{ASRInterface}{Python}{snippets/asr_interface.py}
 
-\todo{The method \term{rec\_wav} nicely illustrates how the two methods \term{rec\_in} and \term{hyp\_out} are used for decoding. 
+The method \term{rec\_wav} from Alex's \term{ASRInterface} nicely illustrates how the two methods \term{rec\_in} and \term{hyp\_out} are used for decoding. 
 Since the method is used only for testing purposes, it sends all input audio to the speech recogniser at once.
 However, in real-time application the audio is passed to \term{PyOnlineLatgenRecogniser} in small chunks, so the decoding can run as a user speaks. 
-}
 
-In~the Kaldi real-time settings, latency of the~\ac{ASR} unit depends mostly on~the time spent in \term{hyp\_out} method.
+In~the on-line Kaldi settings, latency of the~\ac{ASR} unit depends mostly on~the time spent in \term{hyp\_out} method.
 In~the \term{hyp\_out} method a~word posterior lattice is extracted using the \term{PyOnlineLatgenRecogniser::GetLattice} method as described in~Subsection~\ref{sec:pyext}. 
 For most cases the latency is well below 200 ms for our settings as illustrated in Figure~\ref{fig:prc}.
 
-\todo{SIMPLE HIGH LEVEL POINT OF VIEW:
-The integration of \term{PyOnlineLatgenRecogniser} is simple yet effective.
-However, be aware of triggering backward decoding too often. 
+The~Alex dialogue system frequently handles several spoken requests immediately one after another.
 It may seem that a user should wait to response of the Alex dialogue system before he speaks again and consequently new audio is buffered to recognition.
-However in practice, users speak spontaneously; quite often an user finishes utterance and immediately starts speaking in order to change his request.
-The spontaneous speech may cause delays of \ac{ASR} unit since the speech decoding and lattice extraction run in a single process.
-In case of very short consecutive utterances, the processor time which is meant for lattice extraction should also be used to decoding.
-}
+However in practice, users speak spontaneously; as first utterance is pronounced and users immediately start speaking in order to change his request.
+Nevertheless, at the end of each utterance the \term{hyp\_out} method is called and the ASR hypothesis is extracted.
+Since the user already speaks when the lattice is extracted, the processor time which is meant for lattice extraction can not be be used for decoding.
+Consequently, the \term{rec\_in} should decode the buffered audio faster in shorter time than the~user speaks.
 
-\todo{
-We notices the problem for chains of noises detected in \ac{VAD} components as multiple short utterances.
-The backward decoding (\term{rec\_in} method) was extracting hypothesis while the audio input was still buffering the noisy speech and want to call \term{rec\_in}.
-The~backward decoding (\term{hyp\_out} method) was called so often that almost no forward decoding was performed.
+We noticed the problem for chains of noises detected in \ac{VAD} components as multiple short utterances.
+The (\term{rec\_in} method) was extracting hypothesis while the audio input was still buffering the noisy speech and want to call \term{rec\_in}.
+The~(\term{hyp\_out} method) was called so often that almost no decoding was performed.
 The problem was solved by improving \ac{VAD} so the~\term{hyp\_out} method is not triggered so often.
-It is useful to target settings for a~forward decoding \ac{RTF} smaller than 1.0 e.g. 0.6, because with reduced RTF the~forward decoding can catch up the~delay caused by backward decoding the~previous utterance.
-See Section~\ref{sec:eval} for \ac{RTF} definition.
-}
 
 \subsection{Building in-domain decoding graph}
 \label{sub:hclg}
@@ -149,12 +142,21 @@ The same files can also be used with standard Kaldi decoders or \term{PyOnlineLa
 
 The \term{HCLG} build script requires:
 \begin{itemize}
-    \item \todo{Fill the files}
+    \item \acl{LM}
+    \item \acl{AM}
+    \item Acoustic phonetic decision tree
+    \item Phonetic dictionary
 \end{itemize}
 
-As the script's results, the \term{HCLG} build script produces follwing files which are required for decoding with \term{PyOnlineLatgenRecogniser}:
+As a results, the \term{HCLG} graph is built.
+In addition, the script copies files generated by \ac{AM} training which are required for decoding with \term{PyOnlineLatgenRecogniser}.
+To sum up, following files are necessary for decoding with Kaldi decoders:
 \begin{itemize}
-    \item \todo{Fill the files}
+    \item Decoding graph \term{HCLG} 
+    \item \acl{AM}
+    \item Matrix which defines feature transformations
+    \item Settings for speech parametrisation and feature transformations which match settings used for training the used \ac{AM}.
+    \item \ac{WST} --- mapping between integer labels
 \end{itemize}
 
 We also developed evaluation scripts which simply compute the statistics of measures which are evaluated given \ac{AM}, \ac{LM} and parameters in~Section~\ref{sec:eval}.
@@ -210,12 +212,10 @@ Therefore, we target the~RTF with value of 0.6, which was estimated as sufficien
     \end{center}
 \end{figure*}
 
-\todo{Reread follwing paragraph-inspire in paper}
-We used grid search on the~test set to identify optimal parameters.
+We used grid search on the~test set to identify the optimal parameters values.
 Figure~\ref{fig:wer} (a) shows the~impact of the~\term{beam} on the~WER and RTF measures.
 In this case, we set \term{max-active-states} to 2000 in order to limit the~worst case RTF to 0.6.
-Observing Figure~\ref{fig:wer} (a), we set \term{beam} to 13 as this setting balances the~WER.%, 95th RTF percentile, and the~average RTF.
-% Therefore, for Figure~\ref{fig:wer} (b) as this setting
+Observing Figure~\ref{fig:wer} (a), we chose \term{beam} of value 13 for further experiments as this setting balances the~\ac{WER}.
 Figure~\ref{fig:wer} (b) shows the~impact of the~\term{lattice-beam} on WER and latency when \term{beam} is fixed to 13.
 We set \term{lattice-beam} to 5 based on Figure~\ref{fig:wer} (b) to obtain the~95th latency percentile of 200 ms, which is considered natural in a~dialogue \cite{skantze2009incremental}.
 \term{Lattice-beam} does not affect WER, but larger \term{lattice-beam} improves the~oracle WER of generated lattices~\cite{povey2012generating}.
@@ -231,23 +231,11 @@ Note that 95 \% of utterances were decoded with the~latency lower that 200ms.}
     \end{center}
 \end{figure*}
 
-% Figure~\ref{fig:wer}
-% The~\term{beam} and \term{lattice-beam} parameters significantly effect accuracy and speed of decoding.
-% First, we set \term{max-active-states} to 2000 to limit worst case RTF to 0.6. 
-% Second, we tune \term{beam} 
-
-% We fixed other parameters or used the~default values since other parameters have just technical character or does not influence the~speed and quality of decoding.\footnote{The~only exception is language model weight which affects WER, we set it up for our LM to 15.}
-% The~only exception is the~language model weight (LMW) parameter, which does not effect the~speed of the~decoding but only the~output probabilities determined by mixing AM and LM models.
-% As illustrated in Figure~\ref{fig:wer}, further increasing the~\term{beam} away from Alex \term{beam} configuration would significantly slow down decoding but reduce a~little WER.
-% Similarly, the~Alex \term{lattice-beam} setup balances between larger \term{lattice-beam} and quickly increasing latency.
-
 Figure~\ref{fig:prc} shows the~percentile graphs of the~RTF and latency measures over the~test set.
 The~95th percentile is the~value of a~measure such that 95\% of the~data has the~measure below that value.
 One can see from Figure~\ref{fig:prc} that 95\% of test utterances is decoded with RTF under 0.6 and latency under 200 ms.
 The~extreme values for 5\% of test utterances are in most cases caused by decoding long noisy utterances where uncertainty in decoding increase the search space slows down the~recogniser.
 Using \term{beam} of 13, the \term{lattice-beam} of 5 and 2000 \term{max-active-states} , the~\term{OnlineLatgenRecogniser} decodes the~test utterances with a WER of about 21\%.
-
-% In ADSF a~Google ASR service had been used, because we did not have acoustic training data for AM training.
 
 \begin{figure*}[t]
     \begin{center}
@@ -264,8 +252,9 @@ The~high latency is presumably caused by the~batch processing of audio data and 
 \subsection*{Results}
 \label{sec:results}
 
-\todo{integrated hclg, training scripts and prepared evaluation}
+To conclude, we implemented \ac{ASR} component based on \term{OnlineLatgenRecogniser}.
+We also implemented scripts which allow easy \ac{AM} training and testing \ac{AM} and \ac{LM} evaluation for Kaldi speech recognition in Alex \ac{SDS}.
 
 Based on evaluation we selected the~best~setup\footnote{Setup: \term{beam} 12, \term{lattice-beam} 5, \term{max-active-states} 2000.} for ASR component in Alex Dialogue System Framework with  WER under 22 \%, latency less tha 200 ms and RTF under 0.6 on \ac{PTI} domain.
-To conclude, the~\term{OnlineLatgenRecogniser} performs significantly better than our previous \ac{ASR} engines: OpenJulius decoder or queries to cloud Google ASR service.
+As a results, the~\term{OnlineLatgenRecogniser} performs significantly better than our previous \ac{ASR} engines.
 
