@@ -314,8 +314,8 @@ The best alignment $T$ results from maximising Equation~\ref{eq:vit_align} for $
     \phi_N(T)= max_i[\phi_i(T)a_{iN}] 
 \end{equation}
 
-\todo{describe T and T versus $o_t$}
-\todo{Should I cite every equation?}
+% \todo{describe T and T versus $o_t$}
+% \todo{Should I cite every equation?}
 
 The $\phi_i(o_t)$ from Equation~\ref{eq:vit_align} is computed recursively according Equation~\ref{eq:state_prob}
 
@@ -346,7 +346,7 @@ Secondly, transition probabilities are estimated from the relative frequencies, 
 \end{equation}
 
 The indicator function $\psi^r_{jm}(t)$ is used for updating means and covariance matrix from statistics.
-It returns one if $o^r_t$ is \todo{associated} with mixture component $m$ of state $j$ and is zero otherwise.
+It returns one if $o^r_t$ is associated with mixture component $m$ of state $j$ and is zero otherwise.
 The mean vector and covariance matrix is updated according Equations~\ref{eq:mean} and~\ref{eq:var}.
 
 \begin{equation}\label{eq:mean}
@@ -391,47 +391,32 @@ For details how the methods are initialized and its usage in Kaldi see Chapter~\
 A \acl{LM} effectively reduces and more importantly prioritise the \ac{AM} hypothesis.
 A probability of acoustic features given words transcription $P(a|w)$ estimated by \ac{AM} is combined with the probability of the words transcription $P(w)$ estimated by \ac{LM} for given domain in order to compute posterior probability of transcription $P(w|a) = \frac{P(a|w)*P(w)}{P(a)}$.
 
-
-The statistical \ac{LM} assigns a given word sequence its probability.
-The infrequent word sequences in training data are estimated with a low probability in a \ac{LM}. 
-On the other hand, the frequent sequences are assigned with a high probability.
-For example, the word sequence "\term{are few born new york}" should be rewarded with a lower probability from a~\ac{LM} than the alternative with similar phonetic representation "\term{are you from new york}".
-
-
-\todo{LM:
-In practice it is unfeasible to compute the probability of $k$ word sequence $W$ according Equation~\ref{eq:lm}.
-In addition, it would require enormous amount of data for estimating probability for $k>3$.
-}
-
+The statistical \ac{LM} assigns a given word sequence its probability according Equation~\ref{eq:lm}.
+The most used, n-gram \acp{LM} compute the probability of $k$ word sequence $W$ according Equation~\ref{eq:lm}.\cite{brants2007large}
+The Markov assumption approximates the probability by assuming that only the most recent $n-1$ words are relevant when predicting next word.
+\ml{\ac{LM} order}
+We call the number $n$ an order of \ac{LM}.
 
 \begin{equation} \label{eq:lm}
-    P(W)=P(w_i,  w_{i-1}, w_{i-2}, ..., w_1)=\prod_{i=1}^{k}{P(w_i|w_{i-1}, w_{i-2}, w_1)}
+    P(W)=P(w_k,  w_{k-1}, w_{k-2}, ..., w_1) \approx \prod_{i=1}^{k}{P(w_i|w^{i-1}_{i-n+1})}
 \end{equation}
 
-\ml{\ac{LM} order}
-We call the number $k$ order of \ac{LM}.
-In speech recognition we typically use the order of \ac{LM} limited to $k<4$.
-The Equation~\ref{eq:ngram} describes how the trigram \ac{LM} should be estimated.
-The n-gram is a sequence of n consecutive words. The probability of n-gram can be estimated by language models
-of order n and greater.
-
-The \ac{LM} estimates the probability of an n-gram $t$ by counting the frequency in text corpus of $t$ and 
-also (n-1), (n-2), .. n-grams, which are subsequences of $t$.
-The text corpus is typically chosen, so it corresponds to a domain, in which the \ac{ASR} system 
-with the \ac{LM} should be used.
-
+The probabilities $P(w_i|w^{i-1}_{i-n+1})$ for each word $w_i$ are estimated using relative frequencies of the n-grams, (n-1)-grams, (n-2)-grams, \ldots on training data.
+The \ac{MLE} is used for estimating estimating relative frequencies $r$ according Equation~\ref{eq:freq}.
+\begin{equation} \label{eq:freq}
+    r(w_i|w^{i-1}_{i-n+1}) = \frac{f(w^i_{i-n+1})} {f(w^{i-1}_{i-n+1})}
+\end{equation}
+The Equation~\ref{eq:freq} is intuitive but many valid and even reasonable utterances are missing or too few.
+Consequently, the numerator might be zero and the relative frequency may be undefined.
+\ml{sparse data}
+This is known as sparse data problem.
 \ml{LM smoothing}
-We call the \term{smoothing} technique estimating the probability of unseen n-grams $t$ 
-based on n-grams with lower order which form the original sequence $t$.
-The technique is widely used, because there is much greater chance that lower order n-grams are
-present in training data than n-gram with high order.
-For example, in our training scripts if no external \ac{LM} is supplied,
-we train the \ac{LM} only on text transcriptions from the training data
-and we use Witten-Bell smoothing.\cite{witten1991zero}
+Smoothing techniques are often used to estimate the higher n-gram relative frequencies based on the lower frequencies.\cite{goodman2001bit}.
+In principle, the predictive accuracy of the language model can be improved by increasing the order of the n-gram.
+However, doing so further exacerbates the sparse data problem.\cite{brants2007large}
 
-\begin{equation} \label{eq:ngram}
-    P(w_i \mid w_{i-1}, w_{i-2}, ..., w_1) = P(w_i \mid w_{i-1}, w_{i-2}) * P(w_{i-1} \mid w_{i-2}) * P(w_{i-2})
-\end{equation}
+The \ac{LM} estimates the probability by counting the relative frequencies on text corpus which is typically chosen according the~targeted \ac{ASR} domain.
+For example, in training scripts which are described in Chapte~\ref{cha:train} we train the \ac{LM} only on text transcriptions from the training data using Witten-Bell smoothing.\cite{witten1991zero}
 
 
 \subsection{Speech decoding}
@@ -639,21 +624,20 @@ The lattices with rich alternatives gain much lower oracle \ac{WER} than short n
 The rich alternatives contain additional information and for example a dialogue system \acl{SLU} component may exploit the alternatives.
 
 \subsubsection*{Measuring speed}
-\label{sub:the_metrics_in_speech_recognition}
-In this thesis we are especially concerned about the~speed of speech decoding because the implemented decoder is used in a \acl{SDS}.
+In this thesis we are especially concerned about the~speed of speech decoding because the implemented decoder is used in a real-time \acl{SDS}.
 
 \ml{\acl{RTF}}
-A very natural measure of the~speed for speech decoding is \acl{RTF}, which expresses how much the recognizer decodes faster than the user speaks.
+A very natural measure of a speech decoding speed is \acl{RTF}, which expresses how much the recognizer decodes slower than the user speaks.
 We measure the \ac{RTF} for each recording as described in~Equation~\ref{eq:rtf}.
 \begin{equation}\label{eq:rtf}
     RTF = \frac{time(decode(a))}{length(a)}
 \end{equation}
-For real-time decoding in a dialogue system we need $RTF < 1.0$ for all tested utterances $a$.
-In other words, the decoding of each utterance $a$ should take less time than playing the utterance in a music player.
-With $RTF < 1.0$ we can decode faster than the user speaks, so the hypothesis is ready immediately after the user finishes the speech. 
+For real-time decoding in a dialogue system we need smaller than one $RTF < 1.0$.
+In other words, the decoding of an utterance should take less time than a user needed for pronouncing the utterance.
+With $RTF < 1.0$ the hypothesis is decoded immediately after the user finishes the speech. 
 
-The decoding is performed while user is speaking, but extracting the \ac{ASR} hypothesis output is triggered at the very end of the speech as described in~Subsection~\ref{sub:decode}.
-The users have to wait at least for~the time when the \ac{ASR} hypotheses is extracted.
+The decoding is performed while user is speaking, but extracting the \ac{ASR} hypothesis output is triggered at the very end of the speech.
+The users have to wait at least the time when the \ac{ASR} hypotheses is extracted.
 
 \ml{latency}
 In real-time \ac{SDS} the critical measure is a delay how long the user has to wait for its answer.
@@ -664,15 +648,11 @@ Note if $RTF < 1.0$ then the latency corresponds to time of \ac{ASR} hypotheses 
 \section{\ac{HTK}}
 \label{sec:back_htk}
 The \ac{HTK} toolkit is a~set of command line tools, sample scripts and library for training and decoding \ac{HMM} focused on speech recognition.
-\ac{HTK} uses Baum-Welch algorithm for \ac{HMM} parameters estimation.
 With the toolkit are distributed two decoders \term{HVite} and \term{HDecode}, which are not designed for real-time applications.
-\term{HVite} can be used only with unigram or bigram \ac{LM}.
-The \term{HDecode} decoder handles also a trigram \ac{LM}.
 
-The functionality of the library is wrapped by command line programs.
-The programs are typically combined in training scripts to train acoustic and language models.
-In Figure~\ref{fig:htk_tools} the acoustic models are labelled as "HMMs" 
-and the language models in \ac{HTK} are represented in "Networks".
+Functionality of the core library can be accessed through command line executables.
+The command line programs are typically combined in training scripts to train acoustic and language models.
+In Figure~\ref{fig:htk_tools} the acoustic models are labelled as "HMMs" and the language models in \ac{HTK} are represented in "Networks".
 The trained models are used in one of \ac{HTK} decoders e.g. \term{HVite} for decoding transcriptions, which can be evaluated using \term{HResults}.
 
 \begin{figure}[!htp]
@@ -683,9 +663,9 @@ The trained models are used in one of \ac{HTK} decoders e.g. \term{HVite} for de
     \end{center}
 \end{figure}
 
-The \ac{HTK} use Baum-Welch algorithm to train acoustic models.
+The \ac{HTK} library use Baum-Welch algorithm to train acoustic models.
 The \term{HVite} decoder uses token passing algorithm and Viterbi criterion.\cite{young2006htk} % chapter 2
-Only bigram \ac{LM} can be used with \term{HVite}.
+Only unigram and bigram \acp{LM} can be used with \term{HVite}.
 The \\term{HDecode} decoder can handle bigram or trigram language models. 
 
 
@@ -698,29 +678,28 @@ The \term{HDecode} has very similar license condition but can be only used for r
 \label{sec:back_julius}
 
 % http://julius.sourceforge.jp/juliusbook/en/desc_overview.html
-Julius is a~large vocabulary continuous speech engine, which can use \ac{AM} in \ac{HTK} format for decoding.\cite{lee2009julius}
+Julius is a~large vocabulary continuous speech decoder which can use \ac{AM} in \ac{HTK} format for decoding.\cite{lee2009julius}
 Julius is BSD licensed\footnote{\url{http://www.linfo.org/bsdlicense.html}} and performs almost real-time decoding.
 
 Julius is a~two pass decoder. 
-In the~first pass, the forward decoding is performed using time synchronous beam search.
-The second pass reranks and further prunes the extracted hypothesis from thethe~~pass one.
-The second pass is also known as backward decoding.
-Bigram \ac{LM} is used for forward decoding and more complex trigram \ac{LM} is used for backward decoding.
+In the~first pass, the decoding is performed using time synchronous beam search.
+The second pass re-ranks and further prunes the extracted hypothesis from the~pass one.
+Bigram \ac{LM} is used for the first pass and more complex trigram \ac{LM} is used for re-ranking.
 
-Before the implementation of this thesis was finished the team of Alex had been interested in Julius, because its ability of real-time decoding and confusion network\footnote{A confusion network is approximation of a lattice described in~Section~\ref{sub:decode}.} output format.
+Before the implementation of this thesis was finished the Alex \ac{SDS} team had been interested in Julius because its ability of real-time decoding and confusion network\footnote{A confusion network is approximation of a lattice described in~Section~\ref{sub:decode}.} output format.
 
-The Alex team abandoned the Julius decoder for software issues with crashes of the decoder. 
-The crashes appeared during backward decoding and extracting the confusion network from Julius. 
-In addition, the crashes were hard to detect, because Julius used to run in a~separate process.
+The Alex team abandoned the Julius decoder for software issues e.g., crashes of the decoder. 
+The crashes appeared during extracting confusion networks from Julius. 
+In addition, the crashes were hard to detect because Julius used to run in a~separate process.
 % and the~dialogue system Alex were waiting for the lattice output of dead process, which should had been passed through sockets.
 
 \section{Kaldi}
 \label{sec:back_kaldi}
 
-Kaldi is a~speech recognition toolkit consisting of a~library, command line programs, scripts for focus on acoustic modeling.
-Kaldi deploys several decoders for evaluation Kaldi \ac{AM}.
-Kaldi uses Viterbi training for estimating \ac{AM}. 
-Only in special cases of speaker adaptive discriminative training is also used extended Baum-Welsch algorithm\cite{povey2011kaldi}.
+Kaldi is a~speech recognition toolkit consisting of a~library, command line programs and scripts for acoustic modeling.
+Kaldi deploys several decoders for evaluation Kaldi \acp{AM}.
+Kaldi uses Viterbi training for estimating \acp{AM}. 
+Only in special cases of speaker adaptive discriminative training the extended Baum-Welsch algorithm is also used\cite{povey2011kaldi}.
 
 The architecture of the~Kaldi toolkit could be separated to Kaldi library and training scripts.
 The scripts access the functionality of Kaldi library through command line programs.
@@ -736,9 +715,9 @@ The examples of the namespaces or directories can be seen in Figure~\ref{fig:kal
     \end{center}
 \end{figure}
 
-Similarly Kaldi uses binaries which load its input from files and typically store results again to files.
-Alternatively, the output of one command can be feed into next command using system pipes.
-In contrast to \ac{HTK}, there are many alternatives as seen in list of executables below:
+Kaldi uses executables which load its input from files and typically store results again to files.
+Alternatively, the output of one Kaldi program can be feed into next command using system pipes.
+There are usually many alternatives for every speech recognition tasks as seen in list of executables below:
 \begin{enumerate}
     \item Speech parametrisation
         \begin{itemize}
@@ -769,8 +748,8 @@ In contrast to \ac{HTK}, there are many alternatives as seen in list of executab
             \item \ldots
         \end{itemize}
 \end{enumerate}
-In addition, Kaldi provides very useful standardized scripts which wrap Kaldi executables or add a~new functionality. 
-The scripts are located in \term{utils} and \term{steps} directories and are used in many training script recipes for different corpus data.
+In addition, Kaldi provides very useful standardized scripts which wrap Kaldi executables or add new functionality. 
+The scripts are located in \term{utils} and \term{steps} directories and are used in many training scripts recipes for different corpus data.
 In this thesis we created a~new training recipe using the~Kaldi infrastructure and Czech and English training corpus \cite{korvas_2014}.
 The recipe, the data and acoustic modeling scripts are described in~Chapter~\ref{cha:train}.
 
@@ -781,24 +760,20 @@ Kaldi uses \ac{FST} as underlaying representation for \ac{LM}, partially for \ac
 
 The \ac{FST} framework provides well studied graph operations\cite{mohri2002weighted} which can be effectively used for acoustic modeling.
 Using the \ac{FST} framework the speech decoding task is expressed as a beam search in a graph, which is well studied problem.
-
-The OpenFST library implements memory efficient representation of \ac{FST} and
-provides standardized efficient operations.
-As stated in \cite{mohri2002weighted} and \cite{povey2011kaldi} the operations can be effectively used
-for speech decoding. 
+% The OpenFST library implements memory efficient representation of \ac{FST} and provides standardized efficient operations.
+% As stated in \cite{mohri2002weighted} and \cite{povey2011kaldi} the operations can be effectively used for speech decoding. 
 
 The \ac{FST} graphs used for \ac{AM} model training and speech decoding can be constructed as sequence of standardized OpenFST operations.\cite{mohri2002weighted}.
-Decoding is performed using a final result of training, so called \term{decoding graph} $HCLG$. 
+Decoding is performed on so called \term{decoding graph} $HCLG$ which is constructed from simple \ac{FST} graphs as illustrated in~Equation~\ref{eq:hclg}. 
 \begin{equation} \label{eq:hclg}
 HCLG = H\circ C\circ L\circ G
 \end{equation}.
-
 The symbol $\circ$ represents an associative binary operation of composition on \acp{FST}.
-Namely, the transducers appearing in~Equation~\ref{eq:hclg} are:
+We briefly explain the functionality of the transducers from~Equation~\ref{eq:hclg}:
 \begin{enumerate}
     % source  http://kaldi.sourceforge.net/graph.html
     \item G is an acceptor that encodes the grammar or language model.
-    \item L is the lexicon. Its input symbols are phones. Its output symbols are words.
+    \item L represents the lexicon. Its input symbols are phones. Its output symbols are words.
     \item C represents the relationship between context-dependent phones on input and phones on output.
     \item H contains the \ac{HMM} definitions, that take as input id number of~\acp{PDF} and return context-dependent phones.
 \end{enumerate}
@@ -809,9 +784,9 @@ Following one liner illustrates how Kaldi decoding graph is created using standa
 \end{equation}
 
 \ml{Semiring}
-Most of the operation used in speech recognition operates on paths in the decoding graph.
-Path is a sequence of edges which has weight and an input and an output label.
-Based on the weight type and weight path operations we distinguish several semirigns. 
+Most of the operations operate on paths in the decoding graph.
+Path is a sequence of edges which have weights and an input and an output labels.
+Based on the weight type and weight path operations we distinguish several semirings. 
 
 Formally, a \term{semiring} $(\mathcal{K}, \oplus, \otimes, \bar{0}, \bar{1})$ is an algebraic structure on set $\mathcal{K}$ with operations $\oplus$ and $\otimes$.
 The binary operations multiplication $\oplus$ and addition $\otimes$ have identity element $\bar{0}$ respectively $\bar{1}$. 
