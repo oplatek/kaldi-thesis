@@ -1,6 +1,10 @@
 % !TEX root = main.tex
 \chapter{Real time recogniser}
 \label{cha:decoder}
+This chapter presents the \term{OnlineLatgenRecogniser}, the new on-line Kaldi recogniser which can be used in real-time applications.
+Section~\ref{sec:rec} describes the~implementation of the~\term{OnlineLatgenRecogniser}.
+Next Section~\ref{sec:pyext} introduces \term{PyOnlineLatgenRecogniser}, a Python extension of C++ \term{OnlineLatgenRecogniser}.
+Finally, Section~\ref{sec:dec_sum} summarizes properties of the new implemented Kaldi recogniser.
 
 We implemented a~lightweight modification of the~\term{LatticeFasterDecoder} from the~Kaldi toolkit, improved on-line speech parametrisation and feature processing in order to create an \term{OnlineLatgenRecogniser}.
 The Kaldi \term{OnlineLatgenRecogniser} implements on-line interface which allows incremental speech processing, and it is able to process the incoming speech in small chunks incrementally.
@@ -18,10 +22,6 @@ It produces word posterior lattices which can be easily converted into high qual
 The~recogniser's speed and latency can be effectively controlled off-line by optimising a~language model. 
 At runtime the speed of decoding is controlled by a~beam threshold.
 The latency depends on the amount of time spent on word posterior lattice extraction from the recogniser, which can be regulated by a level of approximations used during the~word lattice creation.
-
-Section~\ref{sec:rec} describes the~implementation of the~\term{OnlineLatgenRecogniser}.
-Next Section~\ref{sec:pyext} describes, \term{PyOnlineLatgenRecogniser}, a Python extension of C++ \term{OnlineLatgenRecogniser}.
-Finally, Section~\ref{sec:dec_sum} summarizes properties of the new implemented Kaldi recogniser.
 
 \section{OnlineLatgenRecogniser}
 \label{sec:rec}

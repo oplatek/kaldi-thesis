@@ -1,14 +1,14 @@
 % !TEX root = main.tex
 \chapter{Background}
 \label{cha:background}
+This chapter introduce basics of speech recognition related to this work.
+Section~\ref{sec:back_asr} introduces speech preprocessing, \acf{AM} and \acf{LM} training, and explains important aspects of speech decoding.
+Next sections describe specific speech recognition software implementations.
+The Kaldi toolkit is described in Section~\ref{sec:back_kaldi}, the \ac{HTK} toolkit in Section~\ref{sec:back_htk} and the Julius decoder in Section~\ref{sec:back_julius}.
 
 The statistical methods for continuous speech recognition were established more than 30 years ago. 
 The most popular statistical methods are based on acoustic modeling using \acp{HMM} and n-grams \acp{LM}, which are also used in Kaldi, the toolkit of our choice.
 We introduce principles of speech recognition and present techniques which are used in Kaldi. 
-
-Section~\ref{sec:back_asr} introduces speech preprocessing, \acf{AM} and \acf{LM} training, and explains important aspects of speech decoding.
-Next sections describe specific speech recognition software implementations.
-The Kaldi toolkit is described in Section~\ref{sec:back_kaldi}, the \ac{HTK} toolkit in Section~\ref{sec:back_htk} and the Julius decoder in Section~\ref{sec:back_julius}.
 
 \begin{figure}[!htp]
     \begin{center}
