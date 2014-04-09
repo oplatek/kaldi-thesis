@@ -253,8 +253,7 @@ The~high latency is presumably caused by the~batch processing of audio data and 
 \label{sec:results}
 
 To conclude, we implemented \ac{ASR} component based on \term{OnlineLatgenRecogniser}.
-We also implemented scripts which allow easy \ac{AM} training and testing \ac{AM} and \ac{LM} evaluation for Kaldi speech recognition in Alex \ac{SDS}.
+We also implemented scripts which allow easy \ac{AM} training and testing, and \ac{LM} evaluation for Kaldi speech recognition in Alex \ac{SDS}.
 
-Based on evaluation we selected the~best~setup\footnote{Setup: \term{beam} 12, \term{lattice-beam} 5, \term{max-active-states} 2000.} for ASR component in Alex Dialogue System Framework with  WER under 22 \%, latency less tha 200 ms and RTF under 0.6 on \ac{PTI} domain.
-As a results, the~\term{OnlineLatgenRecogniser} performs significantly better than our previous \ac{ASR} engines.
-
+Based on evaluation, we selected the~best~setup\footnote{Setup: \term{beam} 12, \term{lattice-beam} 5, \term{max-active-states} 2000.} for ASR component in Alex Dialogue System Framework with  WER under 22 \%, latency less tha 200 ms and RTF under 0.6 on \ac{PTI} domain.
+As a results, the~\term{OnlineLatgenRecogniser} performs significantly better than the~previous \ac{ASR} engines.
