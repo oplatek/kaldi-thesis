@@ -3,7 +3,7 @@
 \label{cha:integration}
 
 This chapter discuss the details of deploying \term{OnlineLatgenRecogniser} into Alex dialogue system.
-The \term{OnlineLatgenRecogniser} is used in Alex dialogue system for Czech Public Transport Domain available on public toll-free (+420) 800 899 998 line.
+The \term{OnlineLatgenRecogniser} is used in Alex dialogue system for Czech \acf{PTI} domain available on public toll-free (+420) 800 899 998 line.
 
 First, the architecture of Alex \acf{SDS} is described.
 Second, Section~\ref{sec:asrsds} presents how the wrapper \term{PyOnlineLatgenRecogniser} is integrated into~\ac{SDS} Alex.
@@ -164,7 +164,7 @@ Both the evaluation scripts and build \term{HCLG} script are located in the~\ter
 
 \subsubsection*{Acoustic and language models for \acs{PTI} domain}
 \label{sec:ptilm}
-The~\term{OnlineLatgenRecogniser} is evaluated on a~corpus of audio data from the~Public Transport Information (PTI) domain.
+The~\term{OnlineLatgenRecogniser} is evaluated on a~corpus of audio data from the~\acf{PTI} domain.
 % The phone call audio data were collected from Alex's users, so the test data simulates the real setup perfectly.
 In PTI, users can interact in Czech language with a~telephone-based dialogue system to find public transport connections \cite{ptics2014url}.
 The~PTI corpus consist of approximately 12,000 user utterances with a length varying between 0.4 s and 18 s with median around 3 s.
