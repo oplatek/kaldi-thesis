@@ -178,8 +178,8 @@ Consequently, in a test set appear unknown words, so called \acl{OOV}.
 The zerogram is extracted from a test set transcriptions.
 The zerogram is a list of words with probabilities uniformly distributed, so it helps decoding just by limiting the vocabulary size.
 % In this work, we present results with fixed datasets as described in~Table~\ref{tab:audio}.
-The bigram \ac{LM} contains 17433 unigrams and 79333 bigrams for Czech and \todo{English stats}. 
-The zerogram \ac{LM} is limited to 2944 words for Czech and to \todo{number of words} for English.
+The bigram \ac{LM} contains 17433 unigrams and 79333 bigrams for Czech and 936 unigrams and 5521 bigrams for English. 
+The zerogram \ac{LM} is limited to 2944 words for Czech and to 302 words for English.
 
 The speech recognition parameters are set to default values; the exceptions are decoding parameters: \term{beam=12.0, lattice-beam=6.0, max-active-states=14000} and \acl{LMW}. 
 The \ac{LMW} parameter sets the weight of a \ac{LM}, i.e., it regulates how much the \ac{LM} is used to help \ac{AM} in decoding. 
