@@ -22,10 +22,10 @@ The Alex dialogue system is developed in Python programming language and consist
     \item \acf{NLG}
     \item \acf{TTS}
 \end{enumerate}
-The~system interacts with the user in \term{turns}. 
+The~system interacts with a~user in \term{turns}. 
 The schema in~Figure~\ref{fig:alex} illustrates how the user's input is processed in single turn.
 The spoken input is passed to \ac{ASR} component which generates corresponding textual representation.
-\ac{SLU} extracts semantic features from the text and \ac{DM} decides which response to present.
+\ac{SLU} extracts semantic meaning from the text and \ac{DM} decides which response to present.
 The \ac{NLG} component generates textual response from an internal representation of \ac{DM} and finally the \ac{TTS} read the text with human voice.
 
 Each of the Alex's component runs in separate process in order parallelize the input data processing and output data generation.
@@ -39,8 +39,9 @@ The components communicates among themselves through system pipes.
     \end{center}
 \end{figure}
 
-In order to prepare \ac{ASR} unit for \term{PyOnlineLatgenRecogniser} we have implemented not only the wrapper itself, but also preparation scripts and useful utilities. 
-Let us introduce the Alex \ac{SDS} framework organisation, so we can better explain how our scripts are used.
+In order to prepare \ac{ASR} unit for \term{PyOnlineLatgenRecogniser}, we have implemented not only the wrapper itself, but also scripts for building decoding graph and evaluation.
+In addition, we integrated \ac{AM} training scripts to Alex framework.
+Let us introduce the framework organisation, so we can better explain how our scripts are used.
 The framework is separated into several logical parts:
 \begin{itemize}
     \item The core library is located at \term{alex/components/}. The library is domain and language independent. All components in Figure~\ref{fig:alex} are implemented in this core library.
@@ -79,17 +80,17 @@ For example, the scripts for \ac{LM} and \ac{SLU} model training for \ac{PTI} do
 \section[Kaldi integration into \acs{SDS} framework]{Kaldi integration into Alex's \acl{SDS} framework}
 \label{sec:asrsds}
 
-Integration of the~Kaldi real-time recognizer into Alex's framework requires implementing following features:
+Integration of the~Kaldi real-time recognizer into Alex's framework required implementing following features:
 \begin{enumerate}
     \item The \term{kaldi.py} module which exploits functionality of \term{PyOnlineLatgenRecogniser} and implements the abstract \term{ASRInterface}.
-    \item The training scripts for \acp{AM}.
-        \item The scripts for building custom decoding graph \term{HCLG}.\term{HCLG} graph is a Kaldi effective representation of \ac{AM} and \ac{LM} used for decoding. 
+    \item The training scripts for \aclp{AM}.
+        \item The scripts for building custom decoding graph \term{HCLG}. \term{HCLG} graph is a Kaldi effective representation of \ac{AM} and \ac{LM} used for decoding. 
     \item Evaluation of the \ac{ASR} recogniser in Alex, so the best speech recogniser can be selected.
 \end{enumerate}
 
 The \term{PyOnlineLatgenRecogniser} integration is described in Subsection~\ref{sub:asr_component}.
 The training scripts for training \acp{AM} were described in Chapter~\ref{cha:train}.
-However, note that we adjusted their directory structure and copied them into \term{alex/tools/kaldi} directory so they nicely in the Alex \ac{SDS}.
+However, note that we adjusted their directory structure and copied them into \term{alex/tools/kaldi} directory so they nicely integrate in the Alex \ac{SDS}.
 The scripts for building the \term{HCLG} decoding graph are introduced in~Subsection~\ref{sub:hclg}.
 They are stored at \term{alex/applications/PublicTransportInfoCS/hclg/}.
 Finally, the Section~\ref{sec:eval} evaluates the performance of \term{PyOnlineLatgenRecogniser} in Alex \ac{SDS} and briefly compares it with Google speech recognition service used through Python module \term{alex/components/asr/google.py}.
@@ -127,13 +128,13 @@ Since the user already speaks when the lattice is extracted, the processor time 
 Consequently, the \term{rec\_in} should decode the buffered audio faster in shorter time than the~user speaks.
 
 We noticed the problem for chains of noises detected in \ac{VAD} components as multiple short utterances.
-The (\term{rec\_in} method) was extracting hypothesis while the audio input was still buffering the noisy speech and want to call \term{rec\_in}.
-The~(\term{hyp\_out} method) was called so often that almost no decoding was performed.
+The \term{rec\_in} method was extracting hypothesis while the audio input was still buffering the noisy speech and want to call \term{rec\_in}.
+The~\term{hyp\_out} method was called so often that almost no decoding was performed.
 The problem was solved by improving \ac{VAD} so the~\term{hyp\_out} method is not triggered so often.
 
 \subsection{Building in-domain decoding graph}
 \label{sub:hclg}
-A decoding graph is a graph represented as an OpenFst object it stores all the \ac{LM} model information and part of information for acoustic modelling. 
+A decoding graph is a graph represented as an OpenFst object. It stores all the \ac{LM} model information and part of information for acoustic modelling. 
 The decoding graph is necessary for decoding with Kaldi decoders.
 We build the \term{HCLG} graph using standard OpenFst operations which are implemented in Kaldi utilities. 
 
@@ -148,15 +149,15 @@ The \term{HCLG} build script requires:
     \item Phonetic dictionary
 \end{itemize}
 
-As a results, the \term{HCLG} graph is built.
-In addition, the script copies files generated by \ac{AM} training which are required for decoding with \term{PyOnlineLatgenRecogniser}.
+% As a results, the \term{HCLG} graph is built.
+In addition to building \term{HCLG}, the script also copies necessary files for decoding from \ac{AM} and the \term{HCLG} graph to one directory.
 To sum up, following files are necessary for decoding with Kaldi decoders:
 \begin{itemize}
-    \item Decoding graph \term{HCLG} 
-    \item \acl{AM}
-    \item Matrix which defines feature transformations
-    \item Settings for speech parametrisation and feature transformations which match settings used for training the used \ac{AM}.
-    \item \ac{WST} --- mapping between integer labels
+    \item Decoding graph \term{HCLG},
+    \item \acl{AM},
+    \item a matrix which defines feature transformations,
+    \item a configuration file for speech parametrisation and feature transformations with the same settings as used for \ac{AM} training,
+    \item and a \acf{WST} --- a file containing mapping between integer labels.
 \end{itemize}
 
 We also developed evaluation scripts which simply compute the statistics of measures which are evaluated given \ac{AM}, \ac{LM} and parameters in~Section~\ref{sec:eval}.
