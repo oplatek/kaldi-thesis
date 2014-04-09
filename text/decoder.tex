@@ -82,11 +82,10 @@ Extracting one best word sequence is much faster and can be called at any time.
 
 \subsection{\term{OnlLatticeFasterDecoder}}
 \label{sub:dec}
-We did not implement any new functionality \term{OnlLatticeFasterDecoder}, but we only reorganised the code of base class \term{LatticeFasterDecoder}.
-We split the LatticeFasterDecoder::Decode method which performed several tasks into more methods.
+In the \term{OnlLatticeFasterDecoder} implementation we reorganised the code of base class \term{LatticeFasterDecoder}.
 The \term{LatticeFasterDecoder::Decode} function runs a~beam search from frame 0 to the end of each utterance.
 In addition, a pruning is triggered periodically in the function.
-In \term{OnlineLatgenRecogniser},  we control the beam search by the~following functions: 
+In \term{OnlineLatgenRecogniser},  we split the LatticeFasterDecoder::Decode method which performed several tasks into three methods in order to control beam search:
 \begin{itemize}
     \item \term{Decode} -- decoding a~fixed number of audio frames instead of decoding whole utterance, pruning is triggered periodically,
     \item \term{PruneFinal} -- run final pruning and so prepare the internal data structures for lattice extraction,
@@ -117,7 +116,7 @@ We mention the most important parameters which affect both speed and the \ac{ASR
 The parameters either increase speed and decrease \ac{ASR} output quality or vice versa.
 
 The \term{beam} and \term{max-active-states} parameters directly affect the speed of decoding. 
-The \term{beam} parameter affects the speed of all utterances, whereas the \term{max-active-states} parameter plays its role for utterances with uncertainty in beam search due to noises.
+The \term{beam} parameter affects the speed of all utterances, whereas the \term{max-active-states} parameter plays its role for noisy utterances with uncertainty in beam search.
 In fact, the \term{max-active-states} is a threshold for worst case scenarios.
 The \term{lattice-beam} influences speed of lattice extraction. 
 
