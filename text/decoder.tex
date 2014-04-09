@@ -160,10 +160,10 @@ Each step in~Figure~\ref{fig:online_pipeline} is implemented as a separate C++ c
 
 
 The on-line implementation \term{OnlDecodableDiagGmmScaled} of \term{DecodableInterface} easily handles missing audio data.
-If \term{OnlDecodableDiagGmmScaled} has no acoustic features precomputed, it asks the feature transformation to compute new features.
-If the feature transformation can not provide the features, so it returns default empty value. 
-The empty value signals to \term{OnlDecodableDiagGmmScaled} that no features are available at the moment. 
-Finally, \term{OnlDecodableDiagGmmScaled} produces also default empty value and the decoder's method \term{Decode(int max\_frames)} returns zero indicating that no frames were decoded.
+If the likelihood for new frame is requested and the \term{OnlDecodableDiagGmmScaled} cannot obtain new acoustic features it returns default empty value.
+Then, the decoder's method \term{Decode(int max\_frames)} returns zero indicating that no frames were decoded.
+Similarly, the speech parametrisation and feature transformations components returns their default empty value if they cannot compute its output.
+Consequently, \term{OnlineLatgenRecogniser} either decodes few frames or immediately returns zero indicating that no frames were decoded.
 
 We have not experimented speech parametrisation settings. 
 We used the recommended values, which are tested in tens of Kaldi recipes.

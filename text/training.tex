@@ -121,7 +121,7 @@ One branch of experiments finishes by training \ac{MFCC} $\Delta + \Delta\Delta$
 On the other hand, the second branch instead of $\Delta + \Delta\Delta$ transformation uses \ac{LDA}+\ac{MLLT} to train \ac{AM} (\term{tri2b}).
 Using the \ac{AM} \term{tri2b} three \acp{AM} are discriminatively trained using the~following objective functions:
 \begin{enumerate}
-    \item \acl{MMI}\cite{chow1990maximum}\footnote{Note the \ac{MMI} function is implemented as \acs{bMMI} with boosted parameter set to 0.}. The model \term{tri2b\_mmi}is trained in four loops.
+    \item \acl{MMI}\cite{chow1990maximum}\footnote{Note the \ac{MMI} function is implemented as \acs{bMMI} with boosted parameter set to 0.}. The model \term{tri2b\_mmi} is trained in four loops.
     \item \acl{bMMI}\cite{povey2008boosted}. The model \term{tri2b\_bmmi} is trained in four loops with parameter 0.05.
     \item \acl{MPE}\cite{povey2003mmi}. The model \term{tri2b\_mpe} is also retrained in four loops.
 \end{enumerate}
@@ -152,10 +152,9 @@ The models \term{tri2b\_mmi}, \term{tri2b\_bmmi} and \term{tri2b\_mpe} are train
 The discriminative models yield better results than generative models if enough data is available. 
 See Figure~\ref{fig:partials} for evidence.
 
-The discriminative models from last iterations may over-fit to the training data, so that they perform worse on test dataset than models from previous iterations. 
-Each iteration use a unigram \ac{LM} estimated on training dataset in order to compute their objective function.
-As a result, each iteration adapts more to the training data, but may yield worse performance on the test dataset.
-We used only for iterations for discriminative models training and fortunately, we have not experienced such behaviour.
+The discriminative models from may significantly over-fit to the training data.
+Discriminative training uses a unigram \ac{LM} estimated on training dataset in order to compute their objective function, each iteration adapts more to the training data.
+We used four iterations for discriminative models training, and we have not experienced such behaviour.
 
 \subsubsection*{Setup for feature transformations}
 We explored not only \ac{AM} training methods but also experimented with two feature transformation techniques.
