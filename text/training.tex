@@ -29,7 +29,7 @@ On the other hand, the Czech recordings were collected in three different ways\c
 \begin{enumerate}
     \item using a free Call Friend phone service
     \item using the Repeat After Me speech data collecting process,
-    \item from the~telephone interactions with the Alex \ac{SDS} in a public transport domain.
+    \item from the~telephone interactions with the Alex \ac{SDS} in a \ac{PTI} domain.
 \end{enumerate}
 
 In the~Call Friend service native Czech speakers were invited to make free calls.
@@ -38,10 +38,11 @@ sentences synthesized by a \ac{TTS}.
 
 The user language differs significantly in dialogues with Alex system and the other two settings.
 % Remember we focus on training \acp{AM} for \ac{SDS} Alex and its public transport domain.
-The sentences in Alex public transport domain, as seen in the first paragraph, are shorter and contain noises.
+The sentences in Alex's \ac{PTI} domain, as seen in the first paragraph, are shorter and contain noises.
 The speech is spontaneous and proper names are frequently used.
 On the other hand, the other two recording tasks, as seen in the second paragraph, have much broader vocabulary with less named entities, and the ideas are expressed in longer sentences.
 
+\ml{PTI samples}
 \begin{verbatim}
 A DALŠÍ
 _NOISE_
@@ -49,6 +50,7 @@ JO DĚKUJU MOC TO JSEM CHTĚL VĚDĚT
 ZE ZASTÁVKY DEJVICKÁ
 \end{verbatim}
 
+\ml{Call Friend samples}
 \begin{verbatim}
 PRYČ S TYRANY A ZRÁDCI VŠEMI
 UTRHNE SI KVĚT Z KYTICE A ODCHÁZÍ
@@ -87,12 +89,6 @@ Both Czech and English orthographic speech transcriptions were transcribed by hu
     transcriptions.\cite{korvas_2014}}
     \label{tab:audio}
 \end{table}
-
-
-% On contrary, in evaluation of \ac{ASR} in Alex described in~Chapter~\ref{cha:integration}
-% we use only transcribed utterances from Alex recordings, 
-% so we can measure accuracy of the speech recognition task in~the dialog system.
-
 
 
 \section{Acoustic modelling scripts}
@@ -152,6 +148,7 @@ The models \term{tri2b\_mmi}, \term{tri2b\_bmmi} and \term{tri2b\_mpe} are train
 The discriminative models yield better results than generative models if enough data is available. 
 See Figure~\ref{fig:partials} for evidence.
 
+\ml{over-fitting}
 The discriminative models from may significantly over-fit to the training data.
 Discriminative training uses a unigram \ac{LM} estimated on training dataset in order to compute their objective function, each iteration adapts more to the training data.
 We used four iterations for discriminative models training, and we have not experienced such behaviour.
@@ -174,8 +171,10 @@ We experiment with all trained \acp{AM} with both zerogram and bigram \ac{LM}.
 
 The default bigram and zerogram \acp{LM} for are built from orthographic transcriptions.
 The bigram \ac{LM} is estimated from the~training data transcriptions. 
+\ml{OOV}
 Consequently, in a test set appear unknown words, so called \acl{OOV}.
 The zerogram is extracted from a test set transcriptions.
+\ml{zerogram}
 The zerogram is a list of words with probabilities uniformly distributed, so it helps decoding just by limiting the vocabulary size.
 % In this work, we present results with fixed datasets as described in~Table~\ref{tab:audio}.
 The bigram \ac{LM} contains 17433 unigrams and 79333 bigrams for Czech and 936 unigrams and 5521 bigrams for English. 

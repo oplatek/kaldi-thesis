@@ -134,6 +134,7 @@ The problem was solved by improving \ac{VAD} so the~\term{hyp\_out} method is no
 
 \subsection{Building in-domain decoding graph}
 \label{sub:hclg}
+\ml{HCLG}
 A decoding graph is a graph represented as an OpenFst object. It stores all the \ac{LM} model information and part of information for acoustic modelling. 
 The decoding graph is necessary for decoding with Kaldi decoders.
 We build the \term{HCLG} graph using standard OpenFst operations which are implemented in Kaldi utilities. 
@@ -167,6 +168,7 @@ Both the evaluation scripts and build \term{HCLG} script are located in the~\ter
 \label{sec:ptilm}
 The~\term{OnlineLatgenRecogniser} is evaluated on a~corpus of audio data from the~\acf{PTI} domain.
 % The phone call audio data were collected from Alex's users, so the test data simulates the real setup perfectly.
+\ml{PTI domain}
 In PTI, users can interact in Czech language with a~telephone-based dialogue system to find public transport connections \cite{ptics2014url}.
 The~PTI corpus consist of approximately 12,000 user utterances with a length varying between 0.4 s and 18 s with median around 3 s.
 The~data were divided into training, development, and test data where the~corresponding data sizes are 9496, 1188, 1188 utterances respectively.
@@ -233,6 +235,7 @@ Note that 95 \% of utterances were decoded with the~latency lower that 200ms.}
 \end{figure*}
 
 Figure~\ref{fig:prc} shows the~percentile graphs of the~RTF and latency measures over the~test set.
+\ml{percentile}
 The~95th percentile is the~value of a~measure such that 95\% of the~data has the~measure below that value.
 One can see from Figure~\ref{fig:prc} that 95\% of test utterances is decoded with RTF under 0.6 and latency under 200 ms.
 The~extreme values for 5\% of test utterances are in most cases caused by decoding long noisy utterances where uncertainty in decoding increase the search space slows down the~recogniser.

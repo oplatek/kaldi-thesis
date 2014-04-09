@@ -2,11 +2,11 @@
 \chapter{Introduction}
 \label{cha:intro}
 
-A spoken dialog is the most intuitive way of~communication among people. 
-% Nowadays, the spoken dialog is becoming popular choice of~communication even for human-device interaction. 
-The quality of~a~dialog largely depends on the quality of~speech recognition because the~reasoning and the~answer is based on the recognised speech. 
+A spoken dialogue is the most intuitive way of~communication among people. 
+% Nowadays, the spoken dialogue is becoming popular choice of~communication even for human-device interaction. 
+The quality of~a~dialogue largely depends on the quality of~speech recognition because the~reasoning and the~answer is based on the recognised speech. 
 
-In this work, we build \acl{ASR} for a dialog system called Alex. 
+In this work, we build \acl{ASR} for a dialogue system called Alex. 
 We see the added value of this thesis in:
 \begin{itemize}
     \item a~new training scripts deployed with open acoustic data\cite{korvas_2014}, 
@@ -17,26 +17,26 @@ Training scripts, which use free publicly available data, evaluate the quality o
 We use Kaldi speech recognition toolkit\cite{povey2011kaldi} for acoustic modeling as well as for real-time recognition the textual representation from speech.
 The~newly developed speech recogniser is deployed in the dialogue system Alex available at a public toll-free line 800 899 998. 
 
-% The Alex dialog system is mostly domain and language independent.
-% Currently, we are testing the dialog system on a~public Czech phone call service
+% The Alex dialogue system is mostly domain and language independent.
+% Currently, we are testing the dialogue system on a~public Czech phone call service
 % \footnote{The phone line +420 800 899 998 is for free for Czech callers.}.
 % A caller can ask about weather and public transport information in the~Czech republic.
 
 \section{The problem} 
 \label{sec:problem}
 
-The \ac{ASR} in a dialog system closely interacts with a~\acl{SLU} unit.
+The \ac{ASR} in a dialogue system closely interacts with a~\acl{SLU} unit.
 The \ac{SLU} unit typically classifies the speech better if the speech recogniser outputs more than one hypothesis for one utterance. 
 A word lattice effectively represents multiple hypothesis, so it is convenient for passing the hypothesis between \ac{ASR} and \ac{SLU} unit.
 
-The Alex dialog system has used the \ac{HTK} toolkit\cite{young94htk} and OpenJulius\cite{lee2009julius} lattice speech recogniser in order to train acoustic models respectively to decode lattices in real time. 
+The Alex dialogue system has used the \ac{HTK} toolkit\cite{young94htk} and OpenJulius\cite{lee2009julius} lattice speech recogniser in order to train acoustic models respectively to decode lattices in real time. 
 Unfortunately, our project members were experiencing crashes of OpenJulius during extracting lattices.
 
 We were looking for another open source toolkit with a real-time speech recogniser because OpenJulius has a complicated source code and relatively slow development of both \ac{HTK} and OpenJulius
 
 We chose the~Kaldi toolkit because its speech recognisers can produce high-quality lattices.\cite{povey2012generating}
 In addition, the Kaldi toolkit deploys modern training recipes, is actively maintained and is distributed under the~permissive Apache 2.0 license\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
-On the other hand, the speech recognisers in Kaldi do not support interface convenient for a dialog system which can process audio stream incrementally.
+On the other hand, the speech recognisers in Kaldi do not support interface convenient for a dialogue system which can process audio stream incrementally.
 
 We developed the on-line interface suitable for a real-time use of a lattice recogniser, and we rewrote its feature preprocessing functionality to fit our interface.
 So far, the Kaldi developers focused on improving acoustic model training. 

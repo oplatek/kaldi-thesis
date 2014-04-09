@@ -31,6 +31,7 @@ Each executable loads the input from a file, processes a whole utterance and sav
 However, in real-time applications one would like to take advantage of the~fact that an acoustic signal of an utterance is recorded in small chunks and can be processed incrementally.
 
 We reimplemented speech parameterisation and feature transformations in order to fit on-line OnlineLatgenRecogniser's interface, which can process audio features incrementally.
+\ml{LatticeFasterDecoder}
 In addition, we subclassed \term{LatticeFasterDecoder} and reorganized its~original batch interface, so that it supports on-line decoding.
 Such implementation almost eliminates latency of a recogniser since almost all of~the decoding can be performed while the user is still speaking.
 
@@ -115,6 +116,7 @@ The decoding of \term{LatticeFasterDecoder} as well as lattice extraction can be
 We mention the most important parameters which affect both speed and the \ac{ASR} output quality. 
 The parameters either increase speed and decrease \ac{ASR} output quality or vice versa.
 
+\term{decoding parameters}
 The \term{beam} and \term{max-active-states} parameters directly affect the speed of decoding. 
 The \term{beam} parameter affects the speed of all utterances, whereas the \term{max-active-states} parameter plays its role for noisy utterances with uncertainty in beam search.
 In fact, the \term{max-active-states} is a threshold for worst case scenarios.
@@ -236,7 +238,7 @@ In order to obtain only the word lattice,  we discard the alignments.
 % alignment.
 % }
 
-
+\ml{CompactLattice}
 The steps of converting \term{CompactLattice} to word posterior lattice are listed below.
 For the~implementation details see Listing~\ref{snippets/compact2wordpost.cc}:
 \begin{itemize}
@@ -366,6 +368,7 @@ At the moment, we do not calibrate the word posterior probabilities in extracted
 
 We also developed a~Python extension, \term{PyOnlineLatgenRecogniser}, exporting the~\term{OnlineLatgenRecogniser} C++ interface to Python.
 It can be used as an example of bringing Kaldi's on-line speech recognition functionality to higher-level programming languages.
+\ml{PyFST}
 We extended also PyFST library\cite{pyfst2014url}, which interfaces OpenFST C++ template library into Python because we need to process further the OpenFST lattices produced by \term{PyOnlineLatgenRecogniser} in Python.
 Consequently, the recogniser as well as its input and output can be seamlessly used both from C++ and Python.
 % This Python extension is used in the~Alex Dialogue Systems Framework \cite{asdf2014url}.
