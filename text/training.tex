@@ -2,7 +2,7 @@
 \chapter{Acoustic model training}
 \label{cha:train}
 
-This chapter presents new Kaldi acoustic modeling scripts for free Czech and English "\term{Vystadial}" data.
+This chapter presents new Kaldi acoustic modelling scripts for free Czech and English "\term{Vystadial}" data.
 The scripts were developed as part of this thesis, they are licensed under the Apache 2.0 license and are publicly available in the~Kaldi repository\footnote{http://sourceforge.net/p/kaldi/code/HEAD/tree/sandbox/oplatek2/egs/vystadial/}.
 The \acf{AM} trained using these scripts can be used for both batch speech recognition with common Kaldi decoders and for our \term{OnlineLatgenRecognizer}, which performs on-line decoding described in Chapter~\ref{cha:decoder}.
 
@@ -198,7 +198,7 @@ The \term{gmm-latgen-faster} was used for evaluation in the scripts, so the Kald
 \label{sec:am_eval}
 
 The experiments focus on comparing the quality of ASR hypothesis measured by~\ac{WER} on \acp{AM} trained by different methods.
-We are not interested in absolute numbers since we model the language using a weak \ac{LM} focusing on the acoustic modeling.
+We are not interested in absolute numbers since we model the language using a weak \ac{LM} focusing on the acoustic modelling.
 By training only simple bigram \ac{LM} we let the \ac{AM} influence the recognition quality more significantly. 
 The same motivation lead us to use zerogram \ac{LM} which just limits vocabulary in the~decoding task, and does not advise the decoding search more probable phrases as higher order \ac{LM} does.
 Consequently, the best words are chosen among all hypotheses only by acoustic similarity.
@@ -212,7 +212,7 @@ Finally in Subsection~\ref{sec:compare}, the best Kaldi results are compared aga
 \begin{figure}[!htp]
     \begin{center}
     \includegraphics[scale=0.7]{images/partial-zerogram.ps}
-    \caption{Performance of Czech generative \acp{AM} based on training size for acoustic models. The zerogram LM results in a high WER value, but allows to evaluate only acoustic modelling.}
+    \caption{The figure displays improving performance of Czech generative \acp{AM} based on growing size of training data for acoustic modelling. The zerogram \acs{LM} allows to evaluate only acoustic modelling, but causes a high \acs{WER}. }
     \label{fig:partials} 
     \end{center}
 \end{figure}

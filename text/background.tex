@@ -7,7 +7,7 @@ Next sections describe specific speech recognition software implementations.
 The Kaldi toolkit is described in Section~\ref{sec:back_kaldi}, the \ac{HTK} toolkit in Section~\ref{sec:back_htk} and the Julius decoder in Section~\ref{sec:back_julius}.
 
 The statistical methods for continuous speech recognition were established more than 30 years ago. 
-The most popular statistical methods are based on acoustic modeling using \acp{HMM} and n-grams \acp{LM}, which are also used in Kaldi, the toolkit of our choice.
+The most popular statistical methods are based on acoustic modelling using \acp{HMM} and n-grams \acp{LM}, which are also used in Kaldi, the toolkit of our choice.
 We introduce principles of speech recognition and present techniques which are used in Kaldi. 
 
 \begin{figure}[!htp]
@@ -34,8 +34,8 @@ The best word sequence $w^*$ does not depend on probability of the acoustic feat
     \end{split}
 \end{equation}
 
-The task of acoustic modeling is to estimate the parameters $\theta$ of a model so the probability $P(a \mid w ; \theta)$ is as accurate as possible.\footnote{Acoustic modelling is described in Section~\ref{sub:am}.} 
-Similarly, the \ac{LM} represents the probability $P(w)$. \footnote{We describe language modeling in Section~\ref{sub:lm}.}
+The task of acoustic modelling is to estimate the parameters $\theta$ of a model so the probability $P(a \mid w ; \theta)$ is as accurate as possible.\footnote{Acoustic modelling is described in Section~\ref{sub:am}.} 
+Similarly, the \ac{LM} represents the probability $P(w)$. \footnote{We describe language modelling in Section~\ref{sub:lm}.}
 
 \ml{frames}
 The Figure~\ref{fig:components} illustrate the process of decoding the most probable word hypotheses $w^*$ for given speech utterance. 
@@ -166,17 +166,17 @@ The combination \ac{LDA} and \ac{MLLT} performs very similar feature transformat
 % Fixed number of consecutive samples forms a window. The~windows are usually overlapping.
 % The~acoustic features are computed for each of the overlapping window. 
 
-\subsection{Acoustic modeling}
+\subsection{Acoustic modelling}
 \label{sub:am}
-Acoustic modeling is arguably the heart of speech recognition.
+Acoustic modelling is arguably the heart of speech recognition.
 The \ac{AM} estimates the probability $P(a|w; \theta)$ of generating acoustic features $a$ for given words $w$ and thus directly affects speech recognition quality as seen in~Equation~\ref{eq:best_fix}.
 
-Acoustic modeling has only partial information available for training \ac{AM} parameters $\theta$ because the corresponding textual transcription is time-unaligned.
+Acoustic modelling has only partial information available for training \ac{AM} parameters $\theta$ because the corresponding textual transcription is time-unaligned.
 The hidden information of the word (time) alignment in a utterance makes acoustic model training more challenging.
-Modern speech recognition toolkits use \acl{HMM} for modeling uncertainty between acoustic features and the~corresponding transcription. 
+Modern speech recognition toolkits use \acl{HMM} for modelling uncertainty between acoustic features and the~corresponding transcription. 
 
 \subsubsection*{Choice of training units}
-The most successful acoustic modeling methods do not estimate the $P(a|w)$ directly, but estimate probability $P(a|f_1f_2f_3f_4)$ of generating acoustic features $a$ for phones $w=f_1f_2f_3f_4$ which forms the pronunciation of the word $w$. Moreover, the triphones are used even more successfully for estimating probability of acoustic features give word pronunciation.
+The most successful acoustic modelling methods do not estimate the $P(a|w)$ directly, but estimate probability $P(a|f_1f_2f_3f_4)$ of generating acoustic features $a$ for phones $w=f_1f_2f_3f_4$ which forms the pronunciation of the word $w$. Moreover, the triphones are used even more successfully for estimating probability of acoustic features give word pronunciation.
 
 \ml{phone}
 Phone is the smallest contrastive unit of speech. 
@@ -385,7 +385,7 @@ Following objective functions and accordingly named discriminative training meth
 \end{itemize}
 For details how the methods are initialized and its usage in Kaldi see Chapter~\ref{cha:train}.
 
-\subsection{Language modeling}
+\subsection{Language modelling}
 \label{sub:lm}
 
 A \acl{LM} effectively reduces and more importantly prioritise the \ac{AM} hypothesis.
@@ -696,7 +696,7 @@ In addition, the crashes were hard to detect because Julius used to run in a~sep
 \section{Kaldi}
 \label{sec:back_kaldi}
 
-Kaldi is a~speech recognition toolkit consisting of a~library, command line programs and scripts for acoustic modeling.
+Kaldi is a~speech recognition toolkit consisting of a~library, command line programs and scripts for acoustic modelling.
 Kaldi deploys several decoders for evaluation Kaldi \acp{AM}.
 Kaldi uses Viterbi training for estimating \acp{AM}. 
 Only in special cases of speaker adaptive discriminative training the extended Baum-Welsch algorithm is also used\cite{povey2011kaldi}.
@@ -751,14 +751,14 @@ There are usually many alternatives for every speech recognition tasks as seen i
 In addition, Kaldi provides very useful standardized scripts which wrap Kaldi executables or add new functionality. 
 The scripts are located in \term{utils} and \term{steps} directories and are used in many training scripts recipes for different corpus data.
 In this thesis we created a~new training recipe using the~Kaldi infrastructure and Czech and English training corpus \cite{korvas_2014}.
-The recipe, the data and acoustic modeling scripts are described in~Chapter~\ref{cha:train}.
+The recipe, the data and acoustic modelling scripts are described in~Chapter~\ref{cha:train}.
 
 \subsection{Finite State Transducers} 
 \label{sec:fst}
 The \acl{FST} framework and its implementation OpenFST determines the shape of the Kaldi data structures.
 Kaldi uses \ac{FST} as underlaying representation for \ac{LM}, partially for \ac{AM}, lexicon and also for representing transformation between text, pronunciation and triphones.
 
-The \ac{FST} framework provides well studied graph operations\cite{mohri2002weighted} which can be effectively used for acoustic modeling.
+The \ac{FST} framework provides well studied graph operations\cite{mohri2002weighted} which can be effectively used for acoustic modelling.
 Using the \ac{FST} framework the speech decoding task is expressed as a beam search in a graph, which is well studied problem.
 % The OpenFST library implements memory efficient representation of \ac{FST} and provides standardized efficient operations.
 % As stated in \cite{mohri2002weighted} and \cite{povey2011kaldi} the operations can be effectively used for speech decoding. 
