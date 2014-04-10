@@ -1,43 +1,43 @@
 % !TEX root = main.tex
 \chapter{Real time recogniser}
 \label{cha:decoder}
-This chapter presents the \term{OnlineLatgenRecogniser}, the new on-line Kaldi recogniser which can be used in real-time applications.
+This chapter presents the~\term{OnlineLatgenRecogniser}, the~new on-line Kaldi recogniser which can be used in real-time applications.
 Section~\ref{sec:rec} describes the~implementation of the~\term{OnlineLatgenRecogniser}.
-Next Section~\ref{sec:pyext} introduces \term{PyOnlineLatgenRecogniser}, a Python extension of C++ \term{OnlineLatgenRecogniser}.
-Finally, Section~\ref{sec:dec_sum} summarizes properties of the new implemented Kaldi recogniser.
+Next Section~\ref{sec:pyext} introduces \term{PyOnlineLatgenRecogniser}, a~Python extension of C++ \term{OnlineLatgenRecogniser}.
+Finally, Section~\ref{sec:dec_sum} summarizes properties of the~new implemented Kaldi recogniser.
 
 We implemented a~lightweight modification of the~\term{LatticeFasterDecoder} from the~Kaldi toolkit, improved on-line speech parametrisation and feature processing in order to create an \term{OnlineLatgenRecogniser}.
-The Kaldi \term{OnlineLatgenRecogniser} implements on-line interface which allows incremental speech processing, and it is able to process the incoming speech in small chunks incrementally.
-As a result, the real-time speech decoding can be performed while a user is speaking and the ASR output is obtained with a minimal latency.
+The~Kaldi \term{OnlineLatgenRecogniser} implements on-line interface which allows incremental speech processing, and it is able to process the~incoming speech in small chunks incrementally.
+As a~result, the~real-time speech decoding can be performed while a~user is speaking and the~ASR output is obtained with a~minimal latency.
 % The~Kaldi toolkit as well as the~on-line recogniser is distributed under the~Apache 2.0 license\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
 
-The implementation of the recogniser was motivated by the~lack of an on-line recognition support in Kaldi toolkit.
-Therefore, the toolkit decoders could not be used in applications such as spoken dialogue systems.
-Although Kaldi included an on-line recognition application; hard-wired timeout exceptions, audio source fixed to a~sound card, and a specialised 1-best decoder limit its use only to demonstration of Kaldi recognition capabilities.
+The~implementation of the~recogniser was motivated by the~lack of an on-line recognition support in Kaldi toolkit.
+Therefore, the~toolkit decoders could not be used in applications such as spoken dialogue systems.
+Although Kaldi included an on-line recognition application; hard-wired timeout exceptions, audio source fixed to a~sound card, and a~specialised 1-best decoder limit its use only to demonstration of Kaldi recognition capabilities.
 
 Our on-line recogniser uses acoustic models trained using the~state-of-the-art techniques, 
 such as Linear Discriminant Analysis (LDA), Maximum Likelihood Linear Transform (MLLT), Boosted Maximum Mutual Information (BMMI) and Minimum Phone Error (MPE).
 It produces word posterior lattices which can be easily converted into high quality n-best lists.
 
 The~recogniser's speed and latency can be effectively controlled off-line by optimising a~language model. 
-At runtime the speed of decoding is controlled by a~beam threshold.
-The latency depends on the amount of time spent on word posterior lattice extraction from the recogniser, which can be regulated by a level of approximations used during the~word lattice creation.
+At runtime the~speed of decoding is controlled by a~beam threshold.
+The~latency depends on the~amount of time spent on word posterior lattice extraction from the~recogniser, which can be regulated by a~level of approximations used during the~word lattice creation.
 
 \section{OnlineLatgenRecogniser}
 \label{sec:rec}
 
 The~standard Kaldi executables which implements speech parametrisation, feature transformations and decoder are using a~batch file interface.
-Each executable loads the input from a file, processes a whole utterance and saves its output to another file.
+Each executable loads the~input from a~file, processes a~whole utterance and saves its output to another file.
 However, in real-time applications one would like to take advantage of the~fact that an acoustic signal of an utterance is recorded in small chunks and can be processed incrementally.
 
 We reimplemented speech parameterisation and feature transformations in order to fit on-line OnlineLatgenRecogniser's interface, which can process audio features incrementally.
 \ml{LatticeFasterDecoder}
 In addition, we subclassed \term{LatticeFasterDecoder} and reorganized its~original batch interface, so that it supports on-line decoding.
-Such implementation almost eliminates latency of a recogniser since almost all of~the decoding can be performed while the user is still speaking.
+Such implementation almost eliminates latency of a~recogniser since almost all of~the~decoding can be performed while the~user is still speaking.
 
-First, we present the public on-line interface of \term{OnlineLatgenRecogniser} and in next subsections we introduce its components.
-The Subsection~\ref{sub:dec} describes the decoder, the core component.
-Subsection~\ref{sub:preprocess} introduces on-line speech parametrisation and feature transformations and the Subsection~\ref{sub:postprocess} discusses word posterior lattice extraction.
+First, we present the~public on-line interface of \term{OnlineLatgenRecogniser} and in next subsections we introduce its components.
+The~Subsection~\ref{sub:dec} describes the~decoder, the~core component.
+Subsection~\ref{sub:preprocess} introduces on-line speech parametrisation and feature transformations and the~Subsection~\ref{sub:postprocess} discusses word posterior lattice extraction.
 
 \subsection{\term{OnlineLatgenRecogniser} interface}
 \label{sub:verb_c_}
@@ -46,61 +46,61 @@ The~\term{OnlineLatgenRecogniser} makes use of the~incremental speech pre-proces
 \item \term{AudioIn} -- queueing new audio for pre-processing,
 \item \term{Decode} -- decoding a~fixed number of audio frames,
 \item \term{PruneFinal} -- preparing internal data structures for lattice extraction,
-\item \term{GetLattice} -- extracting a word posterior lattice and returning log likelihood of processed audio,
-\item \term{GetBestPath} -- extracting a one best word sequence,
+\item \term{GetLattice} -- extracting a~word posterior lattice and returning log likelihood of processed audio,
+\item \term{GetBestPath} -- extracting a~one best word sequence,
 \item \term{Reset} -- preparing the~recogniser for a~new utterance,
 \end{itemize}
 
-The interface is influenced by the decoder interface and the preprocessing of the utterance is completely hidden for the user of \term{OnlineLatgenRecogniser}.
-The \term{AudioIn} is the only method which is not related to the decoder functionality. 
+The~interface is influenced by the~decoder interface and the~preprocessing of the~utterance is completely hidden for the~user of \term{OnlineLatgenRecogniser}.
+The~\term{AudioIn} is the~only method which is not related to the~decoder functionality. 
 
-The~\verb!C++! example in Listing~\ref{snippets/rec_usage.cc} shows a typical use of \term{OnlineLatgenRecogniser}.
+The~\verb!C++! example in Listing~\ref{snippets/rec_usage.cc} shows a~typical use of \term{OnlineLatgenRecogniser}.
 When audio data becomes available, it is queued into the~recogniser's buffer (line 11) and immediately decoded (lines 12-14).
 If the~audio data is supplied in sufficiently small chunks, the~decoding of queued data is finished before new data arrives.
-When the recognition is finished, the~recogniser prepares for lattice extraction (line 16).
+When the~recognition is finished, the~recogniser prepares for lattice extraction (line 16).
 Line 20 shows how to obtain word posterior lattice as an OpenFST object.
 The~auxiliary \term{getAudio()} function represents a~separate process supplying speech data.
-Please note that the~recogniser's latency is mainly determined by the~time spent in the~\term{GetLattice} function since the whole loop is processed while the user is speaking.
+Please note that the~recogniser's latency is mainly determined by the~time spent in the~\term{GetLattice} function since the~whole loop is processed while the~user is speaking.
 
 \code{Example of the~decoder usage}{C}{snippets/rec_usage.cc}
 
-We designed the interface with following criteria in mind:
+We designed the~interface with following criteria in mind:
 \begin{itemize}
-    \item Passing the audio in the recogniser should accept any size of audio input.
-    \item Decoding should return a~number of actually decoded frames. The recogniser may decode less frames than requested if not enough audio is available.
-    \item Decoding should be called frequently on small chunks, which guaranties quick response times of the \term{Decode} method.
+    \item Passing the~audio in the~recogniser should accept any size of audio input.
+    \item Decoding should return a~number of actually decoded frames. The~recogniser may decode less frames than requested if not enough audio is available.
+    \item Decoding should be called frequently on small chunks, which guaranties quick response times of the~\term{Decode} method.
 \end{itemize}
 
 Consequently, \term{OnlineLatgenRecogniser} does not block a~process to either load audio or decode an utterance.
-The loading of audio and the decoding can be easily alternated back and forth.
-Obviously, the decoding of single utterance can be separated into number of parts and other tasks can be run in a~single process with speech recognition in order to allow an application to stay responsive.
-We are able to decode the utterance while the user speaks.
+The~loading of audio and the~decoding can be easily alternated back and forth.
+Obviously, the~decoding of single utterance can be separated into number of parts and other tasks can be run in a~single process with speech recognition in order to allow an application to stay responsive.
+We are able to decode the~utterance while the~user speaks.
 
-On the other hand, extracting the word posterior lattice may block the process since it is very computationally demanding.
+On the~other hand, extracting the~word posterior lattice may block the~process since it is very computationally demanding.
 It lasts several tens of milliseconds. 
-However, it is called only at the end of each utterance.
+However, it is called only at the~end of each utterance.
 Extracting one best word sequence is much faster and can be called at any time.
 
 \subsection{\term{OnlLatticeFasterDecoder}}
 \label{sub:dec}
-In the \term{OnlLatticeFasterDecoder} implementation we reorganised the code of base class \term{LatticeFasterDecoder}.
-The \term{LatticeFasterDecoder::Decode} function runs a~beam search from frame 0 to the end of each utterance.
-In addition, a pruning is triggered periodically in the function.
-In \term{OnlineLatgenRecogniser},  we split the LatticeFasterDecoder::Decode method which performed several tasks into three methods in order to control beam search:
+In the~\term{OnlLatticeFasterDecoder} implementation we reorganised the~code of base class \term{LatticeFasterDecoder}.
+The~\term{LatticeFasterDecoder::Decode} function runs a~beam search from frame 0 to the~end of each utterance.
+In addition, a~pruning is triggered periodically in the~function.
+In \term{OnlineLatgenRecogniser},  we split the~LatticeFasterDecoder::Decode method which performed several tasks into three methods in order to control beam search:
 \begin{itemize}
     \item \term{Decode} -- decoding a~fixed number of audio frames instead of decoding whole utterance, pruning is triggered periodically,
-    \item \term{PruneFinal} -- run final pruning and so prepare the internal data structures for lattice extraction,
+    \item \term{PruneFinal} -- run final pruning and so prepare the~internal data structures for lattice extraction,
     \item \term{Reset} -- preparing the~recogniser for a~new utterance.
 \end{itemize}
 
-In the \term{PruneFinal} function, which is called at the end of an utterance, the states are pruned by beam search with the knowledge that no further search will be performed, so more states can be safely discarded.
+In the~\term{PruneFinal} function, which is called at the~end of an utterance, the~states are pruned by beam search with the~knowledge that no further search will be performed, so more states can be safely discarded.
 
-The decoding is performed on request by calling the \term{Decode} method with a~parameter (int max\_frames) which limits the number of decoded frames.
-It returns the number of frames which were actually decoded, which is always smaller or equal to \term{max\_frames} value.
-The \term{OnlLatticeFasterDecoder::Decode} method performs decoding frame by frame using the Viterbi beam search.
-The speed of the Viterbi search is highly predictable for fixed settings of the recogniser. 
-As a result, the \term{max\_frames} parameter effectively limits the amount of time in the \term{Decode} method.
-Repeated calls of \term{Decode} with small values of \term{max\_frames} keep the recognition responsive as implemented in Listing~\ref{snippets/rec_usage.cc}. 
+The~decoding is performed on request by calling the~\term{Decode} method with a~parameter (int max\_frames) which limits the~number of decoded frames.
+It returns the~number of frames which were actually decoded, which is always smaller or equal to \term{max\_frames} value.
+The~\term{OnlLatticeFasterDecoder::Decode} method performs decoding frame by frame using the~Viterbi beam search.
+The~speed of the~Viterbi search is highly predictable for fixed settings of the~recogniser. 
+As a~result, the~\term{max\_frames} parameter effectively limits the~amount of time in the~\term{Decode} method.
+Repeated calls of \term{Decode} with small values of \term{max\_frames} keep the~recognition responsive as implemented in Listing~\ref{snippets/rec_usage.cc}. 
 
 The~\ac{ASR} output is extracted by the~original methods of \term{LatticeFasterDecoder}:
 \begin{itemize}
@@ -109,43 +109,43 @@ The~\ac{ASR} output is extracted by the~original methods of \term{LatticeFasterD
     \item \term{GetBestPath} returns just one-best path hypothesis.
 \end{itemize}
 
-The state-level lattice, which is returned from the \term{GetRawLattice} method, can be understood as lattice on triphone level.
-In the state-level lattice, a~single word hypothesis is typically can be obtained from multiple state-level hypotheses due to different word alignments, i.e., the same words sequences were pronounced with different timing.
+The~state-level lattice, which is returned from the~\term{GetRawLattice} method, can be understood as lattice on triphone level.
+In the~state-level lattice, a~single word hypothesis is typically can be obtained from multiple state-level hypotheses due to different word alignments, i.e., the~same words sequences were pronounced with different timing.
 
-The decoding of \term{LatticeFasterDecoder} as well as lattice extraction can be controlled by several parameters.
-We mention the most important parameters which affect both speed and the \ac{ASR} output quality. 
-The parameters either increase speed and decrease \ac{ASR} output quality or vice versa.
+The~decoding of \term{LatticeFasterDecoder} as well as lattice extraction can be controlled by several parameters.
+We mention the~most important parameters which affect both speed and the~\ac{ASR} output quality. 
+The~parameters either increase speed and decrease \ac{ASR} output quality or vice versa.
 
 \term{decoding parameters}
-The \term{beam} and \term{max-active-states} parameters directly affect the speed of decoding. 
-The \term{beam} parameter affects the speed of all utterances, whereas the \term{max-active-states} parameter plays its role for noisy utterances with uncertainty in beam search.
-In fact, the \term{max-active-states} is a threshold for worst case scenarios.
-The \term{lattice-beam} influences speed of lattice extraction. 
+The~\term{beam} and \term{max-active-states} parameters directly affect the~speed of decoding. 
+The~\term{beam} parameter affects the~speed of all utterances, whereas the~\term{max-active-states} parameter plays its role for noisy utterances with uncertainty in beam search.
+In fact, the~\term{max-active-states} is a~threshold for worst case scenarios.
+The~\term{lattice-beam} influences speed of lattice extraction. 
 
-The properties of the parameters and its relationship to \ac{ASR} output quality is described in detail in~Section~\ref{sec:eval} where we evaluate the recogniser. 
+The~properties of the~parameters and its relationship to \ac{ASR} output quality is described in detail in~Section~\ref{sec:eval} where we evaluate the~recogniser. 
 
 \subsection{On-line feature pre-processing} 
 \label{sub:preprocess}
 This section describes audio signal buffering, \ac{MFCC} feature extraction and feature transformation. 
-The resulting acoustic features are then used with an \ac{AM} in \term{OnlLatticeFasterDecoder} to obtain likelihood of each state explored by Viterbi search.
-\term{OnlineLatgenRecogniser} only uses the likelihood to run Viterbi search.
-The likelihood itself is extracted from \ac{AM} based on the acoustic features by \term{DecodableInterface}. 
+The~resulting acoustic features are then used with an \ac{AM} in \term{OnlLatticeFasterDecoder} to obtain likelihood of each state explored by Viterbi search.
+\term{OnlineLatgenRecogniser} only uses the~likelihood to run Viterbi search.
+The~likelihood itself is extracted from \ac{AM} based on the~acoustic features by \term{DecodableInterface}. 
 
-When a decoder is asked to perform decoding it needs to estimate likelihood for the states which should be explored, and so it requests the \term{DecodableInterface}.
-We implemented on-line version of \term{DecodableInterface} which let the decoder ask for likelihoods of new acoustic features frame by frame.
-The decoder, the pre-processing pipeline and the data flow between the components are illustrated in Figure~\ref{fig:online_pipeline}.
+When a~decoder is asked to perform decoding it needs to estimate likelihood for the~states which should be explored, and so it requests the~\term{DecodableInterface}.
+We implemented on-line version of \term{DecodableInterface} which let the~decoder ask for likelihoods of new acoustic features frame by frame.
+The~decoder, the~pre-processing pipeline and the~data flow between the~components are illustrated in Figure~\ref{fig:online_pipeline}.
 We briefly describe one step of Viterbi search:
 \begin{itemize}
-    \item Audio is extracted from a buffer. 
-    \item The \ac{MFCC} features are computed on overlapping audio window. The new audio is used for shifting the audio window.
+    \item Audio is extracted from a~buffer. 
+    \item The~\ac{MFCC} features are computed on overlapping audio window. The~new audio is used for shifting the~audio window.
     \item Applying feature transformation on top of \ac{MFCC} features. 
         \begin{itemize}
-            \item $\Delta + \Delta\Delta$ requires at least two previous frames, if available the acoustic features $a$ are returned. 
-            \item The $LDA+MLLT$ is computed using context, which by default is set to four previous and four future frames. If context is available, the acoustic features $a$ are returned.
+            \item $\Delta + \Delta\Delta$ requires at least two previous frames, if available the~acoustic features $a$ are returned. 
+            \item The~$LDA+MLLT$ is computed using context, which by default is set to four previous and four future frames. If context is available, the~acoustic features $a$ are returned.
         \end{itemize}
-        Note, that the $LDA+MLLT$ and the $\Delta+\Delta\Delta$ transformations are complementary.
-    \item The \term{OnlDecodableDiagGmmScaled} queries the \ac{AM} for the likelihood of acoustic features and given state.
-    \item The decoder itself performs the search in state level space having the probabilities from the \term{Decodable} interface. 
+        Note, that the~$LDA+MLLT$ and the~$\Delta+\Delta\Delta$ transformations are complementary.
+    \item The~\term{OnlDecodableDiagGmmScaled} queries the~\ac{AM} for the~likelihood of acoustic features and given state.
+    \item The~decoder itself performs the~search in state level space having the~probabilities from the~\term{Decodable} interface. 
 \end{itemize}
 
 \begin{figure}[!htp]
@@ -156,40 +156,40 @@ We briefly describe one step of Viterbi search:
     \end{center}
 \end{figure}
 
-Each step in~Figure~\ref{fig:online_pipeline} is implemented as a separate C++ class.
+Each step in~Figure~\ref{fig:online_pipeline} is implemented as a~separate C++ class.
 \term{OnlineLatticeRecogniser} instantiate each class during the~setup.
-% The pre-processing classes are aggregated together.
+% The~pre-processing classes are aggregated together.
 
 
-The on-line implementation \term{OnlDecodableDiagGmmScaled} of \term{DecodableInterface} easily handles missing audio data.
-If the likelihood for new frame is requested and the \term{OnlDecodableDiagGmmScaled} cannot obtain new acoustic features it returns default empty value.
-Then, the decoder's method \term{Decode(int max\_frames)} returns zero indicating that no frames were decoded.
-Similarly, the speech parametrisation and feature transformations components returns their default empty value if they cannot compute its output.
+The~on-line implementation \term{OnlDecodableDiagGmmScaled} of \term{DecodableInterface} easily handles missing audio data.
+If the~likelihood for new frame is requested and the~\term{OnlDecodableDiagGmmScaled} cannot obtain new acoustic features it returns default empty value.
+Then, the~decoder's method \term{Decode(int max\_frames)} returns zero indicating that no frames were decoded.
+Similarly, the~speech parametrisation and feature transformations components returns their default empty value if they cannot compute its output.
 Consequently, \term{OnlineLatgenRecogniser} either decodes few frames or immediately returns zero indicating that no frames were decoded.
 
 We have not experimented speech parametrisation settings. 
-We used the recommended values, which are tested in tens of Kaldi recipes.
-The list the most important parameters:
+We used the~recommended values, which are tested in tens of Kaldi recipes.
+The~list the~most important parameters:
 \begin{itemize}
-    \item The frame width (set to 25 ms), 
-    \item the frame shift (set to 10 ms), 
-    \item and the frame splicing used for \ac{LDA}+\ac{MLLT} (nine frames are spliced).
+    \item The~frame width (set to 25 ms), 
+    \item the~frame shift (set to 10 ms), 
+    \item and the~frame splicing used for \ac{LDA}+\ac{MLLT} (nine frames are spliced).
 \end{itemize}
 
-% We did not implement the classes \term{OnlDeltaInput, OnlLdaInput, OnlFeInput} and \term{OnlFeatureMatrix}
-% from scratch. We started the work with Mathias Pawlik implementation and we implemented few buffering details
-% in the classes, but mainly we removed the built in timeouts and changed the interface.
+% We did not implement the~classes \term{OnlDeltaInput, OnlLdaInput, OnlFeInput} and \term{OnlFeatureMatrix}
+% from scratch. We started the~work with Mathias Pawlik implementation and we implemented few buffering details
+% in the~classes, but mainly we removed the~built in timeouts and changed the~interface.
 % In addition, we suggest that a~higher program logic e.g.\ timeouts should not be embedded into speech recogniser.
 % It slows the~decoding and it limits the~usage of such decoder.
-% Note that we also added the \term{OnlBuffSource} class, which just allows buffer the raw \ac{PCM} audio.
+% Note that we also added the~\term{OnlBuffSource} class, which just allows buffer the~raw \ac{PCM} audio.
 
 
-% We implemented the new interface by inheriting the \term{OnlLatticeFasterDecoder} from \term{LatticeFasterDecoder} 
-% and splitting the original \term{bool Decode(DecodableInterface *d)} function 
+% We implemented the~new interface by inheriting the~\term{OnlLatticeFasterDecoder} from \term{LatticeFasterDecoder} 
+% and splitting the~original \term{bool Decode(DecodableInterface *d)} function 
 % into three simpler public functions.
 % \begin{itemize}
 %     \item \term{size\_t Decode(DecodableInterface *d, size\_t max\_frames)} 
-%         Decodes using the function calls:
+%         Decodes using the~function calls:
 %         \begin{itemize}
 %             \item \term{ProcessEmitting(decodbale, frame\_)} process non $\epsilon$ arcs.
 %             \item \term{ProcessNonemitting(frame\_)} process $\epsilon$ arcs.
@@ -197,118 +197,118 @@ The list the most important parameters:
 %         \end{itemize}
 % 
 %     \item \term{void PruneFinal()} calls \term{PruneActiveTokensFinal(frame\_- 1)}, which starts
-%         with probability of the final tokens and go backwards pruning the tokens.
-%     \item \term{void Reset()} empties the data structures and turns the decoder into
+%         with probability of the~final tokens and go backwards pruning the~tokens.
+%     \item \term{void Reset()} empties the~data structures and turns the~decoder into
 %         initial state.
 % \end{itemize}
 
 % \subsection*{Online interface use case}
-% The \term{OnlLatticeFasterDecoder} performs forward decoding using 
+% The~\term{OnlLatticeFasterDecoder} performs forward decoding using 
 % the~\term{Decode(DecodableInterface *, size\_t max\_frames)}.
-% The function \term{PruneFinal} performs the final pruning and prepares the active tokens from beam,
-% to be transformed to state level lattice using the backward decoding.
-% We use the \term{GetLattice(fst::MutableFst<CompactLatticeArc> *ofst)} function,
-% because the \term{CompactLattice} it efficiently performs 
+% The~function \term{PruneFinal} performs the~final pruning and prepares the~active tokens from beam,
+% to be transformed to state level lattice using the~backward decoding.
+% We use the~\term{GetLattice(fst::MutableFst<CompactLatticeArc> *ofst)} function,
+% because the~\term{CompactLattice} it efficiently performs 
 % state level lattice determinisation.\cite{povey2012generating}.
 % 
-% The \term{Reset()} function may be useful, if there is too many unprocessed frames,
-% so we want to discard all the buffered audio. It is typically the case,
+% The~\term{Reset()} function may be useful, if there is too many unprocessed frames,
+% so we want to discard all the~buffered audio. It is typically the~case,
 % when we did not have enough CPU resources and new user input appears and we want to process
-% the latest audio input. If a \acl{SDS} has to choose which audio chunk to process, typically the last audio
-% chunk is the most important for a conversation and the previous chunks are simply discarded.
+% the~latest audio input. If a~\acl{SDS} has to choose which audio chunk to process, typically the~last audio
+% chunk is the~most important for a~conversation and the~previous chunks are simply discarded.
 
-\subsection{Post-processing the lattice}
+\subsection{Post-processing the~lattice}
 \label{sub:postprocess}
-The \term{OnlineLatgenRecogniser} not only extracts word lattice using \term{OnlLatticeFasterDecoder::GetLattice} function, but also computes posterior probabilities for the word lattice.
-The \term{OnlLatticeFasterDecoder} returns word lattice with alignments in form of \term{CompactLattice}.
-The \term{CompactLattice} determinised at state level still may contain multiple paths for each word sequence encoded in the lattice.
-The \term{CompactLattice} distinguishes each path not only according to the~word labels on the path, but also according to the alignments.
-In order to obtain only the word lattice,  we discard the alignments. 
+The~\term{OnlineLatgenRecogniser} not only extracts word lattice using \term{OnlLatticeFasterDecoder::GetLattice} function, but also computes posterior probabilities for the~word lattice.
+The~\term{OnlLatticeFasterDecoder} returns word lattice with alignments in form of \term{CompactLattice}.
+The~\term{CompactLattice} determinised at state level still may contain multiple paths for each word sequence encoded in the~lattice.
+The~\term{CompactLattice} distinguishes each path not only according to the~word labels on the~path, but also according to the~alignments.
+In order to obtain only the~word lattice,  we discard the~alignments. 
 
 % \todo{
 % In fact, typically there is number of state level alternatives for each word sequence.
-% We need to realize that the phones are not represented individually at the state level and we does not concatenate the phone labels on path in order to obtain words and sentences.
-% The words label is located on the first arc of the word \ac{HMM}. 
-% The rest of the arcs in the graph are $\epsilon$ transition.
+% We need to realize that the~phones are not represented individually at the~state level and we does not concatenate the~phone labels on path in order to obtain words and sentences.
+% The~words label is located on the~first arc of the~word \ac{HMM}. 
+% The~rest of the~arcs in the~graph are $\epsilon$ transition.
 %
 % \ml{alignment}
-% Note that \ac{HMM} states are time synchronous, so traversing one arc represent a fixed time slot.
-% The time slot corresponds to frame shift as introduced in~Subsection~\ref{sub:param}.
-% The mapping between each word and the number of arcs from beginning of the utterance is called
+% Note that \ac{HMM} states are time synchronous, so traversing one arc represent a~fixed time slot.
+% The~time slot corresponds to frame shift as introduced in~Subsection~\ref{sub:param}.
+% The~mapping between each word and the~number of arcs from beginning of the~utterance is called
 % alignment.
 % }
 
 \ml{CompactLattice}
-The steps of converting \term{CompactLattice} to word posterior lattice are listed below.
+The~steps of converting \term{CompactLattice} to word posterior lattice are listed below.
 For the~implementation details see Listing~\ref{snippets/compact2wordpost.cc}:
 \begin{itemize}
     \item Joining multiple word sequences which differer in word alignments is performed in two steps:
     \begin{itemize}
-        \item Discarding the alignments from \term{CompactLattice}.
-        \item Converting the lattice to its minimal lattice representation with no alternatives for one word hypothesis. 
+        \item Discarding the~alignments from \term{CompactLattice}.
+        \item Converting the~lattice to its minimal lattice representation with no alternatives for one word hypothesis. 
     \end{itemize}
-    \item The computing of the posterior probabilities through a~standard forward-backward algorithm, which is implemented in two steps:
+    \item The~computing of the~posterior probabilities through a~standard forward-backward algorithm, which is implemented in two steps:
     \begin{itemize}
-        \item Computing $\alpha$ and $\beta$ data structures for which a Kaldi implementation is reused.
-        \item Updating the lattice weights from likelihood to posterior probabilities based on $\alpha$ and $\beta$, which we implemented in the \term{MovePostToArcs} function.
+        \item Computing $\alpha$ and $\beta$ data structures for which a~Kaldi implementation is reused.
+        \item Updating the~lattice weights from likelihood to posterior probabilities based on $\alpha$ and $\beta$, which we implemented in the~\term{MovePostToArcs} function.
     \end{itemize}
 \end{itemize}
 
 \code{Converting \term{CompactLattice} to posterior word lattice}{C}{snippets/compact2wordpost.cc}
 
-The word posterior probability is converted from the likelihood of the words in word lattice. 
-The word lattice obviously contains alternatives which were explored by the beam search during decoding the utterance.
-Consequently, the posterior probability is an approximation because the very low probable alternatives discarded by beam search are not considered.
-On the other hand, the discarded alternatives are so improbable so they almost do not influence the posterior probability.
+The~word posterior probability is converted from the~likelihood of the~words in word lattice. 
+The~word lattice obviously contains alternatives which were explored by the~beam search during decoding the~utterance.
+Consequently, the~posterior probability is an approximation because the~very low probable alternatives discarded by beam search are not considered.
+On the~other hand, the~discarded alternatives are so improbable so they almost do not influence the~posterior probability.
 
-Presumably, the word posterior values are more impacted by inaccurate likelihood values taken from the~\acl{AM}.
-Generative models are improved so the likelihood match the reality as much as possible.
-On the other hand, the discriminative \ac{AM} models deliberately favour the most probable hypothesis by boosting the likelihood of the most probable hypothesis.
-As a result, the word posterior probability for the best hypothesis is artificially boosted.
-At the moment, we do not calibrate the word posterior probabilities in extracted lattices.
+Presumably, the~word posterior values are more impacted by inaccurate likelihood values taken from the~\acl{AM}.
+Generative models are improved so the~likelihood match the~reality as much as possible.
+On the~other hand, the~discriminative \ac{AM} models deliberately favour the~most probable hypothesis by boosting the~likelihood of the~most probable hypothesis.
+As a~result, the~word posterior probability for the~best hypothesis is artificially boosted.
+At the~moment, we do not calibrate the~word posterior probabilities in extracted lattices.
 
 % \section{Batch interface versus object-oriented on-line interface}
 % \label{sec:ooi}
 % 
 % \todo{
 % We also wanted to reuse existing code as much as possible,
-% so the decoder will benefit from constant development on Kaldi toolkit.
+% so the~decoder will benefit from constant development on Kaldi toolkit.
 % }
 % 
 % \todo{
-% As a bonus of the minimal changes we can compare our \term{OnlLatticeFasterDecoder} 
+% As a~bonus of the~minimal changes we can compare our \term{OnlLatticeFasterDecoder} 
 % with \term{LatticeFasterDecoder} which is used through binary executable \term{gmm-latgen-faster}.
-% Correctly setup, the decoders produce exactly the same results.
-% The components of the Kaldi library such as decoder, or \ac{MLLT} transformation are designed using 
-% the \ac{OOP} design patterns.
-% On the other hand, the functionality of the Kaldi library is accessed by Kaldi executables, 
+% Correctly setup, the~decoders produce exactly the~same results.
+% The~components of the~Kaldi library such as decoder, or \ac{MLLT} transformation are designed using 
+% the~\ac{OOP} design patterns.
+% On the~other hand, the~functionality of the~Kaldi library is accessed by Kaldi executables, 
 % which are typically organized into single function.
-% The Kaldi executables are thin wrappers around the classes and 
+% The~Kaldi executables are thin wrappers around the~classes and 
 % are further combined together using system tools e.g.\ system pipes
 % and storing intermediate results to files. 
-% Such setup is convenient for speech recognition experiments, because the intermediate results are  
+% Such setup is convenient for speech recognition experiments, because the~intermediate results are  
 % effectively reused by different experiments.
 % }
 % 
 % \todo{
 % Out task is to implement real-time speech recogniser into \acl{SDS}.
-% We also experimented and searched for the best setup as described in~Section~\ref{sec:evaluation},
-% but from the \ac{SDS} point of view we want simple component which accepts audio and produce \ac{ASR} hypothesis.
-% We profit from the reference \term{LatticeFasterDecoder}, where the Kaldi preprocessing executables
-% can be scripted in a such manner, so that the results of \term{LatticeFasterDecoder} 
+% We also experimented and searched for the~best setup as described in~Section~\ref{sec:evaluation},
+% but from the~\ac{SDS} point of view we want simple component which accepts audio and produce \ac{ASR} hypothesis.
+% We profit from the~reference \term{LatticeFasterDecoder}, where the~Kaldi preprocessing executables
+% can be scripted in a~such manner, so that the~results of \term{LatticeFasterDecoder} 
 % and wrapped \term{OnlLatticeFasterDecoder} are identical.
-% We used the Kaldi executables to find the best experiment and once fixed,
-% we created object wrapper around the whole recognition pipeline.
+% We used the~Kaldi executables to find the~best experiment and once fixed,
+% we created object wrapper around the~whole recognition pipeline.
 % }
 % 
 % \todo{
-% Let us described the Kaldi executable in our best experiment,
-% then we will describe the wrapper class for the speech recognition.
+% Let us described the~Kaldi executable in our best experiment,
+% then we will describe the~wrapper class for the~speech recognition.
 % We chose \ac{MFCC} speech parametrisation, \ac{LDA} and \ac{MLLT} feature transformations with 
 % acoustic model trained by \ac{bMMI} as our best setup.
 % In our experiments, we used Kaldi binaries, which are listed below, 
-% for computing the one best \ac{ASR} hypothesis:
-% % \todo{How I wrapped up the code instead of creating a binary executable}
+% for computing the~one best \ac{ASR} hypothesis:
+% % \todo{How I wrapped up the~code instead of creating a~binary executable}
 % \begin{enumerate}
 %     \item compute-mfcc-feats
 %     \item copy-feats
@@ -320,48 +320,48 @@ At the moment, we do not calibrate the word posterior probabilities in extracted
 % }
 % 
 % \todo{
-% The \term{GmmLatgenWrapper} class wraps the whole recognition process
+% The~\term{GmmLatgenWrapper} class wraps the~whole recognition process
 % and provides \ac{API} convenient for real-time decoding.
-% We designed the \ac{API} of the preprocessing and the decoder 
-% so it can be nicely plugged into the \term{GmmLatgenWrapper} implementation.
+% We designed the~\ac{API} of the~preprocessing and the~decoder 
+% so it can be nicely plugged into the~\term{GmmLatgenWrapper} implementation.
 % }
 % 
 % \todo{
-% The  \term{GmmLatgenWrapper} instance accepts the audio in the~\term{FrameIn(\ldots)}
-% function and passes the audio chunk to the \term{OnlBuffSource} instance.
-% At the end of the pipeline is the \term{OnlDecodableDiagGmmScaled} instance,
-% which implements the~\term{DecodableInterface} and is queried by the \term{OnlLatticeFasterDecoder}
-% for the probability of each frame.
+% The~ \term{GmmLatgenWrapper} instance accepts the~audio in the~\term{FrameIn(\ldots)}
+% function and passes the~audio chunk to the~\term{OnlBuffSource} instance.
+% At the~end of the~pipeline is the~\term{OnlDecodableDiagGmmScaled} instance,
+% which implements the~\term{DecodableInterface} and is queried by the~\term{OnlLatticeFasterDecoder}
+% for the~probability of each frame.
 % }
 % 
 % \todo{
 % Let us remind that audio buffered in~\term{OnlBuffSource} is 
 % segmented to 25ms frames which are shifted by 10ms\footnote{See Subsection~\ref{sub:param}}.
-% The \ac{MFCC} features are computed for each frame, the \ac{LDA}\&\ac{MLLT} matrix
+% The~\ac{MFCC} features are computed for each frame, the~\ac{LDA}\&\ac{MLLT} matrix
 % is applied on features from 9 spliced frames.\footnote{Four frames from left 
 % and four frames from right context are used}. 
-% Finally, the \term{DecodableInterface} queries the \acl{AM} for the probability of the acoustic features.
+% Finally, the~\term{DecodableInterface} queries the~\acl{AM} for the~probability of the~acoustic features.
 % }
-% % \code{The real-time decoding \ac{API} of \term{GmmLatgenWrapper}}{C}{snippets/gmmLatgenWrapper_simple.cc}
+% % \code{The~real-time decoding \ac{API} of \term{GmmLatgenWrapper}}{C}{snippets/gmmLatgenWrapper_simple.cc}
 % 
 % \todo{
-% Note, that the action of computing the new features are initialized by the \term{OnlLatticeFasterDecoder},
-% when the \term{Decode(DecodableInterface *d, size\_t max\_frames)} is called.
-% If one of the preprocessing components can not compute any features, 
+% Note, that the~action of computing the~new features are initialized by the~\term{OnlLatticeFasterDecoder},
+% when the~\term{Decode(DecodableInterface *d, size\_t max\_frames)} is called.
+% If one of the~preprocessing components can not compute any features, 
 % because it does not has sufficient data, it returns its default $Null$ value. 
 % Consequently, all subsequent components returns its default $Null$ value and 
-% the \term{Decode(DecodableInterface *d, size\_t max\_frames)} returns zero,
+% the~\term{Decode(DecodableInterface *d, size\_t max\_frames)} returns zero,
 % indicating that zero frames were forward-decoded.
 % }
 % 
 % 
-% If the \ac{RTF} is smaller than one, the forward decoding can be performed faster
-% than the user produces the audio, so the end of the utterance
-% the speech recognition engine has to perform only backward decoding using 
-% the \term{get\_lattice} function.
-% If we have small enough \ac{RTF} and we supply the audio to the speech recognizer
-% in reasonably small chunks, the latency is influenced only by the~time of decoding the last chunk
-% and the~time of backward decoding and computing the word posterior lattice.
+% If the~\ac{RTF} is smaller than one, the~forward decoding can be performed faster
+% than the~user produces the~audio, so the~end of the~utterance
+% the~speech recognition engine has to perform only backward decoding using 
+% the~\term{get\_lattice} function.
+% If we have small enough \ac{RTF} and we supply the~audio to the~speech recognizer
+% in reasonably small chunks, the~latency is influenced only by the~time of decoding the~last chunk
+% and the~time of backward decoding and computing the~word posterior lattice.
 
 \section{PyOnlineLatgenRecogniser}
 \label{sec:pyext}
@@ -369,41 +369,41 @@ At the moment, we do not calibrate the word posterior probabilities in extracted
 We also developed a~Python extension, \term{PyOnlineLatgenRecogniser}, exporting the~\term{OnlineLatgenRecogniser} C++ interface to Python.
 It can be used as an example of bringing Kaldi's on-line speech recognition functionality to higher-level programming languages.
 \ml{PyFST}
-We extended also PyFST library\cite{pyfst2014url}, which interfaces OpenFST C++ template library into Python because we need to process further the OpenFST lattices produced by \term{PyOnlineLatgenRecogniser} in Python.
-Consequently, the recogniser as well as its input and output can be seamlessly used both from C++ and Python.
+We extended also PyFST library\cite{pyfst2014url}, which interfaces OpenFST C++ template library into Python because we need to process further the~OpenFST lattices produced by \term{PyOnlineLatgenRecogniser} in Python.
+Consequently, the~recogniser as well as its input and output can be seamlessly used both from C++ and Python.
 % This Python extension is used in the~Alex Dialogue Systems Framework \cite{asdf2014url}.
 
-\term{PyOnlineLatgenRecogniser} is a thin wrapper around \term{OnlineLatgenRecogniser} implemented using Cython\cite{cython2014url}.
-The Cython compiler is well known for generating fast code when interfacing Python and C++ and the wrapper causes no measurable overhead.
+\term{PyOnlineLatgenRecogniser} is a~thin wrapper around \term{OnlineLatgenRecogniser} implemented using Cython\cite{cython2014url}.
+The~Cython compiler is well known for generating fast code when interfacing Python and C++ and the~wrapper causes no measurable overhead.
 
-We implemented conversion of the word posterior lattices to an~n-best list.
-The implementation is efficient since the~OpenFST shortest path algorithm is used on small lattices.
+We implemented conversion of the~word posterior lattices to an~n-best list.
+The~implementation is efficient since the~OpenFST shortest path algorithm is used on small lattices.
 
-The minimalistic Python example in Listing~\ref{snippets/pykaldi_usage.py} shows usage of the \term{PyOnlineLatgenRecogniser} and the~decoding of a single utterance.
+The~minimalistic Python example in Listing~\ref{snippets/pykaldi_usage.py} shows usage of the~\term{PyOnlineLatgenRecogniser} and the~decoding of a~single utterance.
 
-The audio is passed to the recogniser in small chunks (line 4), so the decoding (line 5 and 8) can be performed while the user is speaking.
-When no more audio data is available a likelihood and a word posterior lattice is extracted from the recogniser(line 10).
-\code{Fully functional example of the \term{PyOnlineLatgenRecogniser} interface}{Python}{snippets/pykaldi_usage.py}
+The~audio is passed to the~recogniser in small chunks (line 4), so the~decoding (line 5 and 8) can be performed while the~user is speaking.
+When no more audio data is available a~likelihood and a~word posterior lattice is extracted from the~recogniser(line 10).
+\code{Fully functional example of the~\term{PyOnlineLatgenRecogniser} interface}{Python}{snippets/pykaldi_usage.py}
 
 Note that \term{PyOnlineLatgenRecogniser} and \term{OnlineLatgenRecogniser} are initialised by string vector of arguments in command line format.
-The parameters are parsed using Kaldi's command line parser and options affect behaviour speech parametrisation, feature transformations and  the \term{OnlLatticeFasterDecoder}.
-In addition, exactly the same parameters can be parsed by standard Kaldi utilities. 
-We created demos\footnote{\url{https://github.com/UFAL-DSG/pykaldi/tree/master/egs/vystadial/online_demo}} which use the same parameters for speech recognition using:
+The~parameters are parsed using Kaldi's command line parser and options affect behaviour speech parametrisation, feature transformations and  the~\term{OnlLatticeFasterDecoder}.
+In addition, exactly the~same parameters can be parsed by standard Kaldi utilities. 
+We created demos\footnote{\url{https://github.com/UFAL-DSG/pykaldi/tree/master/egs/vystadial/online_demo}} which use the~same parameters for speech recognition using:
 \begin{itemize}
     \item standard Kaldi executables and scripts
     \item \term{PyOnlineLatgenRecogniser} 
     \item \term{OnlineLatgenRecogniser}
 \end{itemize}
-The alternatives produce exactly the same results.
+The~alternatives produce exactly the~same results.
 
 \section{Summary}
 \label{sec:dec_sum}
-The \term{OnlLatticeFasterDecoder} performs the~on-line speech recognition.
-We suggest exploiting the \term{OnlineLatgenRecogniser} and decoding utterances in small chunks and pass the audio to the recogniser immediately as it is available.
-The speech recognition parameters are initialized with reasonable default values and the parameters are the same as used in Kaldi executables. 
-As a result, one can use the parameters from any Kaldi recipe to obtain the exactly same high quality results in the~on-line speech recognition setting.
+The~\term{OnlLatticeFasterDecoder} performs the~on-line speech recognition.
+We suggest exploiting the~\term{OnlineLatgenRecogniser} and decoding utterances in small chunks and pass the~audio to the~recogniser immediately as it is available.
+The~speech recognition parameters are initialized with reasonable default values and the~parameters are the~same as used in Kaldi executables. 
+As a~result, one can use the~parameters from any Kaldi recipe to obtain the~exactly same high quality results in the~on-line speech recognition setting.
 
-The implemented minimal on-line interface which supports \ac{MFCC} speech parametrisation, $\Delta-\Delta\Delta$ feature transformation or \ac{LDA}+\ac{MLLT} and both generative training and discriminative training using \ac{bMMI} and \ac{MPE}.
-The \ac{MFCC}, \ac{LDA}+\ac{MLLT} and \ac{bMMI} is one of the best setup for the~speaker independent speech recognition.
+The~implemented minimal on-line interface which supports \ac{MFCC} speech parametrisation, $\Delta-\Delta\Delta$ feature transformation or \ac{LDA}+\ac{MLLT} and both generative training and discriminative training using \ac{bMMI} and \ac{MPE}.
+The~\ac{MFCC}, \ac{LDA}+\ac{MLLT} and \ac{bMMI} is one of the~best setup for the~speaker independent speech recognition.
 To conclude, we reimplemented Kaldi batch speech recognition, so that it can perform on-line real-time speech recognition and still maintain its high quality.
-The next Chapter~\ref{cha:integration} evaluates in detail the recognisers' real-time performance in the~Alex Dialogue Systems Framework.
+The~next Chapter~\ref{cha:integration} evaluates in detail the~recognisers' real-time performance in the~Alex Dialogue Systems Framework.
