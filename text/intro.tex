@@ -6,7 +6,7 @@ A~spoken dialogue is the~most intuitive way of~communication among people.
 Spoken dialogue systems allow machines to communicate with people in the most natural form.
 The~quality of~a~dialogue in a~spoken dialogue system largely depends on speech recognition because a~language understanding is based on the~recognised speech. 
 
-This work presents a new Kaldi speech recogniser, acoustic modeling scripts and evaluation of the speech recognition using the Kaldi toolkit \cite{povey2011kaldi} in a dialogue system Alex\cite{ptics2014url}.
+This work presents a new Kaldi\cite{povey2011kaldi} speech recogniser, acoustic modeling scripts and evaluation of the developed recogniser in a dialogue system Alex\cite{ptics2014url}.
 
 The~\acf{ASR} in a~spoken dialogue system converts speech to text so the dialogue system is able to extract a~semantic meaning from the~text.
 A~dialogue system is able to exploit multiple alternative text hypotheses in addition to the single best hypotheses which is always returned. 
@@ -39,7 +39,7 @@ A~speech recogniser requires two pre trained components, an~\acl{AM} and a~\acl{
 We focus on finding the~best \acl{AM} for the~Kaldi toolkit. 
 % The~\acl{LM} is changed dependently on targeted domain.
 
-We will develop acoustic modeling scripts using the~Kaldi toolkit with such quality, that quality of trained \acp{AM} could be compared with the~\acp{AM} trained with the~\ac{HTK} toolkit. 
+We will develop acoustic modeling scripts using the~Kaldi toolkit\cite{povey2011kaldi} with such quality, that quality of trained \acp{AM} could be compared with the~\acp{AM} trained with the~\ac{HTK} toolkit. 
 The~scripts will be developed for Czech and English acoustic data.
 
 \subsection{Development real-time speech recogniser} 
