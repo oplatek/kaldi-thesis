@@ -2,27 +2,27 @@
 \chapter{Introduction}
 \label{cha:intro}
 
-A~spoken dialogue is the~most intuitive way of~communication among people. 
-Spoken dialogue systems allow machines to communicate with people in the most natural form.
-The~quality of~a~dialogue in a~spoken dialogue system largely depends on speech recognition because a~language understanding is based on the~recognised speech. 
+Spoken dialogue is the~most intuitive form of~communication among people. 
+Spoken dialogue systems allow people to communicate with machines in an natural way.
+The~quality of~a~dialogue with~a~spoken dialogue system largely depends on speech recognition because the~machine's understanding of the~user's utterance is based on the~recognised speech. 
 
-This work presents a new Kaldi\cite{povey2011kaldi} speech recogniser, acoustic modeling scripts and evaluation of the developed recogniser in a dialogue system Alex\cite{ptics2014url}.
+% This work presents a new Kaldi\cite{povey2011kaldi} speech recogniser, acoustic modeling scripts, and evaluation of the developed recogniser in the~dialogue system Alex\cite{ptics2014url}.
 
-The~\acf{ASR} in a~spoken dialogue system converts speech to text so the dialogue system is able to extract a~semantic meaning from the~text.
-A~dialogue system is able to exploit multiple alternative text hypotheses in addition to the single best hypotheses which is always returned. 
+\acf{ASR} in a~spoken dialogue system converts speech to text so that the dialogue system is able to extract semantic meaning from the~text.
+Dialogue systems are able to exploit multiple alternative text hypotheses in addition to the single best hypothesis which is always returned. 
 State-of-the-art speech recognisers are able to extract multiple hypotheses in real time.
-We prefer extracting multiple hypotheses in format of~a~word lattice because it effectively represents multiple hypotheses.
+We prefer extracting multiple hypotheses in form of~a~word lattice because it effectively represents multiple hypotheses.
 
-The~Alex dialogue system had used the~\ac{HTK} toolkit\cite{young94htk} and OpenJulius\cite{lee2009julius} lattice speech recogniser in order to train acoustic models respectively to decode lattices in real time. 
+The~Alex dialogue system had used the~\ac{HTK} toolkit\cite{young94htk} and the~OpenJulius\cite{lee2009julius} lattice speech recogniser to train acoustic models and to decode lattices in real time respectively. 
 Unfortunately, our project members were experiencing crashes of OpenJulius during extracting lattices.
-Fixing the OpenJulius's complicated source code seamed unrealistic due to its slow development and lack of documentation.
+Fixing OpenJulius's complicated source code seemed unrealistic due to lack of documentation and community support.
 
-As an alternative, we chose the~Kaldi toolkit because its speech recognisers are able to produce high-quality lattices and are sufficiently fast\footnote{So far, 
+HTK and OpenJulius was replaced by the~Kaldi toolkit\cite{povey2011kaldi} because its speech recognisers are able to produce high-quality lattices and are sufficiently fast\footnote{So far, 
     the~Kaldi developers focused on improving acoustic model training. 
     However, In August 2012 a Kaldi team published a~demo version of~an on-line one best hypothesis speech recogniser.} 
 for real-time recognition.\cite{povey2012generating}
-In addition, the~Kaldi toolkit deploys modern training recipes, is actively maintained and is distributed under the~permissive Apache 2.0 license\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
-On the~other hand, the~speech recognisers in Kaldi do not support interface convenient for a~dialogue system which is able to process audio stream incrementally.
+In addition, the~Kaldi toolkit deploys modern training recipes, is actively maintained, and is distributed under the~permissive Apache 2.0 license\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
+We still need to implement a speech recogniser which supports incremental speech processing, prepare acoustic modeling scripts and evaluate the developed recogniser, so that the Kaldi toolkit can be used in Alex dialogue system.
 
 \section{The~goals of~the~thesis} 
 \label{sec:goals}
