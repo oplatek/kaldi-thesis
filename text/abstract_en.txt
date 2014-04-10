@@ -1,0 +1,7 @@
+The topic of this thesis is to implement efficient decoder for speech recognition 
+training system ASR Kaldi (http://kaldi.sourceforge.net/). 
+Kaldi is already deployed with decoders, but they are not convenient for dialogue systems. 
+The main goal of this thesis to develop a real time decoder for a dialogue system, 
+which minimize latency and optimize speed. Methods used for speeding up the decoder are not 
+limited to multi-threading decoding or usage of GPU cards for general computations. 
+Part of this work is devoted to training an acoustic model and also testing it in the "Vystadial" dialogue system.

@@ -1,0 +1,5 @@
+Tématem této práce je implementace výkonného rozpoznávače v open-source systému trénování ASR Kaldi (http://kaldi.sourceforge.net/) pro dialogové systémy. Kaldi již obsahuje ASR dekodéry, které však nejsou vhodné pro dialogové systémy. 
+Hlavními důvody jsou jejich malá optimalizace na rychlost a jejich velké zpoždění v generování výsledku po ukončení promluvy. 
+Cílem této práce je proto vyvinutí real-time rozpoznávače pro dialogové systémy optimalizovaného na rychlost a minimalizujícího zpoždění.
+     Zrychlení může být realizováno například pomocí multi-vláknového dekódování nebo s využitím grafických karet pro obecné výpočty. 
+ Součástí práce je také příprava akustického modelu a testování ve vyvíjeném dialogovém systému ”Vystadial”.
