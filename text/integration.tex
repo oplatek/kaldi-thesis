@@ -121,16 +121,20 @@ In~the \term{hyp\_out} method a~word posterior lattice is extracted using the \t
 For most cases the latency is well below 200 ms for our settings as illustrated in Figure~\ref{fig:prc}.
 
 The~Alex dialogue system frequently handles several spoken requests immediately one after another.
-It may seem that a user should wait to response of the Alex dialogue system before he speaks again and consequently new audio is buffered to recognition.
-However in practice, users speak spontaneously; as first utterance is pronounced and users immediately start speaking in order to change his request.
-Nevertheless, at the end of each utterance the \term{hyp\_out} method is called and the ASR hypothesis is extracted.
-Since the user already speaks when the lattice is extracted, the processor time which is meant for lattice extraction can not be be used for decoding.
-Consequently, the \term{rec\_in} should decode the buffered audio faster in shorter time than the~user speaks.
+% It may seem that a user should wait to response of the Alex dialogue system before he speaks again and consequently new audio is buffered to recognition.
+% However in practice, users speak spontaneously; as first utterance is pronounced and users immediately start speaking in order to change his request.
+At the end of each utterance the \term{hyp\_out} method is called and the ASR hypothesis is extracted.
+Since the user already speaks when the lattice is extracted, the processor time which is already used for lattice extraction cannot be used for decoding.
+Consequently, the \term{rec\_in} must decode the audio faster than the~user speaks otherwise the audio cumulates in the recogniser's buffer.
 
 We noticed the problem for chains of noises detected in \ac{VAD} components as multiple short utterances.
-The \term{rec\_in} method was extracting hypothesis while the audio input was still buffering the noisy speech and want to call \term{rec\_in}.
+% The \term{rec\_in} method was extracting hypothesis while the audio input was still buffering the noisy speech and want to call \term{rec\_in}.
 The~\term{hyp\_out} method was called so often that almost no decoding was performed.
-The problem was solved by improving \ac{VAD} so the~\term{hyp\_out} method is not triggered so often.
+
+We solved the problem by improving \ac{VAD} so the~\term{hyp\_out} method is triggered less often.
+We reserved circa 100 ms for decoding between calls of the~\term{hyp\_out} method.
+All the utterance which are classified as speech are longer than 200 ms.
+As a result, the utterances can be decoded as they arrive because the decoding runs almost twice as fast as user speaks and the time for decoding is at least half the time of the utterance.
 
 \subsection{Building in-domain decoding graph}
 \label{sub:hclg}
