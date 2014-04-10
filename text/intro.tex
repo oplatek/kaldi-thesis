@@ -4,68 +4,67 @@
 
 Spoken dialogue is the~most intuitive form of~communication among people. 
 Spoken dialogue systems allow people to communicate with machines in an natural way.
-The~quality of~a~dialogue with~a~spoken dialogue system largely depends on speech recognition because the~machine's understanding of the~user's utterance is based on the~recognised speech. 
+The~quality of~a~dialogue with~a~spoken dialogue system significantly depends on speech recognition accuracy. 
 
-% This work presents a new Kaldi\cite{povey2011kaldi} speech recogniser, acoustic modeling scripts, and evaluation of the developed recogniser in the~dialogue system Alex\cite{ptics2014url}.
+% This work presents a new Kaldi~\cite{povey2011kaldi} speech recogniser, acoustic modeling scripts, and evaluation of the developed recogniser in the~dialogue system Alex~\cite{ptics2014url}.
 
 \acf{ASR} in a~spoken dialogue system converts speech to text so that the dialogue system is able to extract semantic meaning from the~text.
-Dialogue systems are able to exploit multiple alternative text hypotheses in addition to the single best hypothesis which is always returned. 
+Dialogue systems are able to exploit multiple alternative text hypotheses.
 State-of-the-art speech recognisers are able to extract multiple hypotheses in real time.
-We prefer extracting multiple hypotheses in form of~a~word lattice because it effectively represents multiple hypotheses.
+We prefer extracting multiple hypotheses in form of~a~word lattice because it efficiently represents multiple hypotheses.
 
-The~Alex dialogue system had used the~\ac{HTK} toolkit\cite{young94htk} and the~OpenJulius\cite{lee2009julius} lattice speech recogniser to train acoustic models and to decode lattices in real time respectively. 
-Unfortunately, our project members were experiencing crashes of OpenJulius during extracting lattices.
+The~Alex dialogue system had used the~\ac{HTK} toolkit~\cite{young94htk} and the~OpenJulius~\cite{lee2009julius} lattice speech recogniser to train acoustic models and to decode lattices in real time respectively. 
+Unfortunately, OpenJulius crashes when extracting lattices.
 Fixing OpenJulius's complicated source code seemed unrealistic due to lack of documentation and community support.
+As a result, we decided abandon OpenJulius and \ac{HTK}.
 
-HTK and OpenJulius was replaced by the~Kaldi toolkit\cite{povey2011kaldi} because its speech recognisers are able to produce high-quality lattices and are sufficiently fast\footnote{So far, 
+As and alternative, we decided to use the~Kaldi toolkit~\cite{povey2011kaldi} because its speech recognisers are able to produce high-quality lattices and are sufficiently fast\footnote{So far, 
     the~Kaldi developers focused on improving acoustic model training. 
-    However, In August 2012 a Kaldi team published a~demo version of~an on-line one best hypothesis speech recogniser.} 
+    However, In August 2012 a Kaldi team published a~demo version of~an on-line one-best hypothesis speech recogniser.} 
 for real-time recognition.\cite{povey2012generating}
-In addition, the~Kaldi toolkit deploys modern training recipes, is actively maintained, and is distributed under the~permissive Apache 2.0 license\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
+In addition, the~Kaldi toolkit is actively maintained, and is distributed under the~permissive Apache 2.0 license\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}.
 We still need to implement a speech recogniser which supports incremental speech processing, prepare acoustic modeling scripts and evaluate the developed recogniser, so that the Kaldi toolkit can be used in Alex dialogue system.
 
 \section{The~goals of~the~thesis} 
 \label{sec:goals}
-The~goals of the~thesis are presented in order as will be implemented:
+The~goals of the~thesis are:
 \begin{enumerate}
-    \item \acp{AM} will be trained to evaluate the~new recogniser.
-    \item The~new recogniser will be developed so its Python wrapper can be deployed into our dialogue system Alex.
-    \item Finally, we will integrate the~recogniser into our Alex \ac{SDS} written in Python and evaluate its performance.
+    \item to build \acp{AM} using the Kaldi toolkit,
+    \item to develop new real-time recogniser which supports incremental speech recognition,
+    \item to integrate the~recogniser into our Alex \ac{SDS} written in Python and evaluate its performance.
 \end{enumerate}
 
 \subsection{Training acoustic models} 
 \label{sub:training_kaldi_acoustic_models}
-A~speech recogniser requires two pre trained components, an~\acl{AM} and a~\acl{LM}. 
-We focus on finding the~best \acl{AM} for the~Kaldi toolkit. 
-% The~\acl{LM} is changed dependently on targeted domain.
-
-We will develop acoustic modeling scripts using the~Kaldi toolkit\cite{povey2011kaldi} with such quality, that quality of trained \acp{AM} could be compared with the~\acp{AM} trained with the~\ac{HTK} toolkit. 
-The~scripts will be developed for Czech and English acoustic data.
+A~Kaldi speech recogniser requires statistical models, an~\acl{AM} and a~\acl{LM}. 
+We focus on finding the~best \aclp{AM}. 
+The~developed acoustic models will be compared with the~\acp{AM} trained with the~\ac{HTK} toolkit. 
+The~models will be trained for Czech and English acoustic data.
 
 \subsection{Development real-time speech recogniser} 
 \label{sub:compare_rt}
 
-We should modify Kaldi speech recogniser in order to allow incremental speech recognition.
-The~resulting incremental interface should be as simple as possible yet allow state-of-the-art performance.
+We will modify a~Kaldi speech recogniser in order to allow incremental speech recognition.
+The~resulting incremental interface will be simple yet allow state-of-the-art performance.
 In addition, we will implement such speech parametrisation and feature transformation preprocessing, so high-quality acoustic models can be used.
-Finally, we should compute the~posterior probabilities of the~word lattice representing multiple \ac{ASR} hypotheses.
+Finally, we will implement posterior lattice computation the~posterior probabilities of the~word lattice representing multiple \ac{ASR} hypotheses.
 
 % The~process of incremental speech recognition is represented by a~single instance of \term{OnlineLatgenRecogniser} class, which provides simple interface to speech recognition.
 
-In addition, we may suggest potential speed improvements e.g.\ approximations, use of \ac{GPU} or \ac{DNN}\cite{vesely2013sequencediscriminative}.
+In addition, we may suggest potential speed improvements e.g.\ approximations, use of \ac{GPU} or \ac{DNN}~\cite{vesely2013sequencediscriminative}.
 
-\subsection[Integration into Alex \acs{SDS} framework]{Integration into Alex \acl{SDS} framework} 
+\subsection[Integration into Alex \acsp{SDS} framework]{Integration into Alex \aclp{SDS} framework} 
 \label{sub:integration}
-We should develop a~thin wrapper which efficiently exposes the~speech recognition interfaces to Python.
-% We should also interface the~lattices which are the~output of the~Kaldi recogniser to Python.
-The~resulting recogniser should be integrated into Alex \ac{SDS} and the~decoding parameters should be tuned to obtain best performance.
+As Alex \acs{SDS} is implemented in Python, we will develop a~thin Python wrapper which efficiently exposes the~speech recognition interfaces.
+% We will also interface the~lattices which are the~output of the~Kaldi recogniser to Python.
+The~resulting recogniser will be integrated into Alex \ac{SDS} and the~decoding parameters will be tuned to obtain best performance.
 The~evaluation of the~speech recognition setup is an~important part of the~integration.
 
 \section*{Thesis outline} 
 In~Chapter~\ref{cha:background} we introduce a~fundamental theory of speech recognition for related areas to our work.
 In Sections~\ref{sec:back_htk} and~\ref{sec:back_julius} we describe alternatives to Kaldi speech recognition toolkit. 
 At the~end of the~chapter, we present OpenFST framework which allows the~Kaldi library effectively implement many standard speech recognition operations. 
-To obtain high-quality \aclp{AM}, we develop training scripts for Czech and English data described in~Chapter~\ref{cha:train}. 
+To obtain high-quality \aclp{AM}, we develop training scripts described in~Chapter~\ref{cha:train}. 
 In addition, we compare acoustic models trained by Kaldi and previously used~\ac{HTK} toolkit. 
 Chapter~\ref{cha:decoder} presents in detail the~new Kaldi real-time recogniser and discuss its on-line properties.
 We distinguish the~original work done by the~Kaldi team and our improvements. 
