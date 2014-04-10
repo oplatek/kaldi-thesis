@@ -27,8 +27,14 @@
 %% other packages 
 \usepackage{graphicx}
 \usepackage{amsthm}
-\usepackage{multirow}  % for tables multirow
 
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{auto-pst-pdf}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+
+\usepackage{listings}
 % Display lines for taking notes nex to the page
 %\usepackage{handoutWithNotes} 
 %\pgfpagesuselayout{1 on 1 with notes landscape}[a4paper,border shrink=5mm]
@@ -42,6 +48,10 @@
 \def\todon#1{
   \todo{#1 \\}
 }
+
+\newcommand{\term}[1]{\textit{#1}}
+\newcommand{\theader}[1]{\textbf{#1}}
+
 %ruzna nastaveni beamru
 
 %1)
@@ -67,12 +77,12 @@
 
 %
 \author{Ondřej Plátek}
-\title[Instance optimal query processing in SN]{Instance optimal query processing in spatial networks by Ke Deng, X. Zhou, Heng T. Shen, Shazzia S., Xue Li}  
+\title{Speech recognition using Kaldi}  
 % \date{\today}
-\date{16.\,11.\,2010}
-\subtitle{Seminar in Databases}
+\date{14.\,4.\,2014}
+\subtitle{Kaldi ASR in Alex SDS}
 \institute[Mff]{Matematicko Fyzikální Fakulta Univerzity Karlovy}
 
-\graphicspath{{../thesis-doc/images/}}
+\graphicspath{{./images/}}
 
 \begin{document}

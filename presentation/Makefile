@@ -101,7 +101,7 @@ view: $(PDFTARGETS)
 
 # to generate aux but not pdf from pdflatex, use -draftmode
 %.aux: %.tex $(REVDEPS)
-	$(PDFLATEX) -draftmode $*
+	$(PDFLATEX) -shell-escape -draftmode $*
 
 # introduce BibTeX dependency if we found a \bibliography
 ifneq ($(strip $(BIBFILES)),)
@@ -111,13 +111,13 @@ BIBDEPS = %.bbl
 endif
 
 $(PDFTARGETS): %.pdf: %.tex $(BIBDEPS) $(INCLUDEDTEX) $(REVDEPS)
-	$(PDFLATEX) $*
+	$(PDFLATEX) -shell-escape $*
 ifneq ($(strip $(BIBFILES)),)
 	@if grep -q "undefined references" $*.log; then \
-		$(BIBTEX) $* && $(PDFLATEX) $*; fi
+		$(BIBTEX) $* && $(PDFLATEX) -shell-escape $*; fi
 endif
 	@while grep -q "Rerun to" $*.log; do \
-		$(PDFLATEX) $*; done
+		$(PDFLATEX) -shell-escape $*; done
 
 # remove .aux and .log files created by files in $(INCLUDEDTEX)
 AUXFILES = $(TARGET).aux $(patsubst %.tex,%.aux, $(INCLUDEDTEX))

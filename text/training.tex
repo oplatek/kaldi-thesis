@@ -284,6 +284,11 @@ The~Table~\ref{tab:best} presents \acp{AM} results.
             &   22.41 & 11.1 \\
     \bottomrule
 \end{tabular}
+\caption{Word error rates for zerogram and bigram LM for different training triphone methods.
+    The~`tri~$\Delta+\Delta\Delta$' row shows results for a~generative model which is comparable to the~model trained using the~HTK scripts.
+}
+\label{tab:best}
+\end{table}
 
 % tri1            test    build0  10      37.36   74.15
 % tri2a           test    build0  10      35.7    70.8 
@@ -299,11 +304,6 @@ The~Table~\ref{tab:best} presents \acp{AM} results.
 % tri2b_mmi_b0.05 test    build2  17      10.22   30.4 
 % tri2b_mpe       test    build2  19      11.11   32.45
 
-\caption{Word error rates for zerogram and bigram LM for different training triphone methods.
-    The~`tri~$\Delta+\Delta\Delta$' row shows results for a~generative model which is comparable to the~model trained using the~HTK scripts.
-}
-\label{tab:best}
-\end{table}
 
 The~complexity of the~Czech data is clearly much larger than the~complexity of the~English data.
 The~high \ac{WER} on the~Czech dataset may be explained be following reasons:
