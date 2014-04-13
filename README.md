@@ -34,5 +34,5 @@ The text of this thesis describes my work on projects listed below:
 
 
  Note: The thesis is compiled for two side printing.
- If you want to print it in colour and save toner color ink print following in color: 3,4,33,34,41-52
- The pages are in grey scale: 1,2,5-32,35-40,53-
+ If you want to print it in colour and save toner color ink print only following pages in colour: 3,4,33,34,41-52
+ These pages can be printed in grey scale: 1,2,5-32,35-40,53-
