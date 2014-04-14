@@ -39,9 +39,9 @@
     % \caption{Typical setup with 39 features using \ac{MFCC}.}
 \end{frame}
 
-\begin{frame}\frametitle{Speech recognition} 
+\begin{frame}\frametitle{Continuous Speech recognition} 
     \begin{block}{Pattern matching}
-        HMM successfully used --- speech time series modelling
+        HMM --- speech time series modelling (phones/triphones for words)
         \begin{itemize}
             \item We trained several HMM acoustic models.
         \end{itemize}
@@ -51,6 +51,7 @@
         \begin{itemize}
             \item We search for best parameters (beam, max-active-states).
             \item Normalise its output.
+            \item Change interface.
         \end{itemize}
     \end{exampleblock}
 \end{frame}
@@ -83,121 +84,28 @@
 \end{frame}
 
 
-\section{Acoustic modelling} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Evaluation in PTI]{Evaluation in Public Transport Information domain}%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{Acoustic modeling} 
-    \input{images/asr-components-am}
-    % Architecture of statistical speech recognizer\cite{ney1990acoustic}
-\end{frame}
-
-\begin{frame}\frametitle{Acoustic models training} 
+\begin{frame}\frametitle{On-line vs batch decoding} 
     \begin{center}
-        \input{images/am-deps}
-        \small{\begin{tabular}{lll}
-        \hline
-        Training method name & Script shortcut \\
-        \hline
-        Monophone & mono \\
-        Triphone  & tri1 \\
-        $\Delta + \Delta\Delta$ & tri2a  \\
-        LDA+MLLT & tri2b  \\
-        LDA+MLLT+MMI & tri2b\_mmi \\
-        LDA+MLLT+bMMI & tri2b\_bmmi \\
-        LDA+MLLT+MPE & tri2b\_mpe \\
-        \hline
-        \end{tabular}}
-        % \caption{Training partial order among \ac{AM} in our training scripts}
+        \includegraphics[scale=0.5]{lat_cloud_kaldi.png}
     \end{center}
+    % \caption{Almost constant latency of on-line decoder (OnlineLatgenRecogniser) and linearly growing latency of cloud based speech recogniser (Google ASR service) for increasing utterance length.}
 \end{frame}
 
-\begin{frame}\frametitle{ASR training results} 
-    \begin{tabular}{lrr}
-        \theader{language/method}
-        & \hphantom{rogram}\llap{\theader{zerogram}} & \theader{bigram} \\
-        \hline \\
-        \theader{Czech} & & \\
-            tri $\Delta+\Delta\Delta$ &   70.7 &   56.6  \\
-            tri LDA+MLLT &   68.2 &   53.9 \\
-            tri LDA+MLLT+MMI &    65.3  &   49.5 \\
-            tri LDA+MLLT+bMMI &    65.3  &   49.3 \\
-            tri LDA+MLLT+MPE &    63.8  &   49.2 \\
-        \hline \hline \\
-        \theader{English} & \\ 
-            tri $\Delta+\Delta\Delta$ &   35.7 &   16.2 \\
-            tri LDA+MLLT &   33.28 &  15.8 \\
-            tri LDA+MLLT+MMI &   25.01 & 10.4  \\
-            tri LDA+MLLT+bMMI &   23.9  & 10.2 \\
-            tri LDA+MLLT+MPE &   22.41 & 11.1 \\
-        \hline
-    \end{tabular}
-    % \caption{Word error rates for zerogram and bigram LM for different training triphone methods.
-    %     The~`tri~$\Delta+\Delta\Delta$' row shows results for a~generative model which is comparable to the~model trained using the~HTK scripts.
-    % }
+\begin{frame}\frametitle{Public Transport Information domain - results} 
+    \includegraphics[scale=0.4]{beam_vs_rtfwer.pdf.ps}
+    \includegraphics[scale=0.4]{latbeam_vs_latwer.pdf.ps}
+    % \caption{The~upper graph (a) shows that WER decreases with increasing \term{beam} and the~average RTF linearly grows with the~beam.
+    %     The~growth of the~95th RTF percentile is limited at 0.6 by setting \term{max-active-states} to 2000, because the~\term{max-active-states} parameters influence presumably the~worst cases with large search space.
+    % The~lower graph (b) shows latency growth in response to increasing \term{lattice-beam}.}
 \end{frame}
 
-\begin{frame}\frametitle{HTK and Kaldi acoustic models} 
-    % \begin{block}{HTK results}
-        \begin{tabular}{lrr}
-            \hline
-            \theader{language/method} & \theader{zerogram} & \theader{bigram} \\
-            \hline
-            \theader{Czech}& & \\
-                tri $\Delta+\Delta\Delta$  & 64.5 & 60.4\\
-            \hline
-            \theader{English}& & \\
-               tri $\Delta+\Delta\Delta$  & 50.0 & 17.5 \\
-            \hline
-        \end{tabular}
-    % \end{block}
-    % \begin{exampleblock}
-        \begin{tabular}{lrr}
-            \hline
-            \theader{language/method} & \theader{zerogram} & \theader{bigram} \\
-            \hline
-            \theader{Czech}& & \\
-                tri $\Delta+\Delta\Delta$ &   70.7 &   56.6  \\
-            \hline
-            \theader{English}& & \\
-               tri $\Delta+\Delta\Delta$ &   35.7 &   16.2 \\
-            \hline
-        \end{tabular}
-    % \end{exampleblock}
-  % \caption{HTK results: Word error rates on test set are obtained by both a~zerogram and a~bigram LM. The~\acp{AM} can be compared with the~basic \term{tri} $\Delta+\Delta\Delta$ Kaldi setup in~Table~\ref{tab:best}.}
-\end{frame}
-
-\begin{frame}\frametitle{Vystadial dataset} 
-    \begin{tabular}{lrrr}
-        \hline
-        dataset & audio[hour] & \# sentences & \# words \\
-        \hline
-        \textbf{English} & & & \\
-                training & 41:30 & 47,463 & 178,110 \\
-                development & 01:45 & 2,000 & 7,376 \\
-                test & 01:46 & 2,000 & 7,772 \\
-        \hline
-        \textbf{Czech} & & & \\
-                training & 15:25 & 22,567 & 126,333 \\
-                development & 01:23 & 2,000 & 11,478 \\
-                test & 01:22 & 2,000 & 11,204 \\
-        \hline
-		\end{tabular}
-    % \caption{Size of the~data: length of the~audio (hours:minutes), number of sentences
-        % (which is the~same as the~number of recordings), number of words in the~
-    % transcriptions.\cite{korvas_2014}}
-\end{frame}
-
-\begin{frame}\frametitle{Acoustic model accuracy based training data size} 
-    \begin{center}
-        \includegraphics[scale=0.7]{images/partial-zerogram.ps}
-        % \caption{The~figure displays improving performance of Czech generative AM based on growing size of training data for acoustic modelling. The~zerogram LM allows to evaluate only acoustic modelling, but causes a~high WER. }
-    \end{center}
-\end{frame}
-
-\begin{frame}\frametitle{Speech recognition accuracy based on LM training data size} 
-    \begin{center}
-        \includegraphics[scale=0.7]{images/partial-lm-tri2b-bmmi.ps}
-        % \caption{Influence of in-domain text size of \ac{LM} on speech recognition quality. The~\ac{AM} \term{tri2b\_bmmi} and parameters are fixed and only \ac{LM} training size varies.}
-    \end{center}
+\begin{frame}\frametitle{RTF and Latency} 
+    \includegraphics[scale=0.4]{frtf_vs_prc.pdf.ps}
+    \includegraphics[scale=0.4]{lat_vs_prc.pdf.ps}
+%     \caption{The~percentile graphs show RTF and Latency scores for test data for \term{max-active-sates}=2000, \term{beam}=13, \term{lattice-beam}=5.
+% Note that 95 \% of utterances were decoded with the~latency lower that 200ms.}
 \end{frame}
 
 
@@ -227,29 +135,123 @@
 \end{frame}
 
 
-\section[Evaluation in PTI]{Evaluation in Public Transport Information domain}%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Acoustic modelling} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{On-line vs batch decoding} 
+\begin{frame}\frametitle{Acoustic modeling} 
+    \input{images/asr-components-am}
+    % Architecture of statistical speech recognizer\cite{ney1990acoustic}
+\end{frame}
+
+\begin{frame}\frametitle{Acoustic models training} 
     \begin{center}
-        \includegraphics[scale=0.5]{lat_cloud_kaldi.png}
+        \input{images/am-deps}
+        \small{\begin{tabular}{lll}
+        \hline
+        Training method name & Script shortcut \\
+        \hline
+        Monophone & mono \\
+        Triphone  & tri1 \\
+        $\Delta + \Delta\Delta$ & tri2a  \\
+        LDA+MLLT & tri2b  \\
+        LDA+MLLT+MMI & tri2b\_mmi \\
+        LDA+MLLT+bMMI & tri2b\_bmmi \\
+        LDA+MLLT+MPE & tri2b\_mpe \\
+        \hline
+        \end{tabular}}
+        % \caption{Training partial order among \ac{AM} in our training scripts}
     \end{center}
-    % \caption{Almost constant latency of on-line decoder (OnlineLatgenRecogniser) and linearly growing latency of cloud based speech recogniser (Google ASR service) for increasing utterance length.}
 \end{frame}
 
-\begin{frame}\frametitle{WER, beam, lattice beam} 
-    \includegraphics[scale=0.4]{beam_vs_rtfwer.pdf.ps}
-    \includegraphics[scale=0.4]{latbeam_vs_latwer.pdf.ps}
-    % \caption{The~upper graph (a) shows that WER decreases with increasing \term{beam} and the~average RTF linearly grows with the~beam.
-    %     The~growth of the~95th RTF percentile is limited at 0.6 by setting \term{max-active-states} to 2000, because the~\term{max-active-states} parameters influence presumably the~worst cases with large search space.
-    % The~lower graph (b) shows latency growth in response to increasing \term{lattice-beam}.}
+\begin{frame}\frametitle{Vystadial dataset} 
+    \begin{tabular}{lrrr}
+        \hline
+        dataset & audio[hour] & \# sentences & \# words \\
+        \hline
+        \textbf{English} & & & \\
+                training & 41:30 & 47,463 & 178,110 \\
+                development & 01:45 & 2,000 & 7,376 \\
+                test & 01:46 & 2,000 & 7,772 \\
+        \hline
+        \textbf{Czech} & & & \\
+                training & 15:25 & 22,567 & 126,333 \\
+                development & 01:23 & 2,000 & 11,478 \\
+                test & 01:22 & 2,000 & 11,204 \\
+        \hline
+		\end{tabular}
+    % \caption{Size of the~data: length of the~audio (hours:minutes), number of sentences
+        % (which is the~same as the~number of recordings), number of words in the~
+    % transcriptions.\cite{korvas_2014}}
 \end{frame}
 
-\begin{frame}\frametitle{RTF and Latency} 
-    \includegraphics[scale=0.4]{frtf_vs_prc.pdf.ps}
-    \includegraphics[scale=0.4]{lat_vs_prc.pdf.ps}
-%     \caption{The~percentile graphs show RTF and Latency scores for test data for \term{max-active-sates}=2000, \term{beam}=13, \term{lattice-beam}=5.
-% Note that 95 \% of utterances were decoded with the~latency lower that 200ms.}
+\begin{frame}\frametitle{ASR training results} 
+    \begin{tabular}{lr}
+        \theader{language/method} & \theader{bigram} \\
+        \hline \\
+        \theader{Czech} & \\
+            tri $\Delta+\Delta\Delta$ &  56.6  \\
+            tri LDA+MLLT &  53.9 \\
+            tri LDA+MLLT+MMI &    49.5 \\
+            tri LDA+MLLT+bMMI &   49.3 \\
+            tri LDA+MLLT+MPE &    49.2 \\
+        \hline \hline \\
+        \theader{English} & \\ 
+            tri $\Delta+\Delta\Delta$ &   16.2 \\
+            tri LDA+MLLT &    15.8 \\
+            tri LDA+MLLT+MMI &    10.4  \\
+            tri LDA+MLLT+bMMI &   10.2 \\
+            tri LDA+MLLT+MPE &    11.1 \\
+        \hline
+    \end{tabular}
+    % \caption{Word error rates for zerogram and bigram LM for different training triphone methods.
+    %     The~`tri~$\Delta+\Delta\Delta$' row shows results for a~generative model which is comparable to the~model trained using the~HTK scripts.
+    % }
 \end{frame}
+
+\begin{frame}\frametitle{HTK and Kaldi acoustic models} 
+    % \begin{block}{HTK results}
+        \begin{tabular}{lrr}
+            \hline
+            \theader{HTK method} & \theader{bigram} \\
+            \hline
+            \theader{Czech}& \\
+                tri $\Delta+\Delta\Delta$  & 60.4\\
+            \hline
+            \theader{English}& & \\
+               tri $\Delta+\Delta\Delta$   & 17.5 \\
+            \hline
+        \end{tabular}
+    % \end{block}
+    % \begin{exampleblock}
+        \begin{tabular}{lrr}
+            \hline
+            \theader{Kaldi method} & \theader{bigram} \\
+            \hline
+            \theader{Czech}& & \\
+                tri $\Delta+\Delta\Delta$  &   56.6  \\
+            \hline
+            \theader{English}& & \\
+               tri $\Delta+\Delta\Delta$  &   16.2 \\
+            \hline
+        \end{tabular}
+    % \end{exampleblock}
+  % \caption{HTK results: Word error rates on test set are obtained by both a~zerogram and a~bigram LM. The~\acp{AM} can be compared with the~basic \term{tri} $\Delta+\Delta\Delta$ Kaldi setup in~Table~\ref{tab:best}.}
+\end{frame}
+
+\begin{frame}\frametitle{Acoustic model accuracy based training data size} 
+    \begin{center}
+        \includegraphics[scale=0.7]{images/partial-zerogram.ps}
+        % \caption{The~figure displays improving performance of Czech generative AM based on growing size of training data for acoustic modelling. The~zerogram LM allows to evaluate only acoustic modelling, but causes a~high WER. }
+    \end{center}
+\end{frame}
+
+\begin{frame}\frametitle{Speech recognition accuracy based on LM training data size} 
+    \begin{center}
+        \includegraphics[scale=0.7]{images/partial-lm-tri2b-bmmi.ps}
+        % \caption{Influence of in-domain text size of \ac{LM} on speech recognition quality. The~\ac{AM} \term{tri2b\_bmmi} and parameters are fixed and only \ac{LM} training size varies.}
+    \end{center}
+\end{frame}
+
+
 
 
 \section{Summary} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -265,6 +267,13 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}\frametitle{Results} 
+    \begin{itemize}
+        \item WER 22, latency under 200 ms on Public Transport Information domain (Czech)
+        \item WER 50 for Czech on Vystadial dataset (Czech - complex domain)
+        \item WER 12 for English on Vystadial dataset 
+    \end{itemize}
+\end{frame}
 
 \section{Details} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
