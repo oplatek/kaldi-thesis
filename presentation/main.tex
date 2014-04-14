@@ -121,13 +121,6 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Functional (Py)OnlineLatgenRecogniser demo} 
-    \begin{center}
-        \lstinputlisting[style=Python]{pykaldi_usage.py}
-    \end{center}
-\end{frame}
-
-
 \section{Acoustic modelling} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}\frametitle{Acoustic modeling} 
@@ -156,7 +149,8 @@
 \end{frame}
 
 \begin{frame}\frametitle{Vystadial dataset} 
-    Collected by UFAL Dialogue system group.
+    \begin{center}
+    Collected by UFAL Dialogue system group.\\
     \begin{tabular}{lrrr}
         \hline
         dataset & audio[hour] & \# sentences & \# words \\
@@ -175,9 +169,11 @@
     % \caption{Size of the~data: length of the~audio (hours:minutes), number of sentences
         % (which is the~same as the~number of recordings), number of words in the~
     % transcriptions.\cite{korvas_2014}}
+    \end{center}
 \end{frame}
 
 \begin{frame}\frametitle{ASR training results} 
+    \begin{center}
     \begin{tabular}{lr}
         \theader{language/method} & \theader{bigram} \\
         \hline \\
@@ -199,6 +195,7 @@
     % \caption{Word error rates for zerogram and bigram LM for different training triphone methods.
     %     The~`tri~$\Delta+\Delta\Delta$' row shows results for a~generative model which is comparable to the~model trained using the~HTK scripts.
     % }
+    \end{center}
 \end{frame}
 
 \begin{frame}\frametitle{HTK and Kaldi acoustic models} 
@@ -268,7 +265,14 @@
 
 \section{Details} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{RTF and Latency} 
+\begin{frame}\frametitle{Functional (Py)OnlineLatgenRecogniser demo} 
+    \begin{center}
+        \lstinputlisting[style=Python]{pykaldi_usage.py}
+    \end{center}
+\end{frame}
+
+\begin{frame}\frametitle{Speed - RTF and Latency} 
+    Fast enough for 95 \% of utterances. \\
     \includegraphics[scale=0.4]{frtf_vs_prc.pdf.ps}
     \includegraphics[scale=0.4]{lat_vs_prc.pdf.ps}
 %     \caption{The~percentile graphs show RTF and Latency scores for test data for \term{max-active-sates}=2000, \term{beam}=13, \term{lattice-beam}=5.
@@ -307,13 +311,16 @@ Tropical    & $(-\infty, \infty)$ &  min                   &  + &  $\infty$ &  0
 \end{frame}
 
 \begin{frame}\frametitle{Links and references}
-\begin{center}
-    {\bf \url{https://github.com/oplatek/kaldi-thesis}}\\
-    {\bf \url{https://github.com/UFAL-DSG/pykaldi}}\\
-    {\bf \url{https://github.com/UFAL-DSG/alex}}\\
-    {\bf \url{http://ufal.mff.cuni.cz/alex-dialogue-systems-framework/}}\\
-    {\bf \url{http://www.linkedin.com/in/ondrejplatek}}\\
-\end{center}
+    Thank you for your attention! \\
+    \begin{exampleblock}{Related links}
+        \begin{itemize}
+            \item Thesis and this slides \\ {\bf \url{https://github.com/oplatek/kaldi-thesis}}
+            \item OnlineLatgenRecogniser implementation and AM training scripts \\ {\bf \url{https://github.com/UFAL-DSG/pykaldi}} 
+            \item Alex implementation \\ {\bf \url{https://github.com/UFAL-DSG/alex}} 
+            % \item Alex web presentation \\ {\bf \url{http://ufal.mff.cuni.cz/alex-dialogue-systems-framework/}} 
+            \item Contact \& CV \\ {\bf \url{http://www.linkedin.com/in/ondrejplatek}}
+        \end{itemize}
+    \end{exampleblock}
 \end{frame}
 
 \end{document}  % do not remove!
