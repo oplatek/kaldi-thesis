@@ -8,30 +8,18 @@
 % \note[item]{Good afternoon, ... DO NOT READ IT, POINT AT IT!}
 
 
-\begin{frame}\frametitle{TODOS} 
-    \begin{itemize}
-        \item practise it
-        \item add link to the README to this slides
-        \item picture of real lattice from my blog
-    \end{itemize}
-\end{frame}
-
-
-\section{Motivation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}\frametitle{Problem} 
-    Spoken dialogue systems needs speech recognition \\
-    OpenJulius --- crashes, PocketSphinx --- no posteriors, RWTH decoder --- license \\
-    Cloud based services Google and Nuance --- no customisation + license issues
-\end{frame}
+\section{Task} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}\frametitle{Goals of thesis} 
-Goals of the thesis were:
-    \begin{itemize}
-        \item to build acoustic models using the Kaldi toolkit,
-        \item to develop new real-time recogniser which supports incremental speech recognition,
-        \item to integrate the~recogniser into our Alex SDS.
-    \end{itemize}
+    Improve speech recognition for Alex Spoken Dialogue Systems (particularly 800 899 998).
+    \begin{exampleblock}
+        Goals of the thesis were:
+        \begin{itemize}
+            \item to build acoustic models using the Kaldi toolkit,
+            \item to develop new real-time recogniser which supports incremental speech recognition,
+            \item to integrate the~recogniser into our Alex SDS.
+        \end{itemize}
+    \end{exampleblock}
 \end{frame}
 
 \begin{frame} \frametitle{Content} \tableofcontents \end{frame}
@@ -53,23 +41,20 @@ Goals of the thesis were:
 
 \begin{frame}\frametitle{Speech recognition} 
     \begin{block}{Pattern matching}
-        HMM successfully used --- speech time series modelling 
+        HMM successfully used --- speech time series modelling
+        \begin{itemize}
+            \item We trained several HMM acoustic models.
+        \end{itemize}
     \end{block}
     \begin{exampleblock}{Graph search - decoding}
         Viterbi algorithm --- dynamic programming
+        \begin{itemize}
+            \item We search for best parameters (beam, max-active-states).
+            \item Normalise its output.
+        \end{itemize}
     \end{exampleblock}
 \end{frame}
 
-\begin{frame}\frametitle{Beam search - Viterbi}
-    \begin{center}
-        \includegraphics[width=30em]{viterbi_decoding.png}
-    \end{center}
-    \tiny{\url{http://www.ee.columbia.edu/ln/LabROSA/doc/HTKBook21/node8.html  - viterbi_decoding.gif}}
-    % \begin{center}
-    %     \includegraphics[width=30em]{viterbi_decoding_2.jpg}
-    % \end{center}
-    % \tiny{http://www.askkia.com/articles/what-is-a-convolutional-encoder-viterbi-algorithm.html - viterbi_decoding_2.jpg}
-\end{frame}
 
 \begin{frame}[fragile]\frametitle{Output formats} 
 
@@ -89,8 +74,21 @@ Goals of the thesis were:
     %     All outgoing arcs for each node sum to 1.0. }
 \end{frame}
 
+\begin{frame}\frametitle{Evaluation measures} 
+    \begin{itemize}
+        \item Real Time Factor (RTF) of decoding -- the~ratio of the~recognition time to the~duration of the~audio input,
+        \item Latency -- the~delay between utterance end and the~availability of the~recognition results,
+        \item Word Error Rate (WER).
+    \end{itemize}
+\end{frame}
+
 
 \section{Acoustic modelling} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}\frametitle{Acoustic modeling} 
+    \input{images/asr-components-am}
+    % Architecture of statistical speech recognizer\cite{ney1990acoustic}
+\end{frame}
 
 \begin{frame}\frametitle{Acoustic models training} 
     \begin{center}
@@ -105,38 +103,11 @@ Goals of the thesis were:
         LDA+MLLT & tri2b  \\
         LDA+MLLT+MMI & tri2b\_mmi \\
         LDA+MLLT+bMMI & tri2b\_bmmi \\
-        MPE & tri2b\_mpe \\
+        LDA+MLLT+MPE & tri2b\_mpe \\
         \hline
         \end{tabular}}
         % \caption{Training partial order among \ac{AM} in our training scripts}
     \end{center}
-\end{frame}
-
-\begin{frame}\frametitle{HTK and Kaldi acoustic models} 
-    todo copy Kaldi models to the table
-    \begin{tabular}{lrr}
-        \hline
-        \theader{language/method} & \theader{zerogram} & \theader{bigram} \\
-        \hline
-        \theader{Czech}& & \\
-            tri $\Delta+\Delta\Delta$  & 64.5 & 60.4\\
-        \hline
-        \theader{English}& & \\
-           tri $\Delta+\Delta\Delta$  & 50.0 & 17.5 \\
-        \hline
-    \end{tabular}
-    \begin{tabular}{lrr}
-        \hline
-        \theader{language/method} & \theader{zerogram} & \theader{bigram} \\
-        \hline
-        \theader{Czech}& & \\
-            tri $\Delta+\Delta\Delta$ &   70.7 &   56.6  \\
-        \hline
-        \theader{English}& & \\
-           tri $\Delta+\Delta\Delta$ &   35.7 &   16.2 \\
-        \hline
-    \end{tabular}
-  % \caption{HTK results: Word error rates on test set are obtained by both a~zerogram and a~bigram LM. The~\acp{AM} can be compared with the~basic \term{tri} $\Delta+\Delta\Delta$ Kaldi setup in~Table~\ref{tab:best}.}
 \end{frame}
 
 \begin{frame}\frametitle{ASR training results} 
@@ -162,6 +133,36 @@ Goals of the thesis were:
     % \caption{Word error rates for zerogram and bigram LM for different training triphone methods.
     %     The~`tri~$\Delta+\Delta\Delta$' row shows results for a~generative model which is comparable to the~model trained using the~HTK scripts.
     % }
+\end{frame}
+
+\begin{frame}\frametitle{HTK and Kaldi acoustic models} 
+    % \begin{block}{HTK results}
+        \begin{tabular}{lrr}
+            \hline
+            \theader{language/method} & \theader{zerogram} & \theader{bigram} \\
+            \hline
+            \theader{Czech}& & \\
+                tri $\Delta+\Delta\Delta$  & 64.5 & 60.4\\
+            \hline
+            \theader{English}& & \\
+               tri $\Delta+\Delta\Delta$  & 50.0 & 17.5 \\
+            \hline
+        \end{tabular}
+    % \end{block}
+    % \begin{exampleblock}
+        \begin{tabular}{lrr}
+            \hline
+            \theader{language/method} & \theader{zerogram} & \theader{bigram} \\
+            \hline
+            \theader{Czech}& & \\
+                tri $\Delta+\Delta\Delta$ &   70.7 &   56.6  \\
+            \hline
+            \theader{English}& & \\
+               tri $\Delta+\Delta\Delta$ &   35.7 &   16.2 \\
+            \hline
+        \end{tabular}
+    % \end{exampleblock}
+  % \caption{HTK results: Word error rates on test set are obtained by both a~zerogram and a~bigram LM. The~\acp{AM} can be compared with the~basic \term{tri} $\Delta+\Delta\Delta$ Kaldi setup in~Table~\ref{tab:best}.}
 \end{frame}
 
 \begin{frame}\frametitle{Vystadial dataset} 
@@ -228,14 +229,6 @@ Goals of the thesis were:
 
 \section[Evaluation in PTI]{Evaluation in Public Transport Information domain}%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{WER, beam, lattice beam} 
-    \begin{itemize}
-        \item Real Time Factor (RTF) of decoding -- the~ratio of the~recognition time to the~duration of the~audio input,
-        \item Latency -- the~delay between utterance end and the~availability of the~recognition results,
-        \item Word Error Rate (WER).
-    \end{itemize}
-\end{frame}
-
 \begin{frame}\frametitle{On-line vs batch decoding} 
     \begin{center}
         \includegraphics[scale=0.5]{lat_cloud_kaldi.png}
@@ -275,6 +268,13 @@ Goals of the thesis were:
 
 \section{Details} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+\begin{frame}\frametitle{Problem} 
+    Spoken dialogue systems needs speech recognition \\
+    OpenJulius --- crashes, PocketSphinx --- no posteriors, RWTH decoder --- license \\
+    Cloud based services Google and Nuance --- no customisation + license issues
+\end{frame}
+
 \begin{frame} \frametitle{Semiring}
 \begin{tabular}{lrrrrr}
 \hline
@@ -288,8 +288,15 @@ Tropical    & $(-\infty, \infty)$ &  min                   &  + &  $\infty$ &  0
 % \caption{Semirings used in speech recognition.\cite{openfst_web}}
 \end{frame}
 
-\begin{frame} \frametitle{OnlineLatgenRecogniser's lattice}
-    TODO insert image of lattice and its one-best path and reference
+\begin{frame}\frametitle{Beam search - Viterbi}
+    \begin{center}
+        \includegraphics[width=30em]{viterbi_decoding.png}
+    \end{center}
+    \tiny{\url{http://www.ee.columbia.edu/ln/LabROSA/doc/HTKBook21/node8.html  - viterbi_decoding.gif}}
+    % \begin{center}
+    %     \includegraphics[width=30em]{viterbi_decoding_2.jpg}
+    % \end{center}
+    % \tiny{http://www.askkia.com/articles/what-is-a-convolutional-encoder-viterbi-algorithm.html - viterbi_decoding_2.jpg}
 \end{frame}
 
 \begin{frame}\frametitle{Links and references}
