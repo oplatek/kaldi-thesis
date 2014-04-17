@@ -5,6 +5,9 @@ If you want to read the thesis please read the most recent version [text/tags/op
 
 (The most recent version should point to file with highest number in the file name suffix. For older versions see the [text/tags/](text/tags) directory.) 
 
+I presented work overview and results of the thesis at the [UFAL](http://ufal.mff.cuni.cz/) Monday seminar.
+The slides are available at [./presentation/tags/oplatek_ufal_seminar2014_04_14_v001.pdf](./presentation/tags/oplatek_ufal_seminar2014_04_14_v001.pdf?raw=true).
+
 Work described
 --------------
 The text of this thesis describes my work on projects listed below:
