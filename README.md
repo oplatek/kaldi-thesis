@@ -3,7 +3,7 @@ Thesis: Automatic speech recognition using Kaldi
 This repository contains the source code of the thesis and its presentation.
 If you want to read the thesis please read the most recent version [text/tags/oplatek_thesis011.pdf](text/tags/oplatek_thesis011.pdf?raw=true). 
 
-(The most recent version should point to file with highest number in the file name suffix. For older versions see the [text/tags/](text/tags) directory.) 
+(The most recent version should point to file with the highest number in the file name suffix. For older versions see the [text/tags/](text/tags) directory.) 
 
 I presented work overview and results of the thesis at the [UFAL](http://ufal.mff.cuni.cz/) Monday seminar.
 The slides are available at [./presentation/tags/oplatek_ufal_seminar2014_04_14_v001.pdf](./presentation/tags/oplatek_ufal_seminar2014_04_14_v001.pdf?raw=true).
