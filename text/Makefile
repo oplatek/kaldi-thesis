@@ -37,7 +37,11 @@ bib: bibrun ps
 .PHONY: bibrun bib ps pdf clean
 
 clean:
-	rm -f *.blg *.bbl *.log  *.dvi *.aux *.toc *.lof *.out *.idx *.ilg $(NAME).ps $(NAME).pdf $(NAME).lof $(NAME).lot
+	rm -f *.blg *.bbl *.log  *.dvi *.aux *.toc *.lof *.out *.idx *.ilg $(NAME).ps $(NAME).pdf $(NAME).lof $(NAME).lot abstract_svoc_en.pdf
 
-prepositions:
-	# todo sed replace in a the of on with on~ and so on
+abstract: abstract_svoc_en.pdf
+
+abstract_svoc_en.pdf: abstract_svoc_en.tex
+	pdfcsplain $<
+
+
