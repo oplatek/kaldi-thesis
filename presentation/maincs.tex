@@ -8,83 +8,57 @@
 % \note[item]{Good afternoon, ... DO NOT READ IT, POINT AT IT!}
 
 
-\section{Task} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cíle} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{Goals of thesis} 
-    Improve speech recognition for Alex Spoken Dialogue Systems \\
-    Particularly public transport information application (800 899 998).
-    \begin{exampleblock}{Goals of the thesis were:}
+\begin{frame}\frametitle{Cíle práce} 
+    Zlepšit rozpoznávání řeči pro Alex Spoken Dialogue Systems \\
+    Obzvlášt aplikaci poskytujcí informace o veřejné dopravě (800 899 998).
+        \begin{exampleblock}{Zadané cíle práce:}
         \begin{itemize}
-            \item to build acoustic models using the Kaldi toolkit,
-            \item to develop new real-time recogniser which supports incremental speech recognition,
-            \item to integrate the~recogniser into our Alex SDS.
+            \item přípravit akustické modely pomocí Kaldi toolkitu,
+            \item vyvinout nový real-time rozpoznávač řeči, který podporuje inkrementální rozpoznávání řeči,
+            \item integrovat rozpoznávač do Alex SDS.
         \end{itemize}
     \end{exampleblock}
 \end{frame}
 
-\begin{frame} \frametitle{Content} \tableofcontents \end{frame}
+\begin{frame} \frametitle{Obsah} \tableofcontents \end{frame}
 
-\section{ASR introduction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{ASR úvod} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{ASR components} 
+\begin{frame}\frametitle{ASR komponenty} 
     \input{images/asr-components}
     % Architecture of statistical speech recognizer\cite{ney1990acoustic}
 \end{frame}
 
-\begin{frame}\frametitle{Acoustic features, features preprocessing} 
-    \input{images/mfcc_window}
-    \input{images/mfcc-delta}
-    % \caption{\ac{PLP} or \ac{MFCC} features are computed every 10 ms seconds in 25 ms windows.
-    % Audio length is $(frames-1)*shift + win\_len = 85ms$}
-    % \caption{Typical setup with 39 features using \ac{MFCC}.}
-\end{frame}
-
-\begin{frame}\frametitle{Continuous Speech recognition} 
-    \begin{block}{Pattern recognition}
-        HMM --- speech time series modelling (phones/triphones for words)
+\begin{frame}\frametitle{Kontinuální rozpoznávání řeči} 
+    \begin{block}{Pattern matching}
+        HMM --- modelování časové řady řeči (monofóny/triphóny pro slova)
         \begin{itemize}
-            \item We trained several HMM acoustic models.
+            \item Natrénovali a porovnali jsme několik HMM akustických modelů.
         \end{itemize}
     \end{block}
-    \begin{exampleblock}{Graph search - decoding}
-        Viterbi algorithm --- dynamic programming
+    \begin{exampleblock}{Prohledávání grafu - dekódování}
+        Viterbi algoritmus --- dynamické programování
         \begin{itemize}
-            \item We search for best parameters (beam, max-active-states).
-            \item Normalise its output.
-            \item Change interface.
+            \item Nalézt optimální parametry (beam, lattice-beam, max-active-states).
+            \item Normalizace výstupu rozpoznávače.
+            \item Změna rozhraní.
         \end{itemize}
     \end{exampleblock}
 \end{frame}
 
 
-\begin{frame}[fragile]\frametitle{Output formats} 
-
-\begin{verbatim}
-    0.5 hi how are you
-    0.2 hi where are you
-    0.1 bey how are you
-\end{verbatim}
-
-% Example of 3-best list output with posterior probability for each path. 
-% N-best list in Kaldi can be easily extracted from lattices. 
-    \begin{center}
-        \includegraphics[width=30em]{toy_lattice.ps}
-    \end{center}
-    % \caption{Word posterior lattice. 
-    %     Common parts of hypotheses are effectively represented. 
-    %     All outgoing arcs for each node sum to 1.0. }
-\end{frame}
-
-\begin{frame}\frametitle{Evaluation measures} 
+\begin{frame}\frametitle{Evaluace, metriky} 
     \begin{itemize}
-        \item Real Time Factor (RTF) of decoding -- the~ratio of the~recognition time to the~duration of the~audio input,
-        \item Latency -- the~delay between utterance end and the~availability of the~recognition results,
-        \item Word Error Rate (WER).
+        \item Real Time Factor (RTF) dekódování -- poměr času dekódování a délky promluvy,
+        \item Latence -- zpozdění mezi koncem promluvy a dostupností výsledků rozpoznávání,
+        \item Word Error Rate (WER) -- chyba nejlepší slovní transkripce.
     \end{itemize}
 \end{frame}
 
 
-\section[Evaluation in PTI]{Evaluation in Public Transport Information domain}%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Evaluace na "PTI"]{Evaluace na "Public Transport Information" doméně}%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}\frametitle{On-line vs batch decoding} 
     \begin{center}
@@ -94,7 +68,7 @@
     % \caption{Almost constant latency of on-line decoder (OnlineLatgenRecogniser) and linearly growing latency of cloud based speech recogniser (Google ASR service) for increasing utterance length.}
 \end{frame}
 
-\begin{frame}\frametitle{Public Transport Information domain - results} 
+\begin{frame}\frametitle{Public Transport Information domain - výsledky} 
     \includegraphics[scale=0.4]{beam_vs_rtfwer.pdf.ps}
     \includegraphics[scale=0.4]{latbeam_vs_latwer.pdf.ps}
     % \caption{The~upper graph (a) shows that WER decreases with increasing \term{beam} and the~average RTF linearly grows with the~beam.
@@ -103,38 +77,38 @@
 \end{frame}
 
 
-\section{On-line recogniser} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{On-line rozpoznávač} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{Components for on-line decoding} 
+\begin{frame}\frametitle{Komponenty on-line dekódování} 
     \begin{center}
         \input{images/online_pipeline}
     \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{(Py)OnlineLatgenRecogniser interface} 
+\begin{frame}\frametitle{(Py)OnlineLatgenRecogniser rozhraní} 
     \begin{itemize}
-        \item \term{AudioIn} -- queueing new audio for pre-processing
-        \item \term{Decode} -- decoding a~fixed number of audio frames
-        \item \term{PruneFinal} -- preparing internal data structures for lattice extraction
-        \item \term{GetLattice} -- extracting a~word posterior lattice
-        \item \term{GetBestPath} -- extracting a~one best word sequence
-        \item \term{Reset} -- preparing the~recogniser for a~new utterance
+        \item \term{AudioIn} -- zařazení audio do fronty k předzpracování
+        \item \term{Decode} -- dekódování určitý počet audio rámců (frame)
+        \item \term{PruneFinal} -- příprava datových struktur pro extrakci lattice (svazu)
+        \item \term{GetLattice} -- extrakce slovní posteriorní lattice
+        \item \term{GetBestPath} -- extrakce nejpravděpodobnější slovní hypotézy
+        \item \term{Reset} -- příprava rozpoznávače na novou promluvu
     \end{itemize}
 \end{frame}
 
-\section{Acoustic modelling} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Akustické modelování} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{Acoustic modeling} 
+\begin{frame}\frametitle{Akustické modelování} 
     \input{images/asr-components-am}
     % Architecture of statistical speech recognizer\cite{ney1990acoustic}
 \end{frame}
 
-\begin{frame}\frametitle{Acoustic models training} 
+\begin{frame}\frametitle{Trénování akustických modelů} 
     \begin{center}
         \input{images/am-deps}
         \small{\begin{tabular}{lll}
         \hline
-        Training method name & Script shortcut \\
+        Jméno trénovací metody & Zkratka ve skriptech \\
         \hline
         Monophone & mono \\
         Triphone  & tri1 \\
@@ -151,10 +125,10 @@
 
 \begin{frame}\frametitle{Vystadial dataset} 
     \begin{center}
-    Collected by UFAL Dialogue system group.\\
+    Posbíráno skupinou UFAL Dialogovým systémů.\\
     \begin{tabular}{lrrr}
         \hline
-        dataset & audio[hour] & \# sentences & \# words \\
+        dataset & audio[h] & \# vět & \# slov \\
         \hline
         \textbf{English} & & & \\
                 training & 41:30 & 47,463 & 178,110 \\
@@ -173,7 +147,7 @@
     \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{ASR training results} 
+\begin{frame}\frametitle{ASR trénování výsledky} 
     \begin{center}
     \begin{tabular}{lr}
         \theader{language/method} & \theader{bigram} \\
@@ -199,7 +173,7 @@
     \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{HTK and Kaldi acoustic models} 
+\begin{frame}\frametitle{HTK a Kaldi akustické modely} 
     % \begin{block}{HTK results}
         \begin{tabular}{lrr}
             \hline
@@ -229,14 +203,14 @@
   % \caption{HTK results: Word error rates on test set are obtained by both a~zerogram and a~bigram LM. The~\acp{AM} can be compared with the~basic \term{tri} $\Delta+\Delta\Delta$ Kaldi setup in~Table~\ref{tab:best}.}
 \end{frame}
 
-\begin{frame}\frametitle{Acoustic model accuracy based on training data size} 
+\begin{frame}\frametitle{Přesnost akustických modelů dle velikosti dat} 
     \begin{center}
         \includegraphics[scale=0.7]{images/partial-zerogram.ps}
         % \caption{The~figure displays improving performance of Czech generative AM based on growing size of training data for acoustic modelling. The~zerogram LM allows to evaluate only acoustic modelling, but causes a~high WER. }
     \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{Speech recognition accuracy based on LM training data size} 
+\begin{frame}\frametitle{Přesnost akustických modelů dle velikosti trénovací dat LM} 
     \begin{center}
         \includegraphics[scale=0.7]{images/partial-lm-tri2b-bmmi.ps}
         % \caption{Influence of in-domain text size of \ac{LM} on speech recognition quality. The~\ac{AM} \term{tri2b\_bmmi} and parameters are fixed and only \ac{LM} training size varies.}
@@ -244,36 +218,63 @@
 \end{frame}
 
 
-\section{Summary} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Shrnutí} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{Achievements} 
+\begin{frame}\frametitle{Závěry} 
     \begin{itemize}
-        \item Working real-time on-line speech recogniser
-        \item Developed acoustic modeling scripts for Czech and English - accepted to Kaldi svn trunk
-        \item Integration of ASR into Alex Dialogue Systems Framework
-        \item Improved speech recognition for toll-free line 800 899 998
+        \item Fungující real-time on-line rozpoznávač řeči
+        \item Připravené trénovací skripty pro češtinu a angličtinu -- přijmuto do Kalsi svn trunk
+        \item Integrace rozpoznávače řeči do dialogového systému
+        \item Vylepšené rozpoznávání řeči na lince 800 899 998 (PTI)
     \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Results} 
+\begin{frame}\frametitle{Výsledky} 
     \begin{itemize}
-        \item WER 22, latency under 200 ms on Public Transport Information domain (Czech)
-        \item WER 50 for Czech on Vystadial dataset (Czech - complex domain)
-        \item WER 12 for English on Vystadial dataset 
+        \item WER 22, latence pod 200 ms na PTI doméně (dříve 1900 ms a 48 WER). 
+        \item WER 50 pro češtinu na Vystadial datesetu (čeština a komplexní doména)
+        \item WER 12 pro angličtinu na Vystadial datasetu 
     \end{itemize}
 \end{frame}
 
 
-\section{Details} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Detaily} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{Functional (Py)OnlineLatgenRecogniser demo} 
+\begin{frame}\frametitle{Acoustic features, features preprocessing} 
+    \input{images/mfcc_window}
+    \input{images/mfcc-delta}
+    % \caption{\ac{PLP} or \ac{MFCC} features are computed every 10 ms seconds in 25 ms windows.
+    % Audio length is $(frames-1)*shift + win\_len = 85ms$}
+    % \caption{Typical setup with 39 features using \ac{MFCC}.}
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{Výstupní formáty} 
+
+    \begin{verbatim}
+    0.5 hi how are you
+    0.2 hi where are you
+    0.1 bey how are you
+\end{verbatim}
+
+% Example of 3-best list output with posterior probability for each path. 
+% N-best list in Kaldi can be easily extracted from lattices. 
+    \begin{center}
+        \includegraphics[width=30em]{toy_lattice.ps}
+    \end{center}
+    % \caption{Word posterior lattice. 
+    %     Common parts of hypotheses are effectively represented. 
+    %     All outgoing arcs for each node sum to 1.0. }
+\end{frame}
+
+
+\begin{frame}\frametitle{Funkční (Py)OnlineLatgenRecogniser demo} 
     \begin{center}
         \lstinputlisting[style=Python]{pykaldi_usage.py}
     \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{Speed - RTF and Latency} 
-    Fast enough for 95 \% of utterances. \\
+\begin{frame}\frametitle{Rychlost - RTF a latence} 
+    Dost rychlé pro 95 \% promluv. \\
     \includegraphics[scale=0.4]{frtf_vs_prc.pdf.ps}
     \includegraphics[scale=0.4]{lat_vs_prc.pdf.ps}
 %     \caption{The~percentile graphs show RTF and Latency scores for test data for \term{max-active-sates}=2000, \term{beam}=13, \term{lattice-beam}=5.
@@ -281,10 +282,10 @@
 \end{frame}
 
 
-\begin{frame}\frametitle{Problem} 
-    Spoken dialogue systems needs speech recognition \\
-    OpenJulius --- crashes, RWTH decoder --- license \\
-    Cloud based services Google and Nuance --- no customisation + license issues
+\begin{frame}\frametitle{Problém} 
+    Dialogové systémy potřebují rozpoznávání řeči \\
+    OpenJulius --- padá, RWTH decoder --- licence \\
+    Cloudové služby Google a Nuance --- žádná adaptace + problémy s licencemi 
 \end{frame}
 
 \begin{frame} \frametitle{Semiring}
@@ -300,20 +301,22 @@ Tropical    & $(-\infty, \infty)$ &  min                   &  + &  $\infty$ &  0
 % \caption{Semirings used in speech recognition.\cite{openfst_web}}
 \end{frame}
 
-\begin{frame}\frametitle{Links and references}
-    Thank you for your attention! \\
-    \begin{exampleblock}{Related links}
+\begin{frame}\frametitle{Odkazy a reference}
+    Děkuji za pozornost! \\
+    \begin{exampleblock}{Související odkazy}
         \begin{itemize}
-            \item Thesis and this slides \\ {\bf \url{https://github.com/oplatek/kaldi-thesis}}
-            \item OnlineLatgenRecogniser implementation and AM training scripts \\ {\bf \url{https://github.com/UFAL-DSG/pykaldi}} 
-            \item Alex implementation \\ {\bf \url{https://github.com/UFAL-DSG/alex}} 
+            \item Diplomová práce \\ {\bf \url{https://github.com/oplatek/kaldi-thesis}}
+            \item OnlineLatgenRecogniser implementace a AM trénovací skripty \\ {\bf \url{https://github.com/UFAL-DSG/pykaldi}} 
+            \item Alex implementace \\ {\bf \url{https://github.com/UFAL-DSG/alex}} 
             % \item Alex web presentation \\ {\bf \url{http://ufal.mff.cuni.cz/alex-dialogue-systems-framework/}} 
-            \item Contact \& CV \\ {\bf \url{http://www.linkedin.com/in/ondrejplatek}}
+            % \item Kontakt \& CV \\ {\bf \url{http://www.linkedin.com/in/ondrejplatek}}
         \end{itemize}
     \end{exampleblock}
-    \begin{exampleblock}{References}
+    \begin{exampleblock}{Reference}
         \begin{itemize}
-            \item Vystadial dataset -  \tiny{Matěj Korvas, Ondřej Plátek, Ondřej Dušek, Lukáš Žilka, and Filip Jurčíček, Free English and Czech telephone speech corpus shared under the CC-BY-SA 3.0 license, Proceedings of the Eight International Conference on Language Resources and Evaluation (LREC 2014), 2014, p. To Appear.}
+            \item Vystadial dataset --  \tiny{Matěj Korvas, Ondřej Plátek, Ondřej Dušek, Lukáš Žilka, and Filip Jurčíček, Free English and Czech telephone speech corpus shared under the CC-BY-SA 3.0 license, Proceedings of the Eight International Conference on Language Resources and Evaluation (LREC 2014), 2014, p. To Appear.}
+            \item Free on-line speech recogniser based on Kaldi ASR toolkit producing word posterior lattices -- \tiny{Ondřej Plátek and Filip Jurčíček, Proceedings of the Sigdial 2014 conference}
+            \item Integration of an online Kaldi speech recogniser to Alex Dialogue Systems Framework -- \tiny{Ondřej Plátek and Filip Jurčíček, TSD conference 2014}
         \end{itemize}
     \end{exampleblock}
 \end{frame}

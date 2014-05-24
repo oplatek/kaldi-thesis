@@ -18,7 +18,7 @@
 ###   mypostprocessingstep:
 ###           # do something...
 ###
-TARGET=main
+TARGET=maincs
 
 PDFLATEX	?= pdflatex
 BIBTEX		?= bibtex
