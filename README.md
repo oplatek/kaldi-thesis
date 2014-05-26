@@ -7,6 +7,7 @@ If you want to read the thesis please read the most recent version [text/tags/op
 
 I presented work overview and results of the thesis at the [UFAL](http://ufal.mff.cuni.cz/) Monday seminar.
 The slides are available at [./presentation/tags/oplatek_ufal_seminar2014_04_14_v001.pdf](./presentation/tags/oplatek_ufal_seminar2014_04_14_v001.pdf?raw=true).
+The slides for my defence in Czech can be downloaded at [./presentation/tags/oplatek__defence_cs.pdf](./presentation/tags/oplatek_defence_cs.pdf?raw=true).
 
 Work described
 --------------
