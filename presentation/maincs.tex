@@ -75,12 +75,6 @@
 
 \section{On-line rozpoznávač} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{Komponenty on-line dekódování} 
-    \begin{center}
-        \input{images/online_pipeline}
-    \end{center}
-\end{frame}
-
 \begin{frame}\frametitle{(Py)OnlineLatgenRecogniser rozhraní} 
     \begin{itemize}
         \item \term{AudioIn} -- zařazení audio do fronty k předzpracování
@@ -90,6 +84,12 @@
         \item \term{GetBestPath} -- extrakce nejpravděpodobnější slovní hypotézy
         \item \term{Reset} -- příprava rozpoznávače na novou promluvu
     \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Komponenty on-line dekódování} 
+    \begin{center}
+        \input{images/online_pipeline}
+    \end{center}
 \end{frame}
 
 
@@ -259,9 +259,9 @@ Tropical    & $(-\infty, \infty)$ &  min                   &  + &  $\infty$ &  0
     \begin{exampleblock}{Reference}
         \tiny
         \begin{itemize}
-            \item Vystadial dataset --  Matěj Korvas, Ondřej Plátek, Ondřej Dušek, Lukáš Žilka, and Filip Jurčíček, Free English and Czech telephone speech corpus shared under the CC-BY-SA 3.0 license, Proceedings of the Eight International Conference on Language Resources and Evaluation (LREC 2014), 2014, p. To Appear.
-            \item Free on-line speech recogniser based on Kaldi ASR toolkit producing word posterior lattices -- Ondřej Plátek and Filip Jurčíček, Proceedings of the Sigdial 2014 conference
-            \item Integration of an online Kaldi speech recogniser to Alex Dialogue Systems Framework -- Ondřej Plátek and Filip Jurčíček, TSD conference 2014
+            \item Vystadial dataset --  Matěj Korvas, Ondřej Plátek, Ondřej Dušek, Lukáš Žilka, and Filip Jurčíček, Free English and Czech telephone speech corpus shared under the CC-BY-SA 3.0 license, Proceedings of the Eight International Conference on Language Resources and Evaluation (LREC 2014), 2014.
+            \item Free on-line speech recogniser based on Kaldi ASR toolkit producing word posterior lattices -- Ondřej Plátek and Filip Jurčíček, Proceedings of the Sigdial 2014 conference.
+            \item Integration of an online Kaldi speech recogniser to Alex Dialogue Systems Framework -- Ondřej Plátek and Filip Jurčíček, TSD conference 2014.
         \end{itemize}
     \end{exampleblock}
 \end{frame}
