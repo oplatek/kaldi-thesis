@@ -75,7 +75,7 @@
 
 \section{On-line rozpoznávač} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{(Py)OnlineLatgenRecogniser rozhraní} 
+\begin{frame}\frametitle{Funkční (Py)OnlineLatgenRecogniser demo} 
     \begin{itemize}
         \item \term{AudioIn} -- zařazení audio do fronty k předzpracování
         \item \term{Decode} -- dekódování určitý počet audio rámců (frame)
@@ -84,6 +84,9 @@
         \item \term{GetBestPath} -- extrakce nejpravděpodobnější slovní hypotézy
         \item \term{Reset} -- příprava rozpoznávače na novou promluvu
     \end{itemize}
+    \begin{center}
+        \lstinputlisting[style=Python]{pykaldi_usage.py}
+    \end{center}
 \end{frame}
 
 \begin{frame}\frametitle{Komponenty on-line dekódování} 
@@ -125,14 +128,6 @@
 
 \section{Shrnutí} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \begin{frame}\frametitle{Výsledky} 
-%     \begin{itemize}
-%         \item WER 22, latence pod 200 ms na české PTI doméně (dříve 1900 ms a 48 WER). 
-%         \item WER 50 pro češtinu na Vystadial datesetu (čeština a komplexní doména)
-%         \item WER 12 pro angličtinu na Vystadial datasetu 
-%     \end{itemize}
-% \end{frame}
-
 \begin{frame}\frametitle{Shrnutí} 
     \begin{exampleblock}{Výsledky}
     \begin{itemize}
@@ -142,7 +137,7 @@
     \end{exampleblock}
     \begin{block}{Závěry}
     \begin{itemize}
-        \item Testovaný real-time on-line rozpoznávač řeči
+        \item Testovaný open-source real-time on-line rozpoznávač řeči
         \item Trénovací skripty pro češtinu a angličtinu {\scriptsize (Vystadial)}-- přijmuto do Kaldi
         \item Integrace rozpoznávače řeči do dialogového systému, v reálném provozu na lince 800 899 998 (PTI doména)
         \item Spoluautor akceptovaných článků na konference Sigdial, Lrec a TSD (Viz reference) 
@@ -152,21 +147,6 @@
 
 
 \section{Podpůrné slidy} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}\frametitle{Přesnost akustických modelů dle velikosti dat} 
-    \begin{center}
-        \includegraphics[scale=0.7]{images/partial-zerogram.ps}
-        % \caption{The~figure displays improving performance of Czech generative AM based on growing size of training data for acoustic modelling. The~zerogram LM allows to evaluate only acoustic modelling, but causes a~high WER. }
-    \end{center}
-\end{frame}
-
-\begin{frame}\frametitle{Přesnost akustických modelů dle velikosti trénovací dat LM} 
-    \begin{center}
-        \includegraphics[scale=0.7]{images/partial-lm-tri2b-bmmi.ps}
-        % \caption{Influence of in-domain text size of \ac{LM} on speech recognition quality. The~\ac{AM} \term{tri2b\_bmmi} and parameters are fixed and only \ac{LM} training size varies.}
-    \end{center}
-\end{frame}
-
 
 \begin{frame}\frametitle{Vystadial dataset} 
     \begin{center}
@@ -191,6 +171,33 @@
     % transcriptions.\cite{korvas_2014}}
     \end{center}
 \end{frame}
+
+
+\begin{frame}\frametitle{Přesnost akustických modelů dle velikosti dat} 
+    \begin{center}
+        \includegraphics[scale=0.7]{images/partial-zerogram.ps}
+        % \caption{The~figure displays improving performance of Czech generative AM based on growing size of training data for acoustic modelling. The~zerogram LM allows to evaluate only acoustic modelling, but causes a~high WER. }
+    \end{center}
+\end{frame}
+
+\begin{frame}\frametitle{Přesnost akustických modelů dle velikosti trénovací dat LM} 
+    \begin{center}
+        \includegraphics[scale=0.7]{images/partial-lm-tri2b-bmmi.ps}
+        % \caption{Influence of in-domain text size of \ac{LM} on speech recognition quality. The~\ac{AM} \term{tri2b\_bmmi} and parameters are fixed and only \ac{LM} training size varies.}
+    \end{center}
+\end{frame}
+
+\begin{frame}\frametitle{(Py)OnlineLatgenRecogniser rozhraní} 
+    \begin{itemize}
+        \item \term{AudioIn} -- zařazení audio do fronty k předzpracování
+        \item \term{Decode} -- dekódování určitý počet audio rámců (frame)
+        \item \term{PruneFinal} -- příprava datových struktur pro extrakci lattice (svazu)
+        \item \term{GetLattice} -- extrakce slovní posteriorní lattice
+        \item \term{GetBestPath} -- extrakce nejpravděpodobnější slovní hypotézy
+        \item \term{Reset} -- příprava rozpoznávače na novou promluvu
+    \end{itemize}
+\end{frame}
+
 
 
 \begin{frame}\frametitle{Acoustic features, features preprocessing} 
@@ -219,12 +226,6 @@
     %     All outgoing arcs for each node sum to 1.0. }
 \end{frame}
 
-
-\begin{frame}\frametitle{Funkční (Py)OnlineLatgenRecogniser demo} 
-    \begin{center}
-        \lstinputlisting[style=Python]{pykaldi_usage.py}
-    \end{center}
-\end{frame}
 
 \begin{frame}\frametitle{Problém} 
     Dialogové systémy potřebují rozpoznávání řeči \\
