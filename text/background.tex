@@ -106,7 +106,7 @@ As a~result, \ac{MFCC} $\Delta+\Delta\Delta$ extracts $13 + 13 + 13 = 39$ acoust
 The~original vector of 400 audio samples in one frame is reduced to vector of 39 \ac{MFCC} $\Delta+\Delta\Delta$ acoustic features.
 
 The~\ac{MFCC} features are computed by the~following steps:
-\small{\begin{enumerate}
+{\small \begin{enumerate}
     \item The~audio samples are transformed into \term{frequency domain} by~\ac{DFT} in the~window.
     \item The~frequency spectrum from the~previous step is transformed onto the~mel scale, a~perceptual scale of frequencies, using triangular overlapping filters.
     \item From the~mel frequencies the~logs of the~powers are taken from each of the~mel frequencies.
@@ -269,11 +269,11 @@ The~\ac{EM} algorithm iterates following steps in order to update parameters of 
     \item {\bf M-step}: Based on the~alignment of observation to states the~$t'$ parameters are re-estimated. 
 \end{itemize}
 
-\ml{Baum-Welsch}
+\ml{Baum-Welch}
 The~{\bf E-step} finds a~distribution for the~alignment between \ac{HMM} $t'$ and transcription $t$ using \ac{MLE}\cite{gopinath1998maximum} and observation probabilities.
 \ac{MLE} takes into account takes into account all possible alignments and its probabilities to compute the~resulting distribution.
-The~Baum-Welsch equations can be derived from the~fact, that the~\ac{MLE} criterion is also used for finding the~most probable distribution in {\bf M-step}.\cite{huang2001spoken}
-% This variation of \ac{EM} algorithm for estimating \ac{HMM} parameters is called Baum-Welsch algorithm.
+The~Baum-Welch equations can be derived from the~fact, that the~\ac{MLE} criterion is also used for finding the~most probable distribution in {\bf M-step}.\cite{huang2001spoken}
+% This variation of \ac{EM} algorithm for estimating \ac{HMM} parameters is called Baum-Welch algorithm.
 
 \begin{figure}[!htp]
     \begin{center}
@@ -365,8 +365,8 @@ Finally, the~mixture weights are computed based on the~number of observations al
 
 
 \ml{generative training}
-To conclude, \ac{AM} are trained using \ac{MLE} or Viterbi training, which approximates the~theoretically optimal \ac{MLE} Baum-Welsh training; however, in practice Viterbi training performs as well as \ac{MLE} modelling.
-Baum-Welsch or Viterbi training aim at modelling likelihood of spoken utterance and perform so called generative training.
+To conclude, \ac{AM} are trained using \ac{MLE} or Viterbi training, which approximates the~theoretically optimal \ac{MLE} Baum-Welch training; however, in practice Viterbi training performs as well as \ac{MLE} modelling.
+Baum-Welch or Viterbi training aim at modelling likelihood of spoken utterance and perform so called generative training.
 However, discriminative methods, which re-estimates generative \acp{AM}, perform better.
 
 \subsubsection*{Discriminative training}
@@ -374,7 +374,7 @@ However, discriminative methods, which re-estimates generative \acp{AM}, perform
 % subsection subsection_name (end)
 \ml{discriminative training}
 The~discriminative training uses its objective function and likelihood of generative models to discriminate -- boost differences between high probable and low probable hypotheses.
-The~discriminative training is typically initialised by acoustic generative model from Baum-Welsch or Viterbi training.
+The~discriminative training is typically initialised by acoustic generative model from Baum-Welch or Viterbi training.
 Then, the~likelihood from the~generative model is boosted according an objective function and the~\ac{AM} is re-estimated.
 Following objective functions and accordingly named discriminative training methods are used in our training scripts:
 \begin{itemize}
@@ -698,7 +698,7 @@ In addition, the~crashes were hard to detect because Julius used to run in a~sep
 Kaldi is a~speech recognition toolkit consisting of a~library, command line programs and scripts for acoustic modelling.
 Kaldi deploys several decoders for evaluation Kaldi \acp{AM}.
 Kaldi uses Viterbi training for estimating \acp{AM}. 
-Only in special cases of speaker adaptive discriminative training the~extended Baum-Welsch algorithm is also used\cite{povey2011kaldi}.
+Only in special cases of speaker adaptive discriminative training the~extended Baum-Welch algorithm is also used\cite{povey2011kaldi}.
 
 The~architecture of the~Kaldi toolkit could be separated to Kaldi library and training scripts.
 The~scripts access the~functionality of Kaldi library through command line programs.
