@@ -32,11 +32,7 @@ The text of this thesis describes my work on projects listed below:
 
  * Pykaldi-eval - https://github.com/oplatek/pykaldi-eval - Repository for evaluation OnlineLatgenRecogniser written in IPython notebook. See interesting graphs.
    
- * TODO link to the reference documentation for C++ code in Kaldi
- * TODO link to the reference documentation for Python code in Kaldi
- * TODO link to the reference documentation for Python code in Alex
+ * Alex documentation http://alex.readthedocs.org/en/latest/index.html
 
 
  Note: The thesis is compiled for two side printing.
- If you want to print it in colour and save toner color ink print only following pages in colour: 3,4,33,34,41-52
- These pages can be printed in grey scale: 1,2,5-32,35-40,53-
