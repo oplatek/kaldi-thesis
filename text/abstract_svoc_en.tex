@@ -1,4 +1,4 @@
-My master thesis presents new automatic speech recognition component for a spoken dialogue system.
+My master thesis presents a new automatic speech recognition component for a spoken dialogue system.
 In order to deploy the speech recogniser to the dialogue system I designed and implemented:\hfil\break\hfil\break
 1. OnlineLatgenRecogniser which supports incremental speech processing, \hfil\break
 2. training scripts used for estimating high quality acoustic models, \hfil\break
@@ -10,10 +10,10 @@ produces high quality word posterior lattices thanks to the use of a standard Ka
 The implemented training scripts were accepted by Kaldi community and merged back to Kaldi main repository. 
 The trained acoustic models reach state-of-the-art quality and can be used with standard Kaldi speech recognition as well as with the new OnlineLatgenRecogniser. 
 
-Furthermore, I integrated the C++ OnlineLatgenRecogniser into Alex dialogue system written in Python. 
+Furthermore, I integrated the C++ OnlineLatgenRecogniser into the Alex dialogue system written in Python. 
 The recogniser's parameters were tuned and evaluated on Public Transport Information domain. 
 A state-of-the-art performance of speaker independent real-time recognition was achieved. 
-As a result, the recogniser is deployed in a~publicly available Spoken Dialogue System Alex on a~toll-free telephone line (+420 800 899 998).
+As a result, the recogniser is deployed in a publicly available Spoken Dialogue System Alex on a toll-free telephone line (+420 800 899 998).
 
 In addition to the implementation effort described in the thesis, I co-authored an article ``Free on-line speech recogniser based on Kaldi ASR toolkit producing word posterior lattices''; Platek, Jur\v{c}i\v{c}ek; Sigdial 2014. I have also co-authored an article ``Free English and Czech telephone speech corpus shared under the CC-BY-SA 3.0 license''; Korvas, Platek, Du\v{s}ek, \v{Z}ilka, Jur\v{c}\'{i}\v{c}ek; LREC 2014. The LREC article uses the implemented acoustic modeling training scripts and compare them with HTK training scripts on Vystadial data sets and the Sigdial article describes the architecture of the recogniser. 
 

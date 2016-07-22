@@ -1,0 +1,272 @@
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+% \MRhref is called by the amsart/book/proc definition of \MR.
+\providecommand{\MRhref}[2]{%
+  \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{10}
+
+\bibitem{asdf2014url}
+ADSF, \emph{{The Alex Dialogue Systems Framework}}, April 2014,
+  {https://github.com/UFAL-DSG/alex}.
+
+\bibitem{lee2014openjulius}
+Lee Akinobu, \emph{{Open-Source Large Vocabulary CSR Engine Julius}}, April
+  2014, {http://julius.sourceforge.jp/en\_index.php}.
+
+\bibitem{allauzen2007openfst}
+Cyril Allauzen, Michael Riley, Johan Schalkwyk, Wojciech Skut, and Mehryar
+  Mohri, \emph{{OpenFst: A general and efficient weighted finite-state
+  transducer library}}, {Implementation and Application of Automata}, Springer,
+  2007, pp.~11--23.
+
+\bibitem{cython2014url}
+Stefan Behnel, Robert Bradshaw, Lisandro Dalcín, Mark Florisson, Vitja
+  Makarov, and Dag Seljebotn, \emph{{Cython: C-Extensions for Python}}, 2014,
+  \url{http://cython.org/}.
+
+\bibitem{brants2007large}
+Thorsten Brants, Ashok~C Popat, Peng Xu, Franz~J Och, and Jeffrey Dean,
+  \emph{Large language models in machine translation}, In Proceedings of the
+  Joint Conference on Empirical Methods in Natural Language Processing and
+  Computational Natural Language Learning, Citeseer, 2007.
+
+\bibitem{buthpitiya2012parallel}
+Senaka Buthpitiya, Ian Lane, and Jike Chong, \emph{{A parallel implementation
+  of Viterbi training for acoustic models using graphics processing units}},
+  Innovative Parallel Computing (InPar), 2012, IEEE, 2012, pp.~1--10.
+
+\bibitem{pyfst2014url}
+Victor Chahuneau and Ondrej Platek, \emph{{The PyFst library: OpenFst in
+  Python}}, 2014, \url{https://github.com/UFAL-DSG/pyfst}.
+
+\bibitem{chow1990maximum}
+Y-L Chow, \emph{{Maximum mutual information estimation of HMM parameters for
+  continuous speech recognition using the< e1> N</e1>-best algorithm}},
+  Acoustics, Speech, and Signal Processing, 1990. ICASSP-90., 1990
+  International Conference on, IEEE, 1990, pp.~701--704.
+
+\bibitem{davis1980comparison}
+Steven Davis and Paul Mermelstein, \emph{Comparison of parametric
+  representations for monosyllabic word recognition in continuously spoken
+  sentences}, Acoustics, Speech and Signal Processing, IEEE Transactions on
+  \textbf{28} (1980), no.~4, 357--366.
+
+\bibitem{gales1999semi}
+Mark~JF Gales, \emph{{Semi-tied covariance matrices for hidden Markov models}},
+  Speech and Audio Processing, IEEE Transactions on \textbf{7} (1999), no.~3,
+  272--281.
+
+\bibitem{ghahramani2004unsupervised}
+Zoubin Ghahramani, \emph{Unsupervised learning}, Advanced Lectures on Machine
+  Learning, Springer, 2004, pp.~72--112.
+
+\bibitem{goodman2001bit}
+Joshua~T Goodman, \emph{A bit of progress in language modeling}, Computer
+  Speech \& Language \textbf{15} (2001), no.~4, 403--434.
+
+\bibitem{gopinath1998maximum}
+Ramesh~A Gopinath, \emph{{Maximum likelihood modeling with Gaussian
+  distributions for classification}}, Acoustics, Speech and Signal Processing,
+  1998. Proceedings of the 1998 IEEE International Conference on, vol.~2, IEEE,
+  1998, pp.~661--664.
+
+\bibitem{hermansky1990perceptual}
+Hynek Hermansky, \emph{{Perceptual linear predictive (PLP) analysis of
+  speech}}, The Journal of the Acoustical Society of America \textbf{87}
+  (1990), 1738.
+
+\bibitem{huang2001spoken}
+Xuedong Huang, Alejandro Acero, Hsiao-Wuen Hon, et~al., \emph{Spoken language
+  processing}, vol.~15, Prentice Hall PTR New Jersey, 2001.
+
+\bibitem{huggins2006pocketsphinx}
+David Huggins-Daines, Mohit Kumar, Arthur Chan, Alan~W Black, Mosur
+  Ravishankar, and Alex~I Rudnicky, \emph{{Pocketsphinx: A free, real-time
+  continuous speech recognition system for hand-held devices}}, Acoustics,
+  Speech and Signal Processing, 2006. ICASSP 2006 Proceedings. 2006 IEEE
+  International Conference on, vol.~1, IEEE, 2006, pp.~I--I.
+
+\bibitem{jerri1977shannon}
+Abdul~J Jerri, \emph{The shannon sampling theorem—its various extensions and
+  applications: A tutorial review}, Proceedings of the IEEE \textbf{65} (1977),
+  no.~11, 1565--1596.
+
+\bibitem{jurcicek2012vystadial}
+Filip Jurčíček, \emph{{VYSTADIAL}: Development of statistical methods for
+  spoken dialogue systems}, April 2014,
+  {http://ufal.mff.cuni.cz/grants/vystadial}.
+
+\bibitem{korvas_2014}
+Mat\v{e}j Korvas, Ond\v{r}ej Pl\'{a}tek, Ond\v{r}ej Du\v{s}ek, Luk\'{a}\v{s}
+  \v{Z}ilka, and Filip Jur\v{c}\'{i}\v{c}ek, \emph{{Free English and Czech
+  telephone speech corpus shared under the CC-BY-SA 3.0 license}}, Proceedings
+  of the Eigth International Conference on Language Resources and Evaluation
+  (LREC 2014), 2014, p.~To Appear.
+
+\bibitem{lee2009julius}
+Akinobu Lee and Tatsuya Kawahara, \emph{Recent development of open-source
+  speech recognition engine julius}, 2009.
+
+\bibitem{mohri2002weighted}
+Mehryar Mohri, Fernando Pereira, and Michael Riley, \emph{Weighted finite-state
+  transducers in speech recognition}, Computer Speech \& Language \textbf{16}
+  (2002), no.~1, 69--88.
+
+\bibitem{mohri2012foundations}
+Mehryar Mohri, Afshin Rostamizadeh, and Ameet Talwalkar, \emph{Foundations of
+  machine learning}, The MIT Press, 2012.
+
+\bibitem{molau2003feature}
+Sirko Molau, Florian Hilger, and Hermann Ney, \emph{Feature space normalization
+  in adverse acoustic conditions}, Acoustics, Speech, and Signal Processing,
+  2003. Proceedings.(ICASSP'03). 2003 IEEE International Conference on, vol.~1,
+  IEEE, 2003, pp.~I--656.
+
+\bibitem{morbini2013asr}
+Fabrizio Morbini, Kartik Audhkhasi, Kenji Sagae, Ron Artstein, Dogan Can,
+  Panayiotis Georgiou, Shri Narayanan, Anton Leuski, and David Traum,
+  \emph{{Which ASR should I choose for my dialogue system?}}, Proceedings of
+  the SIGDIAL 2013 Conference (Metz, France, 2013, pp.~394--403.
+
+\bibitem{ney1990acoustic}
+Hermann Ney, \emph{Acoustic modeling of phoneme units for continuous speech
+  recognition}, Proc. Fifth Europ. Signal Processing Conf, 1990, pp.~65--72.
+
+\bibitem{kaldi2014url}
+Daniel Povey, \emph{{The Kaldi ASR toolkit}}, April 2014,
+  {http://sourceforge.net/projects/kaldi}.
+
+\bibitem{povey2010subspace}
+Daniel Povey, Lukas Burget, Mohit Agarwal, Pinar Akyazi, Kai Feng, Arnab
+  Ghoshal, Ondrej Glembek, Nagendra~K Goel, Martin Karafi{\'a}t, Ariya Rastrow,
+  et~al., \emph{{Subspace Gaussian mixture models for speech recognition}},
+  Acoustics Speech and Signal Processing (ICASSP), 2010 IEEE International
+  Conference on, IEEE, 2010, pp.~4330--4333.
+
+\bibitem{povey2003mmi}
+Daniel Povey, Mark~JF Gales, Do~Yeong Kim, and Philip~C Woodland,
+  \emph{{MMI-MAP and MPE-MAP for acoustic model adaptation.}}, INTERSPEECH,
+  2003.
+
+\bibitem{povey2011kaldi}
+Daniel Povey, Arnab Ghoshal, Gilles Boulianne, Lukas Burget, Ondrej Glembek,
+  Nagendra Goel, Mirko Hannemann, Petr Motlicek, Yanmin Qian, Petr Schwarz, Jan
+  Silovsky, Georg Stemmer, and Karel Vesely, \emph{The {Kaldi} speech
+  recognition toolkit}, IEEE 2011 Workshop on Automatic Speech Recognition and
+  Understanding, IEEE Signal Processing Society, December 2011, IEEE Catalog
+  No.: CFP11SRW-USB.
+
+\bibitem{povey2012generating}
+Daniel Povey, Mirko Hannemann, Gilles Boulianne, Lukas Burget, Arnab Ghoshal,
+  Milos Janda, Martin Karafi{\'a}t, Stefan Kombrink, Petr Motlicek, Yanmin
+  Qian, et~al., \emph{{Generating exact lattices in the WFST framework}},
+  Acoustics, Speech and Signal Processing (ICASSP), 2012 IEEE International
+  Conference on, IEEE, 2012, pp.~4213--4216.
+
+\bibitem{povey2008boosted}
+Daniel Povey, Dimitri Kanevsky, Brian Kingsbury, Bhuvana Ramabhadran, George
+  Saon, and Karthik Visweswariah, \emph{{Boosted MMI for model and
+  feature-space discriminative training}}, Acoustics, Speech and Signal
+  Processing, 2008. ICASSP 2008. IEEE International Conference on, IEEE, 2008,
+  pp.~4057--4060.
+
+\bibitem{povey2007evaluation}
+Daniel Povey and Brian Kingsbury, \emph{{Evaluation of proposed modifications
+  to MPE for large scale discriminative training}}, Acoustics, Speech and
+  Signal Processing, 2007. ICASSP 2007. IEEE International Conference on,
+  vol.~4, IEEE, 2007, pp.~IV--321.
+
+\bibitem{povey2005fmpe}
+Daniel Povey, Brian Kingsbury, Lidia Mangu, George Saon, Hagen Soltau, and
+  Geoffrey Zweig, \emph{{fMPE: Discriminatively trained features for speech
+  recognition}}, Proc. ICASSP, vol.~1, Philadelphia, 2005, pp.~961--964.
+
+\bibitem{povey2011exponential}
+Daniel Povey, G.~Zweig, and A.~Acero, \emph{{The Exponential Transform as a
+  generic substitute for VTLN}}, IEEE ASRU, 2011.
+
+\bibitem{psutka2007benefit}
+Josef Psutka, \emph{{Benefit of maximum likelihood linear transform (MLLT) used
+  at different levels of covariance matrices clustering in ASR systems}}, Text,
+  Speech and Dialogue, Springer, 2007, pp.~431--438.
+
+\bibitem{psutka2001comparison}
+Josef Psutka, Ludek M{\"u}ller, and Josef~V Psutka, \emph{{Comparison of MFCC
+  and PLP parameterizations in the speaker independent continuous speech
+  recognition task.}}, INTERSPEECH, 2001, pp.~1813--1816.
+
+\bibitem{openfst_web}
+Michael Riley, \emph{{OpenFst Quick Tour}}, April 2014,
+  {http://www.openfst.org/twiki/bin/view/FST/FstQuickTour}.
+
+\bibitem{rodriguez2003comparative}
+Luis~Javier Rodr{\'\i}guez and In{\'e}s Torres, \emph{{Comparative study of the
+  Baum-Welch and Viterbi training algorithms applied to read and spontaneous
+  speech recognition}}, Pattern Recognition and Image Analysis, Springer, 2003,
+  pp.~847--857.
+
+\bibitem{rybach2011rasr}
+David Rybach, Stefan Hahn, Patrick Lehnen, David Nolden, Martin Sundermeyer,
+  Zoltan T{\"u}ske, Siemon Wiesler, Ralf Schl{\"u}ter, and Hermann Ney,
+  \emph{{RASR-The RWTH Aachen University open source speech recognition
+  toolkit}}, Proc. IEEE Automatic Speech Recognition and Understanding
+  Workshop, 2011.
+
+\bibitem{skantze2009incremental}
+Gabriel Skantze and David Schlangen, \emph{Incremental dialogue processing in a
+  micro-domain}, Proceedings of the 12th Conference of the European Chapter of
+  the Association for Computational Linguistics, Association for Computational
+  Linguistics, 2009, pp.~745--753.
+
+\bibitem{ptics2014url}
+UFAL-DSG, \emph{{The Alex Dialogue Systems Framework - Public Transport
+  Information}}, April 2014,
+  {http://ufal.mff.cuni.cz/alex-dialogue-systems-framework/}.
+
+\bibitem{vertanen_baseline_2006}
+Keith Vertanen, \emph{Baseline {WSJ} acoustic models for {HTK} and {Sphinx}:
+  Training recipes and recognition experiments}, Tech. report, Cavendish
+  Laboratory, University of Cambridge, 2006.
+
+\bibitem{vesely2013sequencediscriminative}
+Karel Vesel{\`y}, Arnab Ghoshal, Luk{\'a}{\v{s}} Burget, and Daniel Povey,
+  \emph{{Sequence discriminative training of deep neural networks}}, Proc.
+  INTERSPEECH, 2013, pp.~2345--2349.
+
+\bibitem{weide1998cmu}
+R~Weide, \emph{The cmu pronunciation dictionary, release 0.7a}, Carnegie Mellon
+  University, 1998.
+
+\bibitem{witten1991zero}
+Ian~H Witten and Timothy Bell, \emph{{The zero-frequency problem: Estimating
+  the probabilities of novel events in adaptive text compression}}, Information
+  Theory, IEEE Transactions on \textbf{37} (1991), no.~4, 1085--1094.
+
+\bibitem{yao2010practical}
+Xuchen Yao, Pravin Bhutada, Kallirroi Georgila, Kenji Sagae, Ron Artstein, and
+  David~R Traum, \emph{Practical evaluation of speech recognizers for virtual
+  human dialogue systems.}, LREC, Citeseer, 2010.
+
+\bibitem{ye2004speech}
+Jinjin Ye, \emph{Speech recognition using time domain features from phase space
+  reconstructions}, Ph.D. thesis, Marquette University Milwaukee, Wisconsin,
+  2004.
+
+\bibitem{young94htk}
+SJ~Young, \emph{{The HTK Hidden Markov Model Toolkit: Design and Philosophy}},
+  vol.~2, 1994, pp.~2--44.
+
+\bibitem{young2006htk}
+Steve Young, Gunnar Evermann, Mark Gales, Thomas Hain, Dan Kershaw, Xunying
+  Liu, Gareth Moore, Julian Odell, Dave Ollason, Dan Povey, et~al., \emph{The
+  {HTK} book (for {HTK} version 3.4)}, Cambridge university engineering
+  department \textbf{2} (2006), no.~2, 2--3.
+
+\bibitem{zhang2014improving}
+Xiaohui Zhang, Jan Trmal, Daniel Povey, and Sanjeev Khudanpur, \emph{{Improving
+  deep neural network acoustic models using generalized maxout networks}},
+  submitted to ICASSP (2014).
+
+\end{thebibliography}

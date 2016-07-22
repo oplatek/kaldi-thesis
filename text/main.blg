@@ -1,0 +1,68 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: main.aux
+A level-1 auxiliary file: title_pages.aux
+A level-1 auxiliary file: intro.aux
+A level-1 auxiliary file: background.aux
+A level-1 auxiliary file: training.aux
+A level-1 auxiliary file: decoder.aux
+A level-1 auxiliary file: integration.aux
+A level-1 auxiliary file: conclusion.aux
+A level-1 auxiliary file: acronyms.aux
+A level-1 auxiliary file: cd_content.aux
+The style file: amsplain.bst
+Database file #1: citations.bib
+Warning--missing booktitle in asdf2014url
+Warning--missing booktitle in lee2014openjulius
+Warning--missing booktitle in cython2014url
+Warning--missing booktitle in pyfst2014url
+Warning--missing booktitle in jurcicek2012vystadial
+Warning--missing booktitle in lee2009julius
+Warning--missing booktitle in kaldi2014url
+Warning--missing booktitle in openfst_web
+Warning--missing booktitle in ptics2014url
+Warning--missing booktitle in weide1998cmu
+Warning--missing booktitle in young94htk
+Warning--missing pages in zhang2014improving
+You've used 50 entries,
+            2213 wiz_defined-function locations,
+            777 strings with 14437 characters,
+and the built_in function-call counts, 19318 in all, are:
+= -- 1719
+> -- 1011
+< -- 7
++ -- 407
+- -- 352
+* -- 1480
+:= -- 3024
+add.period$ -- 50
+call.type$ -- 50
+change.case$ -- 323
+chr.to.int$ -- 0
+cite$ -- 62
+duplicate$ -- 838
+empty$ -- 1560
+format.name$ -- 352
+if$ -- 4118
+int.to.chr$ -- 0
+int.to.str$ -- 50
+missing$ -- 100
+newline$ -- 160
+num.names$ -- 100
+pop$ -- 443
+preamble$ -- 1
+purify$ -- 272
+quote$ -- 0
+skip$ -- 645
+stack$ -- 0
+substring$ -- 1056
+swap$ -- 233
+text.length$ -- 7
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 196
+warning$ -- 12
+while$ -- 176
+width$ -- 52
+write$ -- 462
+(There were 12 warnings)

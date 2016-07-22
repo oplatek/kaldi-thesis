@@ -1,0 +1,5319 @@
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2016.1.4)  21 APR 2016 17:36
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**main.tex
+(./main.tex
+LaTeX2e <2011/06/27>
+Babel <3.9h> and hyphenation patterns for 78 languages loaded.
+(./begin_settings.tex (/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/bk12.clo
+File: bk12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count80
+\c@chapter=\count81
+\c@section=\count82
+\c@subsection=\count83
+\c@subsubsection=\count84
+\c@paragraph=\count85
+\c@subparagraph=\count86
+\c@figure=\count87
+\c@table=\count88
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
+Now handling font encoding OML ...
+... no UTF-8 mapping file for font encoding OML
+Now handling font encoding T1 ...
+... processing UTF-8 mapping file for font encoding T1
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.dfu
+File: t1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
+   defining Unicode char U+00A1 (decimal 161)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00AB (decimal 171)
+   defining Unicode char U+00BB (decimal 187)
+   defining Unicode char U+00BF (decimal 191)
+   defining Unicode char U+00C0 (decimal 192)
+   defining Unicode char U+00C1 (decimal 193)
+   defining Unicode char U+00C2 (decimal 194)
+   defining Unicode char U+00C3 (decimal 195)
+   defining Unicode char U+00C4 (decimal 196)
+   defining Unicode char U+00C5 (decimal 197)
+   defining Unicode char U+00C6 (decimal 198)
+   defining Unicode char U+00C7 (decimal 199)
+   defining Unicode char U+00C8 (decimal 200)
+   defining Unicode char U+00C9 (decimal 201)
+   defining Unicode char U+00CA (decimal 202)
+   defining Unicode char U+00CB (decimal 203)
+   defining Unicode char U+00CC (decimal 204)
+   defining Unicode char U+00CD (decimal 205)
+   defining Unicode char U+00CE (decimal 206)
+   defining Unicode char U+00CF (decimal 207)
+   defining Unicode char U+00D0 (decimal 208)
+   defining Unicode char U+00D1 (decimal 209)
+   defining Unicode char U+00D2 (decimal 210)
+   defining Unicode char U+00D3 (decimal 211)
+   defining Unicode char U+00D4 (decimal 212)
+   defining Unicode char U+00D5 (decimal 213)
+   defining Unicode char U+00D6 (decimal 214)
+   defining Unicode char U+00D8 (decimal 216)
+   defining Unicode char U+00D9 (decimal 217)
+   defining Unicode char U+00DA (decimal 218)
+   defining Unicode char U+00DB (decimal 219)
+   defining Unicode char U+00DC (decimal 220)
+   defining Unicode char U+00DD (decimal 221)
+   defining Unicode char U+00DE (decimal 222)
+   defining Unicode char U+00DF (decimal 223)
+   defining Unicode char U+00E0 (decimal 224)
+   defining Unicode char U+00E1 (decimal 225)
+   defining Unicode char U+00E2 (decimal 226)
+   defining Unicode char U+00E3 (decimal 227)
+   defining Unicode char U+00E4 (decimal 228)
+   defining Unicode char U+00E5 (decimal 229)
+   defining Unicode char U+00E6 (decimal 230)
+   defining Unicode char U+00E7 (decimal 231)
+   defining Unicode char U+00E8 (decimal 232)
+   defining Unicode char U+00E9 (decimal 233)
+   defining Unicode char U+00EA (decimal 234)
+   defining Unicode char U+00EB (decimal 235)
+   defining Unicode char U+00EC (decimal 236)
+   defining Unicode char U+00ED (decimal 237)
+   defining Unicode char U+00EE (decimal 238)
+   defining Unicode char U+00EF (decimal 239)
+   defining Unicode char U+00F0 (decimal 240)
+   defining Unicode char U+00F1 (decimal 241)
+   defining Unicode char U+00F2 (decimal 242)
+   defining Unicode char U+00F3 (decimal 243)
+   defining Unicode char U+00F4 (decimal 244)
+   defining Unicode char U+00F5 (decimal 245)
+   defining Unicode char U+00F6 (decimal 246)
+   defining Unicode char U+00F8 (decimal 248)
+   defining Unicode char U+00F9 (decimal 249)
+   defining Unicode char U+00FA (decimal 250)
+   defining Unicode char U+00FB (decimal 251)
+   defining Unicode char U+00FC (decimal 252)
+   defining Unicode char U+00FD (decimal 253)
+   defining Unicode char U+00FE (decimal 254)
+   defining Unicode char U+00FF (decimal 255)
+   defining Unicode char U+0102 (decimal 258)
+   defining Unicode char U+0103 (decimal 259)
+   defining Unicode char U+0104 (decimal 260)
+   defining Unicode char U+0105 (decimal 261)
+   defining Unicode char U+0106 (decimal 262)
+   defining Unicode char U+0107 (decimal 263)
+   defining Unicode char U+010C (decimal 268)
+   defining Unicode char U+010D (decimal 269)
+   defining Unicode char U+010E (decimal 270)
+   defining Unicode char U+010F (decimal 271)
+   defining Unicode char U+0110 (decimal 272)
+   defining Unicode char U+0111 (decimal 273)
+   defining Unicode char U+0118 (decimal 280)
+   defining Unicode char U+0119 (decimal 281)
+   defining Unicode char U+011A (decimal 282)
+   defining Unicode char U+011B (decimal 283)
+   defining Unicode char U+011E (decimal 286)
+   defining Unicode char U+011F (decimal 287)
+   defining Unicode char U+0130 (decimal 304)
+   defining Unicode char U+0131 (decimal 305)
+   defining Unicode char U+0132 (decimal 306)
+   defining Unicode char U+0133 (decimal 307)
+   defining Unicode char U+0139 (decimal 313)
+   defining Unicode char U+013A (decimal 314)
+   defining Unicode char U+013D (decimal 317)
+   defining Unicode char U+013E (decimal 318)
+   defining Unicode char U+0141 (decimal 321)
+   defining Unicode char U+0142 (decimal 322)
+   defining Unicode char U+0143 (decimal 323)
+   defining Unicode char U+0144 (decimal 324)
+   defining Unicode char U+0147 (decimal 327)
+   defining Unicode char U+0148 (decimal 328)
+   defining Unicode char U+014A (decimal 330)
+   defining Unicode char U+014B (decimal 331)
+   defining Unicode char U+0150 (decimal 336)
+   defining Unicode char U+0151 (decimal 337)
+   defining Unicode char U+0152 (decimal 338)
+   defining Unicode char U+0153 (decimal 339)
+   defining Unicode char U+0154 (decimal 340)
+   defining Unicode char U+0155 (decimal 341)
+   defining Unicode char U+0158 (decimal 344)
+   defining Unicode char U+0159 (decimal 345)
+   defining Unicode char U+015A (decimal 346)
+   defining Unicode char U+015B (decimal 347)
+   defining Unicode char U+015E (decimal 350)
+   defining Unicode char U+015F (decimal 351)
+   defining Unicode char U+0160 (decimal 352)
+   defining Unicode char U+0161 (decimal 353)
+   defining Unicode char U+0162 (decimal 354)
+   defining Unicode char U+0163 (decimal 355)
+   defining Unicode char U+0164 (decimal 356)
+   defining Unicode char U+0165 (decimal 357)
+   defining Unicode char U+016E (decimal 366)
+   defining Unicode char U+016F (decimal 367)
+   defining Unicode char U+0170 (decimal 368)
+   defining Unicode char U+0171 (decimal 369)
+   defining Unicode char U+0178 (decimal 376)
+   defining Unicode char U+0179 (decimal 377)
+   defining Unicode char U+017A (decimal 378)
+   defining Unicode char U+017B (decimal 379)
+   defining Unicode char U+017C (decimal 380)
+   defining Unicode char U+017D (decimal 381)
+   defining Unicode char U+017E (decimal 382)
+   defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2013 (decimal 8211)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201A (decimal 8218)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+   defining Unicode char U+201E (decimal 8222)
+   defining Unicode char U+2030 (decimal 8240)
+   defining Unicode char U+2031 (decimal 8241)
+   defining Unicode char U+2039 (decimal 8249)
+   defining Unicode char U+203A (decimal 8250)
+   defining Unicode char U+2423 (decimal 9251)
+)
+Now handling font encoding OT1 ...
+... processing UTF-8 mapping file for font encoding OT1
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ot1enc.dfu
+File: ot1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
+   defining Unicode char U+00A1 (decimal 161)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00B8 (decimal 184)
+   defining Unicode char U+00BF (decimal 191)
+   defining Unicode char U+00C5 (decimal 197)
+   defining Unicode char U+00C6 (decimal 198)
+   defining Unicode char U+00D8 (decimal 216)
+   defining Unicode char U+00DF (decimal 223)
+   defining Unicode char U+00E6 (decimal 230)
+   defining Unicode char U+00EC (decimal 236)
+   defining Unicode char U+00ED (decimal 237)
+   defining Unicode char U+00EE (decimal 238)
+   defining Unicode char U+00EF (decimal 239)
+   defining Unicode char U+00F8 (decimal 248)
+   defining Unicode char U+0131 (decimal 305)
+   defining Unicode char U+0141 (decimal 321)
+   defining Unicode char U+0142 (decimal 322)
+   defining Unicode char U+0152 (decimal 338)
+   defining Unicode char U+0153 (decimal 339)
+   defining Unicode char U+2013 (decimal 8211)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+)
+Now handling font encoding OMS ...
+... processing UTF-8 mapping file for font encoding OMS
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/omsenc.dfu
+File: omsenc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
+   defining Unicode char U+00A7 (decimal 167)
+   defining Unicode char U+00B6 (decimal 182)
+   defining Unicode char U+00B7 (decimal 183)
+   defining Unicode char U+2020 (decimal 8224)
+   defining Unicode char U+2021 (decimal 8225)
+   defining Unicode char U+2022 (decimal 8226)
+)
+Now handling font encoding OMX ...
+... no UTF-8 mapping file for font encoding OMX
+Now handling font encoding U ...
+... no UTF-8 mapping file for font encoding U
+   defining Unicode char U+00A9 (decimal 169)
+   defining Unicode char U+00AA (decimal 170)
+   defining Unicode char U+00AE (decimal 174)
+   defining Unicode char U+00BA (decimal 186)
+   defining Unicode char U+02C6 (decimal 710)
+   defining Unicode char U+02DC (decimal 732)
+   defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2026 (decimal 8230)
+   defining Unicode char U+2122 (decimal 8482)
+   defining Unicode char U+2423 (decimal 9251)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+))
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+\lst@mode=\count89
+\lst@gtempboxa=\box26
+\lst@token=\toks17
+\lst@length=\count90
+\lst@currlwidth=\dimen103
+\lst@column=\count91
+\lst@pos=\count92
+\lst@lostspace=\dimen104
+\lst@width=\dimen105
+\lst@newlines=\count93
+\lst@lineno=\count94
+\lst@maxwidth=\dimen106
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2013/08/26 1.5b (Carsten Heinz)
+\c@lstnumber=\count95
+\lst@skipnumbers=\count96
+\lst@framebox=\box27
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2013/08/26 1.5b listings configuration
+))
+Package: listings 2013/08/26 1.5b (Carsten Heinz)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: xetex.def on input line 130.
+
+(/usr/share/texlive/texmf-dist/tex/xelatex/xetex-def/xetex.def
+File: xetex.def 2013/04/29 v0.96 LaTeX color/graphics driver for XeTeX (RRM/JK)
+
+))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: xetex.def on input line 91.
+)
+\Gin@req@height=\dimen107
+\Gin@req@width=\dimen108
+)
+(./jindextools.sty
+Package: jindextools 2010/05/17 Mira Janicek's index tools
+ (/usr/share/texlive/texmf-dist/tex/latex/base/makeidx.sty
+Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
+)
+(/usr/share/texlive/texmf-dist/tex/latex/rotating/rotating.sty
+Package: rotating 2009/03/28 v2.16a rotated objects in LaTeX
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\c@r@tfl@t=\count97
+\rotFPtop=\skip43
+\rotFPbot=\skip44
+\rot@float@box=\box28
+\rot@mess@toks=\toks18
+))
+(/usr/share/texlive/texmf-dist/tex/latex/verbatimbox/verbatimbox.sty
+Package: verbatimbox 2014/01/30 v3.11 Routines for placing verbatim text into b
+oxes, useful in places where the verbatim environment is inaccessible. Secondar
+ily, for adding vertical buffer around an object.
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks19
+\verbatim@line=\toks20
+\verbatim@in@stream=\read1
+)
+(/usr/share/texlive/texmf-dist/tex/latex/readarray/readarray.sty
+Package: readarray 2013/05/09 v1.2 Routines for inputting array data and recall
+ing it on an element-by-element basis. Currently supports 2-D and 3-D array
+
+(/usr/share/texlive/texmf-dist/tex/latex/ifnextok/ifnextok.sty
+Package: ifnextok 2011/06/27 v0.3 test next token (UL)
+)
+\c@@index=\count98
+\c@@plane=\count99
+\c@@row=\count100
+\c@@col=\count101
+\c@use@args=\count102
+\c@@record=\count103
+\c@arg@index=\count104
+\c@break@count=\count105
+)
+\savedverbbox=\box29
+\c@VerbboxLineNo=\count106
+\boxtopsep=\dimen109
+\boxbottomsep=\dimen110
+\ps@tempdima=\dimen111
+\ps@tempboxa=\box30
+\boxtop@sep=\skip45
+\boxbottom@sep=\skip46
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2013/01/14 v2.14 AMS math features
+\@mathmargin=\skip47
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks21
+\ex@=\dimen112
+))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen113
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count107
+LaTeX Info: Redefining \frac on input line 210.
+\uproot@=\count108
+\leftroot@=\count109
+LaTeX Info: Redefining \overline on input line 306.
+\classnum@=\count110
+\DOTSCASE@=\count111
+LaTeX Info: Redefining \ldots on input line 378.
+LaTeX Info: Redefining \dots on input line 381.
+LaTeX Info: Redefining \cdots on input line 466.
+\Mathstrutbox@=\box31
+\strutbox@=\box32
+\big@size=\dimen114
+LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
+\macc@depth=\count112
+\c@MaxMatrixCols=\count113
+\dotsspace@=\muskip10
+\c@parentequation=\count114
+\dspbrk@lvl=\count115
+\tag@help=\toks22
+\row@=\count116
+\column@=\count117
+\maxfields@=\count118
+\andhelp@=\toks23
+\eqnshift@=\dimen115
+\alignsep@=\dimen116
+\tagshift@=\dimen117
+\tagwidth@=\dimen118
+\totwidth@=\dimen119
+\lineht@=\dimen120
+\@envbody=\toks24
+\multlinegap=\skip48
+\multlinetaggap=\skip49
+\mathdisplay@stack=\toks25
+LaTeX Info: Redefining \[ on input line 2665.
+LaTeX Info: Redefining \] on input line 2666.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2004/08/06 v2.20
+\thm@style=\toks26
+\thm@bodyfont=\toks27
+\thm@headfont=\toks28
+\thm@notefont=\toks29
+\thm@headpunct=\toks30
+\thm@preskip=\skip50
+\thm@postskip=\skip51
+\thm@headsep=\skip52
+\dth@everypar=\toks31
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen121
+)
+(/usr/share/texlive/texmf-dist/tex/latex/pstricks/pstricks.sty
+Package: pstricks 2013/12/12 v0.60 LaTeX wrapper for `PSTricks' (RN,HV)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is not detected.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pstricks/pstricks.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/pst-xkey.tex
+File: pst-xkey.tex 2005/11/25 v1.6 PSTricks specialization of xkeyval (HA)
+
+(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2012/10/14 v2.6b package option processing (HA)
+
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+\XKV@toks=\toks32
+\XKV@tempa@toks=\toks33
+\XKV@depth=\count119
+File: xkeyval.tex 2012/10/14 v2.6b key=value parser (HA)
+)))
+(/usr/share/texlive/texmf-dist/tex/generic/pstricks/pst-fp.tex
+`pst-fp' v0.05, 2010/01/17 (hv)
+\pstFP@xs=\count120
+\pstFP@xia=\count121
+\pstFP@xib=\count122
+\pstFP@xfa=\count123
+\pstFP@xfb=\count124
+\pstFP@rega=\count125
+\pstFP@regb=\count126
+\pstFP@regs=\count127
+\pstFP@times=\count128
+)
+(/usr/share/texmf/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks34
+)
+(/usr/share/texmf/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks35
+\pgfkeys@temptoks=\toks36
+
+(/usr/share/texmf/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex
+\pgfkeys@tmptoks=\toks37
+))
+(/usr/share/texmf/tex/generic/pgf/utilities/pgffor.code.tex
+\pgffor@iter=\dimen122
+\pgffor@skip=\dimen123
+\pgffor@stack=\toks38
+\pgffor@toks=\toks39
+)
+\psLoopIndex=\count129
+
+`PSTricks' v2.51  <2014/02/03> (tvz)
+\pst@dima=\dimen124
+\pst@dimb=\dimen125
+\pst@dimc=\dimen126
+\pst@dimd=\dimen127
+\pst@dimg=\dimen128
+\pst@dimh=\dimen129
+\pst@dimm=\dimen130
+\pst@dimn=\dimen131
+\pst@dimo=\dimen132
+\pst@dimp=\dimen133
+\pst@hbox=\box33
+\pst@ibox=\box34
+\pst@boxg=\box35
+\pst@cnta=\count130
+\pst@cntb=\count131
+\pst@cntc=\count132
+\pst@cntd=\count133
+\pst@cntg=\count134
+\pst@cnth=\count135
+\pst@cntm=\count136
+\pst@cntn=\count137
+\pst@cnto=\count138
+\pst@cntp=\count139
+\@zero=\count140
+\pst@toks=\toks40
+(/usr/share/texlive/texmf-dist/tex/xelatex/xetex-pstricks/pstricks.con
+(/usr/share/texlive/texmf-dist/tex/generic/pstricks/config/xdvipdfmx.cfg))
+\psunit=\dimen134
+\psxunit=\dimen135
+\psyunit=\dimen136
+\pst@C@@rType=\count141
+\pslinewidth=\dimen137
+\psk@startLW=\dimen138
+\psk@endLW=\dimen139
+\pst@customdefs=\toks41
+\pslinearc=\dimen140
+\pst@symbolStep=\dimen141
+\pst@symbolWidth=\dimen142
+\pst@symbolLinewidth=\dimen143
+\everypsbox=\toks42
+\psframesep=\dimen144
+\pslabelsep=\dimen145
+\sh@wgridXunit=\dimen146
+\sh@wgridYunit=\dimen147
+\pst@shift=\dimen148
+
+(/usr/share/texlive/texmf-dist/tex/xelatex/xetex-pstricks/pstricks.con
+(/usr/share/texlive/texmf-dist/tex/generic/pstricks/config/xdvipdfmx.cfg
+Using PSTricks configuration for XeTeX+xdvipdfmx
+)))
+File: pstricks.tex 2014/02/03 v2.51 `PSTricks' (tvz,hv)
+ (/usr/share/texlive/texmf-dist/tex/generic/pstricks/pst-fp.tex)
+File: pst-fp.tex 2014/02/03 v2.51 `PST-fp' (hv)
+
+(/usr/share/texmf/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Package option `usenames' ignored on input line 216.
+Package xcolor Info: Driver file: xetex.def on input line 225.
+LaTeX Info: Redefining \color on input line 702.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+)))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/epsfig.sty
+Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
+\epsfxsize=\dimen149
+\epsfysize=\dimen150
+)
+(/usr/share/texlive/texmf-dist/tex/latex/pst-grad/pst-grad.sty
+Package: pst-grad 2004/07/15 package wrapper for pst-grad.tex (hv)
+
+(/usr/share/texlive/texmf-dist/tex/generic/pst-grad/pst-grad.tex
+`pst-grad' v1.06, 2006/11/27 (tvz,dg,hv))
+File: pst-grad.tex 2006/11/27 1.06 `pst-grad' (tvz)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/pst-plot/pst-plot.sty
+Package: pst-plot 2011/06/05 v1.00 LaTeX wrapper for `pst-plot' (HV)
+
+(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/pst-xkey.sty
+Package: pst-xkey 2005/11/25 v1.6 package wrapper for pst-xkey.tex (HA)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/multido/multido.sty
+Package: multido 2004/05/17 package wrapper for PSTricks `multido.tex', (HV/RN)
+
+
+(/usr/share/texlive/texmf-dist/tex/generic/multido/multido.tex
+ v1.42, 2010/05/14 <tvz>
+\multido@count=\count142
+\multidocount=\count143
+\multido@stuff=\toks43
+)
+File: multido.tex 2010/05/14 v1.42 `multido' (tvz,hv)
+)
+Package: pst-plot 2011/04/13 package wrapper for pst-plot.tex (hv)
+
+(/usr/share/texlive/texmf-dist/tex/generic/pst-plot/pst-plot.tex
+ v1.58, 2014/01/16 (tvz,hv)
+\pstRadUnit=\dimen151
+\pstRadUnitInv=\dimen152
+\pst@linecnt=\count144
+\RCD@file=\read2
+\psxlabelsep=\dimen153
+\psylabelsep=\dimen154
+\psk@subticksize=\dimen155
+\pst@xticksizeA=\dimen156
+\pst@xticksizeB=\dimen157
+\pst@xticksizeC=\dimen158
+\pst@yticksizeA=\dimen159
+\pst@yticksizeB=\dimen160
+\pst@yticksizeC=\dimen161
+\@digitcounter=\count145
+\psk@llx=\dimen162
+\psk@lly=\dimen163
+\psk@urx=\dimen164
+\psk@ury=\dimen165
+\pst@xunit=\dimen166
+\pst@yunit=\dimen167
+)
+File: pst-plot.tex 2014/01/16 1.58 `pst-plot' (tvz,hv)
+)
+(/usr/share/texmf/tex/latex/pgf/frontendlayer/tikz.sty
+(/usr/share/texmf/tex/latex/pgf/basiclayer/pgf.sty
+(/usr/share/texmf/tex/latex/pgf/utilities/pgfrcs.sty
+(/usr/share/texmf/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks44
+)
+(/usr/share/texmf/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box36
+
+(/usr/share/texlive/texmf-dist/tex/latex/ms/everyshi.sty
+Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
+))
+(/usr/share/texmf/tex/generic/pgf/utilities/pgfrcs.code.tex
+Package: pgfrcs 2010/10/25 v2.10 (rcs-revision 1.24)
+))
+Package: pgf 2008/01/15 v2.10 (rcs-revision 1.12)
+
+(/usr/share/texmf/tex/latex/pgf/basiclayer/pgfcore.sty
+(/usr/share/texmf/tex/latex/pgf/systemlayer/pgfsys.sty
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsys.code.tex
+Package: pgfsys 2010/06/30 v2.10 (rcs-revision 1.37)
+
+(/usr/share/texmf/tex/generic/pgf/utilities/pgfkeys.code.tex)
+\pgf@x=\dimen168
+\pgf@y=\dimen169
+\pgf@xa=\dimen170
+\pgf@ya=\dimen171
+\pgf@xb=\dimen172
+\pgf@yb=\dimen173
+\pgf@xc=\dimen174
+\pgf@yc=\dimen175
+\w@pgf@writea=\write3
+\r@pgf@reada=\read3
+\c@pgf@counta=\count146
+\c@pgf@countb=\count147
+\c@pgf@countc=\count148
+\c@pgf@countd=\count149
+
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2008/05/14  (rcs-revision 1.7)
+)
+Package pgfsys Info: Driver file for pgf: pgfsys-xetex.def on input line 900.
+
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsys-xetex.def
+File: pgfsys-xetex.def 2010/02/16  (rcs-revision 1.3)
+
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2008/05/19  (rcs-revision 1.10)
+)
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsys-common-pdf-via-dvi.def
+File: pgfsys-common-pdf-via-dvi.def 2008/05/19  (rcs-revision 1.7)
+)))
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2008/07/18  (rcs-revision 1.7)
+\pgfsyssoftpath@smallbuffer@items=\count150
+\pgfsyssoftpath@bigbuffer@items=\count151
+)
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2006/10/16  (rcs-revision 1.4)
+))
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcore.code.tex
+Package: pgfcore 2010/04/11 v2.10 (rcs-revision 1.7)
+
+(/usr/share/texmf/tex/generic/pgf/math/pgfmath.code.tex
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathcalc.code.tex
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathutil.code.tex)
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen176
+\pgfmath@count=\count152
+\pgfmath@box=\box37
+\pgfmath@toks=\toks45
+\pgfmath@stack@operand=\toks46
+\pgfmath@stack@operation=\toks47
+)
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathfunctions.code.tex
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex)
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex)
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathfunctions.random.code.tex)
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex)
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathfunctions.base.code.tex)
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathfunctions.round.code.tex)
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex)))
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count153
+))
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+File: pgfcorepoints.code.tex 2010/04/09  (rcs-revision 1.20)
+\pgf@picminx=\dimen177
+\pgf@picmaxx=\dimen178
+\pgf@picminy=\dimen179
+\pgf@picmaxy=\dimen180
+\pgf@pathminx=\dimen181
+\pgf@pathmaxx=\dimen182
+\pgf@pathminy=\dimen183
+\pgf@pathmaxy=\dimen184
+\pgf@xx=\dimen185
+\pgf@xy=\dimen186
+\pgf@yx=\dimen187
+\pgf@yy=\dimen188
+\pgf@zx=\dimen189
+\pgf@zy=\dimen190
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2010/08/03  (rcs-revision 1.24)
+\pgf@path@lastx=\dimen191
+\pgf@path@lasty=\dimen192
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
+File: pgfcorepathusage.code.tex 2008/04/22  (rcs-revision 1.12)
+\pgf@shorten@end@additional=\dimen193
+\pgf@shorten@start@additional=\dimen194
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
+File: pgfcorescopes.code.tex 2010/09/08  (rcs-revision 1.34)
+\pgfpic=\box38
+\pgf@hbox=\box39
+\pgf@layerbox@main=\box40
+\pgf@picture@serial@count=\count154
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2008/04/22  (rcs-revision 1.9)
+\pgflinewidth=\dimen195
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
+File: pgfcoretransformations.code.tex 2009/06/10  (rcs-revision 1.11)
+\pgf@pt@x=\dimen196
+\pgf@pt@y=\dimen197
+\pgf@pt@temp=\dimen198
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+File: pgfcorequick.code.tex 2008/10/09  (rcs-revision 1.3)
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
+File: pgfcoreobjects.code.tex 2006/10/11  (rcs-revision 1.2)
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2008/10/09  (rcs-revision 1.8)
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
+File: pgfcorearrows.code.tex 2008/04/23  (rcs-revision 1.11)
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+File: pgfcoreshade.code.tex 2008/11/23  (rcs-revision 1.13)
+\pgf@max=\dimen199
+\pgf@sys@shading@range@num=\count155
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+File: pgfcoreimage.code.tex 2010/03/25  (rcs-revision 1.16)
+
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
+File: pgfcoreexternal.code.tex 2010/09/01  (rcs-revision 1.17)
+\pgfexternal@startupbox=\box41
+))
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
+File: pgfcorelayers.code.tex 2010/08/27  (rcs-revision 1.2)
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
+File: pgfcoretransparency.code.tex 2008/01/17  (rcs-revision 1.2)
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
+File: pgfcorepatterns.code.tex 2009/07/02  (rcs-revision 1.3)
+)))
+(/usr/share/texmf/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+File: pgfmoduleshapes.code.tex 2010/09/09  (rcs-revision 1.13)
+\pgfnodeparttextbox=\box42
+)
+(/usr/share/texmf/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+File: pgfmoduleplot.code.tex 2010/10/22  (rcs-revision 1.8)
+)
+(/usr/share/texmf/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
+Package: pgfcomp-version-0-65 2007/07/03 v2.10 (rcs-revision 1.7)
+\pgf@nodesepstart=\dimen200
+\pgf@nodesepend=\dimen201
+)
+(/usr/share/texmf/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
+Package: pgfcomp-version-1-18 2007/07/23 v2.10 (rcs-revision 1.1)
+))
+(/usr/share/texmf/tex/latex/pgf/utilities/pgffor.sty
+(/usr/share/texmf/tex/latex/pgf/utilities/pgfkeys.sty
+(/usr/share/texmf/tex/generic/pgf/utilities/pgfkeys.code.tex))
+(/usr/share/texmf/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2010/03/23 v2.10 (rcs-revision 1.18)
+\pgffor@iter=\dimen202
+\pgffor@skip=\dimen203
+\pgffor@stack=\toks48
+\pgffor@toks=\toks49
+))
+(/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+Package: tikz 2010/10/13 v2.10 (rcs-revision 1.76)
+
+(/usr/share/texmf/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2010/05/31 v2.10 (rcs-revision 1.15)
+\pgf@plot@mark@count=\count156
+\pgfplotmarksize=\dimen204
+)
+\tikz@lastx=\dimen205
+\tikz@lasty=\dimen206
+\tikz@lastxsaved=\dimen207
+\tikz@lastysaved=\dimen208
+\tikzleveldistance=\dimen209
+\tikzsiblingdistance=\dimen210
+\tikz@figbox=\box43
+\tikz@tempbox=\box44
+\tikztreelevel=\count157
+\tikznumberofchildren=\count158
+\tikznumberofcurrentchild=\count159
+\tikz@fig@count=\count160
+
+(/usr/share/texmf/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2010/08/24  (rcs-revision 1.4)
+\pgfmatrixcurrentrow=\count161
+\pgfmatrixcurrentcolumn=\count162
+\pgf@matrix@numberofcolumns=\count163
+)
+\tikz@expandcount=\count164
+
+(/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopat
+hs.code.tex
+File: tikzlibrarytopaths.code.tex 2008/06/17 v2.10 (rcs-revision 1.2)
+))) (/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2005/04/14 v1.61803 publication quality tables
+\heavyrulewidth=\dimen211
+\lightrulewidth=\dimen212
+\cmidrulewidth=\dimen213
+\belowrulesep=\dimen214
+\belowbottomsep=\dimen215
+\aboverulesep=\dimen216
+\abovetopsep=\dimen217
+\cmidrulesep=\dimen218
+\cmidrulekern=\dimen219
+\defaultaddspace=\dimen220
+\@cmidla=\count165
+\@cmidlb=\count166
+\@aboverulesep=\dimen221
+\@belowrulesep=\dimen222
+\@thisruleclass=\count167
+\@lastruleclass=\count168
+\@thisrulewidth=\dimen223
+)
+(/usr/share/texlive/texmf-dist/tex/latex/acronym/acronym.sty
+Package: acronym 2012/10/29 v1.38 Support for acronyms (Tobias Oetiker)
+
+(/usr/share/texlive/texmf-dist/tex/latex/bigfoot/suffix.sty
+Package: suffix 2006/07/15 1.5 Variant command support
+)
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex
+\@xs@message=\write4
+\integerpart=\count169
+\decimalpart=\count170
+)
+Package: xstring 2013/10/13  v1.7c  String manipulations (C Tellechea)
+)
+\AC@clearlist=\toks50
+)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2012/05/28 v1.13 Bundle oberdiek, subset hyperref (HO)
+
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+Package: hobsub-generic 2012/05/28 v1.13 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2012/05/28 v1.13 Construct package bundles (HO)
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
+Package hobsub Info: Skipping package `ifpdf' (already loaded).
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: pdfTeX >= 1.30 not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode not found.
+Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO
+)
+Package: bitset 2011/01/30 v1.1 Handle bit-vector datatype (HO)
+Package: uniquecounter 2011/01/30 v1.2 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
+Package: hopatch 2012/05/28 v1.2 Wrapper for package hooks (HO)
+Package: xcolor-patch 2011/01/30 xcolor patch
+Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
+Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
+Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty
+Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+)
+\@linkdim=\dimen224
+\Hy@linkcounter=\count171
+\Hy@pagecounter=\count172
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+\Hy@SavedSpaceFactor=\count173
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Option `unicode' set `true' on input line 4319.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2012/11/06 v6.83m Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4443.
+Package hyperref Info: Link nesting OFF on input line 4448.
+Package hyperref Info: Hyper index ON on input line 4451.
+Package hyperref Info: Plain pages OFF on input line 4458.
+Package hyperref Info: Backreferencing OFF on input line 4463.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4688.
+\c@Hy@tempcnt=\count174
+
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip11
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5041.
+\XeTeXLinkMargin=\dimen225
+\Fld@menulength=\count175
+\Field@Width=\dimen226
+\Fld@charsize=\dimen227
+Package hyperref Info: Hyper figures OFF on input line 6295.
+Package hyperref Info: Link nesting OFF on input line 6300.
+Package hyperref Info: Hyper index ON on input line 6303.
+Package hyperref Info: backreferencing OFF on input line 6310.
+Package hyperref Info: Link coloring OFF on input line 6315.
+Package hyperref Info: Link coloring with OCG OFF on input line 6320.
+Package hyperref Info: PDF/A mode OFF on input line 6325.
+LaTeX Info: Redefining \ref on input line 6365.
+LaTeX Info: Redefining \pageref on input line 6369.
+\Hy@abspage=\count176
+\c@Item=\count177
+\c@Hfootnote=\count178
+)
+
+Package hyperref Message: Driver (autodetected): hxetex.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hxetex.def
+File: hxetex.def 2012/11/06 v6.83m Hyperref driver for XeTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/stringenc.sty
+Package: stringenc 2011/12/02 v1.10 Convert strings between diff. encodings (HO
+)
+)
+\pdfm@box=\box45
+\c@Hy@AnnotLevel=\count179
+\HyField@AnnotCount=\count180
+\Fld@listcount=\count181
+\c@bookmark@seq@number=\count182
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
+Package rerunfilecheck Info: Feature \pdfmdfivesum is not available
+(rerunfilecheck)             (e.g. pdfTeX or LuaTeX with package `pdftexcmds').
+
+(rerunfilecheck)             Therefore file contents cannot be checked efficien
+tly
+(rerunfilecheck)             and the loading of the package is aborted.
+)
+\Hy@SectionHShift=\skip53
+)
+
+LaTeX Warning: Unused global option(s):
+    [headings=optiontohead].
+
+(./main.aux)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+\c@lstlisting=\count183
+ ABD: EveryShipout initializing macros
+\AtBeginShipoutBox=\box46
+Package hyperref Info: Link coloring OFF on input line 105.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
+)
+\c@section@level=\count184
+)
+LaTeX Info: Redefining \ref on input line 105.
+LaTeX Info: Redefining \pageref on input line 105.
+LaTeX Info: Redefining \nameref on input line 105.
+
+(./main.out) (./main.out)
+\@outlinefile=\write5
+\openout5 = `main.out'.
+
+
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
+
+\c@thm=\count185
+\tabindent=\skip54
+) (./snippets/c_style.tex) (./snippets/python_style.tex)
+\openout2 = `title_pages.aux'.
+
+ (./title_pages.tex
+Missing character: There is no ř in font ecrm1440!
+
+
+! Package inputenc Error: Unicode char \u8:áše not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.17 Přihláše
+                na do soutěže SVOČ 2014
+? 
+Missing character: There is no ě in font ecrm1440!
+Missing character: There is no ž in font ecrm1440!
+Missing character: There is no Č in font ecrm1440!
+Invalid UTF-8 byte or sequence at line 21 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 21 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 21 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 21 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 21 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 21 replaced by U+FFFD.
+File: ./images/logo.eps Graphic file (type eps)
+<./images/logo.eps>
+Missing character: There is no ř in font ecrm1728!
+
+
+! Package inputenc Error: Unicode char \u8:áte not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.25 {\Large Ondřej Pláte
+                           k}\\
+? 
+
+! Package inputenc Error: Unicode char \u8:ává not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.28 {\Large\bf Rozpoznává
+                            ní řeči pomocí KALDI} \\
+? 
+
+! Package inputenc Error: Unicode char \u8:íře not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.28 {\Large\bf Rozpoznávání ře
+                                   či pomocí KALDI} \\
+? 
+Missing character: There is no č in font ecbx1728!
+
+! Package inputenc Error: Unicode char \u8:íKA not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.28 {\Large\bf Rozpoznávání řeči pomocí KA
+                                                 LDI} \\
+? 
+Missing character: There is no č in font ecrm1440!
+
+! Package inputenc Error: Unicode char \u8:íče not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.37 Supervisor: Ing. Mgr. Filip Jurčíče
+                                           k, Ph.D.\\
+? 
+[1
+
+
+
+]
+Missing character: There is no č in font ecrm1200!
+
+
+! Package inputenc Error: Unicode char \u8:íče not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.70 ... my~supervisor, Ing. Mgr. Filip Jurčíče
+                                                  k, Ph.D., for his advice, ...
+
+? 
+Missing character: There is no ě in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:ášŽ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.73 Lukáš Ž
+               ilka, David Marek and Ondřej Dušek for hacks in Vim, Bash a...
+
+? 
+Missing character: There is no ř in font ecrm1200!
+Missing character: There is no š in font ecrm1200!
+Missing character: There is no š in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:ášM not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.74 ...ice with shared library linking, Tomáš M
+                                                  artinec for C++ advice
+? 
+
+! Package inputenc Error: Unicode char \u8:éla not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.78 ... would like to thank my~parents and Adéla
+                                                   Čiháková for all the~h...
+
+? 
+Missing character: There is no Č in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:áko not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.78 ...ke to thank my~parents and Adéla Čiháko
+                                                  vá for all the~help and s...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:áfo not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.78 ...thank my~parents and Adéla Čiháková fo
+                                                  r all the~help and support.
+? 
+
+Overfull \hbox (19.18085pt too wide) in paragraph at lines 82--84
+\T1/cmr/m/n/12 I de-clare that I wrote my mas-ter the-sis in-de-pen-dently and 
+ex-clu-sively with the use
+ []
+
+Missing character: There is no ř in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:áte not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.87 ...April 1, 2014 \hspace{\fill}Ondřej Pláte
+                                                  k
+? 
+
+Overfull \vbox (7.96234pt too high) has occurred while \output is active []
+
+
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 95--98
+
+ []
+
+
+! Package inputenc Error: Unicode char \u8:áze not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.102 Náze
+           v práce: Rozpoznávání řeči pomocí Kaldi\\
+? 
+
+! Package inputenc Error: Unicode char \u8:áce not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.102 Název práce
+                   : Rozpoznávání řeči pomocí Kaldi\\
+? 
+
+! Package inputenc Error: Unicode char \u8:ává not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.102 Název práce: Rozpoznává
+                                 ní řeči pomocí Kaldi\\
+? 
+
+! Package inputenc Error: Unicode char \u8:íře not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.102 Název práce: Rozpoznávání ře
+                                        či pomocí Kaldi\\
+? 
+Missing character: There is no č in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:íKa not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.102 ...práce: Rozpoznávání řeči pomocí Ka
+                                                  ldi\\
+? 
+Missing character: There is no ř in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:áte not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.103 Autor: Ondřej Pláte
+                           k\\
+? 
+
+! Package inputenc Error: Unicode char \u8:Ús not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.104 Katedra: Ús
+                  tav formální a~aplikované lingvistiky\\
+? 
+
+! Package inputenc Error: Unicode char \u8:áln not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.104 Katedra: Ústav formáln
+                              í a~aplikované lingvistiky\\
+? 
+
+! Package inputenc Error: Unicode char \u8:ía~ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.104 Katedra: Ústav formální a~
+                                   aplikované lingvistiky\\
+? 
+
+! Package inputenc Error: Unicode char \u8:éli not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.104 Katedra: Ústav formální a~aplikované li
+                                                 ngvistiky\\
+? 
+
+! Package inputenc Error: Unicode char \u8:ídi not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.105 Vedoucí di
+                 plomové práce: Ing. Mgr. Filip Jurčíček, Ph.D.\\
+? 
+
+! Package inputenc Error: Unicode char \u8:épr not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.105 Vedoucí diplomové pr
+                            áce: Ing. Mgr. Filip Jurčíček, Ph.D.\\
+? 
+
+! Package inputenc Error: Unicode char \u8:áce not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.105 Vedoucí diplomové práce
+                                : Ing. Mgr. Filip Jurčíček, Ph.D.\\
+? 
+Missing character: There is no č in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:íče not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.105 ...omové práce: Ing. Mgr. Filip Jurčíče
+                                                  k, Ph.D.\\
+? 
+
+! Package inputenc Error: Unicode char \u8:ího not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.106 E-mail vedoucího
+                       : jurcicek@ufal.mff.cuni.cz\\
+? 
+
+Underfull \hbox (badness 10000) in paragraph at lines 102--107
+
+ []
+
+
+! Package inputenc Error: Unicode char \u8:éma not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 Téma
+           tem této práce je implementace výkonného rozpoznávače v ope...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:éto not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 Tématem této
+                     práce je implementace výkonného rozpoznávače v ope...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:áce not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 Tématem této práce
+                            je implementace výkonného rozpoznávače v ope...
+
+? 
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `utf8'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 Tématem této práce je implementace vý
+                                               konného rozpoznávače v ope...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ého not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 ... této práce je implementace výkonného
+                                                   rozpoznávače v open-sou...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:áva not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 ...e je implementace výkonného rozpoznáva
+                                                  če v open-source systému...
+
+? 
+Missing character: There is no č in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:ému not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 ...�ho rozpoznávače v open-source systému
+                                                   trénování ASR~Kaldi~(\...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:éno not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 ...poznávače v open-source systému tréno
+                                                  vání ASR~Kaldi~(\href{ht...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ání not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 ...vače v open-source systému trénování
+                                                   ASR~Kaldi~(\href{http://k...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ésy not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 ...aldi.sourceforge.net/}) pro dialogové sy
+                                                  stémy. Kaldi již obsahuj...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:émy not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 ...ourceforge.net/}) pro dialogové systémy
+                                                  . Kaldi již obsahuje ASR ...
+
+? 
+Missing character: There is no ž in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:éry not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 ...stémy. Kaldi již obsahuje ASR dekodéry
+                                                  , které však nejsou vhod...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:évš not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 ...i již obsahuje ASR dekodéry, které vš
+                                                  ak nejsou vhodné pro dial...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:épr not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 ...dekodéry, které však nejsou vhodné pr
+                                                  o dialogové systémy.
+? 
+
+! Package inputenc Error: Unicode char \u8:ésy not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 ...é však nejsou vhodné pro dialogové sy
+                                                  stémy.
+? 
+
+! Package inputenc Error: Unicode char \u8:émy not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 ...ak nejsou vhodné pro dialogové systémy
+                                                  .
+? 
+
+! Package inputenc Error: Unicode char \u8:ími not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.110 Hlavními
+                důvody jsou jejich malá optimalizace na rychlost a~jejich ...
+
+? 
+Missing character: There is no ů in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:áop not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.110 Hlavními důvody jsou jejich malá op
+                                            timalizace na rychlost a~jejich ...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ézp not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.110 ...timalizace na rychlost a~jejich velké zp
+                                                  oždění v generování v...
+
+? 
+Missing character: There is no ž in font ecrm1200!
+Missing character: There is no ě in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:ívg not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.110 ... rychlost a~jejich velké zpoždění v g
+                                                  enerování výsledku po u...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ání not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.110 ...~jejich velké zpoždění v generování
+                                                   výsledku po ukončení p...
+
+? 
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `utf8'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.110 ...ich velké zpoždění v generování vý
+                                                  sledku po ukončení proml...
+
+? 
+Missing character: There is no č in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:ípr not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.110 ...v generování výsledku po ukončení pr
+                                                  omluvy.
+? 
+
+! Package inputenc Error: Unicode char \u8:íle not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.111 Cíle
+           m této práce je proto vyvinutí real-time rozpoznávače pro di...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:éto not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.111 Cílem této
+                   práce je proto vyvinutí real-time rozpoznávače pro di...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:áce not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.111 Cílem této práce
+                          je proto vyvinutí real-time rozpoznávače pro di...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:íre not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.111 Cílem této práce je proto vyvinutí re
+                                               al-time rozpoznávače pro di...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:áva not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.111 ... je proto vyvinutí real-time rozpoznáva
+                                                  če pro dialogové systém...
+
+? 
+Missing character: There is no č in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:ésy not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.111 ...eal-time rozpoznávače pro dialogové sy
+                                                  stémy optimalizovaného n...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:émy not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.111 ...me rozpoznávače pro dialogové systémy
+                                                   optimalizovaného na rych...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ého not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.111 ...pro dialogové systémy optimalizovaného
+                                                   na rychlost a minimalizuj...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ící not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.111 ...izovaného na rychlost a minimalizující
+                                                  ho zpoždění.
+? 
+Missing character: There is no ž in font ecrm1200!
+Missing character: There is no ě in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:í.Z not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.112      Z
+            rychlení může být realizováno například pomocí multi-vl�...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ímů not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.112      Zrychlení mů
+                         že být realizováno například pomocí multi-vl�...
+
+? 
+Missing character: There is no ž in font ecrm1200!
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `utf8'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.112      Zrychlení může bý
+                                t realizováno například pomocí multi-vl�...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:áno not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.112      Zrychlení může být realizováno
+                                               například pomocí multi-vl�...
+
+? 
+Missing character: There is no ř in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:íkl not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.112 ...hlení může být realizováno napříkl
+                                                  ad pomocí multi-vláknov�...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ímu not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.112 ... být realizováno například pomocí mu
+                                                  lti-vláknového dekódov�...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ákn not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.112 ...izováno například pomocí multi-vlákn
+                                                  ového dekódování nebo ...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ého not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.112 ...no například pomocí multi-vláknového
+                                                   dekódování nebo s~vyu�...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ódov not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.112 ...�klad pomocí multi-vláknového dekódov
+                                                  ání nebo s~využitím gr...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ání not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.112 ... pomocí multi-vláknového dekódování
+                                                   nebo s~využitím grafick...
+
+? 
+Missing character: There is no ž in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:ímg not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.112 ...nového dekódování nebo s~využitím g
+                                                  rafických karet pro obecn...
+
+? 
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `utf8'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.112 ...dekódování nebo s~využitím grafický
+                                                  ch karet pro obecné výpo...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:évý not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.112 ...žitím grafických karet pro obecné vý
+                                                  počty.
+? 
+Missing character: There is no č in font ecrm1200!
+Missing character: There is no č in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:ást not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.113  Součást
+                í práce je také příprava akustického modelu a testová...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ípr not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.113  Součástí pr
+                     áce je také příprava akustického modelu a testová...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:áce not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.113  Součástí práce
+                          je také příprava akustického modelu a testová...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:épř not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.113  Součástí práce je také př
+                                      íprava akustického modelu a testová...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ípr not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.113  Součástí práce je také přípr
+                                          ava akustického modelu a testová...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ého not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.113 ...� práce je také příprava akustického
+                                                   modelu a testování ve v...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ání not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.113 ...íprava akustického modelu a testování
+                                                   ve vyvíjeném dialogové...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:íje not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.113 ...stického modelu a testování ve vyvíje
+                                                  ném dialogovém systému ...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:émd not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.113 ...�ho modelu a testování ve vyvíjeném d
+                                                  ialogovém systému ”Vys...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:éms not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.113 ... testování ve vyvíjeném dialogovém s
+                                                  ystému ”Vystadial”.
+? 
+
+! Package inputenc Error: Unicode char \u8:ému not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.113 ...ání ve vyvíjeném dialogovém systému
+                                                   ”Vystadial”.
+? 
+Missing character: There is no ” in font ecrm1200!
+Missing character: There is no ” in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:íčo not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.116 \noindent Klíčo
+                       vá slova: ASR,rozpoznávání mluvené řeči, dekodér
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ásl not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.116 \noindent Klíčová sl
+                             ova: ASR,rozpoznávání mluvené řeči, dekodér
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ává not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.116 \noindent Klíčová slova: ASR,rozpoznává
+                                                  ní mluvené řeči, dekodér
+
+? 
+
+! Package inputenc Error: Unicode char \u8:íml not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.116 ... Klíčová slova: ASR,rozpoznávání ml
+                                                  uvené řeči, dekodér
+? 
+
+! Package inputenc Error: Unicode char \u8:éře not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.116 ...� slova: ASR,rozpoznávání mluvené ře
+                                                  či, dekodér
+? 
+Missing character: There is no č in font ecrm1200!
+Runaway argument?
+! Paragraph ended before \UTFviii@three@octets was complete.
+<to be read again> 
+                   \par 
+l.117 
+      
+? 
+Missing character: There is no ř in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:áte not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.122 Author: Ondřej Pláte
+                            k\\
+? 
+
+! Package inputenc Error: Unicode char \u8:Ús not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.123 Department: Ús
+                     tav formální a aplikované lingvistiky \\
+? 
+
+! Package inputenc Error: Unicode char \u8:áln not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.123 Department: Ústav formáln
+                                 í a aplikované lingvistiky \\
+? 
+
+! Package inputenc Error: Unicode char \u8:íaa not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.123 Department: Ústav formální a a
+                                       plikované lingvistiky \\
+? 
+
+! Package inputenc Error: Unicode char \u8:éli not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.123 ...tment: Ústav formální a aplikované li
+                                                  ngvistiky \\
+? 
+Missing character: There is no č in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:íče not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.124 Supervisor: Ing. Mgr. Filip Jurčíče
+                                            k, Ph.D.\\
+? 
+
+Underfull \hbox (badness 10000) in paragraph at lines 120--126
+
+ []
+
+
+Overfull \vbox (7.96234pt too high) has occurred while \output is active []
+
+
+[3]
+Overfull \vbox (7.96234pt too high) has occurred while \output is active []
+
+
+[4
+
+])
+
+Package hyperref Warning: old toc file detected, not used; run LaTeX again.
+
+\tf@toc=\write6
+\openout6 = `main.toc'.
+
+[1
+
+
+]
+\openout2 = `intro.aux'.
+
+ (./intro.tex [2
+
+
+]
+Chapter 1.
+Package acronym Info: Label `acro:ASR' newly defined as it shall be overridden
+although it is yet undefined on input line 11.
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 11.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 11.
+
+Package acronym Info: Label `acro:HTK' newly defined as it shall be overridden
+although it is yet undefined on input line 16.
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 16.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 16.
+
+
+LaTeX Warning: Citation `young94htk' on page 3 undefined on input line 16.
+
+
+LaTeX Warning: Citation `lee2009julius' on page 3 undefined on input line 16.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 19.
+
+
+Overfull \hbox (3.41579pt too wide) in paragraph at lines 16--20
+\T1/cmr/m/n/12 when ex-tract-ing lat-tices. Fix-ing Open-Julius's com-pli-cated
+ source code seemed
+ []
+
+
+LaTeX Warning: Citation `povey2011kaldi' on page 3 undefined on input line 21.
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 21.
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 21.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+
+LaTeX Warning: Citation `povey2012generating' on page 3 undefined on input line
+ 24.
+
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 25.
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+Package acronym Info: Label `acro:AM' newly defined as it shall be overridden
+although it is yet undefined on input line 32.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 32.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 32.
+
+Package acronym Info: Label `acro:SDS' newly defined as it shall be overridden
+although it is yet undefined on input line 34.
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 34.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 34.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 39.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 39.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 40.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 41.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 41.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 50.
+
+[3]
+Package acronym Info: Label `acro:GPU' newly defined as it shall be overridden
+although it is yet undefined on input line 54.
+
+
+Package acronym Warning: Acronym `GPU' is not defined on input line 54.
+
+
+Package acronym Warning: Acronym `GPU' is not defined on input line 54.
+
+Package acronym Info: Label `acro:DNN' newly defined as it shall be overridden
+although it is yet undefined on input line 54.
+
+Package acronym Warning: Acronym `DNN' is not defined on input line 54.
+
+
+Package acronym Warning: Acronym `DNN' is not defined on input line 54.
+
+
+LaTeX Warning: Citation `vesely2013sequencediscriminative' on page 4 undefined 
+on input line 54.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 56.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 58.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 60.
+
+
+LaTeX Warning: Reference `cha:background' on page 4 undefined on input line 64.
+
+
+
+LaTeX Warning: Reference `sec:back_htk' on page 4 undefined on input line 65.
+
+
+LaTeX Warning: Reference `sec:back_julius' on page 4 undefined on input line 65
+.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 67.
+
+
+LaTeX Warning: Reference `cha:train' on page 4 undefined on input line 67.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 68.
+
+
+LaTeX Warning: Reference `cha:decoder' on page 4 undefined on input line 69.
+
+
+LaTeX Warning: Reference `cha:integration' on page 4 undefined on input line 71
+.
+
+
+LaTeX Warning: Reference `cha:conclusion' on page 4 undefined on input line 72.
+
+
+) [4]
+\openout2 = `background.aux'.
+
+ (./background.tex
+Chapter 2.
+
+LaTeX Warning: Reference `sec:back_asr' on page 5 undefined on input line 4.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 4.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 4.
+
+Package acronym Info: Label `acro:LM' newly defined as it shall be overridden
+although it is yet undefined on input line 4.
+
+Package acronym Warning: Acronym `LM' is not defined on input line 4.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 4.
+
+
+LaTeX Warning: Reference `sec:back_kaldi' on page 5 undefined on input line 4.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 4.
+
+
+LaTeX Warning: Reference `sec:back_htk' on page 5 undefined on input line 4.
+
+
+LaTeX Warning: Reference `sec:back_julius' on page 5 undefined on input line 4.
+
+
+Package acronym Info: Label `acro:HMM' newly defined as it shall be overridden
+although it is yet undefined on input line 6.
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 6.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 6.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 6.
+
+(./images/asr-components.tex
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 31.
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd
+File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
+)
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 31.
+
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <6> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 31.
+)
+
+LaTeX Warning: Citation `ney1990acoustic' on page 5 undefined on input line 11.
+
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 19.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 19.
+
+
+LaTeX Warning: Reference `eq:best_fix' on page 5 undefined on input line 19.
+
+
+LaTeX Warning: Reference `sub:am' on page 5 undefined on input line 29.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 29.
+
+
+LaTeX Warning: Reference `sub:lm' on page 5 undefined on input line 29.
+
+[5
+
+
+
+]
+
+LaTeX Warning: Reference `fig:components' on page 6 undefined on input line 32.
+
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 35.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 35.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 39.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 39.
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 47.
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 47.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 48.
+
+Package acronym Info: Label `acro:MFCC' newly defined as it shall be overridden
+
+although it is yet undefined on input line 57.
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 57.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 57.
+
+
+LaTeX Warning: Citation `davis1980comparison' on page 6 undefined on input line
+ 57.
+
+Package acronym Info: Label `acro:PLP' newly defined as it shall be overridden
+although it is yet undefined on input line 57.
+
+Package acronym Warning: Acronym `PLP' is not defined on input line 57.
+
+
+Package acronym Warning: Acronym `PLP' is not defined on input line 57.
+
+
+LaTeX Warning: Citation `hermansky1990perceptual' on page 6 undefined on input 
+line 57.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 60.
+
+
+Package acronym Warning: Acronym `PLP' is not defined on input line 60.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 60.
+
+
+Package acronym Warning: Acronym `PLP' is not defined on input line 60.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 63.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 63.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 63.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 64.
+
+[6]
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 68.
+
+
+LaTeX Warning: Reference `fig:mfcc_window' on page 7 undefined on input line 68
+.
+
+(./images/mfcc_window.tex)
+
+Package acronym Warning: Acronym `PLP' is not defined on input line 74.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 74.
+
+
+Package acronym Warning: Acronym `PLP' is not defined on input line 74.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 74.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 79.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 82.
+
+
+LaTeX Warning: Citation `psutka2001comparison' on page 7 undefined on input lin
+e 82.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 83.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 84.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 86.
+
+Package acronym Info: Label `acro:DFT' newly defined as it shall be overridden
+although it is yet undefined on input line 89.
+
+Package acronym Warning: Acronym `DFT' is not defined on input line 89.
+
+
+Package acronym Warning: Acronym `DFT' is not defined on input line 89.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 93.
+
+
+LaTeX Warning: Reference `fig:delta' on page 7 undefined on input line 94.
+
+(./images/mfcc-delta.tex)
+Overfull \hbox (34.37956pt too wide) in paragraph at lines 44--100
+ [] 
+ []
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 100.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 106.
+
+
+Package acronym Warning: Acronym `PLP' is not defined on input line 106.
+
+[7]
+Package acronym Info: Label `acro:HLDA' newly defined as it shall be overridden
+
+although it is yet undefined on input line 118.
+
+
+Package acronym Warning: Acronym `HLDA' is not defined on input line 118.
+
+
+Package acronym Warning: Acronym `HLDA' is not defined on input line 118.
+
+
+LaTeX Warning: Citation `gales1999semi' on page 8 undefined on input line 118.
+
+Package acronym Info: Label `acro:LDA' newly defined as it shall be overridden
+although it is yet undefined on input line 119.
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 119.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 119.
+
+
+LaTeX Warning: Citation `gopinath1998maximum' on page 8 undefined on input line
+ 119.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 119.
+
+Package acronym Info: Label `acro:MLLT' newly defined as it shall be overridden
+
+although it is yet undefined on input line 120.
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 120.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 120.
+
+Package acronym Info: Label `acro:STC' newly defined as it shall be overridden
+although it is yet undefined on input line 120.
+
+Package acronym Warning: Acronym `STC' is not defined on input line 120.
+
+
+Package acronym Warning: Acronym `STC' is not defined on input line 120.
+
+
+LaTeX Warning: Citation `gopinath1998maximum' on page 8 undefined on input line
+ 120.
+
+Package acronym Info: Label `acro:ET' newly defined as it shall be overridden
+although it is yet undefined on input line 121.
+
+Package acronym Warning: Acronym `ET' is not defined on input line 121.
+
+
+Package acronym Warning: Acronym `ET' is not defined on input line 121.
+
+
+LaTeX Warning: Citation `povey2011exponential' on page 8 undefined on input lin
+e 121.
+
+Package acronym Info: Label `acro:CMVN' newly defined as it shall be overridden
+
+although it is yet undefined on input line 122.
+
+Package acronym Warning: Acronym `CMVN' is not defined on input line 122.
+
+
+Package acronym Warning: Acronym `CMVN' is not defined on input line 122.
+
+
+LaTeX Warning: Citation `molau2003feature' on page 8 undefined on input line 12
+2.
+
+
+LaTeX Warning: Reference `cha:train' on page 8 undefined on input line 125.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 125.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 125.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 125.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 127.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 127.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 128.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 128.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 128.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 128.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 128.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 128.
+
+[8]
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 130.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 130.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 130.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 130.
+
+
+LaTeX Warning: Citation `gopinath1998maximum' on page 9 undefined on input line
+ 130.
+
+
+Package acronym Warning: Acronym `HLDA' is not defined on input line 130.
+
+
+LaTeX Warning: Citation `gales1999semi' on page 9 undefined on input line 130.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 130.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 130.
+
+
+Package acronym Warning: Acronym `HLDA' is not defined on input line 130.
+
+
+Package acronym Warning: Acronym `HLDA' is not defined on input line 130.
+
+
+LaTeX Warning: Citation `gales1999semi' on page 9 undefined on input line 130.
+
+
+LaTeX Warning: Citation `gopinath1998maximum' on page 9 undefined on input line
+ 130.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 136.
+
+
+LaTeX Warning: Reference `eq:best_fix' on page 9 undefined on input line 136.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 138.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 138.
+
+
+LaTeX Warning: Citation `weide1998cmu' on page 9 undefined on input line 144.
+
+[9]
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 173.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 173.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 174.
+
+
+LaTeX Warning: Citation `huang2001spoken' on page 10 undefined on input line 17
+4.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 179.
+
+
+LaTeX Warning: Reference `eq:best_fix' on page 10 undefined on input line 179.
+
+
+LaTeX Warning: Reference `fig:hmm_words' on page 10 undefined on input line 182
+.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 185.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 186.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 192.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 193.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 196.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 199.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 202.
+
+
+Package acronym Warning: Acronym `EM' is not defined on input line 202.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 202.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 202.
+
+Package acronym Info: Label `acro:EM' newly defined as it shall be overridden
+although it is yet undefined on input line 210.
+
+Package acronym Warning: Acronym `EM' is not defined on input line 210.
+
+
+Package acronym Warning: Acronym `EM' is not defined on input line 210.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 211.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 211.
+
+
+LaTeX Warning: Reference `fig:hmm_words' on page 10 undefined on input line 213
+.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 213.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 214.
+
+[10]
+
+Package acronym Warning: Acronym `EM' is not defined on input line 218.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 220.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 221.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 226.
+
+Package acronym Info: Label `acro:MLE' newly defined as it shall be overridden
+although it is yet undefined on input line 226.
+
+Package acronym Warning: Acronym `MLE' is not defined on input line 226.
+
+
+Package acronym Warning: Acronym `MLE' is not defined on input line 226.
+
+
+LaTeX Warning: Citation `gopinath1998maximum' on page 11 undefined on input lin
+e 226.
+
+
+Package acronym Warning: Acronym `MLE' is not defined on input line 227.
+
+
+Package acronym Warning: Acronym `MLE' is not defined on input line 228.
+
+
+LaTeX Warning: Citation `huang2001spoken' on page 11 undefined on input line 22
+8.
+
+(./images/hmm-words.tex)
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 234.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 234.
+
+
+LaTeX Warning: Reference `eq:mean' on page 11 undefined on input line 234.
+
+
+LaTeX Warning: Reference `eq:var' on page 11 undefined on input line 234.
+
+
+LaTeX Warning: Reference `eq:weights' on page 11 undefined on input line 234.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 234.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 234.
+
+
+LaTeX Warning: Reference `eq:mean' on page 11 undefined on input line 234.
+
+
+LaTeX Warning: Reference `eq:var' on page 11 undefined on input line 234.
+
+
+LaTeX Warning: Reference `eq:weights' on page 11 undefined on input line 234.
+
+
+Package acronym Warning: Acronym `MLE' is not defined on input line 239.
+
+
+Package acronym Warning: Acronym `MLE' is not defined on input line 241.
+
+Package acronym Info: Label `acro:IID' newly defined as it shall be overridden
+although it is yet undefined on input line 242.
+
+Package acronym Warning: Acronym `IID' is not defined on input line 242.
+
+
+Package acronym Warning: Acronym `IID' is not defined on input line 242.
+
+
+LaTeX Warning: Reference `eq:maxlikelihood' on page 11 undefined on input line 
+242.
+
+
+Package acronym Warning: Acronym `IID' is not defined on input line 243.
+
+
+LaTeX Warning: Reference `eq:lmjoint' on page 11 undefined on input line 243.
+
+
+LaTeX Warning: Reference `eq:lmjoint' on page 11 undefined on input line 247.
+
+
+LaTeX Warning: Reference `eq:likelihood' on page 11 undefined on input line 247
+.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 256.
+
+
+Package acronym Warning: Acronym `EM' is not defined on input line 257.
+
+
+LaTeX Warning: Citation `rodriguez2003comparative' on page 11 undefined on inpu
+t line 258.
+
+[11]
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 263.
+
+
+LaTeX Warning: Citation `buthpitiya2012parallel' on page 12 undefined on input 
+line 263.
+
+
+LaTeX Warning: Reference `eq:vit_align' on page 12 undefined on input line 264.
+
+
+
+LaTeX Warning: Reference `eq:vit_align' on page 12 undefined on input line 273.
+
+
+
+LaTeX Warning: Reference `eq:state_prob' on page 12 undefined on input line 273
+.
+
+
+LaTeX Warning: Reference `eq:observ_prob' on page 12 undefined on input line 28
+5.
+
+
+LaTeX Warning: Reference `eq:freq' on page 12 undefined on input line 295.
+
+
+LaTeX Warning: Reference `eq:mean' on page 12 undefined on input line 303.
+
+
+LaTeX Warning: Reference `eq:var' on page 12 undefined on input line 303.
+
+[12]
+
+LaTeX Warning: Citation `buthpitiya2012parallel' on page 13 undefined on input 
+line 313.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 321.
+
+
+Package acronym Warning: Acronym `MLE' is not defined on input line 321.
+
+
+Package acronym Warning: Acronym `MLE' is not defined on input line 321.
+
+
+Package acronym Warning: Acronym `MLE' is not defined on input line 321.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 323.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 331.
+
+
+Package acronym Warning: Acronym `MMI' is not defined on input line 334.
+
+
+LaTeX Warning: Citation `chow1990maximum' on page 13 undefined on input line 33
+4.
+
+
+Package acronym Warning: Acronym `bMMI' is not defined on input line 336.
+
+
+LaTeX Warning: Citation `povey2008boosted' on page 13 undefined on input line 3
+36.
+
+
+Package acronym Warning: Acronym `MPE' is not defined on input line 337.
+
+
+LaTeX Warning: Citation `povey2003mmi' on page 13 undefined on input line 337.
+
+
+LaTeX Warning: Reference `cha:train' on page 13 undefined on input line 339.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 344.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 344.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 345.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 345.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 347.
+
+
+LaTeX Warning: Reference `eq:lm' on page 13 undefined on input line 347.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 348.
+
+
+LaTeX Warning: Reference `eq:lm' on page 13 undefined on input line 348.
+
+
+LaTeX Warning: Citation `brants2007large' on page 13 undefined on input line 34
+8.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 350.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 351.
+
+[13]
+
+Package acronym Warning: Acronym `MLE' is not defined on input line 358.
+
+
+LaTeX Warning: Reference `eq:freq' on page 14 undefined on input line 358.
+
+
+LaTeX Warning: Reference `eq:freq' on page 14 undefined on input line 364.
+
+
+LaTeX Warning: Citation `goodman2001bit' on page 14 undefined on input line 369
+.
+
+
+LaTeX Warning: Citation `brants2007large' on page 14 undefined on input line 37
+1.
+
+
+LaTeX Warning: Marginpar on page 14 moved.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 373.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 373.
+
+
+LaTeX Warning: Reference `cha:train' on page 14 undefined on input line 374.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 374.
+
+
+LaTeX Warning: Citation `witten1991zero' on page 14 undefined on input line 374
+.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 379.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 380.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 382.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 382.
+
+
+LaTeX Warning: Reference `eq:best_fix' on page 14 undefined on input line 382.
+
+Package acronym Info: Label `acro:LMW' newly defined as it shall be overridden
+although it is yet undefined on input line 383.
+
+Package acronym Warning: Acronym `LMW' is not defined on input line 383.
+
+
+Package acronym Warning: Acronym `LMW' is not defined on input line 383.
+
+
+Package acronym Warning: Acronym `LMW' is not defined on input line 385.
+
+
+LaTeX Warning: Reference `eq:am_lm' on page 14 undefined on input line 385.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 391.
+
+
+LaTeX Warning: Citation `huang2001spoken' on page 14 undefined on input line 39
+2.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 394.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 395.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 396.
+
+
+LaTeX Warning: Reference `fig:hmm_lm' on page 14 undefined on input line 396.
+
+
+LaTeX Warning: Reference `fig:hmm_alt' on page 14 undefined on input line 396.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 397.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 399.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 400.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 401.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 401.
+
+[14]
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 403.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 403.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 404.
+
+(./images/hmm-lm.tex)
+
+Package acronym Warning: Acronym `LM' is not defined on input line 409.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 409.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 414.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 415.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 415.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 417.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 417.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 418.
+
+
+LaTeX Warning: Reference `fig:hmm_lm' on page 15 undefined on input line 418.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 419.
+
+
+LaTeX Warning: Reference `fig:hmm_alt' on page 15 undefined on input line 419.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 420.
+
+(./images/hmm-alt.tex)
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 429.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 429.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 429.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 429.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 429.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 429.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 429.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 429.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 429.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 429.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 434.
+
+
+LaTeX Warning: Reference `fig:hmm_alt' on page 15 undefined on input line 434.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 436.
+
+
+LaTeX Warning: Citation `huang2001spoken' on page 15 undefined on input line 44
+5.
+
+[15]
+
+LaTeX Warning: Reference `eq:am_lm_log' on page 16 undefined on input line 464.
+
+
+
+LaTeX Warning: Reference `eq:am_lm' on page 16 undefined on input line 464.
+
+[16]
+Overfull \hbox (1.11424pt too wide) in paragraph at lines 476--479
+\T1/cmr/m/n/12 The one-best hy-poth-e-sis out-puts only sin-gle se-quence of wo
+rds de-spite the fact
+ []
+
+
+LaTeX Warning: Reference `fig:toy_lat' on page 17 undefined on input line 493.
+
+
+LaTeX Warning: Reference `fig:toy_lat' on page 17 undefined on input line 493.
+
+File: images/toy_lattice.ps Graphic file (type eps)
+<images/toy_lattice.ps>
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 513.
+
+
+LaTeX Warning: Reference `fig:toy_lat' on page 17 undefined on input line 515.
+
+
+LaTeX Warning: Reference `fig:nbest' on page 17 undefined on input line 524.
+
+[17]
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 526.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 529.
+
+Package acronym Info: Label `acro:WER' newly defined as it shall be overridden
+although it is yet undefined on input line 530.
+
+Package acronym Warning: Acronym `WER' is not defined on input line 530.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 530.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 530.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 531.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 531.
+
+
+LaTeX Warning: Reference `eq:edit_dist' on page 18 undefined on input line 532.
+
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 533.
+
+
+Overfull \hbox (25.09938pt too wide) detected at line 536
+[]\OML/cmm/m/it/12 WER \OT1/cmr/m/n/12 = 100 \OMS/cmsy/m/n/12 ^^C []
+ []
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 538.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 539.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 539.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 540.
+
+
+LaTeX Warning: Reference `fig:wer400' on page 18 undefined on input line 541.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 557.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 557.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 562.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 563.
+
+[18]
+
+Package acronym Warning: Acronym `SER' is not defined on input line 567.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 573.
+
+Package acronym Info: Label `acro:SER' newly defined as it shall be overridden
+although it is yet undefined on input line 573.
+
+Package acronym Warning: Acronym `SER' is not defined on input line 573.
+
+
+Package acronym Warning: Acronym `SER' is not defined on input line 573.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 575.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 576.
+
+
+Package acronym Warning: Acronym `SLU' is not defined on input line 577.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 580.
+
+
+Package acronym Warning: Acronym `RTF' is not defined on input line 582.
+
+
+Package acronym Warning: Acronym `RTF' is not defined on input line 583.
+
+Package acronym Info: Label `acro:RTF' newly defined as it shall be overridden
+although it is yet undefined on input line 584.
+
+Package acronym Warning: Acronym `RTF' is not defined on input line 584.
+
+
+Package acronym Warning: Acronym `RTF' is not defined on input line 584.
+
+
+LaTeX Warning: Reference `eq:rtf' on page 19 undefined on input line 584.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 592.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 593.
+
+
+Overfull \hbox (3.29143pt too wide) in paragraph at lines 592--594
+[]\T1/cmr/m/n/12 The de-cod-ing is per-formed while user is speak-ing, but ex-t
+ract-ing the [][]
+ []
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 596.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 597.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 597.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 598.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 601.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 603.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 603.
+
+[19]
+
+LaTeX Warning: Reference `fig:htk_tools' on page 20 undefined on input line 608
+.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 608.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 609.
+
+File: images/htk_tools.ps Graphic file (type eps)
+<images/htk_tools.ps>
+
+LaTeX Warning: Citation `young2006htk' on page 20 undefined on input line 614.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 619.
+
+
+LaTeX Warning: Citation `young2006htk' on page 20 undefined on input line 620.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 621.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 625.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 625.
+
+Missing character: There is no ě in font ecrm1200!
+
+LaTeX Warning: Citation `vertanen_baseline_2006' on page 20 undefined on input 
+line 625.
+
+
+LaTeX Warning: Citation `korvas_2014' on page 20 undefined on input line 625.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 627.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 634.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 634.
+
+
+LaTeX Warning: Citation `lee2009julius' on page 20 undefined on input line 634.
+
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 640.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 640.
+
+[20]
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 642.
+
+
+LaTeX Warning: Reference `sub:decode' on page 21 undefined on input line 642.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 653.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 654.
+
+
+LaTeX Warning: Citation `povey2011kaldi' on page 21 undefined on input line 655
+.
+
+
+LaTeX Warning: Citation `allauzen2007openfst' on page 21 undefined on input lin
+e 659.
+
+
+LaTeX Warning: Reference `fig:kaldi_arch' on page 21 undefined on input line 66
+1.
+
+File: images/kaldi-lib.pdf Graphic file (type QTm)
+<use  "images/kaldi-lib.pdf" >
+
+LaTeX Warning: Citation `povey2011kaldi' on page 21 undefined on input line 666
+.
+
+[21]
+
+LaTeX Warning: Citation `korvas_2014' on page 22 undefined on input line 706.
+
+
+LaTeX Warning: Reference `cha:train' on page 22 undefined on input line 707.
+
+
+Package acronym Warning: Acronym `FST' is not defined on input line 711.
+
+Package acronym Info: Label `acro:FST' newly defined as it shall be overridden
+although it is yet undefined on input line 712.
+
+Package acronym Warning: Acronym `FST' is not defined on input line 712.
+
+
+Package acronym Warning: Acronym `FST' is not defined on input line 712.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 712.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 712.
+
+
+Package acronym Warning: Acronym `FST' is not defined on input line 714.
+
+
+LaTeX Warning: Citation `mohri2002weighted' on page 22 undefined on input line 
+714.
+
+
+Package acronym Warning: Acronym `FST' is not defined on input line 715.
+
+
+Package acronym Warning: Acronym `FST' is not defined on input line 719.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 719.
+
+
+LaTeX Warning: Citation `mohri2002weighted' on page 22 undefined on input line 
+719.
+
+
+Package acronym Warning: Acronym `FST' is not defined on input line 720.
+
+
+LaTeX Warning: Reference `eq:hclg' on page 22 undefined on input line 720.
+
+[22]
+
+Package acronym Warning: Acronym `FST' is not defined on input line 724.
+
+
+LaTeX Warning: Reference `eq:hclg' on page 23 undefined on input line 725.
+
+
+Package acronym Warning: Acronym `HMM' is not defined on input line 731.
+
+Package acronym Info: Label `acro:PDF' newly defined as it shall be overridden
+although it is yet undefined on input line 731.
+
+Package acronym Warning: Acronym `PDF' is not defined on input line 731.
+
+
+Package acronym Warning: Acronym `PDF' is not defined on input line 731.
+
+
+Package acronym Warning: Acronym `FST' is not defined on input line 734.
+
+
+LaTeX Warning: Citation `mohri2002weighted' on page 23 undefined on input line 
+734.
+
+
+LaTeX Warning: Reference `tab:semiring' on page 23 undefined on input line 749.
+
+
+
+LaTeX Warning: Citation `openfst_web' on page 23 undefined on input line 762.
+
+) [23]
+\openout2 = `training.aux'.
+
+ (./training.tex [24
+
+
+
+]
+Chapter 3.
+
+Package acronym Warning: Acronym `AM' is not defined on input line 7.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 7.
+
+
+LaTeX Warning: Reference `cha:decoder' on page 25 undefined on input line 7.
+
+
+LaTeX Warning: Reference `sec:data' on page 25 undefined on input line 9.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 10.
+
+
+LaTeX Warning: Reference `sec:am_train' on page 25 undefined on input line 10.
+
+
+LaTeX Warning: Reference `sec:am_eval' on page 25 undefined on input line 11.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 11.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 11.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 11.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 11.
+
+
+LaTeX Warning: Citation `korvas_2014' on page 25 undefined on input line 17.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 19.
+
+
+Overfull \hbox (23.624pt too wide) in paragraph at lines 25--25
+[]\T1/cmtt/m/n/12 I NEED TO FIND A PUB IT SHOULD ALLOW CHILDREN AND HAVE A TELE
+VISION[] 
+ []
+
+
+LaTeX Warning: Characters dropped after `\end{verbatim}' on input line 26.
+
+
+LaTeX Warning: Citation `korvas_2014' on page 25 undefined on input line 28.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 32.
+
+Package acronym Info: Label `acro:PTI' newly defined as it shall be overridden
+although it is yet undefined on input line 32.
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 32.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 32.
+
+Package acronym Info: Label `acro:TTS' newly defined as it shall be overridden
+although it is yet undefined on input line 37.
+
+Package acronym Warning: Acronym `TTS' is not defined on input line 37.
+
+
+Package acronym Warning: Acronym `TTS' is not defined on input line 37.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 41.
+
+[25]
+Missing character: There is no Š in font ectt1200!
+
+Runaway argument?
+! Paragraph ended before \UTFviii@two@octets was complete.
+<to be read again> 
+                   \par 
+l.47 A DALŠÍ
+              
+? 
+Missing character: There is no Ě in font ectt1200!
+Missing character: There is no Ě in font ectt1200!
+Missing character: There is no Ě in font ectt1200!
+Missing character: There is no Ě in font ectt1200!
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `utf8'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.50 ZE ZASTÁVKY DEJVICKÁ
+                           
+? 
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `utf8'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.50 ZE ZASTÁVKY DEJVICKÁ
+                           
+? 
+Missing character: There is no Č in font ectt1200!
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `utf8'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.55 PRYČ S TYRANY A ZRÁDCI VŠEMI
+                                    
+? 
+Missing character: There is no Š in font ectt1200!
+Missing character: There is no Ě in font ectt1200!
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `utf8'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.56 UTRHNE SI KVĚT Z KYTICE A ODCHÁZÍ
+                                         
+? 
+Runaway argument?
+! Paragraph ended before \UTFviii@two@octets was complete.
+<to be read again> 
+                   \par 
+l.56 UTRHNE SI KVĚT Z KYTICE A ODCHÁZÍ
+                                         
+? 
+Missing character: There is no Ť in font ectt1200!
+Missing character: There is no Š in font ectt1200!
+
+! Package inputenc Error: Unicode char \u8:Í  not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.57 DYŤ TO JE HORŠÍ NEŽ ZVÍŘE
+                                    
+? 
+Missing character: There is no Ž in font ectt1200!
+
+! Package inputenc Error: Unicode char \u8:ÍŘ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.57 DYŤ TO JE HORŠÍ NEŽ ZVÍŘE
+                                    
+? 
+Missing character: There is no Ř in font ectt1200!
+Missing character: There is no Č in font ectt1200!
+Missing character: There is no Ě in font ectt1200!
+
+Package acronym Warning: Acronym `AM' is not defined on input line 63.
+
+
+LaTeX Warning: Reference `sec:results' on page 26 undefined on input line 64.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 66.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 66.
+
+
+LaTeX Warning: Reference `tab:audio' on page 26 undefined on input line 67.
+
+
+LaTeX Warning: Citation `korvas_2014' on page 26 undefined on input line 89.
+
+
+LaTeX Warning: Citation `korvas_2014' on page 26 undefined on input line 89.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 97.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 97.
+
+
+LaTeX Warning: Reference `sec:results' on page 26 undefined on input line 98.
+
+[26]
+
+Package acronym Warning: Acronym `AM' is not defined on input line 103.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 104.
+
+
+LaTeX Warning: Reference `fig:am-deps' on page 27 undefined on input line 105.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 106.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 106.
+
+
+LaTeX Warning: Reference `fig:am-deps' on page 27 undefined on input line 109.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 110.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 114.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 115.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 115.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 117.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 117.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 117.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 118.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 118.
+
+
+Package acronym Warning: Acronym `MMI' is not defined on input line 120.
+
+
+LaTeX Warning: Citation `chow1990maximum' on page 27 undefined on input line 12
+0.
+
+Package acronym Info: Label `acro:MMI' newly defined as it shall be overridden
+although it is yet undefined on input line 120.
+
+Package acronym Warning: Acronym `MMI' is not defined on input line 120.
+
+
+Package acronym Warning: Acronym `MMI' is not defined on input line 120.
+
+
+Package acronym Warning: Acronym `bMMI' is not defined on input line 120.
+
+
+Package acronym Warning: Acronym `bMMI' is not defined on input line 121.
+
+
+LaTeX Warning: Citation `povey2008boosted' on page 27 undefined on input line 1
+21.
+
+
+Package acronym Warning: Acronym `MPE' is not defined on input line 122.
+
+
+LaTeX Warning: Citation `povey2003mmi' on page 27 undefined on input line 122.
+
+(./images/am-deps.tex)
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 135.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 135.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 136.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 136.
+
+
+Package acronym Warning: Acronym `MMI' is not defined on input line 136.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 137.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 137.
+
+
+Package acronym Warning: Acronym `bMMI' is not defined on input line 137.
+
+
+Package acronym Warning: Acronym `MPE' is not defined on input line 138.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 142.
+
+
+LaTeX Warning: Reference `fig:partials' on page 27 undefined on input line 149.
+
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 153.
+
+[27]
+
+Package acronym Warning: Acronym `AM' is not defined on input line 157.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 158.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 158.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 159.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 161.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 161.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 161.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 163.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 163.
+
+
+LaTeX Warning: Reference `fig:partials' on page 28 undefined on input line 164.
+
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 168.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 169.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 169.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 170.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 170.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 172.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 173.
+
+
+Package acronym Warning: Acronym `OOV' is not defined on input line 175.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 180.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 181.
+
+
+Package acronym Warning: Acronym `LMW' is not defined on input line 183.
+
+
+Package acronym Warning: Acronym `LMW' is not defined on input line 184.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 184.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 184.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 184.
+
+
+Package acronym Warning: Acronym `LMW' is not defined on input line 185.
+
+
+LaTeX Warning: Reference `sub:dec' on page 28 undefined on input line 186.
+
+
+LaTeX Warning: Reference `sec:eval' on page 28 undefined on input line 187.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 187.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 190.
+
+
+Package acronym Warning: Acronym `SER' is not defined on input line 190.
+
+[28]
+
+Package acronym Warning: Acronym `WER' is not defined on input line 199.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 199.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 200.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 201.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 201.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 202.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 205.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 205.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 205.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 205.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 205.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 205.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 205.
+
+
+Overfull \hbox (2.38399pt too wide) in paragraph at lines 205--206
+\T1/cmr/m/n/12 gains lower [][] than the sec-ond one ($\OML/cmm/m/it/12 wer[] <
+ wer[]$\T1/cmr/m/n/12 ), then in the same
+ []
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 207.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 207.
+
+
+LaTeX Warning: Reference `sec:compare' on page 29 undefined on input line 209.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 209.
+
+
+LaTeX Warning: Citation `korvas_2014' on page 29 undefined on input line 209.
+
+File: images/partial-zerogram.ps Graphic file (type eps)
+<images/partial-zerogram.ps>
+
+Package acronym Warning: Acronym `AM' is not defined on input line 214.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 214.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 214.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 214.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 214.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 214.
+
+
+LaTeX Warning: Reference `fig:partials' on page 29 undefined on input line 219.
+
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 219.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 220.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 221.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 222.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 222.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 223.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 224.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 225.
+
+[29]
+
+Package acronym Warning: Acronym `LM' is not defined on input line 227.
+
+
+LaTeX Warning: Reference `fig:partials_lm' on page 30 undefined on input line 2
+28.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 228.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 229.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 230.
+
+Missing character: There is no ř in font ecrm1200!
+Missing character: There is no š in font ecrm1200!
+Missing character: There is no ř in font ecrm1000!
+Missing character: There is no š in font ecrm1000!
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 231.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 232.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 232.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 232.
+
+File: images/partial-lm-tri2b-bmmi.ps Graphic file (type eps)
+<images/partial-lm-tri2b-bmmi.ps>
+
+Package acronym Warning: Acronym `LM' is not defined on input line 236.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 236.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 236.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 236.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 236.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 236.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 241.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 245.
+
+[30]
+
+LaTeX Warning: Reference `tab:best' on page 31 undefined on input line 252.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 252.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 309.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 311.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 311.
+
+Package acronym Info: Label `acro:OOV' newly defined as it shall be overridden
+although it is yet undefined on input line 313.
+
+Package acronym Warning: Acronym `OOV' is not defined on input line 313.
+
+
+Package acronym Warning: Acronym `OOV' is not defined on input line 313.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 317.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 319.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 319.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 319.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 320.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 321.
+
+Package acronym Info: Label `acro:bMMI' newly defined as it shall be overridden
+
+although it is yet undefined on input line 321.
+
+Package acronym Warning: Acronym `bMMI' is not defined on input line 321.
+
+
+Package acronym Warning: Acronym `bMMI' is not defined on input line 321.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 321.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 321.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 321.
+
+Package acronym Info: Label `acro:MPE' newly defined as it shall be overridden
+although it is yet undefined on input line 321.
+
+Package acronym Warning: Acronym `MPE' is not defined on input line 321.
+
+
+Package acronym Warning: Acronym `MPE' is not defined on input line 321.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 321.
+
+
+Package acronym Warning: Acronym `bMMI' is not defined on input line 321.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 321.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 324.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 327.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 328.
+
+[31]
+
+Package acronym Warning: Acronym `AM' is not defined on input line 330.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 330.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 331.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 331.
+
+
+LaTeX Warning: Citation `korvas_2014' on page 32 undefined on input line 332.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 347.
+
+
+LaTeX Warning: Reference `tab:best' on page 32 undefined on input line 347.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 347.
+
+
+LaTeX Warning: Reference `tab:best' on page 32 undefined on input line 347.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 351.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 351.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 351.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 352.
+
+
+Overfull \hbox (2.09444pt too wide) in paragraph at lines 351--353
+[]\T1/cmr/m/n/12 The re-sults sug-gest that Kaldi achieves sim-i-lar [][] com-p
+ared to [][]
+ []
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 354.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 354.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 354.
+
+
+Package acronym Warning: Acronym `bMMI' is not defined on input line 354.
+
+
+LaTeX Warning: Citation `morbini2013asr' on page 32 undefined on input line 354
+.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 354.
+
+
+LaTeX Warning: Reference `cha:integration' on page 32 undefined on input line 3
+56.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 356.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 356.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 356.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 356.
+
+
+LaTeX Warning: Reference `fig:am-deps' on page 32 undefined on input line 356.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 357.
+
+
+LaTeX Warning: Reference `sec:am_eval' on page 32 undefined on input line 357.
+
+) [32]
+\openout2 = `decoder.aux'.
+
+ (./decoder.tex
+Chapter 4.
+
+LaTeX Warning: Reference `sec:rec' on page 33 undefined on input line 5.
+
+
+LaTeX Warning: Reference `sec:pyext' on page 33 undefined on input line 6.
+
+
+LaTeX Warning: Reference `sec:dec_sum' on page 33 undefined on input line 7.
+
+[33
+
+
+
+]
+
+LaTeX Warning: Reference `sub:dec' on page 34 undefined on input line 39.
+
+
+LaTeX Warning: Reference `sub:preprocess' on page 34 undefined on input line 40
+.
+
+
+LaTeX Warning: Reference `sub:postprocess' on page 34 undefined on input line 4
+0.
+
+
+Overfull \hbox (13.85977pt too wide) in paragraph at lines 44--45
+\T1/cmr/m/n/12 The \T1/cmr/m/it/12 On-lineLat-gen-Recog-niser \T1/cmr/m/n/12 ma
+kes use of the in-cre-men-tal speech pre-processing
+ []
+
+
+LaTeX Warning: Reference `snippets/rec_usage.cc' on page 34 undefined on input 
+line 57.
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2013/08/26 1.5b listings language file
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2013/08/26 1.5b listings language file
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2013/08/26 1.5b (Carsten Heinz)
+)
+(./snippets/rec_usage.cc
+LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <8> not available
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 6.
+)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (5.02385pt too wide) in paragraph at lines 70--71
+[]\T1/cmr/m/n/12 Decoding should re-turn a num-ber of ac-tu-ally de-coded frame
+s. The recog-
+ []
+
+[34]
+Overfull \hbox (3.20676pt too wide) in paragraph at lines 79--83
+[]\T1/cmr/m/n/12 On the other hand, ex-tract-ing the word pos-te-rior lat-tice 
+may block the pro-
+ []
+
+
+LaTeX Warning: Reference `snippets/rec_usage.cc' on page 35 undefined on input 
+line 103.
+
+[35]
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 105.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 116.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 117.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 125.
+
+
+LaTeX Warning: Reference `sec:eval' on page 36 undefined on input line 125.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 129.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 130.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 132.
+
+
+LaTeX Warning: Reference `fig:online_pipeline' on page 36 undefined on input li
+ne 136.
+
+[36]
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 140.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 141.
+
+
+Overfull \hbox (1.9192pt too wide) in paragraph at lines 143--144
+[]$\OT1/cmr/m/n/12 ^^A + ^^A^^A$ \T1/cmr/m/n/12 re-quires at least two pre-vi-o
+us frames, if avail-able the acous-
+ []
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 147.
+
+
+Overfull \hbox (10.71466pt too wide) in paragraph at lines 148--149
+[]\T1/cmr/m/n/12 The de-coder it-self per-forms the search in state level space
+ hav-ing the prob-
+ []
+
+(./images/online_pipeline.tex)
+
+LaTeX Warning: Reference `fig:online_pipeline' on page 37 undefined on input li
+ne 159.
+
+
+Overfull \hbox (2.68326pt too wide) in paragraph at lines 164--169
+[]\T1/cmr/m/n/12 The on-line im-ple-men-ta-tion \T1/cmr/m/it/12 OnlDe-cod-able-
+Di-ag-Gmm-Scaled \T1/cmr/m/n/12 of \T1/cmr/m/it/12 De-cod-ableIn-
+ []
+
+[37]
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 176.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 176.
+
+
+Overfull \hbox (6.10875pt too wide) in paragraph at lines 176--177
+[]\T1/cmr/m/n/12 and the frame splic-ing used for [][]+[][] (nine frames are sp
+liced). 
+ []
+
+
+LaTeX Warning: Reference `snippets/compact2wordpost.cc' on page 38 undefined on
+ input line 243.
+
+
+Overfull \hbox (6.34206pt too wide) in paragraph at lines 250--251
+[]\T1/cmr/m/n/12 The com-put-ing of the pos-te-rior prob-a-bil-i-ties through a
+ stan-dard forward-
+ []
+
+(./snippets/compact2wordpost.cc)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (5.68665pt too wide) in paragraph at lines 259--263
+[]\T1/cmr/m/n/12 The word pos-te-rior prob-a-bil-ity is con-verted from the lik
+e-li-hood of the words
+ []
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 264.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 266.
+
+[38]
+
+LaTeX Warning: Citation `pyfst2014url' on page 39 undefined on input line 372.
+
+
+LaTeX Warning: Citation `cython2014url' on page 39 undefined on input line 376.
+
+
+
+LaTeX Warning: Reference `snippets/pykaldi_usage.py' on page 39 undefined on in
+put line 382.
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2013/08/26 1.5b listings language file
+)
+(./snippets/pykaldi_usage.py)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 391--391
+[][][][]$\T1/cmtt/m/n/10 https : / / github . com / UFAL-[]DSG / pykaldi / tree
+ / master / egs / vystadial / online _
+ []
+
+[39]
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 406.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 406.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 406.
+
+
+Package acronym Warning: Acronym `bMMI' is not defined on input line 406.
+
+
+Package acronym Warning: Acronym `MPE' is not defined on input line 406.
+
+
+Package acronym Warning: Acronym `MFCC' is not defined on input line 407.
+
+
+Package acronym Warning: Acronym `LDA' is not defined on input line 407.
+
+
+Package acronym Warning: Acronym `MLLT' is not defined on input line 407.
+
+
+Package acronym Warning: Acronym `bMMI' is not defined on input line 407.
+
+
+LaTeX Warning: Reference `cha:integration' on page 40 undefined on input line 4
+09.
+
+)
+Overfull \hbox (6.15181pt too wide) in paragraph at lines 406--18
+[]\T1/cmr/m/n/12 The im-ple-mented min-i-mal on-line in-ter-face which sup-port
+s [][] speech
+ []
+
+[40]
+\openout2 = `integration.aux'.
+
+ (./integration.tex
+Chapter 5.
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 2.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 2.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 6.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 6.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 8.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 8.
+
+
+LaTeX Warning: Reference `sec:asrsds' on page 41 undefined on input line 9.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 9.
+
+
+LaTeX Warning: Reference `sec:eval' on page 41 undefined on input line 10.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 10.
+
+Package acronym Info: Label `acro:VAD' newly defined as it shall be overridden
+although it is yet undefined on input line 18.
+
+Package acronym Warning: Acronym `VAD' is not defined on input line 18.
+
+
+Package acronym Warning: Acronym `VAD' is not defined on input line 18.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 19.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 19.
+
+Package acronym Info: Label `acro:SLU' newly defined as it shall be overridden
+although it is yet undefined on input line 20.
+
+Package acronym Warning: Acronym `SLU' is not defined on input line 20.
+
+
+Package acronym Warning: Acronym `SLU' is not defined on input line 20.
+
+Package acronym Info: Label `acro:DM' newly defined as it shall be overridden
+although it is yet undefined on input line 21.
+
+Package acronym Warning: Acronym `DM' is not defined on input line 21.
+
+
+Package acronym Warning: Acronym `DM' is not defined on input line 21.
+
+Package acronym Info: Label `acro:NLG' newly defined as it shall be overridden
+although it is yet undefined on input line 22.
+
+Package acronym Warning: Acronym `NLG' is not defined on input line 22.
+
+
+Package acronym Warning: Acronym `NLG' is not defined on input line 22.
+
+
+Package acronym Warning: Acronym `TTS' is not defined on input line 23.
+
+
+Package acronym Warning: Acronym `TTS' is not defined on input line 23.
+
+
+LaTeX Warning: Reference `fig:alex' on page 41 undefined on input line 26.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 27.
+
+
+Package acronym Warning: Acronym `SLU' is not defined on input line 28.
+
+
+Package acronym Warning: Acronym `DM' is not defined on input line 28.
+
+
+Package acronym Warning: Acronym `NLG' is not defined on input line 29.
+
+
+Package acronym Warning: Acronym `DM' is not defined on input line 29.
+
+
+Package acronym Warning: Acronym `TTS' is not defined on input line 29.
+
+(./images/ds-diagram.tex)
+Overfull \hbox (34.37956pt too wide) in paragraph at lines 66--37
+ [] 
+ []
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 42.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 43.
+
+
+LaTeX Warning: Reference `fig:alex' on page 41 undefined on input line 47.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 49.
+
+[41
+
+
+
+]
+
+Package acronym Warning: Acronym `VAD' is not defined on input line 54.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 54.
+
+
+LaTeX Warning: Reference `fig:alex' on page 42 undefined on input line 60.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 62.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 62.
+
+
+LaTeX Warning: Reference `snippets/asr_interface.py' on page 42 undefined on in
+put line 63.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 71.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 72.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 72.
+
+[42]
+
+Package acronym Warning: Acronym `AM' is not defined on input line 75.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 75.
+
+
+Package acronym Warning: Acronym `SLU' is not defined on input line 76.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 76.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 77.
+
+
+Package acronym Warning: Acronym `SLU' is not defined on input line 77.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 78.
+
+
+Package acronym Warning: Acronym `SLU' is not defined on input line 78.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 78.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 80.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 86.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 87.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 87.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 88.
+
+
+LaTeX Warning: Reference `sub:asr_component' on page 43 undefined on input line
+ 91.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 92.
+
+
+LaTeX Warning: Reference `cha:train' on page 43 undefined on input line 92.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 93.
+
+
+LaTeX Warning: Reference `sub:hclg' on page 43 undefined on input line 94.
+
+
+LaTeX Warning: Reference `sec:eval' on page 43 undefined on input line 96.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 96.
+
+
+Overfull \hbox (11.00931pt too wide) in paragraph at lines 91--97
+\T1/cmr/m/it/12 alex/-tool-s/kaldi \T1/cmr/m/n/12 di-rec-tory so they nicely in
+-te-grate in the Alex [][]. The scripts
+ []
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 100.
+
+
+Package acronym Warning: Acronym `VAD' is not defined on input line 100.
+
+
+Package acronym Warning: Acronym `VAD' is not defined on input line 102.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 102.
+
+
+LaTeX Warning: Reference `snippets/asr_interface.py' on page 43 undefined on in
+put line 103.
+
+
+LaTeX Warning: Reference `snippets/asr_interface.py' on page 43 undefined on in
+put line 104.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 105.
+
+
+Package acronym Warning: Acronym `VAD' is not defined on input line 105.
+
+
+Overfull \hbox (0.83925pt too wide) in paragraph at lines 102--106
+\T1/cmr/m/n/12 The \T1/cmr/m/it/12 rec_in \T1/cmr/m/n/12 method is a part of Al
+ex ab-stract \T1/cmr/m/it/12 AS-RIn-ter-face \T1/cmr/m/n/12 il-lus-trated in Li
+st-
+ []
+
+
+Package acronym Warning: Acronym `VAD' is not defined on input line 107.
+
+
+Package acronym Warning: Acronym `SLU' is not defined on input line 108.
+
+[43] (./snippets/asr_interface.py)
+Overfull \hbox (2.27469pt too wide) in paragraph at lines 115--118
+\T1/cmr/m/n/12 the two meth-ods \T1/cmr/m/it/12 rec_in \T1/cmr/m/n/12 and \T1/c
+mr/m/it/12 hyp_out \T1/cmr/m/n/12 are used for de-cod-ing. Since the method
+ []
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 119.
+
+
+LaTeX Warning: Reference `sec:pyext' on page 44 undefined on input line 120.
+
+
+LaTeX Warning: Reference `fig:prc' on page 44 undefined on input line 121.
+
+
+Package acronym Warning: Acronym `VAD' is not defined on input line 130.
+
+
+Package acronym Warning: Acronym `VAD' is not defined on input line 134.
+
+[44]
+
+Package acronym Warning: Acronym `LM' is not defined on input line 142.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 146.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 146.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 151.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 152.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 158.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 162.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 164.
+
+Package acronym Info: Label `acro:WST' newly defined as it shall be overridden
+although it is yet undefined on input line 165.
+
+Package acronym Warning: Acronym `WST' is not defined on input line 165.
+
+
+Package acronym Warning: Acronym `WST' is not defined on input line 165.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 168.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 168.
+
+
+LaTeX Warning: Reference `sec:eval' on page 45 undefined on input line 168.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 171.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 173.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 173.
+
+
+LaTeX Warning: Citation `ptics2014url' on page 45 undefined on input line 176.
+
+[45]
+
+LaTeX Warning: Citation `korvas_2014' on page 46 undefined on input line 183.
+
+
+LaTeX Warning: Reference `cha:train' on page 46 undefined on input line 186.
+
+
+LaTeX Warning: Citation `povey2011kaldi' on page 46 undefined on input line 201
+.
+
+
+Package acronym Warning: Acronym `RTF' is not defined on input line 207.
+
+! Unable to load picture or PDF file './images/beam_vs_rtfwer.pdf.ps'.
+<to be read again> 
+                   }
+l.213 ...raphics[scale=0.5]{beam_vs_rtfwer.pdf.ps}
+                                                  
+? 
+File: ./images/beam_vs_rtfwer.pdf.ps Graphic file (type QTm)
+<use  "./images/beam_vs_rtfwer.pdf.ps" >
+! Unable to load picture or PDF file './images/beam_vs_rtfwer.pdf.ps'.
+<to be read again> 
+                   \GXT@clipend 
+l.213 ...raphics[scale=0.5]{beam_vs_rtfwer.pdf.ps}
+                                                  
+? 
+! Unable to load picture or PDF file './images/latbeam_vs_latwer.pdf.ps'.
+<to be read again> 
+                   }
+l.214 ...hics[scale=0.5]{latbeam_vs_latwer.pdf.ps}
+                                                  
+? 
+File: ./images/latbeam_vs_latwer.pdf.ps Graphic file (type QTm)
+<use  "./images/latbeam_vs_latwer.pdf.ps" >
+! Unable to load picture or PDF file './images/latbeam_vs_latwer.pdf.ps'.
+<to be read again> 
+                   \GXT@clipend 
+l.214 ...hics[scale=0.5]{latbeam_vs_latwer.pdf.ps}
+                                                  
+? 
+
+LaTeX Warning: Reference `fig:wer' on page 46 undefined on input line 223.
+
+
+LaTeX Warning: Reference `fig:wer' on page 46 undefined on input line 225.
+
+
+Package acronym Warning: Acronym `WER' is not defined on input line 225.
+
+
+LaTeX Warning: Reference `fig:wer' on page 46 undefined on input line 226.
+
+
+LaTeX Warning: Reference `fig:wer' on page 46 undefined on input line 227.
+
+
+LaTeX Warning: Citation `skantze2009incremental' on page 46 undefined on input 
+line 227.
+
+
+LaTeX Warning: Citation `povey2012generating' on page 46 undefined on input lin
+e 228.
+
+
+Package acronym Warning: Acronym `SLU' is not defined on input line 229.
+
+[46]
+! Unable to load picture or PDF file './images/frtf_vs_prc.pdf.ps'.
+<to be read again> 
+                   }
+l.233 ...degraphics[scale=0.5]{frtf_vs_prc.pdf.ps}
+                                                  
+? 
+File: ./images/frtf_vs_prc.pdf.ps Graphic file (type QTm)
+<use  "./images/frtf_vs_prc.pdf.ps" >
+! Unable to load picture or PDF file './images/frtf_vs_prc.pdf.ps'.
+<to be read again> 
+                   \GXT@clipend 
+l.233 ...degraphics[scale=0.5]{frtf_vs_prc.pdf.ps}
+                                                  
+? 
+! Unable to load picture or PDF file './images/lat_vs_prc.pdf.ps'.
+<to be read again> 
+                   }
+l.234 ...udegraphics[scale=0.5]{lat_vs_prc.pdf.ps}
+                                                  
+? 
+File: ./images/lat_vs_prc.pdf.ps Graphic file (type QTm)
+<use  "./images/lat_vs_prc.pdf.ps" >
+! Unable to load picture or PDF file './images/lat_vs_prc.pdf.ps'.
+<to be read again> 
+                   \GXT@clipend 
+l.234 ...udegraphics[scale=0.5]{lat_vs_prc.pdf.ps}
+                                                  
+? 
+
+LaTeX Warning: Reference `fig:prc' on page 47 undefined on input line 241.
+
+
+LaTeX Warning: Reference `fig:prc' on page 47 undefined on input line 244.
+
+! Unable to load picture or PDF file './images/lat_cloud_kaldi.pdf.ps'.
+<to be read again> 
+                   }
+l.250 ...aphics[scale=0.5]{lat_cloud_kaldi.pdf.ps}
+                                                  
+? 
+File: ./images/lat_cloud_kaldi.pdf.ps Graphic file (type QTm)
+<use  "./images/lat_cloud_kaldi.pdf.ps" >
+! Unable to load picture or PDF file './images/lat_cloud_kaldi.pdf.ps'.
+<to be read again> 
+                   \GXT@clipend 
+l.250 ...aphics[scale=0.5]{lat_cloud_kaldi.pdf.ps}
+                                                  
+? 
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 256.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 263.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 264.
+
+
+Package acronym Warning: Acronym `LM' is not defined on input line 264.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 264.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 266.
+
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 267.
+
+) [47] [48]
+\openout2 = `conclusion.aux'.
+
+ (./conclusion.tex
+Chapter 6.
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 13.
+
+
+LaTeX Warning: Citation `ptics2014url' on page 49 undefined on input line 13.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 15.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 15.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--18
+[][][][]$\T1/cmtt/m/n/10 http : / / sourceforge . net / p / kaldi / code / HEAD
+ / tree / trunk / egs / vystadial _ en/$[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--19
+[][][][]$\T1/cmtt/m/n/10 http : / / sourceforge . net / p / kaldi / code / HEAD
+ / tree / sandbox / oplatek2 / src /
+ []
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 42.
+
+
+Package acronym Warning: Acronym `SDS' is not defined on input line 44.
+
+
+Package acronym Warning: Acronym `PTI' is not defined on input line 44.
+
+
+Package acronym Warning: Acronym `AM' is not defined on input line 46.
+
+
+LaTeX Warning: Reference `cha:train' on page 49 undefined on input line 46.
+
+
+LaTeX Warning: Citation `korvas_2014' on page 49 undefined on input line 47.
+
+
+Package acronym Warning: Acronym `HTK' is not defined on input line 47.
+
+
+Package acronym Warning: Acronym `DNN' is not defined on input line 50.
+
+Missing character: There is no ř in font ecrm1200!
+Missing character: There is no š in font ecrm1200!
+Missing character: There is no ě in font ecrm1200!
+
+! Package inputenc Error: Unicode char \u8:ášŽ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.55 ... Ondřej Dušek, Matěj Korvas, Lukáš Ž
+                                                  ilka, David Marek and Tom�...
+
+? 
+
+! Package inputenc Error: Unicode char \u8:ášM not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.55 ... Lukáš Žilka, David Marek and Tomáš M
+                                                  artinec for their useful c...
+
+? 
+) [49
+
+
+
+]
+\openout2 = `acronyms.aux'.
+
+ (./acronyms.tex [50
+
+
+
+]
+Appendix A.
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 4.
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmss.fd
+File: t1cmss.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+Package acronym Info: Acronym DNN used in text but not spelled out in full in t
+ext on input line 5.
+Package acronym Info: Acronym SLU used in text but not spelled out in full in t
+ext on input line 6.
+Package acronym Info: Acronym ASR used in text but not spelled out in full in t
+ext on input line 9.
+Package acronym Info: Acronym FST used in text but not spelled out in full in t
+ext on input line 10.
+Package acronym Info: Acronym DFT used in text but not spelled out in full in t
+ext on input line 12.
+Package acronym Info: Acronym GPU used in text but not spelled out in full in t
+ext on input line 13.
+Package acronym Info: Acronym HTK used in text but not spelled out in full in t
+ext on input line 14.
+Package acronym Info: Acronym EM used in text but not spelled out in full in te
+xt on input line 21.
+Package acronym Info: Acronym PDF used in text but not spelled out in full in t
+ext on input line 23.
+Package acronym Info: Acronym OOV used in text but not spelled out in full in t
+ext on input line 24.
+Package acronym Info: Acronym RTF used in text but not spelled out in full in t
+ext on input line 26.
+Package acronym Info: Acronym HLDA used in text but not spelled out in full in 
+text on input line 30.
+Package acronym Info: Acronym HMM used in text but not spelled out in full in t
+ext on input line 31.
+Package acronym Info: Acronym LDA used in text but not spelled out in full in t
+ext on input line 32.
+Package acronym Info: Acronym LM used in text but not spelled out in full in te
+xt on input line 33.
+Package acronym Info: Acronym AM used in text but not spelled out in full in te
+xt on input line 34.
+Package acronym Info: Acronym MFCC used in text but not spelled out in full in 
+text on input line 38.
+Package acronym Info: Acronym PLP used in text but not spelled out in full in t
+ext on input line 39.
+Package acronym Info: Acronym PTI used in text but not spelled out in full in t
+ext on input line 40.
+Package acronym Info: Acronym IID used in text but not spelled out in full in t
+ext on input line 42.
+Package acronym Info: Acronym MLE used in text but not spelled out in full in t
+ext on input line 43.
+Package acronym Info: Acronym MLLT used in text but not spelled out in full in 
+text on input line 44.
+Package acronym Info: Acronym CMVN used in text but not spelled out in full in 
+text on input line 45.
+Package acronym Info: Acronym STC used in text but not spelled out in full in t
+ext on input line 46.
+Package acronym Info: Acronym ET used in text but not spelled out in full in te
+xt on input line 47.
+Package acronym Info: Acronym MMI used in text but not spelled out in full in t
+ext on input line 48.
+Package acronym Info: Acronym bMMI used in text but not spelled out in full in 
+text on input line 49.
+Package acronym Info: Acronym PDF used in text but not spelled out in full in t
+ext on input line 54.
+Package acronym Info: Acronym MPE used in text but not spelled out in full in t
+ext on input line 57.
+Package acronym Info: Acronym PLP used in text but not spelled out in full in t
+ext on input line 61.
+Package acronym Info: Acronym SER used in text but not spelled out in full in t
+ext on input line 63.
+Package acronym Info: Acronym SDS used in text but not spelled out in full in t
+ext on input line 64.
+Package acronym Info: Acronym WER used in text but not spelled out in full in t
+ext on input line 65.
+Package acronym Info: Acronym LMW used in text but not spelled out in full in t
+ext on input line 72.
+Package acronym Info: Acronym VAD used in text but not spelled out in full in t
+ext on input line 73.
+Package acronym Info: Acronym DM used in text but not spelled out in full in te
+xt on input line 74.
+Package acronym Info: Acronym TTS used in text but not spelled out in full in t
+ext on input line 75.
+ [51]
+Package acronym Info: Acronym NLG used in text but not spelled out in full in t
+ext on input line 76.
+Package acronym Info: Acronym WST used in text but not spelled out in full in t
+ext on input line 77.
+) [52]
+\openout2 = `cd_content.aux'.
+
+
+(./cd_content.tex
+Appendix B.
+
+Package acronym Warning: Acronym `ASR' is not defined on input line 11.
+
+
+Overfull \hbox (2.84749pt too wide) in paragraph at lines 11--12
+[]\T1/cmr/m/it/12 alex/applications/PublicTransportInfoCs/hclg/ \T1/cmr/m/n/12 
+--- De-cod-ing graph
+ []
+
+
+Overfull \hbox (2.29211pt too wide) in paragraph at lines 15--16
+[]\T1/cmr/m/it/12 src/onl-rec \T1/cmr/m/n/12 --- Im-ple-men-ta-tion of \T1/cmr/
+m/it/12 On-lineLat-gen-Recog-niser \T1/cmr/m/n/12 and util-
+ []
+
+
+Overfull \hbox (0.721pt too wide) in paragraph at lines 21--22
+[]\T1/cmr/m/n/12 Pykaldi-eval --- Repos-i-tory for eval-u-a-tion On-lineLat-gen
+-Recog-niser writ-
+ []
+
+) [53
+
+
+
+] (./main.bbl [54
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 11--13
+[]\T1/cmr/m/n/12 ADSF, \T1/cmr/m/it/12 The Alex Di-a-logue Sys-tems Frame-work\
+T1/cmr/m/n/12 , April 2014,
+ []
+
+
+! Package inputenc Error: Unicode char \u8:ín, not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.25 ...Behnel, Robert Bradshaw, Lisandro Dalcín,
+                                                   Mark Florisson, Vitja
+? 
+[55]
+Missing character: There is no — in font ecti1200!
+Missing character: There is no č in font ecrm1200!
+
+
+! Package inputenc Error: Unicode char \u8:íče not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.97 Filip Jurčíče
+                     k, \emph{{VYSTADIAL}: Development of statistical method...
+
+? 
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--140
+[]\T1/cmr/m/n/12 Daniel Povey, \T1/cmr/m/it/12 The Kaldi ASR toolkit\T1/cmr/m/n
+/12 , April 2014,
+ []
+
+[56]
+Underfull \hbox (badness 10000) in paragraph at lines 201--203
+[]\T1/cmr/m/n/12 Michael Ri-ley, \T1/cmr/m/it/12 Open-Fst Quick Tour\T1/cmr/m/n
+/12 , April 2014,
+ []
+
+[57] [58])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 37.
+ [59]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 37.
+ (./main.aux (./title_pages.aux) (./intro.aux) (./background.aux) (./training.a
+ux) (./decoder.aux) (./integration.aux) (./conclusion.aux)
+(./acronyms.aux) (./cd_content.aux))
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 37.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 37.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 37.
+ ) 
+Here is how much of TeX's memory you used:
+ 23739 strings out of 493918
+ 379535 string characters out of 6150564
+ 575970 words of memory out of 5000000
+ 26492 multiletter control sequences out of 15000+600000
+ 44746 words of font info for 84 fonts, out of 8000000 for 9000
+ 1144 hyphenation exceptions out of 8191
+ 64i,17n,128p,815b,1477s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+Output written on main.pdf (63 pages).

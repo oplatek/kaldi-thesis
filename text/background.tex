@@ -1,118 +1,97 @@
 % !TEX root = main.tex
 \chapter{Background}
 \label{cha:background}
-This chapter introduce basics of speech recognition related to this work.
-Section~\ref{sec:back_asr} introduces speech preprocessing, \acf{AM} and \acf{LM} training, and explains important aspects of speech decoding.
-Next sections describe specific speech recognition software implementations.
-The~Kaldi toolkit is described in Section~\ref{sec:back_kaldi}, the~\ac{HTK} toolkit in Section~\ref{sec:back_htk} and the~Julius decoder in Section~\ref{sec:back_julius}.
+This chapter introduce the basics of speech recognition related to this work. Section \ref{sec:back_asr} introduces speech preprocessing, \acf{AM} and \acf{LM} training, and explains important aspects of speech decoding. Following sections describe specific speech recognition software implementations. The Kaldi toolkit is described in Section \ref{sec:back_kaldi}, the \ac{HTK} toolkit in Section \ref{sec:back_htk} and the Julius decoder in Section \ref{sec:back_julius}.
 
-The~statistical methods for continuous speech recognition were established more than 30 years ago. 
-The~most popular statistical methods are based on acoustic modelling using \acp{HMM} and n-grams \acp{LM}, which are also used in Kaldi, the~toolkit of our choice.
-We introduce principles of speech recognition and present techniques which are used in Kaldi. 
+The statistical methods for continuous speech recognition were established more than 30 years ago. The most popular statistical methods are based on acoustic modelling using \acp{HMM} and n-gram \acp{LM}, which are also used in Kaldi, the toolkit of our choice. We introduce principles of speech recognition and present techniques which are used in Kaldi. 
 
 \begin{figure}[!htp]
-    \begin{center}
+  \begin{center}
     \input{images/asr-components}
     \caption{Architecture of statistical speech recognizer\cite{ney1990acoustic}}
     \label{fig:components} 
-    \end{center}
+  \end{center}
 \end{figure}
 
 \section{Automatic speech recognition}
 \label{sec:back_asr}
 
-The~goal of statistical \ac{ASR} is to decode the~most likely word sequence given speech.
-The~term \term{decoding} finds its origin in \acs{HMM} terminology. 
-In speech recognition it is equivalent to \term{recognizing} the~word sequence from the~speech. 
-Formally, we search for the~most probable sequence of~words $w^*$ given the~acoustic observations $a$ as described in Equation~\ref{eq:best_fix}.
-The~best word sequence $w^*$ does not depend on probability of the~acoustic features $P(a)$ so it can be eliminated as shown on the~second row of the~equation.
+The goal of statistical \ac{ASR} is to decode the most likely word sequence given some speech. The term \term{decoding} finds its origin in \acs{HMM} terminology. In speech recognition it is equivalent to \term{recognizing} the word sequence from the speech. Formally, we search for the most probable sequence of words $w^*$ given the acoustic observations $a$ as described in Equation \ref{eq:best_fix}. The best word sequence $w^*$ does not depend on probability of the acoustic features $P(a)$ so it can be eliminated as shown on the second row of the equation.
 
-\begin{equation}\label{eq:best_fix}
-    \begin{split}
+\begin{equation}
+  \label{eq:best_fix}
+  \begin{split}
     w^* = argmax_{w}\{P(w \mid a)\} &= argmax_{w}\{\frac{P(a \mid w) * P(w)}{P(a)}\} \\
-                                    &= argmax_{w}\{P(a \mid w) * P(w)\}
-    \end{split}
+                                   &= argmax_{w}\{P(a \mid w) * P(w)\}
+  \end{split}
 \end{equation}
 
-The~task of acoustic modelling is to estimate the~parameters $\theta$ of a~model so the~probability $P(a \mid w ; \theta)$ is as accurate as possible.\footnote{Acoustic modelling is described in Section~\ref{sub:am}.} 
-Similarly, the~\ac{LM} represents the~probability $P(w)$. \footnote{We describe language modelling in Section~\ref{sub:lm}.}
+The task of acoustic modelling is to estimate the parameters $\theta$ of a model so that the probability $P(a \mid w ; \theta)$ is as accurate as possible.\footnote{Acoustic modelling is described in Section~\ref{sub:am}.} Similarly, the \ac{LM} represents the probability $P(w)$. \footnote{We describe language modelling in Section~\ref{sub:lm}.}
 
 \ml{frames}
-The~Figure~\ref{fig:components} illustrate the~process of decoding the~most probable word hypotheses $w^*$ for given speech utterance. 
-First, the~sampled audio signal is processed by speech parametrisation and feature transformations, so the~decoding itself takes acoustic features $a$ as input. The~acoustic features $a$ are computed on small overlapping windows of audio signal.
-The~acoustic signal in one windows is known as a~frame.
+The Figure \ref{fig:components} illustrates the process of decoding the most probable word hypotheses $w^*$ for a given speech utterance. 
+First, the~sampled audio signal is processed by speech parametrisation and feature transformations, so the decoding itself takes acoustic features $a$ as input. The acoustic features $a$ are computed on small overlapping windows of audio signal. The acoustic signal in one window is known as a frame.
 
-The~decoding itself is performed time synchronously frame by frame using beam search.
-The~beam search expands hypotheses from previous step by taking account the~new frame features, and it computes probabilities of the~expanded hypotheses using \ac{AM} and \ac{LM}.
-If the~number of hypotheses exceeds the~beam, the~low probable hypotheses are pruned.
-% Pruning only the~least probable hypotheses may lead to discarding globally optimal hypotheses.
-After the~decoding the~last audio frame, all hypotheses represents whole utterance.
-The~word labels $w^*$ are extracted from the~most probably hypothesis which survived the~beam search.
+The decoding itself is performed time synchronously frame by frame using beam search. The beam search expands hypotheses from the previous step by taking into account the new frame features, and it computes probabilities of the expanded hypotheses using the \ac{AM} and the \ac{LM}. If the number of hypotheses exceeds the beam, the low probable hypotheses are pruned. % Pruning only the least probable hypotheses may lead to discarding globally optimal hypotheses.
 
-Improving the~accuracy of speech recognition engine depends mainly on improving \ac{AM} and \ac{LM}
-and also on parameters of the~beam search such as threshold how many hypotheses are allowed at maximum.
+After decoding the last audio frame, all hypotheses represent the whole utterance. The word labels $w^*$ are extracted from the most probable hypothesis which survived the beam search.
+
+Improving the accuracy of a speech recognition engine depends mainly on improving the \ac{AM} and the \ac{LM} and also on parameters of the beam search such as threshold how many hypotheses are allowed at maximum.
 
 
 \subsection{Speech parameterisation}
 \label{sub:param}
-The~goal of speech parameterization is to reduce the~negative environmental influences on speech recognition.
-The~speech varies in a~number of aspects. Some of them are listed below:
+The goal of speech parameterization is to reduce the negative environmental influences on speech recognition. Speech varies in a number of aspects. Some of them are listed below:
+
 \begin{itemize}
-    \item Differences among speakers pronunciation depends on gender, dialect, voice, etc.
-    \item Environmental noises. In the~dialogue system Alex where our \ac{ASR} implementation is used the~speech is typically recorded in a~noisy street environment.
-    \item The~recorded channel.
-        For example the~telephone signal is reduced to frequency band between 300 to 3000Hz.
-        The~quality of mobile phone signal also influences the~quality of the~audio signal.
+\item Differences among speakers' pronunciation depends on gender, dialect, voice, etc.
+\item Environmental noises. In the dialogue system Alex where our \ac{ASR} implementation is used, the speech is typically recorded in a noisy street environment.
+\item The recorded channel.
+  For example the telephone signal is reduced to frequency band between 300 to 3000Hz.
+  The quality of mobile phone signal also influences the quality of the audio signal.
 \end{itemize}
-Different speech parametrisation may improve robustness of speech recognition for different recording conditions.
-% Note that speech parametrisation transformations the~acoustic signal based on few numerical parameters, which are constant for all recording conditions during training and decoding.
-% Simply put, the~acoustic signal is transformed by boosting frequencies, which are informative for speech.
+
+Different speech parametrisation may improve robustness of speech recognition for different recording conditions. % Note that speech parametrisation transforms the acoustic signal based on few numerical parameters, which are constant for all recording conditions during training and decoding. Simply put, the acoustic signal is transformed by boosting frequencies, which are informative for speech.
 
 \ml{acoustic features}
-Speech parametrisation extracts speech-distinctive acoustic features from raw waveform.
-The~two most successful methods for speech parametrisation in last decades are \ac{MFCC}\cite{davis1980comparison} and \ac{PLP}\cite{hermansky1990perceptual}.
-% change ti to something else than 
-% SPEECH SIGNAL PARAMETERIZATION TECHNIQUES FOR SPEECHUNDERSTANDING SYSTEM Gaurav K. LEEKHA, Mrs. Meenakshi MEHLA, Shrilekha SAGWAL
-Both \ac{MFCC} and \ac{PLP} transformations are applied on a~sampled and quantized audio signal.\footnote{In our experiments we use 16 kHz sampling frequency and 16 bit samples.} 
-For each window \ac{MFCC} or \ac{PLP} efficiently computes statistics with a~reduced dimension. 
-% The~sampling frequency is typically 8000, 16000 or 32000 Hz.
-% Each sample is usually encoded to 8, 16 or 32 bits. 
-The~methods are very computationally effective and significantly improve the~quality of recognised speech.
 
-The~toolkits used in our dialogue system, Kaldi and \ac{HTK} toolkit, compute \ac{MFCC} coefficients for given audio input in a~similar way.\footnote{The~subtle differences are caused by implementation approaches, but does not effect the~quality of~\ac{MFCC} coefficients in~significant way.}
-Therefore, we choose \ac{MFCC} as speech parametrisation technique for both toolkits, so we can compare them.
+Speech parametrisation extracts speech-distinctive acoustic features from the raw waveform. The two most successful methods for speech parametrisation in the last decades are \ac{MFCC}\cite{davis1980comparison} and \ac{PLP}\cite{hermansky1990perceptual}.
+% change it to something else than SPEECH SIGNAL PARAMETERIZATION TECHNIQUES FOR SPEECHUNDERSTANDING SYSTEM Gaurav K. LEEKHA, Mrs. Meenakshi MEHLA, Shrilekha SAGWAL
 
-% An interested reader can find comprehensive introduction into signal processing 
-% in~the~fourth Chapter of Spoken Language Processing book\cite{huang2001spoken}.
+Both \ac{MFCC} and \ac{PLP} transformations are applied on a sampled and quantized audio signal.\footnote{In our experiments we use 16 kHz sampling frequency and 16 bit samples.} For each window \ac{MFCC} or \ac{PLP} efficiently computes statistics with a reduced dimension. % The~sampling frequency is typically 8000, 16000 or 32000 Hz. Each sample is usually encoded to 8, 16 or 32 bits. 
+The methods are very computationally effective and significantly improve the quality of recognised speech.
 
-The~\ac{MFCC} statistics are computed for each frame.
-In Figure~\ref{fig:mfcc_window} there are 7 windows --- frames with length of 25 ms and frame shift of 10 ms.
-The~whole utterance lasts 85 ms.
+The toolkits used in our dialogue system, Kaldi and \ac{HTK}, compute \ac{MFCC} coefficients for given audio input in a similar way.\footnote{The subtle differences are caused by implementation approaches, but do not affect the quality of \ac{MFCC} coefficients in a significant way.} Therefore, we choose \ac{MFCC} as the speech parametrisation technique for both toolkits, so we can compare them.
+
+% An interested reader can find comprehensive introduction into signal processing in~the~fourth Chapter of Spoken Language Processing book\cite{huang2001spoken}.
+
+The \ac{MFCC} statistics are computed for each frame. In Figure \ref{fig:mfcc_window} there are 7 windows --- frames with length of 25 ms and frame shift of 10 ms. The whole utterance lasts 85 ms.
 
 \begin{figure}[!htp]
-    \begin{center}
+  \begin{center}
     \input{images/mfcc_window}
     \caption{\ac{PLP} or \ac{MFCC} features are computed every 10 ms seconds in 25 ms windows.
-    Audio length is $(frames-1)*shift + win\_len = 85ms$}
+      Audio length is $(frames-1)*shift + win\_len = 85ms$}
     \label{fig:mfcc_window} 
-    \end{center}
+  \end{center}
 \end{figure}
 
-Let us describe the~\ac{MFCC} computation for 25 ms window shifted by 10 ms and 16kHz audio sampling frequency. 
-The~$16000 * 0.025 = 400$ samples in one window are reduced to 13 static cepstral coefficients.
+Let us describe the \ac{MFCC} computation for a 25 ms window shifted by 10 ms and 16kHz audio sampling frequency. 
+The $16000 * 0.025 = 400$ samples in one window are reduced to 13 static cepstral coefficients.
 
-The~\ac{MFCC} static features are usually extended by time derivatives $\Delta+\Delta\Delta$ features \cite{psutka2001comparison}.
-As a~result, \ac{MFCC} $\Delta+\Delta\Delta$ extracts $13 + 13 + 13 = 39$ acoustic features for one frame. 
-The~original vector of 400 audio samples in one frame is reduced to vector of 39 \ac{MFCC} $\Delta+\Delta\Delta$ acoustic features.
+The \ac{MFCC} static features are usually extended by time derivatives $\Delta+\Delta\Delta$ features \cite{psutka2001comparison}.
+As a result, \ac{MFCC} $\Delta+\Delta\Delta$ extracts $13 + 13 + 13 = 39$ acoustic features for one frame. 
+The original vector of 400 audio samples in one frame is reduced to vector of 39 \ac{MFCC} $\Delta+\Delta\Delta$ acoustic features.
 
-The~\ac{MFCC} features are computed by the~following steps:
+The \ac{MFCC} features are computed by the following steps:
+
 {\small \begin{enumerate}
-    \item The~audio samples are transformed into \term{frequency domain} by~\ac{DFT} in the~window.
-    \item The~frequency spectrum from the~previous step is transformed onto the~mel scale, a~perceptual scale of frequencies, using triangular overlapping filters.
-    \item From the~mel frequencies the~logs of the~powers are taken from each of the~mel frequencies.
-    \item At the~end the~discrete cosine transform is applied on the~list of mel log powers.
-    \item The~\ac{MFCC} coefficients are the~amplitudes of the~resulting spectrum.
-    \item The~$\Delta+\Delta\Delta$ coefficients are computed from the~current and previous static features. See Figure~\ref{fig:delta}.
+    \item The audio samples are transformed into the \term{frequency domain} by \ac{DFT} in a window.
+    \item The frequency spectrum from the previous step is transformed onto the mel scale, a perceptual scale of frequencies, using triangular overlapping filters.
+    \item The logs of the powers are taken from each of the mel frequencies.
+    \item At the end, the discrete cosine transform is applied on the list of mel log powers.
+    \item The \ac{MFCC} coefficients are the amplitudes of the resulting spectrum.
+    \item The $\Delta+\Delta\Delta$ coefficients are computed from the current and previous static features. See Figure \ref{fig:delta}.
 \end{enumerate}}
 
 \begin{figure}
@@ -126,85 +105,59 @@ The~\ac{MFCC} features are computed by the~following steps:
 \subsection*{Feature space transformations}
 Feature space transformations are usually applied in addition to \ac{MFCC} or \ac{PLP} parametrisation.
 \ml{frame}
-The~feature space transformations are also typically applied per frame, but they usually take into account context of several preceding (left context) and consecutive frames (right context).
+The feature space transformations are also typically applied per frame, but they usually take into account context of several preceding (left context) and consecutive frames (right context).
 
-The~linear or affine transformations are expressed by matrix multiplications $Ax$ respectively $Ax^+$.
-The~matrix $A$ represents the~transformation. 
-The~$x$ is the~input vector and $Ax$ are the~transformed features.
-The~affine transformations uses extended vector $(x^+)^T = (x_1, \ldots, x_n, 1)$ and matrix $A: (n+1)*(n+1)$.
+The linear and affine transformations are expressed by the matrix multiplications $Ax$ and $Ax^+$, respectively. The matrix $A$ represents the transformation. The input vector is $x$ and $Ax$ are the transformed features. The affine transformation uses the extended vector $(x^+)^T = (x_1, \ldots, x_n, 1)$ and the matrix $A: (n+1)*(n+1)$.
 
-There is a~large variety of available transformations. 
-Dependently on acoustic data one should choose the~most appropriate one.
-% The~transformations differ according to how they are estimated, namely for linear transformations how the~matrix $A$ is trained.
-Some transformations are estimated discriminatively, some use generative models.
-Some are speaker dependent, some speaker independent.
+There is a large variety of available transformations. Depending on the acoustic data, one should choose the most appropriate transformation. % The~transformations differ according to how they are estimated, namely for linear transformations how the~matrix $A$ is trained.
+Some transformations are estimated discriminatively, some use generative models. Some are speaker dependent, some speaker independent.
 
-We list some of Kaldi transformations in order to illustrate rich choice of feature transformations in Kaldi toolkit.
-% use and city http://kaldi.sourceforge.net/transform.html#transform_cmllr_global
+We list some of Kaldi transformations in order to illustrate the rich choice of feature transformations in the Kaldi toolkit. % use and city http://kaldi.sourceforge.net/transform.html#transform_cmllr_global
+
 \begin{itemize}
     \item \acf{HLDA}\cite{gales1999semi}.
     \item \acf{LDA}\cite{gopinath1998maximum} is typically used with \acs{MLLT} for speaker independent training.
     \item \acf{MLLT} also known as \acf{STC}\cite{gopinath1998maximum}
-    \item \acf{ET}\cite{povey2011exponential}. It uses small number of speaker specific parameters for adaptation on speaker.
-    \item \acf{CMVN}\cite{molau2003feature}. Typically normalise the~cepstrum mean and variance per speaker.
+    \item \acf{ET}\cite{povey2011exponential} uses a small number of speaker specific parameters for adaptation to the speaker.
+    \item \acf{CMVN}\cite{molau2003feature} typically normalises the cepstrum mean and variance per speaker.
 \end{itemize}
 
-In our acoustic modelling scripts, see Chapter~\ref{cha:train},  we use two non-speaker adaptive feature transformations, which can be computed with very small context. 
-The~first transformation, $\Delta+\Delta\Delta$  for \ac{MFCC} coefficients, was already introduced.
-The~second transformation, \ac{LDA} and \ac{MLLT}, is described briefly below.
+In our acoustic modelling scripts, see Chapter \ref{cha:train},  we use two non-speaker adaptive feature transformations, which can be computed with very small context. The first transformation, $\Delta+\Delta\Delta$  for \ac{MFCC} coefficients, was already introduced. The second transformation, \ac{LDA} and \ac{MLLT}, is described briefly below.
 
 \subsubsection*{\acl{LDA} and \ac{MLLT} feature transformation}
-The~\ac{LDA}+\ac{MLLT} is an alternative setup to $\Delta+\Delta\Delta$ transformation in our training scripts.
-We use it also on top of \ac{MFCC} coefficients.
-Using several spliced \ac{MFCC} vectors the~\ac{LDA}+\ac{MLLT} searches for the~best dynamic transformation.
+The \ac{LDA}+\ac{MLLT} is an alternative setup to $\Delta+\Delta\Delta$ transformation in our training scripts. We use it also on top of \ac{MFCC} coefficients. Using several spliced \ac{MFCC} vectors, the \ac{LDA}+\ac{MLLT} searches for the best dynamic transformation.
 
-The~combination of \ac{LDA} and \ac{MLLT} applies the~feature transformation in two steps: \ac{LDA} reduces the~feature dimension and \ac{MLLT} applies linear simple transformation\cite{gopinath1998maximum}.
-Whereas, the~\ac{HLDA} estimates dimension reduction and space transformation in one step.\cite{gales1999semi}
-The~combination \ac{LDA} and \ac{MLLT} performs very similar feature transformation to \ac{HLDA} and gains significant improvements over $\Delta+\Delta\Delta$ transformation similarly as \ac{HLDA}\cite{gales1999semi}\cite{gopinath1998maximum}.
+The combination of \ac{LDA} and \ac{MLLT} applies the feature transformation in two steps: \ac{LDA} reduces the feature dimension and \ac{MLLT} applies the linear simple transformation\cite{gopinath1998maximum}. Whereas, the \ac{HLDA} estimates dimension reduction and space transformation in one step.\cite{gales1999semi} The \ac{LDA} + \ac{MLLT} combination performs very a similar feature transformation to \ac{HLDA} and gains significant improvements over the $\Delta+\Delta\Delta$ transformation similarly as \ac{HLDA}\cite{gales1999semi}\cite{gopinath1998maximum}.
 
-% To conclude, the~signal processing samples the~continuous audio at regular interval intervals. 
-% Fixed number of consecutive samples forms a~window. The~windows are usually overlapping.
-% The~acoustic features are computed for each of the~overlapping window. 
+% To conclude, the signal processing samples the continuous audio at regular interval intervals. A fixed number of consecutive samples forms a window. The windows are usually overlapping. The acoustic features are computed for each of the overlapping windows. 
 
 \subsection{Acoustic modelling}
 \label{sub:am}
-Acoustic modelling is arguably the~heart of speech recognition.
-The~\ac{AM} estimates the~probability $P(a|w; \theta)$ of generating acoustic features $a$ for given words $w$ and thus directly affects speech recognition quality as seen in~Equation~\ref{eq:best_fix}.
+Acoustic modelling is arguably the heart of speech recognition. The \ac{AM} estimates the probability $P(a|w; \theta)$ of generating acoustic features $a$ for given words $w$ and thus directly affects speech recognition quality as seen in Equation~\ref{eq:best_fix}.
 
-Acoustic modelling has only partial information available for training \ac{AM} parameters $\theta$ because the~corresponding textual transcription is time-unaligned.
-The~hidden information of the~word (time) alignment in a~utterance makes acoustic model training more challenging.
-Modern speech recognition toolkits use \acl{HMM} for modelling uncertainty between acoustic features and the~corresponding transcription. 
+Acoustic modelling has only partial information available for training the \ac{AM} parameters $\theta$ because the corresponding textual transcription is time-unaligned. The hidden information of the word (time) alignment in an utterance makes acoustic model training more challenging. Modern speech recognition toolkits use \acl{HMM}s for modelling uncertainty between acoustic features and the corresponding transcription. 
 
 \subsubsection*{Choice of training units}
-The~most successful acoustic modelling methods do not estimate the~$P(a|w)$ directly, but estimate probability $P(a|f_1f_2f_3f_4)$ of generating acoustic features $a$ for phones $w=f_1f_2f_3f_4$ which forms the~pronunciation of the~word $w$. Moreover, the~triphones are used even more successfully for estimating probability of acoustic features give word pronunciation.
+The most successful acoustic modelling methods do not estimate the $P(a|w)$ directly, but estimate the probability $P(a|f_1f_2f_3f_4)$ of generating acoustic features $a$ for phones $w=f_1f_2f_3f_4$ which forms the pronunciation of the word $w$. Moreover, triphones are used even more successfully for estimating the probability of acoustic features given a word pronunciation.
 
 \ml{phone}
-Phone is the~smallest contrastive unit of speech. 
-Let us see few examples of words and their phonetic transcriptions according CMU dictionary\cite{weide1998cmu}.
+The phone is the smallest contrastive unit of speech. Let us see a few examples of words and their phonetic transcriptions according CMU dictionary\cite{weide1998cmu}.
+
 \begin{itemize}
     \item \term{youngest} \& \term{Y AH1 NG G AH0 S T}
     \item \term{youngman} \& \term{Y AH1 NG M AE2 N}
     \item \term{earned} \& \term{ER1 N D}
     \item \term{ear} with two transcribed pronunciations \term{IY1 R} and \term{IH1 R}
 \end{itemize}
-The~CMU dictionary distinguishes among several variations for each vowel e.g. \term{AH1} and \term{AH0}.
-% It distinguishes the~pronunciation for \term{earned} and \term{ear} despite the~same transcription in the~first three letters.
-It also stores two possible pronunciations for the~word \term{ear}.
 
-The~acoustic features for a~phone significantly depend on its~context.
-The~previous and the~following phone strongly influence the~sound of the~middle phone.
+The CMU dictionary distinguishes among several variations for each vowel e.g. \term{AH1} and \term{AH0}. It also stores two possible pronunciations for the word \term{ear}.
+
+The acoustic features for a phone significantly depend on its context. The preceeding and following phones strongly influence the sound of the middle phone.
 
 \ml{triphone}
-The~triphone is a~sequence of three phones and captures the~context of single phone.
-As a~result, acoustic properties of the~triphones vary much less according to the~context than phones.
-Let us note that certain combinations of prefixes have the~same effect on the~central phone,
-e.g. \term{q} and \term{k} has the~same effect on \term{i}. % cite??
-In order to reduce the~number of triphones for acoustic modelling, these triphones are clustered together.
+The triphone is a sequence of three phones and captures the context of single phone. As a result, the acoustic properties of triphones vary much less according to the context than phones. Let us note that certain combinations of prefixes have the same effect on the central phone, e.g. \term{q} and \term{k} have the same effect on \term{i}. In order to reduce the number of triphones for acoustic modelling, these triphones are clustered together.
 
-% The~advantage of training triphone-\ac{AM} over word-\ac{AM} 
-% is due to words sparsity. 
-% There is typically less clustered triphones and many words for training data,
-% so a~triphone model can be trained from much more examples than a~word model. 
+% The~advantage of training triphone-\ac{AM} over word-\ac{AM} is due to word sparsity. There are typically less clustered triphones and many words for training data, so a triphone model can be trained from much more examples than a word model. 
 
 % TODO mentioned curse of dimensionality for words -> more parameters than triphones for less examples
 
@@ -218,97 +171,73 @@ In order to reduce the~number of triphones for acoustic modelling, these triphon
 % \end{figure}
 
 \subsubsection*{\acfp{HMM}}
-The~\acp{HMM} is a~very powerful statistical method for~characterizing observed data samples of~a~discrete-time series with an unknown state. \cite{huang2001spoken}. % huang2001spoken chapter 8
-In case of speech recognition the~hidden states typically represent monophones or triphones and we observe samples of the~acoustic features.
+The \ac{HMM} is a very powerful statistical method for characterizing observed data samples of a discrete-time series with an unknown state. \cite{huang2001spoken}. In the case of speech recognition, the hidden states typically represent monophones or triphones and we observe samples of the acoustic features.
 
 \ml{transition probability}
-Hidden Markov Models have two type of parameters \term{transition probabilities among states} and \term{probabilistic distribution for generating observation in given state}.
-These parameters need to be estimated in \ac{AM} training.\footnote{Both kind of parameters are denoted together as $\theta$ in Equation~\ref{eq:best_fix}.}
+Hidden Markov Models have two type of parameters \term{transition probabilities among states} and \term{probabilistic distribution for generating an observation in given state}. These parameters need to be estimated in \ac{AM} training.\footnote{Both kind of parameters are denoted together as $\theta$ in Equation \ref{eq:best_fix}.}
 
-The~transition probability is a~probability of changing state $q$ to state $u$.
-Each transition is represented as arc $e=qu$ between the~states $q$ and $u$, see~\ref{fig:hmm_words}.
-The~probability is typically represented as the~weight $w_e$ of arc $e$.
+The transition probability is the probability of changing state $q$ to state $u$. Each transition is represented as an arc $e=qu$ between the states $q$ and $u$, see \ref{fig:hmm_words}. The probability of the transition is typically represented as the weight $w_e$ of arc $e$.
 
-Importantly, an \ac{HMM} use self loop arc $e=uu$ for all states to model acoustic features which are generated several times from the~same state $u$.
-As a~result, an \ac{HMM} is able to model variable length of phones.
-
-% For every node in a~Markov model must hold that the~sum weights of outgoing arcs is one.
+Importantly, an \ac{HMM} uses a self loop arc $e=uu$ for each state to model acoustic features which are generated several times from the same state $u$. As a result, an \ac{HMM} is able to model variable length of phones. % For every node in a Markov model it must hold that the sum of the weights of outgoing arcs is one.
 
 \ml{Gaussian HMM}
-The~Markov model emits an observation during traversal over its arcs.
-The~\acl{HMM} emits the~observation stochastically based on the~probabilistic distribution related to~the~visited state.
-In speech recognition, a~multivariate Gaussian distribution is typically used to model observation probabilities of \ac{HMM} states.
-The~Gaussian distribution models probability of emitting acoustic features in given state.
-The~parameters of the~Gaussian distribution are estimated for each state individually.
-However, the~states are usually clustered during \ac{AM} training and the~states within a~cluster share same parameters to the~Gaussian distribution.
+During traversal over one of its arcs, the Markov model emits an observation. The \acl{HMM} emits the observation stochastically based on the probabilistic distribution related to the visited state. In speech recognition, a multivariate Gaussian distribution is typically used to model observation probabilities of \ac{HMM} states. The Gaussian distribution models the probability of emitting acoustic features from a given state. The parameters of the Gaussian distribution are estimated for each state individually. However, states are usually clustered during \ac{AM} training and the states within a cluster share the same parameters for the Gaussian distribution.
 
 
 \subsubsection*{Training \ac{HMM}}
 \label{sub:trainhmm}
 
-The~Kaldi uses Viterbi training and the~\ac{HTK} toolkit uses \acl{EM} algorithms to train \ac{HMM} \acl{AM}.
-The~toolkits models the~observation probabilities using multivariate Gaussian distribution with dimension of the~acoustic features $a$.
-% Both Viterbi training and the~\ac{EM} algorithm starts with \ac{HMM} with initial values. 
+Kaldi uses Viterbi training and \ac{HTK} uses \acl{EM} algorithms to train \ac{HMM} \acl{AM}s. Both toolkits model observation probabilities using multivariate Gaussian distributions with the dimension of the acoustic features $a$. % Both Viterbi training and the \ac{EM} algorithm initialize the \ac{HMM} with initial values. 
 
-Typically, the~transition probabilities are initialised with values uniformly distributed.
-The~observation probabilities are usually initialized by multivariate Gaussian distribution with $\mu$ and $\Sigma$ set to global mean and global covariance matrix estimated on all training acoustic data.
+Typically, the transition probabilities are initialised with values uniformly distributed. The observation probabilities are usually initialized by multivariate Gaussian distributions with $\mu$ and $\Sigma$ set to the global mean and global covariance matrix estimated on all training acoustic data.
 
 \ml{EM}
-Let us describe how the~\ac{EM} algorithm operates for one pair of training data consisting of acoustic features $a$ and corresponding text speech transcription $t$.
-We create \ac{HMM} $t'$, where each state represents one monophone.\footnote{We describe the~identical training procedure for simplicity on monophones. The~state-of-the-art \acp{AM} use triphones.} 
-The~monophones are extracted from transcription $t$ using pronunciation dictionary.
-In Figure~\ref{fig:hmm_words} the~utterance \term{how do you do} was expanded to monophone \ac{HMM} model.
-Given the~\ac{HMM} model for transcription $t$ and acoustic features $a$ the~parameters of the~model are estimated.
-It should be obvious that only states representing phones in transcription can be trained by training pair $(a, t)$.
-Consequently, one needs lot of training data to robustly estimate parameters of all states.
 
-The~\ac{EM} algorithm iterates following steps in order to update parameters of transition and observation probabilities:
+Let us describe how the \ac{EM} algorithm operates for one pair of training data consisting of acoustic features $a$ and corresponding text speech transcription $t$. We create an \ac{HMM} $t'$, where each state represents one monophone.\footnote{We describe the identical training procedure for simplicity on monophones. State-of-the-art \acp{AM} use triphones.} The monophones are extracted from the transcription $t$ using the pronunciation dictionary. In Figure \ref{fig:hmm_words} the utterance \term{how do you do} was expanded to a monophone \ac{HMM} model. Given the \ac{HMM} model for transcription $t$ and acoustic features $a$ the parameters of the model are estimated. It should be obvious that only states representing phones in the transcription can be trained by the training pair $(a, t)$. Consequently, one needs a lot of training data to robustly estimate the parameters of every state.
+
+The \ac{EM} algorithm iterates over the following steps in order to update the parameters of transition and observation probabilities:
+
 \begin{itemize}
-    \item The~observation probabilities are computed using \ac{HMM} $t'$. 
-    \item {\bf E-step}: Based on the~observation probabilities the~observation are align to states of \ac{HMM} $t'$. 
-    \item {\bf M-step}: Based on the~alignment of observation to states the~$t'$ parameters are re-estimated. 
+    \item The observation probabilities are computed using the \ac{HMM} $t'$. 
+    \item {\bf E-step}: Based on the observation probabilities, the observations are aligned to the states of \ac{HMM} $t'$. 
+    \item {\bf M-step}: Based on the alignment of observations to states, the parameters of $t'$ are re-estimated. 
 \end{itemize}
 
 \ml{Baum-Welch}
-The~{\bf E-step} finds a~distribution for the~alignment between \ac{HMM} $t'$ and transcription $t$ using \ac{MLE}\cite{gopinath1998maximum} and observation probabilities.
-\ac{MLE} takes into account takes into account all possible alignments and its probabilities to compute the~resulting distribution.
-The~Baum-Welch equations can be derived from the~fact, that the~\ac{MLE} criterion is also used for finding the~most probable distribution in {\bf M-step}.\cite{huang2001spoken}
-% This variation of \ac{EM} algorithm for estimating \ac{HMM} parameters is called Baum-Welch algorithm.
+The {\bf E-step} finds a distribution for the alignment between the \ac{HMM} $t'$ and transcription $t$ using \ac{MLE}\cite{gopinath1998maximum} and observation probabilities. \ac{MLE} takes into account all possible alignments and their probabilities to compute the resulting distribution. The Baum-Welch equation can be derived from the fact that the \ac{MLE} criterion is also used for finding the most probable distribution in the {\bf M-step}.\cite{huang2001spoken} % This variation of \ac{EM} algorithm for estimating \ac{HMM} parameters is called Baum-Welch algorithm.
 
 \begin{figure}[!htp]
     \begin{center}
     \input{images/hmm-words}
-    \caption{Markov monophone model for four words. Such an \ac{HMM} is constructed for monophone Viterbi training and reference transcriptions \textit{how do you do}. The~parameters of the~\ac{HMM} model are updated according Equation~\ref{eq:mean},~\ref{eq:var} and~\ref{eq:weights}.}
+    \caption{Markov monophone model for four words. Such an \ac{HMM} is constructed for monophone Viterbi training and reference transcriptions \textit{how do you do}. The parameters of the \ac{HMM} model are updated according Equation \ref{eq:mean}, \ref{eq:var} and \ref{eq:weights}.}
     \label{fig:hmm_words} 
     \end{center}
 \end{figure}
 
 \subsubsection*{\acl{MLE} method}
 \label{sub:mle_method}
-The~\ac{MLE} is a~general approach to setting statistical model parameters.
-It searches for best parameters $\theta^*$ in order to maximize the~likelihood function $f$ for \ac{IID} training data illustrated in Equation~\ref{eq:maxlikelihood}.
-For \ac{IID} training data holds Equation~\ref{eq:lmjoint} describing data joint probability. 
+The \ac{MLE} is a general approach to setting statistical model parameters. It searches for the best parameters $\theta^*$ in order to maximize the likelihood function $f$ for \ac{IID} training data, as illustrated in Equation \ref{eq:maxlikelihood}. For \ac{IID} training data Equation \ref{eq:lmjoint} holds, describing the joint probability of the data.
+ 
 \begin{equation}\label{eq:lmjoint}
     f(x_1, x_2, x_3, \ldots, x_n | \theta) = f(x_1 | \theta) * f(x_2 | \theta) * \ldots * f(x_n | \theta)
 \end{equation}
-The~likelihood function can be derived from Equation~\ref{eq:lmjoint} assuming training data fixed and parameter $\theta$ free as described in Equation~\ref{eq:likelihood}.
+
+The likelihood function can be derived from Equation \ref{eq:lmjoint} assuming fixed training data and the free parameter $\theta$, as described in Equation \ref{eq:likelihood}.
+
 \begin{equation}\label{eq:likelihood}
     \mathcal{L}(\theta\,|\,x_1,\ldots,x_n) = \sum_{i=1}^n log(f(x_i|\theta))
 \end{equation}
+
 \begin{equation}\label{eq:maxlikelihood}
     \theta^* = argmax_{\theta} \mathcal{L}(\theta\,|\,x_1,\ldots,x_n)
 \end{equation}
 
 \subsubsection*{Viterbi training of acoustic models}
-On the~other hand, the~Kaldi toolkit applies the~Viterbi criterion in assigning the~acoustic observation to \ac{HMM} states.
-The~Viterbi training approximates \ac{EM} algorithm by choosing single best alignment and maximizing the~posterior probability for the~chosen alignment.
-Latest work suggest that Viterbi training is just as effective for continuous speech recognition as Baum-Welch algorithm \cite{rodriguez2003comparative}.
-Moreover, Viterbi training needs much less computational resources. 
+On the other hand, the Kaldi toolkit applies the Viterbi criterion in assigning the acoustic observations to \ac{HMM} states. Viterbi training approximates the \ac{EM} algorithm by choosing the single best alignment and maximizing the posterior probability for the chosen alignment. Latest work suggests that Viterbi training is just as effective for continuous speech recognition as the Baum-Welch algorithm \cite{rodriguez2003comparative}. Moreover, Viterbi training needs much fewer computational resources. 
 
-We detail the~Viterbi training since it is used in the~Kaldi toolkit for acoustic model training and also a~very similar algorithm is used for Viterbi decoding.
+We detail the Viterbi training since it is used in the Kaldi toolkit for acoustic model training, and a very similar algorithm is used for Viterbi decoding.
 
-Given set of training observations $O^r, 1 \le r \le R$ and \ac{HMM} state sequence $1<j< N$ the~observation sequence is aligned to the~state sequence via Viterbi alignment.\cite{buthpitiya2012parallel}
-The~best alignment $T$ results from maximising Equation~\ref{eq:vit_align} for $1<i< N$.
+Given a set of training observations $O^r, 1 \le r \le R$ and an \ac{HMM} state sequence $1<j<N$ the observation sequence is aligned to the state sequence via Viterbi alignment.\cite{buthpitiya2012parallel} The best alignment $T$ results from maximising Equation \ref{eq:vit_align} for $1<i< N$.
 
 \begin{equation}\label{eq:vit_align}
     \phi_N(T)= max_i[\phi_i(T)a_{iN}] 
@@ -317,261 +246,210 @@ The~best alignment $T$ results from maximising Equation~\ref{eq:vit_align} for $
 % \todo{describe T and T versus $o_t$}
 % \todo{Should I cite every equation?}
 
-The~$\phi_i(o_t)$ from Equation~\ref{eq:vit_align} is computed recursively according Equation~\ref{eq:state_prob}
+The $\phi_i(o_t)$ from Equation \ref{eq:vit_align} is computed recursively according to Equation \ref{eq:state_prob}.
 
 \begin{equation}\label{eq:state_prob}
-    \phi_i(o_t) = b_j(o_t) max \left\{
+  \phi_i(o_t) = b_j(o_t) max \left\{
   \begin{array}{lr}
-      \phi_j(t-1)a_{jj}\\
-      \phi_{j-1}(t-1)a_{(j-1)j}
+    \phi_j(t-1)a_{jj}\\
+    \phi_{j-1}(t-1)a_{(j-1)j}
   \end{array}
-\right.
+  \right.
 \end{equation}
 
-The~initial conditions are $\phi_1(1)=1$ and $\phi_j(1)= a_{1j}b_j(o_1)$, for $ 1 < j < N$.
-In our case the~likelihoods are modeled as mixture Gaussian densities, so the~output probability $b_j(o_t)$ is defined as in Equation~\ref{eq:observ_prob}.
+The initial conditions are $\phi_1(1)=1$ and $\phi_j(1)= a_{1j}b_j(o_1)$, for $ 1 < j < N$. In our case the likelihoods are modeled as mixture Gaussian densities, so the output probability $b_j(o_t)$ is defined as in Equation \ref{eq:observ_prob}.
 
 \begin{equation}\label{eq:observ_prob}
-    b_j(o_t) = \sum_{m=1}^{M_j}{c_{jm}\mathcal{N}(o_t; \mu_{jm}, \Sigma_{jm})}
+  b_j(o_t) = \sum_{m=1}^{M_j}{c_{jm}\mathcal{N}(o_t; \mu_{jm}, \Sigma_{jm})}
 \end{equation}
 
-The~$M_j$ represents number of mixture components in state $j$, $c_{jm}$ is the~weight of $m^{th}$ component and $\mathcal{N}(o_t; \mu_{jm}, \Sigma_{jm})$
-is multivariate Gausian with mean vector $\mu$ and covariance $\Sigma$.
+The $M_j$ represents number of mixture components in state $j$, $c_{jm}$ is the weight of $m^{th}$ component and $\mathcal{N}(o_t; \mu_{jm}, \Sigma_{jm})$ is a multivariate Gausian with mean vector $\mu$ and covariance $\Sigma$.
 
-Firstly, model parameters are updated based on the~single-best alignment of individual observation to states and Gaussian components within states.
-Secondly, transition probabilities are estimated from the~relative frequencies, Equation~\ref{eq:freq} where $A_{ij}$ denotes the~number of transitions from state $i$ to state $j$.
+Firstly, model parameters are updated based on the single-best alignment of individual observations to states and Gaussian components within states. Secondly, transition probabilities are estimated from the relative frequencies from Equation \ref{eq:freq}, where $A_{ij}$ denotes the number of transitions from state $i$ to state $j$.
 
 \begin{equation}\label{eq:freq}
-    \hat{a}_{ij} = \frac{A_{ij}}{\sum_{k=2}^{N}{A_{ik}}}
+  \hat{a}_{ij} = \frac{A_{ij}}{\sum_{k=2}^{N}{A_{ik}}}
 \end{equation}
 
-The~indicator function $\psi^r_{jm}(t)$ is used for updating means and covariance matrix from statistics.
-It returns one if $o^r_t$ is associated with mixture component $m$ of state $j$ and is zero otherwise.
-The~mean vector and covariance matrix is updated according Equations~\ref{eq:mean} and~\ref{eq:var}.
+The indicator function $\psi^r_{jm}(t)$ is used for updating the means and the covariance matrix from statistics. It returns one if $o^r_t$ is associated with mixture component $m$ of state $j$ and zero otherwise. The mean vector and covariance matrix are updated according to Equations \ref{eq:mean} and \ref{eq:var}.
 
 \begin{equation}\label{eq:mean}
-    \hat{\mu_{jm}} = \frac{\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)o^r_t}}}  {\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)}}}
+  \hat{\mu_{jm}} = \frac{\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)o^r_t}}}  {\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)}}}
 \end{equation}
 
 \begin{equation}\label{eq:var}
-    \hat{\Sigma_{jm}} = \frac{\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)(o^r_t - \hat{\mu_{jm}})(o^r_t - \hat{\mu_{jm}})'}}}  {\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)}}}
+  \hat{\Sigma_{jm}} = \frac{\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)(o^r_t - \hat{\mu_{jm}})(o^r_t - \hat{\mu_{jm}})'}}}  {\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)}}}
 \end{equation}
 
-Finally, the~mixture weights are computed based on the~number of observations allocated to each component.\footnote{The~Viterbi equations has the~same notation as in \cite{buthpitiya2012parallel}.}
+Finally, the mixture weights are computed based on the number of observations allocated to each component.\footnote{The Viterbi equation has the same notation as in \cite{buthpitiya2012parallel}.}
 
 \begin{equation}\label{eq:weights}
-    c_{jm} = \frac{\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)}}} {\sum_{r=1}^{R}{\sum_{t=1}^{T_r}\sum_{l=1}^{M}{\psi^r_{jl}(t)}}}
+  c_{jm} = \frac{\sum_{r=1}^{R}{\sum_{t=1}^{T_r}{\psi^r_{jm}(t)}}} {\sum_{r=1}^{R}{\sum_{t=1}^{T_r}\sum_{l=1}^{M}{\psi^r_{jl}(t)}}}
 \end{equation}
 
-
 \ml{generative training}
-To conclude, \ac{AM} are trained using \ac{MLE} or Viterbi training, which approximates the~theoretically optimal \ac{MLE} Baum-Welch training; however, in practice Viterbi training performs as well as \ac{MLE} modelling.
-Baum-Welch or Viterbi training aim at modelling likelihood of spoken utterance and perform so called generative training.
-However, discriminative methods, which re-estimates generative \acp{AM}, perform better.
+To conclude, \ac{AM}s are trained using \ac{MLE} or Viterbi training, which approximates the theoretically optimal \ac{MLE} Baum-Welch training; however, in practice Viterbi training performs as well as \ac{MLE} modelling. Baum-Welch and Viterbi training aim at modelling the likelihood of a spoken utterance and perform so called generative training. However, discriminative methods, which re-estimate generative \acp{AM}, perform better.
 
 \subsubsection*{Discriminative training}
 \label{sub:subsection_name}
-% subsection subsection_name (end)
+
 \ml{discriminative training}
-The~discriminative training uses its objective function and likelihood of generative models to discriminate -- boost differences between high probable and low probable hypotheses.
-The~discriminative training is typically initialised by acoustic generative model from Baum-Welch or Viterbi training.
-Then, the~likelihood from the~generative model is boosted according an objective function and the~\ac{AM} is re-estimated.
-Following objective functions and accordingly named discriminative training methods are used in our training scripts:
+
+Discriminative training uses an objective function and likelihoods from a generative model to discriminate -- boost differences between high probable and low probable hypotheses. Discriminative training is typically initialised by an acoustic generative model from Baum-Welch or Viterbi training. Then, the likelihood from the generative model is boosted according an objective function, and the \ac{AM} is re-estimated. The following objective functions and accordingly named discriminative training methods are used in our training scripts:
+
 \begin{itemize}
-    \item \acl{MMI}\cite{chow1990maximum} 
-        % Note the~\ac{MMI} function is implemented as \acs{bMMI} with boosted parameter set to 0.
-    \item \acl{bMMI}\cite{povey2008boosted}
-    \item \acl{MPE}\cite{povey2003mmi}
+\item \acl{MMI}\cite{chow1990maximum} % Note the~\ac{MMI} function is implemented as \acs{bMMI} with boosted parameter set to 0.
+\item \acl{bMMI}\cite{povey2008boosted}
+\item \acl{MPE}\cite{povey2003mmi}
 \end{itemize}
-For details how the~methods are initialized and its usage in Kaldi see Chapter~\ref{cha:train}.
+
+For details on how the methods are initialized and their usage in Kaldi, see Chapter \ref{cha:train}.
 
 \subsection{Language modelling}
 \label{sub:lm}
 
-A~\acl{LM} effectively reduces and more importantly prioritise the~\ac{AM} hypothesis.
-A~probability of acoustic features given words transcription $P(a|w)$ estimated by \ac{AM} is combined with the~probability of the~words transcription $P(w)$ estimated by \ac{LM} for given domain in order to compute posterior probability of transcription $P(w|a) = \frac{P(a|w)*P(w)}{P(a)}$.
+A \acl{LM} effectively reduces and more importantly prioritises the \ac{AM} hypothesis. The probability of acoustic features given a transcription of words $P(a|w)$ (estimated by the \ac{AM}) is combined with the probability of the transcription of words $P(w)$ (estimated by the \ac{LM} for a given domain) in order to compute the posterior probability of the transcription given the features $P(w|a) = \frac{P(a|w)*P(w)}{P(a)}$.
 
-The~statistical \ac{LM} assigns a~given word sequence its probability according Equation~\ref{eq:lm}.
-The~most used, n-gram \acp{LM} compute the~probability of $k$ word sequence $W$ according Equation~\ref{eq:lm}.\cite{brants2007large}
-The~Markov assumption approximates the~probability by assuming that only the~most recent $n-1$ words are relevant when predicting next word.
+The statistical \ac{LM} assigns a given word sequence its probability according Equation \ref{eq:lm}. The most used n-gram \ac{LM} computes the probability of a length $k$ word sequence $W$ according to Equation \ref{eq:lm}.\cite{brants2007large} The Markov assumption approximates the probability by assuming that only the most recent $n-1$ words are relevant when predicting next word.
+
 \ml{\ac{LM} order}
-We call the~number $n$ an order of \ac{LM}.
+
+We call the number $n$ the order of the \ac{LM}.
 
 \begin{equation} \label{eq:lm}
-    P(W)=P(w_k,  w_{k-1}, w_{k-2}, ..., w_1) \approx \prod_{i=1}^{k}{P(w_i|w^{i-1}_{i-n+1})}
+  P(W)=P(w_k,  w_{k-1}, w_{k-2}, ..., w_1) \approx \prod_{i=1}^{k}{P(w_i|w^{i-1}_{i-n+1})}
 \end{equation}
 
-The~probabilities $P(w_i|w^{i-1}_{i-n+1})$ for each word $w_i$ are estimated using relative frequencies of the~n-grams, (n-1)-grams, (n-2)-grams, \ldots on training data.
-The~\ac{MLE} is used for estimating estimating relative frequencies $r$ according Equation~\ref{eq:freq}.
+The probability $P(w_i|w^{i-1}_{i-n+1})$ for each word $w_i$ is estimated using relative frequencies of the n-grams, (n-1)-grams, (n-2)-grams, \ldots etc, on training data. The \ac{MLE} is used for estimating relative frequencies $r$ according to Equation \ref{eq:freq}.
+
 \begin{equation} \label{eq:freq}
-    r(w_i|w^{i-1}_{i-n+1}) = \frac{f(w^i_{i-n+1})} {f(w^{i-1}_{i-n+1})}
+  r(w_i|w^{i-1}_{i-n+1}) = \frac{f(w^i_{i-n+1})}{f(w^{i-1}_{i-n+1})}
 \end{equation}
-The~Equation~\ref{eq:freq} is intuitive but many valid and even reasonable utterances are missing or too few.
-Consequently, the~numerator might be zero and the~relative frequency may be undefined.
+
+Equation \ref{eq:freq} is intuitive but many valid and even reasonable utterances are missing or too few. Consequently, the denominator might be zero and the relative frequency may be undefined.
+
 \ml{sparse data}
+
 This is known as sparse data problem.
+
 \ml{LM smoothing}
-Smoothing techniques are often used to estimate the~higher n-gram relative frequencies based on the~lower frequencies.\cite{goodman2001bit}.
-In principle, the~predictive accuracy of the~language model can be improved by increasing the~order of the~n-gram.
-However, doing so further exacerbates the~sparse data problem.\cite{brants2007large}
 
-The~\ac{LM} estimates the~probability by counting the~relative frequencies on text corpus which is typically chosen according the~targeted \ac{ASR} domain.
-For example, in training scripts which are described in Chapter~\ref{cha:train} we train the~\ac{LM} only on text transcriptions from the~training data using Witten-Bell smoothing.\cite{witten1991zero}
+Smoothing techniques are often used to estimate the higher n-gram relative frequencies based on lower frequencies \cite{goodman2001bit}. In principle, the predictive accuracy of the language model can be improved by increasing the order of the n-gram. However, doing so further exacerbates the sparse data problem.\cite{brants2007large}
 
+The \ac{LM} estimates probabilities by counting relative frequencies from a text corpus which is typically chosen according to the targeted \ac{ASR} domain. For example, in the training scripts which are described in Chapter \ref{cha:train} we train the \ac{LM} only on text transcriptions from the training data using Witten-Bell smoothing.\cite{witten1991zero}
 
 \subsection{Speech decoding}
 \label{sub:decode}
-The~speech \ac{HMM} decoders find the~most probable word sequences by searching phone sequences which corresponds to the~words.
-The~phones are typically represented as triphones in \ac{AM}.
+Speech \ac{HMM} decoders find the most probable word sequence by searching phone sequences which correspond to words. Phones are typically represented as triphones in an \ac{AM}.
 
-Using combination of \ac{AM} and \ac{LM} probabilities as described in~Equation~\ref{eq:best_fix} does not produce the~most accurate speech transcriptions. 
-Typically a~\ac{LMW} $w_{lm}$ is used to improve speech recognition accuracy.
-It is tuned on development set and balances the~impact of the~two models.
-Using the~\ac{LMW} the~words best sequence is found according Equation~\ref{eq:am_lm}.
+Using a combination of \ac{AM} and \ac{LM} probabilities as described in Equation \ref{eq:best_fix} does not produce the most accurate speech transcriptions. Typically a \ac{LMW} $w_{lm}$ is used to improve speech recognition accuracy. It is tuned on the development set and balances the impact of the two models. Using the \ac{LMW}, the best word sequence is found according to Equation \ref{eq:am_lm}.
 
 \begin{equation}\label{eq:am_lm}
-    w^* = argmax_{w}\{P(w \mid a)\} = argmax_{w}\{P(a \mid w) * P(w)^{w_{lm}}\}
+  w^* = argmax_{w}\{P(w \mid a)\} = argmax_{w}\{P(a \mid w) * P(w)^{w_{lm}}\}
 \end{equation}
 
-The~\ac{ASR} is a~pattern recognition task as well as a~search problem.
-In speech recognition, making a~search decision is also referred to as decoding.\cite{huang2001spoken}
+\ac{ASR} is a pattern recognition task as well as a search problem. In speech recognition, making a search decision is also referred to as decoding.\cite{huang2001spoken}
 
-For a~word recognition the~\ac{AM} limits the~possible phone sequences only to words in lexicon --- the~words in training data.
-The~word recognition is nowadays the~most successful form of \ac{ASR}.
-The~\ac{HMM} sequences represent phone sequence which forms words only as illustrated on Figures~\ref{fig:hmm_lm} and~\ref{fig:hmm_alt}.
-The~words are connected via \ac{HMM} model which represent inter word silence.
+For word recognition, the \ac{AM} limits the possible phone sequences to only words in the lexicon --- the words in the training data. Word recognition is nowadays the most successful form of \ac{ASR}. An \ac{HMM} sequence represents the phone sequence which forms a word, as illustrated on Figures \ref{fig:hmm_lm} and \ref{fig:hmm_alt}. Words are connected via \ac{HMM} states which represent inter-word silence.
 
-For isolated word recognition the~\acp{HMM} are evaluated for each word possibility.
-Using the~forward algorithm for each \ac{HMM} $h_w$, we are able to compute the~probability of every word $w$ given the~acoustic observations.
-The~isolated word recognition becomes a~simple recognition problem, where we select the~most probable \ac{HMM} $h^*$ from a~finite set of word \acp{HMM}.
+For isolated word recognition the \acp{HMM} are evaluated for each word possibility. Using the forward algorithm for each \ac{HMM} $h_w$, we are able to compute the probability of every word $w$ given the acoustic observations. Isolated word recognition becomes a simple recognition problem, where we select the most probable \ac{HMM} $h^*$ from a finite set of word \acp{HMM}.
 
-Note that the~\ac{HMM} training is identical for continuous \ac{ASR} and isolated word recognition,
-but the~decoding is more complicated for continuous \ac{ASR} where we aim to decode word sequences.
+Note that \ac{HMM} training is identical for continuous \ac{ASR} and isolated word recognition, but decoding is more complicated for continuous \ac{ASR} where we aim to decode word sequences.
 
 \begin{figure}[!htp]
-    \begin{center}
-        \input{images/hmm-lm}
-        \caption{Diagram of how \ac{LM} is combined with \acp{HMM}.}
-        \label{fig:hmm_lm} 
-    \end{center}
+  \begin{center}
+    \input{images/hmm-lm}
+    \caption{Diagram of how a \ac{LM} is combined with \acp{HMM}.}
+    \label{fig:hmm_lm} 
+  \end{center}
 \end{figure}
 
-Let us introduce simple example of continuous word \ac{ASR}.
-Imagine a~\ac{LM} of order 1 modelling only two words - \term{one} and \term{two} each uniformly distributed\footnote{If a~\ac{LM} of order 1 assigns to every word equal probability, we say it has order 0}.
-We want to decode any possible sequence of words \term{one}, \term{two}. 
-The~$\epsilon$ transition at the~end of words \acp{HMM} to final state $e$ allow us introduce \ac{HMM} silence model which connect the~final state $e$ and start state $s$. 
-Consequently, the~words are chained using silence \ac{HMM} model as illustrated in Figure~\ref{fig:hmm_lm}.
-Expanded monophone \ac{HMM} for words \term{one} and \term{two} is shown in Figure~\ref{fig:hmm_alt}.
-Note that \ac{LM} weight $P(w)$ can be stored on the~in the~$\epsilon$ transition at the~beginning.
+Let us introduce a simple example of continuous word \ac{ASR}. Imagine an \ac{LM} of order 1 modelling only two words - \term{one} and \term{two} each uniformly distributed\footnote{If a \ac{LM} of order 1 assigns an equal probability to every word, we say it has order 0}. We want to decode any possible sequence of words \term{one}, \term{two}. The $\epsilon$ transition at the end of each word's \acp{HMM} to the final state $e$ allows us to introduce an \ac{HMM} silence model which connects the final state $e$ with the start state $s$. Consequently, words are chained using a silence \ac{HMM} model as illustrated in Figure~\ref{fig:hmm_lm}. An expanded monophone \ac{HMM} for words \term{one} and \term{two} is shown in Figure \ref{fig:hmm_alt}. Note that the \ac{LM} weight $P(w)$ can be stored on the $\epsilon$ transition at the beginning.
 
 \begin{figure}[!htp]
-    \begin{center}
-        \input{images/hmm-alt}
-        \caption{Expanded \acp{HMM} for words \term{one} and \term{two}. 
-        The~arrows at \ac{HMM} states illustrate that every observation of acoustic features 
-        can be generated according to the~statistical distribution. 
-        Note that if a~speaker says \term{two} a~\ac{HMM} model with well trained parameters should output higher probability
-        for \ac{HMM} representing \term{two}. For longer speaker sequences e.g. \term{two one one two ...} the~\acp{HMM} are connected over the~
-$\epsilon$ transitions, and a~search is used for selecting the~most probable sequence.}
-        \label{fig:hmm_alt} 
-    \end{center}
+  \begin{center}
+    \input{images/hmm-alt}
+    \caption{Expanded \acp{HMM} for the words \term{one} and \term{two}. 
+      The arrows at \ac{HMM} states illustrate that every observation of acoustic features 
+      can be generated according to the statistical distribution. 
+      Note that if a speaker says \term{two}, a \ac{HMM} model with well trained parameters should output higher probability
+      for the \ac{HMM} representing \term{two}. For longer speaker sequences e.g. \term{two one one two ...} the \acp{HMM} are connected over the $\epsilon$ transitions, and a search is used for selecting the most probable sequence.}
+    \label{fig:hmm_alt} 
+  \end{center}
 \end{figure}
 
-Even the~simple \ac{HMM} network in Figure~\ref{fig:hmm_alt} can become large search problem partially because the~search space of words grows exponentially in number of words in utterance and partially because the~word boundaries are unknown. 
-Each word can begin in any moment and last with decreasing probability ad infinity, so the~search space explode.
-In addition, higher order \acp{LM} increase the~decoding complexity even more.
+Even the simple \ac{HMM} network in Figure \ref{fig:hmm_alt} can become a large search problem partially because the search space of words grows exponentially in the number of words in the utterance and partially because the word boundaries are unknown. Each word can begin at any moment and last with decreasing probability \textit{ad infinitum}, so the search space explodes. In addition, higher order \acp{LM} increase the decoding complexity even more.
 
-One can see that the~search space of speech recognition problem is enormous and still has to be solved in very short time for real-time applications.
-% The~most famous \ac{AI} search algorithm $A^*$ for large search problem can not be used,
-% because during decoding while user speaks we know little about what is he going to say in~the~rest of the~utterance, so we can not design a~good heuristic function.
-% With $A*$ algorithm we could not exploit the~time when user speak
-% to perform any computation. A~user expects a~response around 200 ms after his speech, 
-% so we need the~find the~best path in very short time.
+One can see that the search space of a speech recognition problem is enormous and still has to be solved in very short time for real-time applications. % The~most famous \ac{AI} search algorithm $A^*$ for large search problems cannot be used, because during decoding while the user speaks we know little about what is he going to say in the~rest of the utterance, so we cannot design a good heuristic function. With the $A^*$ algorithm we could not exploit the time when the user speaks to perform any computation. The user expects a response around 200 ms after his speech, so we need to find the best path in a very short time frame.
 
-Natural choice for one-best hypothesis is Viterbi beam search\cite{huang2001spoken}.
-It uses a~dynamic programming to compute the~new best partial hypotheses for new audio data based on partial hypotheses from previous step.
+A natural choice for the one-best hypothesis is Viterbi beam search\cite{huang2001spoken}. It uses a dynamic programming algorithm to compute the new best partial hypotheses for new audio data based on partial hypotheses from the previous step. 
+
 % \todo{picture beam search}
 
-The~Viterbi algorithm is breadth-first search algorithm and a~beam is used to limit number of nodes, which are expanded from current set of nodes to next iteration.
-We list few alternatives how to set up the~beam for speech decoding.
+The Viterbi algorithm is a breadth-first search algorithm where a beam is used to limit the number of nodes which are expanded from the current set of nodes to next iteration. We list a few alternatives of how to set up the beam for speech decoding.
+
 \begin{itemize}
-    \item \term{Fixed beam} guarantees maximum size of memory footprint and fast decoding.
-    \item \term{Relative one-best hypothesis comparison} effectively discards most of the~improbably hypothesis if the~one-best hypothesis is significantly better than alternatives and keeps lot of alternatives if one-best hypothesis is weak.
-        The~relative one-best hypothesis comparison naturally broaden the~beam in uncertain region, but does not guarantee no hard limits e.g., maximum number of nodes expanded.
-    \item \term{Combination} of methods applies the~strictest criteria on beam in each iteration.
+\item \term{Fixed beam} guarantees maximum size of memory footprint and fast decoding.
+\item \term{Relative one-best hypothesis comparison} effectively discards most of the improbable hypotheses if the one-best hypothesis is significantly better than the alternatives but it keeps a lot of alternatives if the one-best hypothesis is weak. The relative one-best hypothesis comparison naturally broadens the beam in uncertain regions, but does not guarantee any hard limits e.g., maximum number of nodes expanded.
+\item \term{Combination} of methods applies the strictest criteria on beam in each iteration.
 \end{itemize}
 
 \subsubsection*{Numerical stability}
+The hypotheses which are represented as paths of states are typically rather long in the search graph and a lot of hypothesis are assigned tiny probabilities. In order to ensure numeric stability, probabilities are expressed in logarithmic scale. 
 
-The~hypotheses which are represented as the~paths of states are typically rather long in the~search graph and lot of hypothesis are assigned with tiny probabilities.
-In order to keep the~numeric stability, the~probabilities are expressed in a~logarithmic arithmetic. 
+% \todo{Misleading: The task of searching for the most probable path in a graph is transformed to the well-studied shortest path problem.}
 
-% \todo{Misleading: The~task of searching for the~most probable path in a~graph is transformed to the~well-studied shortest path problem.}
-In order to use the~shortest distance measure to find the~most probable path we use formula~\ref{eq:am_lm_log} derived from equation~\ref{eq:am_lm}.
-The~$C(a \mid w)$ and $C(w)$ are costs with range between zero and one, where cost of one corresponds to zero probability $C(1) \cong P(0)$ and cost of infinity corresponds to one probability $C(\infty) \cong P(1)$.
+In order to use the shortest distance measure to find the most probable path we use formula \ref{eq:am_lm_log} derived from equation \ref{eq:am_lm}. Both $C(a \mid w)$ and $C(w)$ are costs with ranges between zero and one, where a cost of one corresponds to zero probability $C(1) \cong P(0)$ and a cost of infinity corresponds to a probability of one $C(\infty) \cong P(1)$.
 
 \begin{equation}\label{eq:am_lm_log}
-    \begin{split}
-        w^* &= argmin_{w}\{log(\frac{1}{C(a \mid w) * C(w)^{w_{lm}}})\} \\
-        &= argmin_{w}\{-log(C(a \mid w) * C(w)^{w_{lm}})\} \\
-        &= argmin_{w}\{-log(C(a \mid w)) - w_{lm}*log( C(w))\} 
-    \end{split}
+  \begin{split}
+    w^* &= argmin_{w}\{log(\frac{1}{C(a \mid w) * C(w)^{w_{lm}}})\} \\
+    &= argmin_{w}\{-log(C(a \mid w) * C(w)^{w_{lm}})\} \\
+    &= argmin_{w}\{-log(C(a \mid w)) - w_{lm}*log( C(w))\} 
+  \end{split}
 \end{equation}
 
 \subsubsection*{Decoding formats}
-The~one-best hypothesis outputs only single sequence of words despite the~fact that other sequences of words are often almost as probable as the~best hypothesis.
-Formats which are able to represent alternative hypothesis provide better results for further processing than one-best hypothesis because the~alternatives may cover almost all probable hypotheses.
-We present n-best list and lattice formats, which both are able to represent alternative hypothesis.
+The one-best hypothesis outputs only a single sequence of words despite the fact that other sequences of words are often almost as probable as the best hypothesis. Formats which are able to represent alternative hypothesis provide better results for further processing than one-best hypothesis because the alternatives may cover almost all probable hypotheses. We present n-best list and lattice formats, which both are able to represent alternative hypothesis.
 
 \ml{n-best list}
-N-best list is an extension to the~one-best hypothesis format. 
-In n-best list is included apart from the~most probable word sequence, also the~second, third, \ldots, n-th most probable hypothesis. 
+
+The n-best list is an extension to the one-best hypothesis format. The most probable word sequence, along with the second, third, \ldots, n-th most probable hypothesis are included in an n-best list. 
 
 \begin{figure}[!htp]
-    \begin{center}
+  \begin{center}
 \begin{verbatim}
     0.5 hi how are you
     0.2 hi where are you
     0.1 bey how are you
 \end{verbatim}
-\caption{Example of 3-best list output with posterior probability for each path. 
-N-best list in Kaldi can be easily extracted from lattices. 
-Corresponding example lattice is in Figure~\ref{fig:toy_lat}.}
-    \label{fig:nbest} 
-    \end{center}
+\caption{Example of a 3-best list output with posterior probability for each path. An n-best list in Kaldi can be easily extracted from lattices. Corresponding example lattice is in Figure \ref{fig:toy_lat}.}
+\label{fig:nbest} 
+  \end{center}
 \end{figure}
 
-% The~n-best list and lattice are extracted from the~beam history.
-% Note that the~Kaldi toolkit always generates state level lattices \cite{povey2012generating}\footnote{State level lattices uses states very similar to triphone states}. 
-% The~word lattice and later word n-best list are extracted from the~state level lattice where the~states roughly corresponds to triphones. 
+% The n-best list and lattice are extracted from the beam history. Note that the Kaldi toolkit always generates state level lattices \cite{povey2012generating}\footnote{State level lattices uses states very similar to triphone states}. The~word lattice and later word n-best list are extracted from the~state level lattice where the~states roughly corresponds to triphones. 
 
 \begin{figure}[!htp]
-    \begin{center}
+  \begin{center}
     \includegraphics[width=30em]{images/toy_lattice.ps}
     \caption{Word posterior lattice. 
-        Common parts of hypotheses are effectively represented. 
-        All outgoing arcs for each node sum to 1.0. }
+      Common parts of hypotheses are effectively represented. 
+      All outgoing arcs for each node sum to 1.0. }
     \label{fig:toy_lat} 
-    \end{center}
+  \end{center}
 \end{figure}
 
 \ml{lattice}
-A~lattice is a~convenient type of \ac{ASR} output.  
-It effectively represents the~alternative hypotheses by sharing their common parts.
-Example of word lattice in~Figure~\ref{fig:toy_lat} shows word posterior lattice.
-Each hypothesis is represented as sequence of arcs from starts to final node.
-The~words and their weights are associated with the~arcs.
-The~posterior probability of a~hypothesis is computed as a~product of posterior probabilities of each word in the~hypothesis.
 
-It is useful to capture how the~quality of each hypothesis contrasts to its alternatives or even provide an absolute quality measure. 
-Typically likelihood and posterior probability is associated with each word sequence to express its quality.
-The~likelihood measure can be used only for relative comparison, whereas posterior probability is an normalised absolute measure.
-For some applications the~likelihood measure is sufficient, other applications for example dialogue systems prefer posterior probabilities.
-Note that posterior probabilities for n-best lists typically do not sum to one and may need to be renormalised, because n-best list omits some hypothesis which are used to compute the~posterior probability in lattices. See Figure~\ref{fig:nbest} for such example for 3-best list.
+A lattice is a convenient type of \ac{ASR} output. It effectively represents the alternative hypotheses by sharing their common parts. An example of a word lattice in Figure \ref{fig:toy_lat} shows a word posterior lattice. Each hypothesis is represented as sequence of arcs from starts to final node. The words and their weights are associated with the arcs. The posterior probability of a hypothesis is computed as the product of posterior probabilities of each word in the hypothesis.
+
+It is useful to capture how the quality of each hypothesis contrasts to its alternatives or even provide an absolute quality measure. Typically, likelihood and posterior probability are associated with each word sequence to express its quality. The likelihood measure can be used only for relative comparison, whereas posterior probability is a normalised absolute measure. For some applications the likelihood measure is sufficient, other applications (for example dialogue systems) prefer posterior probabilities. Note that posterior probabilities for n-best lists typically do not sum to one and may need to be renormalised, because n-best list omits some hypotheses which are used to compute the posterior probability in lattices. See Figure \ref{fig:nbest} for such an example of a 3-best list.
 
 \subsection[Evaluating \acs{ASR} quality]{Evaluating \acl{ASR} quality}
 \label{sub:eval}
 \ml{WER}
+
 The~accuracy of a~speech recognizer is typically measured using \acl{WER}.
 The~\ac{WER} measure is computed on one-best \ac{ASR} hypotheses and their human transcriptions.
 The~\ac{WER} is computed as a~minimum edit distance on words between the~\ac{ASR} output and reference transcription.
